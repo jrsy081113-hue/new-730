@@ -6054,104 +6054,6 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     border-color: #000000 !important;
 }
 
-/* --- 心声面板 "电影票根" 风格皮肤 (已隔离) --- */
-
-/* 1. 票根主体样式 - 只有在 .ticket-style 类存在时生效 */
-#heartsVoiceModal .modal-content.ticket-style {
-    background-color: #080808;
-    border: 1px solid #282828;
-    width: 340px;
-    max-width: 90%;
-    padding: 0;
-    border-radius: 14px;
-    overflow: hidden;
-    font-family: 'Times New Roman', Times, serif;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: all 0.3s ease;
-    max-height: 70vh;
-    overflow-y: auto;
-}
-
-/* 2. 隐藏旧头部容器 - 仅在票根样式下 */
-#heartsVoiceModal .modal-content.ticket-style #heartsVoiceHeader {
-    display: none;
-}
-
-/* 3. 海报样式 - 仅在票根样式下 */
-#heartsVoiceModal .modal-content.ticket-style #heartsVoiceAvatar {
-    width: 100%;
-    height: 180px;
-    border-radius: 0;
-    background-image: url('https://youke1.picui.cn/s1/2025/10/07/68e4dd223f28a.jpeg') ;
-    background-color: transparent !important;
-    background-size: cover;
-    background-position: center 20%;
-    border: none;
-    margin-bottom: 20px;
-    display: block;
-    text-indent: -9999px;
-}
-
-/* 4. 标题和引言 - 仅在票根样式下 */
-#heartsVoiceModal .modal-content.ticket-style #heartsVoiceEmoji {
-    font-family: 'Times New Roman', Times, serif;
-    padding: 0 25px;
-    text-align: center;
-    font-size: 15px;
-    line-height: 1.6;
-    color: #E0E0E0;
-    text-shadow: none;
-    font-weight: normal;
-    margin-bottom: 20px;
-}
-
-/* 5. 详细信息区域 - 仅在票根样式下 */
-#heartsVoiceModal .modal-content.ticket-style #heartsVoiceThought {
-    background: none;
-    padding: 0 25px 25px 25px;
-    min-height: auto;
-    text-align: left;
-    font-family: 'SF Mono', 'Courier New', monospace;
-    color: #ccc;
-    line-height: 2.2;
-}
-
-/* 6. 信息行样式 - 仅在票根样式下 */
-#heartsVoiceModal .modal-content.ticket-style .ticket-info-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    border-top: 1px dotted #444;
-    padding-top: 20px;
-}
-#heartsVoiceModal .modal-content.ticket-style .ticket-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-size: 13px;
-    letter-spacing: 1px;
-}
-#heartsVoiceModal .modal-content.ticket-style .ticket-label {
-    color: #888;
-    white-space: nowrap;
-    margin-right: 15px;
-}
-#heartsVoiceModal .modal-content.ticket-style .ticket-value {
-    color: #E0E0E0;
-    text-align: right;
-    max-width: 70%;
-    word-wrap: break-word;
-}
-
-.moments-action.danger {
-    color: #ff3b30; /* 危险操作使用红色文字 */
-}
-
-.moments-action.danger svg {
-    stroke: #ff3b30; /* 如果是描边图标，也设为红色 */
-    fill: #ff3b30;   /* 如果是填充图标，也设为红色 */
-}
-
 /* --- 购物App专属样式 - 已添加作用域限制 --- */
 
 /* 解释：:root 和 @keyframes 是全局定义，所以它们不需要加 #shoppingApp 前缀 */
@@ -7559,7 +7461,6 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     <input type="file" id="vinylImageInput" accept="image/*" style="display: none;" onchange="handleVinylImageUpload(event)">
     <input type="file" id="songFileInput" accept="audio/mp3,audio/*" style="display:none;" onchange="handleSongFileSelect(event)">
     <input type="file" id="lrcFileInput" accept=".lrc" style="display:none;" onchange="handleLrcFileSelect(event)">
-    <input type="file" id="heartsVoiceCoverInput" accept="image/*" style="display: none;">
     <!-- Inputs for new emoji modal -->
     <input type="file" id="singleEmojiUploadInput" accept="image/*" style="display: none;" onchange="handleSingleEmojiUpload(event)">
     <input type="file" id="batchEmojiUploadInput" accept="image/*" style="display: none;" onchange="handleBatchEmojiUpload(event)" multiple>
@@ -7771,7 +7672,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
                             <div class="app-icon-container" id="icon-forum"><svg class="app-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.32 8.52c.07.72-.03 1.4-.29 2.02-.29.69-.74 1.34-1.33 1.83-.55.45-1.22.78-1.95.96-.75.18-1.54.21-2.31.06-.54-.1-1.07-.3-1.57-.59-.51-.3-.98-.69-1.42-1.12.01.07.01.14.02.21v.01c.21 1.77 1.49 3.25 3.16 3.73.57.16 1.15.24 1.73.24.53 0 1.05-.09 1.55-.26.68-.23 1.3-.59 1.81-1.04.2-.17.38-.36.56-.56h-.01c.32-.32.61-.67.86-1.04h.01c.25-.38.45-.78.61-1.2h.01c.15-.41.25-.83.33-1.26h-.01c.08-.43.11-.86.11-1.29 0-.46-.03-.92-.1-1.37h-.01c-.07-.44-.19-.87-.36-1.27h-.01c-.17-.41-.4-.78-.69-1.12-.29-.35-.63-.65-1.02-.9-.38-.25-.8-.45-1.26-.6-.44-.15-.9-.25-1.37-.29-.48-.04-.96-.03-1.42.03-.6.08-1.19.23-1.74.46-.57.22-1.08.53-1.53.92-.02.01-.03.03-.05.04v.01c-.48.43-.89.92-1.22 1.46-.3.51-.51 1.06-.64 1.63h.01c-.12.58-.16 1.17-.11 1.76h.01c.05.6.2 1.18.44 1.71.24.52.57.99.98 1.43z"/> </svg></div>
                             <div class="app-label">论坛</div>
                         </div>
-                        <div class="app" onclick="openApp('shopping')">
+                        <div class="app">
                             <div class="app-icon-container" id="icon-shopping"><svg class="app-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17,18C17,18.55 16.55,19 16,19S15,18.55 15,18 15.45,17 16,17S17,17.45 17,18M7,18C7,18.55 7.45,19 8,19S9,18.55 9,18 8.55,17 8,17S7,17.45 7,18M1,2V4H3L6.6,11.59L5.25,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42C7.29,15 7.17,14.89 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.59 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2H1Z"/></svg></div>
                             <div class="app-label">购物</div>
                         </div>
@@ -10467,7 +10368,7 @@ function getRandomColor() {
 
 
 /**
- * [V8 - 上传修复版] 打开心声面板
+ * [V9 - 简化版] 打开心声面板 (已移除电影票根样式)
  */
 function openHeartsVoiceModal() {
     const friend = friends.find(f => f.id === currentChatFriendId);
@@ -10476,12 +10377,8 @@ function openHeartsVoiceModal() {
     const modal = document.getElementById('heartsVoiceModal');
     const modalContent = modal.querySelector('.modal-content');
 
-    const style = friend.heartsVoiceStyle || 'default';
-
+    // 确保移除可能存在的票根样式类
     modalContent.className = 'modal-content';
-    if (style === 'ticket') {
-        modalContent.classList.add('ticket-style');
-    }
 
     const heartsVoiceData = friend.heartsVoice || { 
         emoji: '( ´• ω •` )', 
@@ -10490,61 +10387,21 @@ function openHeartsVoiceModal() {
         action: '...', 
         thought: '...' 
     };
-
-    const buttonsHtml = `
-        <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 10;">
-            <button onclick="event.stopPropagation(); resetHeartsVoiceCover('${friend.id}')" style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px; cursor: pointer; font-size: 12px; padding: 3px 8px;">重置</button>
-            <button onclick="event.stopPropagation(); switchHeartsVoiceStyle()" style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px; cursor: pointer; font-size: 12px; padding: 3px 8px;">切换</button>
+    
+    // 直接渲染白色默认样式
+    modalContent.innerHTML = `
+        <div id="heartsVoiceHeader" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 10px; padding-top: 5px;">
+            <div id="heartsVoiceAvatar" class="friend-avatar" style="width: 40px; height: 40px; border-radius: 6px; background-image: url(${friend.avatarImage || ''});">${friend.avatarImage ? '' : friend.avatar}</div>
+            <div id="heartsVoiceName" style="font-size: 16px; font-weight: bold;">${friend.name}</div>
+        </div>
+        <div id="heartsVoiceEmoji" style="font-size: 48px; margin: 10px 0; line-height: 1.2;">${heartsVoiceData.emoji}</div>
+        <div id="heartsVoiceThought" style="min-height: 140px; text-align: left; margin-top: 15px;">
+            <div><strong>好感度：</strong><span>${heartsVoiceData.favorability}</span></div>
+            <div><strong>着装：</strong><span>${heartsVoiceData.dressing}</span></div>
+            <div><strong>动作：</strong><span>${heartsVoiceData.action}</span></div>
+            <div><strong>心声：</strong><span>${heartsVoiceData.thought}</span></div>
         </div>
     `;
-
-    if (style === 'ticket') {
-        const coverImage = friend.heartsVoiceCoverImage || 'https://youke1.picui.cn/s1/2025/10/07/68e4dd223f28a.jpeg';
-        // --- 核心修复 1：移除了 onclick 属性 ---
-        modalContent.innerHTML = `
-            ${buttonsHtml}
-            <div id="heartsVoiceAvatar" style="width: 100%; height: 180px; border-radius: 0; background-image: url('${coverImage}'); background-size: cover; background-position: center 20%; cursor: pointer;"></div>
-            <div style="padding: 20px 25px 25px;">
-                <h2 style="font-size: 22px; margin: 0 0 5px 0; letter-spacing: 2px; font-weight: 600; text-align: center;">HEART'S VOICE</h2>
-                <p style="font-size: 14px; color: #888; text-align: center; font-family: sans-serif; margin-bottom: 20px;">心声回响 (2024)</p>
-                <div class="ticket-info-grid" style="border-top: 1px dotted #444; padding-top: 20px;">
-                    <div class="ticket-row"><span class="ticket-label">好感度</span><span class="ticket-value">${heartsVoiceData.favorability}</span></div>
-                    <div class="ticket-row"><span class="ticket-label">着装</span><span class="ticket-value">${heartsVoiceData.dressing}</span></div>
-                    <div class="ticket-row"><span class="ticket-label">动作</span><span class="ticket-value">${heartsVoiceData.action}</span></div>
-                    <div class="ticket-row"><span class="ticket-label">心声</span><span class="ticket-value">${heartsVoiceData.thought}</span></div>
-                    <div class="ticket-row"><span class="ticket-label">颜文字</span><span class="ticket-value">${heartsVoiceData.emoji}</span></div>
-                </div>
-            </div>
-        `;
-
-        // --- 核心修复 2：使用 JavaScript 重新绑定正确的点击事件 ---
-        const avatarDiv = modalContent.querySelector('#heartsVoiceAvatar');
-        if (avatarDiv) {
-            avatarDiv.onclick = () => {
-                const fileInput = document.getElementById('heartsVoiceCoverInput');
-                // 关键：在触发点击前，先绑定好上传完成后的处理函数
-                fileInput.onchange = (event) => handleHeartsVoiceCoverUpload(event, friend.id);
-                fileInput.click();
-            };
-        }
-
-    } else {
-        // --- 渲染白色默认样式 (这部分逻辑不变) ---
-        modalContent.innerHTML = `
-            ${buttonsHtml}
-            <div id="heartsVoiceHeader" style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 10px; padding-top: 5px;">
-                <div id="heartsVoiceAvatar" class="friend-avatar" style="width: 40px; height: 40px; border-radius: 6px; background-image: url(${friend.avatarImage || ''});">${friend.avatarImage ? '' : friend.avatar}</div>
-                <div id="heartsVoiceName" style="font-size: 16px; font-weight: bold;">${friend.name}</div>
-            </div>
-            <div id="heartsVoiceEmoji" style="font-size: 48px; margin: 10px 0; line-height: 1.2;">${heartsVoiceData.emoji}</div>
-            <div id="heartsVoiceThought" style="min-height: 140px; text-align: left; margin-top: 15px;">
-                <div><strong>好感度：</strong><span>${heartsVoiceData.favorability}</span></div>
-                <div><strong>着装：</strong><span>${heartsVoiceData.dressing}</span></div>
-                <div><strong>动作：</strong><span>${heartsVoiceData.action}</span></div>
-                <div><strong>心声：</strong><span>${heartsVoiceData.thought}</span></div>
-            </div>
-        `;
-    }
 
     modal.classList.add('show');
     modal.addEventListener('click', closeHeartsVoiceModalOnClickOutside);
@@ -15941,10 +15798,21 @@ commentsHtml += `
         }
         // --- 评论和回复显示逻辑结束 ---
 
-        // --- 图片显示逻辑 ---
-        const blobUrl = dataUrlToBlobUrl(moment.imageUrl);
-const imageHtml = moment.imageUrl ? `<img src="${blobUrl}" class="moments-image" onclick="viewMomentImage('${moment.id}')">` : '';
-        // --- 图片显示逻辑结束 ---
+       // --- 图片显示逻辑 (已修改) ---
+const blobUrl = dataUrlToBlobUrl(moment.imageUrl);
+
+// 核心修改：判断这条朋友圈的作者是不是用户自己
+const isUserPost = moment.authorId === userProfile.id;
+
+// 根据判断结果，动态生成HTML
+const imageHtml = moment.imageUrl 
+    ? `<img 
+        src="${blobUrl}" 
+        class="moments-image" 
+        ${isUserPost ? 'style="cursor: default;"' : `onclick="viewMomentImage('${moment.id}')"`}
+      >` 
+    : '';
+// --- 图片显示逻辑结束 ---
 
         // --- 朋友圈底部操作区（时间、操作按钮） ---
         item.innerHTML = `
@@ -17915,13 +17783,17 @@ async function generateSimAppContent(characterId, appName) {
     if (!character) return;
     const roleSummary = await getOrGenerateRoleSummary(character);
 
-// --- ↓↓↓ 将新增的代码粘贴在这里 ↓↓↓ ---
+// --- ▼▼▼ 这是修复后的新代码 ▼▼▼ ---
+// 1. 根据当前角色ID，找到他绑定的用户人设
+const activePersona = userPersonas.find(p => p.id === character.activeUserPersonaId) || userProfile;
+
+// 2. 使用找到的正确人设信息来构建指令
 const userPersonaInfo = `
 【你的互动对象 (用户) 的人设】:
-- 姓名: ${userProfile.name}
-- 人设: ${userProfile.personality || '普通人'}
+- 姓名: ${activePersona.name}
+- 人设: ${activePersona.personality || '普通人'}
 `;
-// --- ↑↑↑ 粘贴到此结束 ↑↑↑ ---
+// --- ▲▲▲ 修复结束 ▲▲▲ ---
 
 // 这是新代码
 const recentChatHistory = (chatHistories[characterId] || [])
@@ -25749,55 +25621,6 @@ function renderFollowingTimeline() {
     }
 }
 
-/**
- * [新增] 处理心声面板封面上传的函数
- * @param {Event} event - 文件上传事件
- * @param {string} friendId - 当前好友的ID
- */
-async function handleHeartsVoiceCoverUpload(event, friendId) {
-    const file = event.target.files[0];
-    const friend = friends.find(f => f.id === friendId);
-    if (!file || !friend) return;
-
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-        const imageUrl = e.target.result;
-        
-        // 1. 将新的图片地址保存到好友数据中
-        friend.heartsVoiceCoverImage = imageUrl;
-        await saveData(); // 保存更改
-
-        // 2. 立即更新当前打开的弹窗里的图片
-        document.getElementById('heartsVoiceAvatar').style.backgroundImage = `url(${imageUrl})`;
-        
-       
-    };
-    reader.readAsDataURL(file);
-
-    // 清空input的值，确保下次还能选择同一个文件
-    event.target.value = '';
-}
-
-/**
- * [新增] 重置心声面板封面为默认图片
- * @param {string} friendId - 当前好友的ID
- */
-async function resetHeartsVoiceCover(friendId) {
-    const friend = friends.find(f => f.id === friendId);
-    if (!friend) return;
-
-    // 1. 删除自定义封面图片数据
-    if (friend.heartsVoiceCoverImage) {
-        delete friend.heartsVoiceCoverImage;
-        await saveData(); // 保存更改
-    }
-
-    // 2. 立即将当前弹窗的图片恢复默认
-    document.getElementById('heartsVoiceAvatar').style.backgroundImage = '';
-
-   
-}
-
 // ▼▼▼ 将以下所有新函数粘贴到 <script> 的末尾 ▼▼▼
 
 // --- API 预设管理核心功能 ---
@@ -26679,25 +26502,6 @@ case '食品':
     });
 
     return await Promise.all(imageGenerationPromises);
-}
-
-/**
- * 新增：切换心声面板的样式
- */
-async function switchHeartsVoiceStyle() {
-    const friend = friends.find(f => f.id === currentChatFriendId);
-    if (!friend) return;
-
-    // 切换样式并保存
-    if (friend.heartsVoiceStyle === 'ticket') {
-        friend.heartsVoiceStyle = 'default';
-    } else {
-        friend.heartsVoiceStyle = 'ticket';
-    }
-    await saveData();
-
-    // 重新渲染面板内容
-    openHeartsVoiceModal();
 }
 
 // ↓↓↓ 请将这个全新的函数，完整地粘贴到 <script> 区域的末尾 ↓↓↓
