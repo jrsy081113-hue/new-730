@@ -16797,7 +16797,9 @@ function importData() {
                                 characterMemories[newFriend.id] = charPackage.memories || [];
                             });
                         }
-                        
+                    if (importedData.apiSettings) {
+    await dbManager.set('apiSettings', { ...importedData.apiSettings, id: 'settings' });
+}    
                         await saveData(); // 保存所有合并后的数据
                         showAlert('部分数据导入成功！页面即将刷新。');
 
@@ -29292,13 +29294,16 @@ async function exportSelectedData() {
     // 根据收集到的ID，导出所有相关的人设对象
     const exportedPersonas = userPersonas.filter(p => includedPersonaIds.has(p.id));
 
+const loadedApiSettings = await dbManager.get('apiSettings', 'settings');
+
     // 打包成最终的导出对象
     const fullExport = {
         dataType: 'jrsy_partial_export',
         version: '1.0',
         exportedAt: new Date().toISOString(),
         characters: exportedCharacters,
-        personas: exportedPersonas
+        personas: exportedPersonas,
+        apiSettings: loadedApiSettings || {}
     };
 
     try {
