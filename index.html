@@ -5217,24 +5217,42 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 /* --- 步骤二：新增底部导航和内容区域修正 --- */
 
+/* --- 请用这个新版本完整替换旧的 .forum-content-view 规则 --- */
+
 .forum-content-view {
     position: absolute;
-    top: 74px;
+    /* top, left, right 保持不变，由JS控制 */
+    top: 74px; 
     left: 0;
     right: 0;
-    bottom: 0; /* 核心修改1：让容器延伸到屏幕最底部 */
-    overflow-y: auto; /* 核心修改2：明确指定这个外层容器来滚动 */
     
-    /* 核心修改3：在这里留出足够的底部空间 (导航栏 + 额外间距 + 安全区) */
-    padding-bottom: calc(49px + 20px + env(safe-area-inset-bottom, 0px));
-    box-sizing: border-box; /* 确保内边距计算正确 */
+    /* ▼▼▼ 核心修改在这里 ▼▼▼ */
+    /* 
+     * 不再使用 bottom: 0; 
+     * 而是告诉它，它的底部边缘应该距离屏幕底部有一个导航栏的高度。
+     * 这样，内容区域就自然地结束在了导航栏的上方。
+     */
+    bottom: calc(49px + env(safe-area-inset-bottom, 0px));
+    
+    /* ▲▲▲ 修改结束 ▲▲▲ */
+    
+    overflow-y: auto; /* 保持可滚动 */
 
-    /* 其他样式保持不变 */
-    padding-left: 0;
-    padding-right: 0;
+    /* 
+     * 因为容器本身已经缩短了，我们不再需要用内边距来制造空间，
+     * 所以可以把之前的 padding-bottom 和 box-sizing 删掉。
+     */
+    
+    /* ... 其他原有的 display, transition, background 等属性保持不变 ... */
     background: var(--theme-bg, #f7f7f7);
     display: none;
     transition: opacity 0.3s ease;
+    padding-left: 0; /* 确保没有左右内边距干扰 */
+    padding-right: 0; /* 确保没有左右内边距干扰 */
+}
+
+.forum-content-view.active {
+    display: block;
 }
 
 .forum-content-view.active {
@@ -7128,14 +7146,19 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 /* 4. 分页小圆点 (#home-screen-dots) */
 /* 这是修改后的 #home-screen-dots 样式，请用它替换旧的 */
+
 #home-screen-dots {
+    position: absolute; /* 核心修改1：让小圆点“浮”起来 */
+    bottom: 120px;      /* 核心修改2：精确定位它在屏幕上的垂直位置 */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     gap: 8px;
-    padding: 10px 0; /* 上下留出一些空间 */
-    flex-shrink: 0; /* 防止被压缩 */
-    z-index: 1; /* 确保在内容之上 */
+    padding: 0; /* 不再需要用padding来控制位置 */
+    z-index: 1;
 }
+
 #home-screen-dots .dot {
     width: 8px;
     height: 8px;
@@ -7171,7 +7194,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     align-items: center;
     z-index: 50;
     flex-shrink: 0; /* 防止被压缩 */
-    margin: 0 auto 20px auto; /* 底部外边距20px，左右自动居中 */
+    margin: 0 auto 0px auto; /* 底部外边距20px，左右自动居中 */
 }
 
 /* =================================================================== */
@@ -7435,6 +7458,40 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #desktop-page-2 .app-icon-container[style*="background-image"] i {
     display: none;
 }
+
+/* --- 新增：修复热搜详情页的背景颜色 --- */
+
+/* 1. 在亮色模式下，强制背景为纯白色 */
+#forumTrendDetailView,
+#trendDetailContent {
+    background-color: #ffffff !important;
+}
+
+/* 2. 在暗色模式下，使用主题的深色背景，保持统一 */
+.wechat-dark-mode #forumTrendDetailView,
+.wechat-dark-mode #trendDetailContent {
+    background-color: var(--theme-bg, #1c1c1e) !important;
+}
+
+/* --- 新增：修复热搜详情页的导航栏背景颜色 --- */
+
+/* 1. 在亮色模式下，强制导航栏背景为纯白色，并统一下边框颜色 */
+#forumTrendDetailView .nav-bar {
+    background-color: #ffffff !important;
+    border-bottom-color: #f0f0f0 !important;
+}
+
+/* 2. 在暗色模式下，使用主题的深色导航栏背景和边框，保持统一 */
+.wechat-dark-mode #forumTrendDetailView .nav-bar {
+    background-color: var(--nav-bg, #2c2c2e) !important;
+    border-bottom-color: var(--border-color, #3a3a3c) !important;
+}
+
+/* --- 新增：统一所有导航栏刷新按钮的加载动画 --- */
+.nav-btn.loading svg {
+    animation: spin 1s linear infinite;
+}
+
     </style>
 </head>
 <body>
@@ -9500,6 +9557,19 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- ▼▼▼ 用这个新结构替换旧的 forumTrendDetailView ▼▼▼ -->
+<div id="forumTrendDetailView" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" id="trendDetailBackBtn">←</button>
+        <div class="nav-title" id="trendDetailTitle">热搜详情</div>
+        <div style="width: 40px;"></div> <!-- 占位，确保标题居中 -->
+    </div>
+    <div class="wechat-content" id="trendDetailContent" style="padding-top: 74px; overflow-y: auto;">
+        <!-- 帖子列表将在这里显示 -->
+    </div>
+</div>
+<!-- ▲▲▲ 替换结束 ▲▲▲ -->
+
 <!-- 在 <body> 内, </div id="forumScreen"> 之前 -->
 
 <!-- 新增：帖子详情页 -->
@@ -10051,6 +10121,9 @@ let desktopPage2Data = { image1: '', image2: '', image3: '', avatar1: '', avatar
 let currentDesktopImagePlaceholderId = null;
 
 let currentDesktopAvatarPlaceholderId = null;
+
+
+let currentForumTrends = []; // 新增：用于存储当前的热搜榜单数据
 
         
         let currentChatFriendId = null;
@@ -11056,6 +11129,7 @@ const appSettings = {
     currentForumPosts: currentForumPosts,
     currentGossipPosts: currentGossipPosts, 
     currentFollowingPosts: currentFollowingPosts,
+    currentForumTrends: currentForumTrends,
     shoppingProducts: productsData,
     pendingItems: pendingItems,
     collectedItems: collectedItems,
@@ -11329,6 +11403,8 @@ currentForumPosts = settings.currentForumPosts || [];
 currentGossipPosts = settings.currentGossipPosts || []; 
 
 currentFollowingPosts = settings.currentFollowingPosts || []; 
+
+currentForumTrends = settings.currentForumTrends || []; // <--- 新增这一行
 
 // 【修改后】添加一个更通用的默认世界观，防止初次使用时为空
 if (worldviews.length === 0) {
@@ -11682,7 +11758,7 @@ userPersonas = [userProfile];
                 function setActivePage(pageId) {
     const phoneDiv = document.querySelector('.phone');
     const forumPageIds = ['forumScreen', 'forumDetailView','forumNotificationsView', 
-        'forumCharacterProfileView'
+        'forumCharacterProfileView', 'forumTrendDetailView'
     ]; // 包含了所有属于论坛App的页面ID
 
 if (pageId === 'marsModeScreen') {
@@ -23367,7 +23443,7 @@ function renderForumProfileTimeline(type) {
     });
 }
 
-function switchForumTab(tabName, tabElement) {
+async function switchForumTab(tabName, tabElement) {
     const navBar = document.getElementById('forumTopNavBar');
     
     // 隐藏所有内容视图
@@ -23407,7 +23483,22 @@ function switchForumTab(tabName, tabElement) {
     else if (tabName === 'notifications') {
         renderForumNotifications(); // 调用渲染通知页面的函数
     }
-    // ▲▲▲ 新增结束 ▲▲▲
+   
+    else if (tabName === 'search') {
+        // 如果热搜数据是空的（比如第一次打开），就先生成一次
+        if (!currentForumTrends || currentForumTrends.length === 0) {
+            showToast('首次加载，正在生成热搜...', 2000);
+            try {
+                currentForumTrends = await generateTrendsFromAI();
+                await saveData();
+            } catch (error) {
+                showAlert(`加载热搜失败: ${error.message}`);
+            }
+        }
+        // 渲染已有的或新生成的热搜
+        renderTrends();
+    }
+    // ▲▲▲ 新增代码到此结束 ▲▲▲
 }
 
 // --- 个人资料编辑模态框函数 ---
@@ -23529,38 +23620,87 @@ window.addEventListener('click', (event) => {
 // ↓↓↓ 请将以下所有新代码，完整地粘贴到 <script> 标签的末尾 ↓↓↓
 
 /**
- * 动态生成符合国情的、不重复的中文热搜数据
- * @returns {Array<object>} 热搜对象数组
+ * [全新] 核心功能：调用AI，根据当前世界观和角色生成10条热搜
+ * @returns {Promise<Array<object>>} - 返回生成的热搜对象数组
  */
-function generateChineseTrends() {
-    const categories = ['社会百态', '科技前沿', '娱乐风向', '体育赛事', '财经动态', '生活趣闻'];
-    const keywords = [
-        '国产AI芯片取得新突破', '新式茶饮品牌出海受热捧', '古镇旅游热度持续攀升',
-        '虚拟数字人直播带货引争议', '多地出台人才引进新政策', '国产科幻电影宇宙初具雏形',
-        '年轻人开始流行“反向消费”', '新能源汽车市场竞争加剧', '非遗文化与现代潮流结合',
-        '短剧APP成为新风口', '全民健身热潮下的新消费', '大学生就业观念转变',
-        '老字号品牌如何焕发新生', '共享电单车管理难题', 'AI绘画版权问题探讨'
-    ];
-
-    // 打乱数组以确保每次生成的内容都不同
-    const shuffledKeywords = keywords.sort(() => 0.5 - Math.random());
-    
-    const trends = [];
-    // 生成 1 个推荐 + 10个普通热搜
-    for (let i = 0; i < 11; i++) {
-        trends.push({
-            category: categories[Math.floor(Math.random() * categories.length)],
-            keyword: shuffledKeywords[i % shuffledKeywords.length], // 循环使用关键词
-            heat: `${(Math.random() * 300 + 50).toFixed(1)} 万` // 生成50万到350万之间的热度值
-        });
+async function generateTrendsFromAI() {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        throw new Error("请先在主系统或App内配置API信息。");
     }
-    return trends;
+
+    const worldviewId = forumSettings.recommendedWorldviewId; // 我们让热搜跟随“推荐”版块的世界观
+    const worldview = worldviews.find(w => w.id === worldviewId) || worldviews[0];
+    if (!worldview) {
+        throw new Error("找不到任何可用的世界观设定。");
+    }
+
+    const aiParticipants = friends.filter(f => forumSettings.activeAiIds.includes(f.id));
+    const mainCharactersInfo = aiParticipants.map(ai => `- "${ai.name}" (人设: "${ai.role}")`).join('\n');
+
+    const prompt = `
+    【任务】: 你是一个社交媒体的热搜内容策划。你的任务是根据下方提供的情报，为这个世界生成10条引人注目的热搜词条。
+
+    【【【情报库 (你的全部认知)】】】
+    1.  **世界观设定 (故事背景)**:
+        -   名称: ${worldview.name}
+        -   描述: ${worldview.description}
+    2.  **核心人物 (故事主角团)**:
+        ${mainCharactersInfo || '无特定核心人物，请基于世界观自由创作。'}
+    3.  **论坛规则**:
+        ${forumRules.map(rule => `- ${rule.name}: ${rule.description}`).join('\n') || '暂无规则'}
+
+    【【【创作铁律 (必须严格遵守)】】】
+    1.  **【内容要求】**: 你生成的10条热搜，必须与“世界观”和“核心人物”紧密相关，反映出这个世界正在发生的大事、趣事或争议。
+    2.  **【多样性】**: 热搜内容必须多样化，涵盖社会、娱乐、科技、生活等多个方面。
+    3.  **【相关性】**: 至少有三分之一的热搜需要与“核心人物”的活动或人设有直接或间接的关联。
+    4.  **【语言风格】**: 热搜词条要简洁、有悬念、能引发讨论。
+
+    【【【输出格式铁律 (必须严格遵守)】】】
+    你的回复必须是一个纯净的、完整的、语法正确的JSON数组 \`[]\`。
+    - 数组中必须包含10个对象，每个对象代表一条热搜。
+    - 每个对象必须包含 "category" (分类), "keyword" (关键词), 和 "heat" (热度值，例如 "123.4 万") 三个键。
+
+    【JSON格式示例】:
+    [
+      { "category": "社会百态", "keyword": "市中心广场的神秘涂鸦究竟是谁的作品？", "heat": "345.6 万" },
+      { "category": "娱乐风向", "keyword": "惊爆！知名演员 ${aiParticipants[0]?.name || '某明星'} 被拍到深夜密会……", "heat": "289.1 万" }
+    ]
+
+    现在，请开始你的创作。`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 0.9 })
+        });
+        if (!response.ok) throw new Error(`API 请求失败: ${response.status}`);
+        
+        const data = await response.json();
+        const responseText = data.choices[0].message.content;
+        const jsonMatch = responseText.match(/\[[\s\S]*\]/);
+        if (!jsonMatch) throw new Error("AI未能返回有效的热搜JSON数组。");
+
+        return JSON.parse(jsonMatch[0]);
+
+    } catch (error) {
+        console.error("生成热搜失败:", error);
+        throw error;
+    }
 }
 
 /**
  * 渲染热搜列表到界面
  */
 function renderTrends() {
+
+const trendsData = currentForumTrends; // 从全局变量读取
+if (!trendsData || trendsData.length === 0) {
+    container.innerHTML = '<div style="text-align: center; padding: 50px; color: var(--text-secondary);">暂无热搜，请点击右上角刷新按钮生成</div>';
+    return;
+}
+
     const container = document.getElementById('trendsListContainer');
     if (!container) return;
 
@@ -23572,13 +23712,15 @@ function renderTrends() {
         avatarEl.style.backgroundColor = '#1d9bf0'; // 一个默认背景色
     }
 
-    const trendsData = generateChineseTrends();
+   
     container.innerHTML = ''; // 清空旧内容
 
-    // 渲染第一个作为“为你推荐”的特色卡片
-    const featured = trendsData.shift(); // 取出并移除第一个
+    const featured = trendsData[0]; // 正确做法：只读取第一个元素，不修改原数组
+    const remainingTrends = trendsData.slice(1);
     const featuredItem = document.createElement('div');
     featuredItem.className = 'featured-trend-item';
+    const escapedKeyword = featured.keyword.replace(/'/g, "\\'");
+featuredItem.setAttribute('onclick', `openTrendDetailView('${escapedKeyword}')`);
     featuredItem.innerHTML = `
         <img src="https://source.unsplash.com/random/800x450?city,technology,${featured.keyword}" alt="${featured.keyword}">
         <div class="featured-trend-overlay">
@@ -23590,9 +23732,11 @@ function renderTrends() {
     container.appendChild(featuredItem);
 
     // 渲染剩下的普通热搜
-    trendsData.forEach(trend => {
+    remainingTrends.forEach(trend => {
         const item = document.createElement('div');
         item.className = 'trend-item';
+        const escapedKeyword = trend.keyword.replace(/'/g, "\\'");
+    item.setAttribute('onclick', `openTrendDetailView('${escapedKeyword}')`);
         item.innerHTML = `
             <div class="trend-info">
                 <div class="trend-category">${trend.category} · 趋势</div>
@@ -23608,9 +23752,23 @@ function renderTrends() {
 }
 
 // 为刷新按钮绑定点击事件
-document.getElementById('refreshTrendsBtn').addEventListener('click', () => {
-    showToast('正在刷新热搜...', 1500);
-    setTimeout(renderTrends, 500); // 延迟一点刷新，增加体验感
+
+document.getElementById('refreshTrendsBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('refreshTrendsBtn');
+    if (btn.classList.contains('loading')) return; // 防止重复点击
+
+    showToast('正在生成新热搜...', 2000);
+    btn.classList.add('loading');
+    
+    try {
+        currentForumTrends = await generateTrendsFromAI(); // 调用AI生成新热搜
+        await saveData(); // 保存新结果
+        renderTrends(); // 重新渲染界面
+    } catch (error) {
+        showAlert(`刷新热搜失败: ${error.message}`);
+    } finally {
+        btn.classList.remove('loading');
+    }
 });
 
 /**
@@ -26844,6 +27002,15 @@ function findForumPostById(postId) {
     let post = allMainPosts.find(p => p.id === postId);
     if (post) return post;
 
+else if (currentForumTrends && currentForumTrends.length > 0) {
+        for (const trend of currentForumTrends) {
+            if (trend.posts && trend.posts.length > 0) {
+                const foundPost = trend.posts.find(p => p.id === postId);
+                if (foundPost) return foundPost;
+            }
+        }
+    }
+
     // --- ▼▼▼ 这是最关键的新增逻辑 ▼▼▼ ---
     // 2. 如果没找到，就去所有角色的“主页缓存”里搜查
     for (const friend of friends) {
@@ -29331,6 +29498,258 @@ const loadedApiSettings = await dbManager.get('apiSettings', 'settings');
 
 
 // ▲▲▲ 代码粘贴到此结束 ▲▲▲
+
+/**
+ * [全新] 核心功能：调用AI为指定热搜关键词生成10个帖子
+ * @param {string} trendKeyword - 热搜关键词
+ * @returns {Promise<Array<object>>} - 返回生成的帖子对象数组
+ */
+async function generatePostsForTrend(trendKeyword) {
+    // 步骤1：获取API设置，如果未配置则直接报错退出
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey || !settings.modelName) {
+        throw new Error("请先在主系统或App内配置API信息。");
+    }
+
+    // 步骤2：获取当前生效的世界观和角色信息，为AI准备“情报”
+    // 我们让热搜帖子的世界观跟随“推荐”版块的设定
+    const worldviewId = forumSettings.recommendedWorldviewId;
+    const worldview = worldviews.find(w => w.id === worldviewId) || worldviews[0]; // 如果找不到，则使用第一个作为备用
+    if (!worldview) {
+        throw new Error("找不到任何可用的世界观设定。");
+    }
+
+    const aiParticipants = friends.filter(f => forumSettings.activeAiIds.includes(f.id));
+    const mainCharactersInfo = aiParticipants.map(ai => `- "${ai.name}" (人设: "${ai.role}")`).join('\n    ');
+
+    // 步骤3：构建给AI的核心指令(Prompt)
+    const prompt = `
+    【任务】: 你是一个论坛内容生成器。当前的热搜话题是：“${trendKeyword}”。你的任务是扮演10位不同的网友，围绕这个话题发布10条观点各异的帖子。
+
+    【【【情报库 (你的全部认知)】】】
+    1.  **世界观设定 (故事背景)**:
+        -   名称: ${worldview.name}
+        -   描述: ${worldview.description}
+    2.  **核心人物 (故事主角团)**:
+        ${mainCharactersInfo || '无特定核心人物，请基于世界观自由创作。'}
+    3.  **论坛规则**:
+        ${forumRules.map(rule => `- ${rule.name}: ${rule.description}`).join('\n') || '暂无规则'}
+
+    【【【创作铁律 (必须严格遵守)】】】
+    1.  **【扮演任务】**: 你必须扮演10位不同的、生活在这个世界里的“路人网友”。他们的身份和观点都必须是随机且多样的。**绝对禁止**使用任何核心角色
+    2.  **【内容要求】**: 帖子内容必须紧密围绕“${trendKeyword}”展开，可以是从不同角度讨论、分享相关经历、提出疑问或发表争议性观点。
+    3.  **【格式铁律】**: 你的回复必须是一个纯净的JSON数组，包含10个对象，每个对象有 "content" (帖子正文) 和 "authorName" (作者昵称) 两个键。
+
+    【JSON格式示例】:
+    [
+      { "content": "关于‘${trendKeyword}’这件事，我个人觉得...", "authorName": "${aiParticipants[0]?.name || 'AI角色A'}" },
+      { "content": "楼上说的不对吧？我认为‘${trendKeyword}’的关键在于...", "authorName": "吃瓜路人" }
+    ]
+
+    现在，请开始你的创作。`;
+
+    // 步骤4：发起API请求并处理返回结果
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 1.0 // 使用较高的温度以增加创作的多样性
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`API 请求失败: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const responseText = data.choices[0].message.content;
+
+        // 使用正则表达式稳健地提取JSON数组部分，防止AI添加额外文字导致解析失败
+        const jsonMatch = responseText.match(/\[[\s\S]*\]/);
+        if (!jsonMatch) {
+            throw new Error("AI未能返回有效的JSON数组。");
+        }
+        
+        // 解析并返回最终的帖子数据
+        return JSON.parse(jsonMatch[0]);
+
+    } catch (error) {
+        console.error("生成热搜帖子失败:", error);
+        // 将错误抛出，让调用它的函数（openTrendDetailView）去处理UI上的提示
+        throw error;
+    }
+}
+
+/**
+ * [全新] 核心功能：打开热搜详情页 (V2 - 结构重构版)
+ * @param {string} keyword - 被点击的热搜关键词
+ */
+async function openTrendDetailView(keyword) {
+    // 1. 切换到我们新创建的页面
+    setActivePage('forumTrendDetailView');
+
+    // 2. 更新导航栏的标题和返回按钮功能
+    document.getElementById('trendDetailTitle').textContent = keyword;
+    document.getElementById('trendDetailBackBtn').onclick = backToSearchView; // <-- 使用新的返回函数
+
+// ▼▼▼ 新增代码：为导航栏右侧添加刷新按钮 ▼▼▼
+    // ...
+    const navBarRight = document.querySelector('#forumTrendDetailView .nav-bar > div:last-child');
+    if (navBarRight) {
+        navBarRight.innerHTML = `
+            <button class="nav-btn" id="trend-detail-refresh-btn" onclick="refreshTrendDetailPosts()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                    <path d="M22 4v4h-4"/>
+                </svg>
+            </button>
+        `;
+    }
+    // ▲▲▲ 新增代码结束 ▲▲▲
+
+    // 3. 获取内容容器并显示“加载中”
+    const view = document.getElementById('trendDetailContent');
+    view.innerHTML = `<div class="comments-loading-indicator">正在生成关于“${keyword}”的讨论...</div>`;
+
+    // 4. (后续逻辑保持不变) 检查或生成帖子数据
+    const trend = currentForumTrends.find(t => t.keyword === keyword);
+    if (!trend) {
+        view.innerHTML = `<div class="comments-loading-indicator" style="color: red;">错误：找不到该热搜的信息。</div>`;
+        return;
+    }
+
+    if (trend.posts && trend.posts.length > 0) {
+        renderTrendDetailPosts(trend.posts); // 直接渲染
+        return;
+    }
+
+    try {
+        const postsData = await generatePostsForTrend(keyword);
+        const now = new Date();
+        trend.posts = postsData.map((p, i) => {
+            const author = friends.find(f => f.name === p.authorName);
+            const newPost = {
+                id: `trend_post_${generateUniqueId()}`,
+                content: p.content,
+                authorName: p.authorName,
+                authorId: author ? author.id : null,
+                timestamp: new Date(now.getTime() - (i * 5 * 60 * 1000)).toISOString(),
+                section: 'trend_detail'
+            };
+            if (!author) {
+                newPost.authorAvatarUrl = passerbyAvatarUrls[Math.floor(Math.random() * passerbyAvatarUrls.length)];
+            }
+            return newPost;
+        });
+        
+        await saveData();
+        renderTrendDetailPosts(trend.posts); // 渲染新生成的帖子
+
+    } catch (error) {
+        view.innerHTML = `<div class="comments-loading-indicator" style="color: red;">内容生成失败: ${error.message}</div>`;
+    }
+}
+
+/**
+ * [全新] 渲染热搜详情页的帖子列表 (V2 - 简化版)
+ */
+function renderTrendDetailPosts(posts) {
+    const view = document.getElementById('trendDetailContent');
+    
+    // 1. 清空旧内容，并创建一个用于包裹帖子的容器
+    view.innerHTML = `<div id="trend-posts-container" style="padding-top: 0;"></div>`;
+    const container = document.getElementById('trend-posts-container');
+    
+    if (!container) return;
+
+    // 2. 检查是否有帖子数据
+    if (posts && posts.length > 0) {
+        // 3. 遍历帖子数据
+        posts.forEach(post => {
+            // 4. 为每个帖子创建一个带有点击事件的真实DOM元素
+            const postElement = createPostElement(post);
+            
+            // 5. 【核心修改】直接将这个真实的、带有事件的元素添加到容器中
+            container.appendChild(postElement);
+        });
+    }
+    // （如果posts为空，则不会执行循环，页面会保持空白，这是符合预期的）
+}
+
+/**
+ * [全新] 从热搜详情页返回到搜索/热搜列表页
+ */
+function backToSearchView() {
+    setActivePage('forumScreen'); // 切换回论坛App主页面
+    // 手动激活“搜索”tab，确保用户看到的是热搜列表
+    const searchTab = document.querySelector('.forum-bottom-nav .forum-tab[onclick*="search"]');
+    if (searchTab) {
+        switchForumTab('search', searchTab);
+    }
+}
+
+// ▼▼▼ 新增：刷新热搜详情页帖子的核心函数 ▼▼▼
+async function refreshTrendDetailPosts() {
+    const refreshBtn = document.getElementById('trend-detail-refresh-btn');
+    if (refreshBtn.classList.contains('loading')) return; // 防止重复点击
+
+    const keyword = document.getElementById('trendDetailTitle').textContent;
+    if (!keyword) {
+        showAlert('无法获取当前热搜关键词。');
+        return;
+    }
+
+    // 1. 提供视觉反馈
+    refreshBtn.classList.add('loading');
+    const view = document.getElementById('trendDetailContent');
+    view.innerHTML = `<div class="comments-loading-indicator">正在重新生成关于“${keyword}”的讨论...</div>`;
+    showToast('正在为您刷新内容...', 2000);
+
+    try {
+        // 2. 调用AI生成新帖子
+        const newPostsData = await generatePostsForTrend(keyword);
+        const now = new Date();
+        const newPosts = newPostsData.map((p, i) => {
+            const author = friends.find(f => f.name === p.authorName);
+            const newPost = {
+                id: `trend_post_${generateUniqueId()}`,
+                content: p.content,
+                authorName: p.authorName,
+                authorId: author ? author.id : null,
+                timestamp: new Date(now.getTime() - (i * 5 * 60 * 1000)).toISOString(),
+                section: 'trend_detail'
+            };
+            if (!author) {
+                newPost.authorAvatarUrl = passerbyAvatarUrls[Math.floor(Math.random() * passerbyAvatarUrls.length)];
+            }
+            return newPost;
+        });
+
+        // 3. 找到当前的热搜对象，并用新帖子覆盖旧的
+        const trend = currentForumTrends.find(t => t.keyword === keyword);
+        if (trend) {
+            trend.posts = newPosts;
+        }
+
+        // 4. 保存更改到数据库
+        await saveData();
+
+        // 5. 重新渲染详情页
+        renderTrendDetailPosts(newPosts);
+        showToast('刷新完成！');
+
+    } catch (error) {
+        view.innerHTML = `<div class="comments-loading-indicator" style="color: red;">内容刷新失败: ${error.message}</div>`;
+        showAlert(`刷新失败: ${error.message}`);
+    } finally {
+        // 6. 移除加载状态
+        refreshBtn.classList.remove('loading');
+    }
+}
+// ▲▲▲ 新增代码结束 ▲▲▲
 
     </script>
  <script src="https://unpkg.com/pinyin-pro"></script>
