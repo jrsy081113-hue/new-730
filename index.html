@@ -7128,19 +7128,14 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 /* 4. 分页小圆点 (#home-screen-dots) */
 /* 这是修改后的 #home-screen-dots 样式，请用它替换旧的 */
-
 #home-screen-dots {
-    position: absolute; /* 核心修改1：让小圆点“浮”起来 */
-    bottom: 120px;      /* 核心修改2：精确定位它在屏幕上的垂直位置 */
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     gap: 8px;
-    padding: 0; /* 不再需要用padding来控制位置 */
-    z-index: 1;
+    padding: 10px 0; /* 上下留出一些空间 */
+    flex-shrink: 0; /* 防止被压缩 */
+    z-index: 1; /* 确保在内容之上 */
 }
-
 #home-screen-dots .dot {
     width: 8px;
     height: 8px;
@@ -7176,7 +7171,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     align-items: center;
     z-index: 50;
     flex-shrink: 0; /* 防止被压缩 */
-    margin: 0 auto 0px auto; /* 底部外边距20px，左右自动居中 */
+    margin: 0 auto 20px auto; /* 底部外边距20px，左右自动居中 */
 }
 
 /* =================================================================== */
