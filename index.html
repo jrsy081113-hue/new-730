@@ -1219,26 +1219,32 @@ html {
         }
 
         .message-menu {
-            position: fixed;
-            background: var(--bg-primary, white);
-            border-radius: var(--menu-radius, 12px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 2000;
-            display: none;
-            padding: 8px;
-            transition: all 0.3s ease;
-            flex-direction: row;
-            gap: 8px;
-            opacity: 0;
-            transform: scale(0.9);
-            transform-origin: top left;
-        }
+    position: fixed;
+    background: var(--bg-primary, white);
+    border-radius: var(--menu-radius, 12px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 2000;
+    padding: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-wrap: wrap;
+    width: 290px;
+    gap: 8px;
+    opacity: 0;
+    transform: scale(0.9);
+    transform-origin: top left;
 
-        .message-menu.show {
-            display: flex;
-            opacity: 1;
-            transform: scale(1);
-        }
+    /* --- 核心修复：让隐身的菜单无法被点击 --- */
+    pointer-events: none; 
+}
+       .message-menu.show {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+
+    /* --- 核心修复：让显示的菜单恢复可点击状态 --- */
+    pointer-events: auto; 
+}
 
         .message-menu-item {
             padding: 8px 16px;
@@ -7492,6 +7498,110 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     animation: spin 1s linear infinite;
 }
 
+/* --- ▼▼▼ 从这里开始粘贴新增的 CSS 代码 ▼▼▼ --- */
+
+/* 时间戳的通用样式 */
+.message-timestamp {
+    font-size: 11px;
+    color: var(--text-secondary, #999);
+    margin-top: 5px;
+    padding: 0 2px;
+}
+
+/* “头像下面”样式所需的包裹容器 */
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+.message.sent .avatar-container {
+    margin: 0 0 0 8px;
+    order: 2;
+}
+.message.received .avatar-container {
+    margin: 0 8px 0 0;
+}
+
+/* 当选择“头像下面”样式时，把原生的头像外边距去掉，交给新容器管理 */
+.avatar-container .chat-avatar {
+    margin: 0 !important;
+}
+
+/* “气泡下面”样式的对齐方式 */
+.message.sent .message-body {
+    align-items: flex-end;
+}
+.message.received .message-body {
+    align-items: flex-start;
+}
+/* --- ▲▲▲ 粘贴到这里结束 ▲▲▲ --- */
+
+/* [V2 修复版] 强制修正用户侧时间戳的显示顺序 */
+.message.sent .avatar-container .chat-avatar {
+    order: 1;
+}
+.message.sent .avatar-container .message-timestamp {
+    order: 2;
+}
+
+/* ▼▼▼ 将这段新增的CSS代码粘贴到 <style> 区域的末尾 ▼▼▼ */
+.avatar-timestamp-seconds-active .avatar-container .message-timestamp {
+    font-size: 9px;                      /* 1. 缩小字体 */
+    width: var(--chat-avatar-size);      /* 2. 宽度与头像保持一致 */
+    text-align: center;                  /* 3. 文本居中 */
+    padding: 0;                          /* 4. 移除左右内边距，确保空间足够 */
+    white-space: nowrap;                 /* 5. 防止意外换行 */
+    overflow: hidden;                    /* 6. 隐藏任何可能溢出的部分 */
+    box-sizing: border-box;
+}
+/* ▲▲▲ 添加到此结束 ▲▲▲ */
+
+/* 新增：用于包裹时间和已读状态的容器 */
+.message-footer-container {
+    display: flex;
+    align-items: center;
+    gap: 0px; /* 控制时间和“已读”之间的间距 */
+    margin-top: 5px; /* 与气泡保持一点距离 */
+}
+
+/* 让我方（sent）发送的消息，时间和已读状态也靠右对齐 */
+.message.sent .message-footer-container {
+    justify-content: flex-end;
+}
+
+/* 确保“已读”和时间戳使用相同的样式 */
+.message-footer-container .message-timestamp {
+    margin-top: 0; /* 移除单个元素的多余边距 */
+}
+
+/* --- [新增] 隐藏头像的核心CSS --- */
+
+/* 隐藏双方头像 */
+#chatScreen.hide-avatars-both .chat-avatar,
+#chatScreen.hide-avatars-both .avatar-container {
+    display: none !important;
+}
+
+/* 只隐藏好友（对方）的头像 */
+#chatScreen.hide-avatars-received .message.received .chat-avatar,
+#chatScreen.hide-avatars-received .message.received .avatar-container {
+    display: none !important;
+}
+
+/* 只隐藏我方（自己）的头像 */
+#chatScreen.hide-avatars-sent .message.sent .chat-avatar,
+#chatScreen.hide-avatars-sent .message.sent .avatar-container {
+    display: none !important;
+}
+
+/* --- [新增] 隐藏头像后的布局微调，防止消息错位 --- */
+#chatScreen.hide-avatars-both .message-body,
+#chatScreen.hide-avatars-received .message.received .message-body,
+#chatScreen.hide-avatars-sent .message.sent .message-body {
+    max-width: 100% !important; /* 允许消息内容占满整行 */
+}
+
     </style>
 </head>
 <body>
@@ -7853,7 +7963,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
         <button class="chat-btn" id="chatInputVoiceButton" onclick="openVoiceModal()" title="语音"> <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/></svg></button>
     </div>
     
-    <textarea id="messageInput" rows="1" placeholder="输入消息..." onkeypress="handleKeyPress(event)" oninput="toggleSendButtonActive(this)" onclick="hideFunctionMenus()"></textarea>
+   <textarea id="messageInput" rows="1" placeholder="输入消息..." onkeydown="handleKeyPress(event)" oninput="toggleSendButtonActive(this)" onclick="hideFunctionMenus()"></textarea>
     
     <!-- 我们也给右边的按钮们一个“家” -->
     <div id="chatRightButtons" style="display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
@@ -8120,6 +8230,13 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
                         <label class="form-label">角色设定</label>
                         <textarea class="form-textarea" id="editFriendRole" placeholder="角色设定..."></textarea>
                     </div>
+                    <!-- 在 id="friendSettingsScreen" 内 -->
+<div class="form-group">
+    <label class="form-label">克隆音色ID (timber_id)</label>
+    <div id="currentCloneVoiceId" class="form-input" style="cursor: pointer; line-height: 2.5;" onclick="openVoiceIdModal()">
+        未设置
+    </div>
+</div>
                     <div class="form-group" id="worldBookBindingGroup">
                         <label class="form-label">绑定世界书</label>
                         <div class="form-input" style="cursor: pointer; line-height: 2.5;" onclick="openWorldBookBindingModal()">点击选择</div>
@@ -8132,6 +8249,81 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     </div>
 </div>
 <!-- ↑↑↑ 修改结束 ↑↑↑ -->
+
+<!-- ▼▼▼ 从这里开始粘贴新增的代码 ▼▼▼ -->
+<div class="form-group" style="border-top: 1px solid var(--border-light, #f0f0f0); padding-top: 20px; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <label class="form-label" style="margin-bottom: 0;">显示消息时间戳</label>
+        <label class="toggle-switch">
+            <input type="checkbox" id="timestampToggle" onchange="toggleTimestampOptions(this.checked)">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+</div>
+
+<div class="form-group" id="timestampStyleGroup" style="display: none;">
+    <label class="form-label">时间戳样式</label>
+    <select class="form-select" id="timestampStyleSelect">
+        <option value="below_bubble">气泡下面</option>
+        <option value="below_avatar">头像下面</option>
+    </select>
+</div>
+
+<!-- ▼▼▼ 将下面这段代码粘贴到 timestampStyleGroup 的div后面 ▼▼▼ -->
+<div class="form-group" id="timestampSecondsGroup" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <label class="form-label" style="margin-bottom: 0;">显示秒数 (HH:MM:SS)</label>
+        <label class="toggle-switch">
+            <input type="checkbox" id="timestampSecondsToggle">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+</div>
+<!-- ▲▲▲ 添加到此结束 ▲▲▲ -->
+
+<!-- ▼▼▼ 将下面这段代码粘贴到 timestampSecondsGroup 的div后面 ▼▼▼ -->
+<div class="form-group" style="border-top: 1px solid var(--border-light, #f0f0f0); padding-top: 20px; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <label class="form-label" style="margin-bottom: 0;">显示已读状态</label>
+        <label class="toggle-switch">
+            <input type="checkbox" id="readReceiptToggle" onchange="toggleReadReceiptOptions(this.checked)">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+</div>
+
+<div class="form-group" id="readReceiptStyleGroup" style="display: none;">
+    <label class="form-label">已读样式</label>
+    <select class="form-select" id="readReceiptStyleSelect">
+        <option value="below_bubble">气泡下面</option>
+        <option value="below_avatar">头像下面</option>
+    </select>
+</div>
+<!-- ▲▲▲ 添加到此结束 ▲▲▲ -->
+
+<!-- ▼▼▼ 从这里开始粘贴新增的代码 ▼▼▼ -->
+
+<div class="form-group" style="border-top: 1px solid var(--border-light, #f0f0f0); padding-top: 20px; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <label class="form-label" style="margin-bottom: 0;">隐藏聊天头像</label>
+        <label class="toggle-switch">
+            <input type="checkbox" id="avatarHidingToggle" onchange="toggleAvatarHidingOptions(this.checked)">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+</div>
+
+<div class="form-group" id="avatarHidingModeGroup" style="display: none;">
+    <label class="form-label">隐藏模式</label>
+    <select class="form-select" id="avatarHidingModeSelect">
+        <option value="both">隐藏双方头像</option>
+        <option value="received">只隐藏好友头像</option>
+        <option value="sent">只隐藏我的头像</option>
+    </select>
+</div>
+
+<!-- ▲▲▲ 粘贴到这里结束 ▲▲▲ -->
+
                     <div class="settings-buttons">
                         <button class="settings-btn btn-primary" onclick="saveFriendSettings()">保存设置</button>
                     </div>
@@ -8528,6 +8720,11 @@ oninput="applyChatInterfaceCSS(this.value)"></textarea>
         <span>></span>
     </div>   
     
+
+<div class="discover-menu-item" onclick="openCloneApiSettings()">
+    <div class="discover-menu-title">克隆音色设置</div>
+    <span>></span>
+</div>
     <!-- ↓↓↓ 从这里开始，粘贴所有新增的HTML代码 ↓↓↓ -->
 
             <!-- 1. 这是“主动发消息”功能的总开关 -->
@@ -9388,6 +9585,47 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
 </div>
 <!-- ▲▲▲ 步骤一代码结束 ▲▲▲ -->
 
+<!-- 新增：克隆音色API设置页面 -->
+<div id="cloneApiSettingsScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="backToSettingsMenu()">←</button>
+        <div class="nav-title">克隆音色设置</div>
+        <div></div>
+    </div>
+    <div class="settings-content">
+        <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+            <label class="form-label" style="margin-bottom: 0;">开启克隆音色功能</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="voiceCloneToggle">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="form-label">MiniMax Group ID</label>
+            <input type="text" class="form-input" id="minimaxGroupId" placeholder="请输入你的Group ID">
+        </div>
+        <div class="form-group">
+            <label class="form-label">MiniMax API Key</label>
+            <input type="password" class="form-input" id="minimaxApiKey" placeholder="请输入你的API Key">
+        </div>
+        <div class="settings-buttons">
+            <button class="settings-btn btn-primary" onclick="saveCloneApiSettings()">保存设置</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：音色ID输入弹窗 -->
+<div id="voiceIdModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">设置克隆音色ID</div>
+        <input type="text" class="modal-input" id="voiceIdInput" placeholder="请输入MiniMax的timber_id">
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeVoiceIdModal()">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveVoiceId()">确定</button>
+        </div>
+    </div>
+</div>
+
     <!-- ↓↓↓ 第1步：将以下所有新增的HTML代码粘贴到 <body> 的末尾 ↓↓↓ -->
 
 <!-- [新增] 线下模式圆形悬浮窗 -->
@@ -9972,11 +10210,12 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
         const dbManager = {
             db: null,
             dbName: 'JRSY_DB_V2',
-            dbVersion: 11,
+            dbVersion: 14,
             stores: [
                 'friends', 'chatHistories', 'diaries', 'worldBooks', 'worldBookFolders', 
                 'favorites', 'moments', 'playlist', 'appSettings', 'apiSettings', 'customEmojis',
-                'memories', 'openingStatements' , 'writingStyles', 'skits', 'forumPosts' , 'forumRules', 'forumLikes' , 'bubbleCssPresets', 'interfaceCssPresets', 'apiPresets'
+                'memories', 'openingStatements' , 'writingStyles', 'skits', 'forumPosts' , 'forumRules', 'forumLikes' , 'bubbleCssPresets', 'interfaceCssPresets', 'apiPresets', 'cloneApiSettings',
+        'voiceAudioCache' 
             ],
 
             // 核心修改：初始化函数现在负责检查和重新连接
@@ -10123,6 +10362,7 @@ let currentDesktopImagePlaceholderId = null;
 let currentDesktopAvatarPlaceholderId = null;
 
 
+
 let currentForumTrends = []; // 新增：用于存储当前的热搜榜单数据
 
         
@@ -10146,6 +10386,9 @@ let currentEditingMessageId = null;
 let pinyin; // <--- 像这样添加在这里
 
 let currentAddToCartItem = null;
+
+let isVoiceCloneEnabled = false;
+let cloneApiSettings = { groupId: '', apiKey: '' };
 
 // ... 其他全局变量 ...
 let currentShoppingCharId = null; // 用于记录当前在购物App中选中的角色ID
@@ -11201,7 +11444,7 @@ const appSettings = {
                 const [
                     loadedFriends, loadedChatHistories, loadedDiaries, loadedWorldBooks, 
                     loadedWorldBookFolders, loadedFavorites, loadedMoments, loadedPlaylist, 
-                    loadedAppSettings, loadedApiSettings, loadedCustomEmojis, loadedMemories, loadedOpeningStatements, loadedWritingStyles, loadedSkits, loadedForumPosts, loadedForumRules, loadedForumLikes, loadedBubblePresets, loadedInterfacePresets, loadedApiPresets
+                    loadedAppSettings, loadedApiSettings, loadedCustomEmojis, loadedMemories, loadedOpeningStatements, loadedWritingStyles, loadedSkits, loadedForumPosts, loadedForumRules, loadedForumLikes, loadedBubblePresets, loadedInterfacePresets, loadedApiPresets, loadedCloneApiSettings
                 ] = await Promise.all([
                     dbManager.getAll('friends'), dbManager.getAll('chatHistories'), dbManager.getAll('diaries'),
                     dbManager.getAll('worldBooks'), dbManager.getAll('worldBookFolders'), dbManager.getAll('favorites'),
@@ -11224,7 +11467,9 @@ dbManager.getAll('forumLikes'),
 dbManager.getAll('bubbleCssPresets'),
 dbManager.getAll('interfaceCssPresets'),
 
-dbManager.getAll('apiPresets') 
+dbManager.getAll('apiPresets') ,
+
+dbManager.get('cloneApiSettings', 'settings')
 
                 ]);
                 
@@ -11233,6 +11478,13 @@ dbManager.getAll('apiPresets')
                      await initDefaultData();
                      return;
                 }
+                if (loadedCloneApiSettings) {
+    isVoiceCloneEnabled = loadedCloneApiSettings.enabled || false;
+    cloneApiSettings = {
+        groupId: loadedCloneApiSettings.groupId || '',
+        apiKey: loadedCloneApiSettings.apiKey || ''
+    };
+}
                 
                 // 整理加载的记忆数据
 characterMemories = {};
@@ -12378,10 +12630,13 @@ async function handlePhotoUpload(event) {
     balance: Infinity,
     patAction: '',
     activeUserPersonaId: 'default_user', // <--- 核心改动就是增加了这一行！
+    timestampSettings: { enabled: false, style: 'below_bubble' },
+    avatarHidingSettings: { enabled: false, mode: 'both' },
     heartsVoice: { emoji: '( ´• ω •` )', thought: '...', dressing: '...', action: '...', favorability: '...' },
     turnCountSinceLastMemory: 0, 
     proactiveMessageDebt: 0,
     shoppingRecordsCache: {},
+    cloneVoiceId: '',
     isOfflineMode: false, // <-- [新增] 为每个好友添加独立的线下模式开关
     offlineSettings: {
         charCount: 1000,
@@ -12579,7 +12834,16 @@ list.appendChild(item);
 function openChat(friendId) {
     const friend = friends.find(f => f.id === friendId);
     if (!friend) return;
-    
+    const chatScreen = document.getElementById('chatScreen');
+    // 1. 先清除之前可能残留的所有隐藏头像样式
+    chatScreen.classList.remove('hide-avatars-both', 'hide-avatars-received', 'hide-avatars-sent');
+
+    // 2. 检查当前好友的设置
+    if (friend.avatarHidingSettings && friend.avatarHidingSettings.enabled) {
+        // 3. 如果开启了隐藏，就根据模式添加对应的CSS类
+        const modeClass = 'hide-avatars-' + friend.avatarHidingSettings.mode;
+        chatScreen.classList.add(modeClass);
+    }
     if (friend.proactiveMessageDebt > 0) {
         // 如果有“消息债务”，就先让AI生成消息，而不是直接渲染旧消息
         generateMissedMessages(friendId);
@@ -12771,7 +13035,21 @@ async function handlePatPat(targetId) { // <--- 修复1：在这里加上 async
     const msgDiv = document.createElement('div');
     msgDiv.className = `message ${msg.type}`;
     msgDiv.setAttribute('data-message-id', msg.id);
+    // ▼▼▼ 请用这个【最终兼容版】的代码块，替换之前那个无法运行的版本 ▼▼▼
+
+// 1. 先安全地检查 friendOrGroup 对象和它的 timestampSettings 属性是否存在
+if (friendOrGroup && friendOrGroup.timestampSettings) {
     
+    // 2. 如果存在，我们再读取它的值
+    const timestampSettings = friendOrGroup.timestampSettings;
+
+    // 3. 然后进行后续的判断，这里的逻辑和之前完全一样
+    if (timestampSettings.enabled && timestampSettings.style === 'below_avatar' && timestampSettings.showSeconds) {
+        msgDiv.classList.add('avatar-timestamp-seconds-active');
+    }
+}
+
+// ▲▲▲ 替换到此结束 ▲▲▲
     // ↓↓↓ 请用这个新的代码块，替换旧的 if (msg.type === 'sent') { ... } 代码块 ↓↓↓
 
 let sender = null;
@@ -12799,6 +13077,39 @@ if (msg.type === 'sent') {
 // ↑↑↑ 替换到这里结束 ↑↑↑
 
     if (!sender) sender = { name: '未知', avatar: '?' };
+
+// ▼▼▼ 步骤1：在这里粘贴 ▼▼▼
+
+let timestampHTML = '';
+
+let readReceiptHTML = '';
+
+const timestampSettings = friendOrGroup.timestampSettings;
+if (timestampSettings && timestampSettings.enabled) {
+    const time = new Date(msg.timestamp);
+    
+    // 核心修改：根据 showSeconds 的状态，决定时间格式
+    const timeFormatOptions = timestampSettings.showSeconds
+        ? { hour: '2-digit', minute: '2-digit', second: '2-digit' } // 例如: 08:12:34
+        : { hour: '2-digit', minute: '2-digit' };                  // 例如: 08:12
+
+    timestampHTML = `<div class="message-timestamp">${time.toLocaleTimeString('zh-CN', timeFormatOptions)}</div>`;
+}
+
+// ...生成 timestampHTML 的代码块...
+
+// ▼▼▼ 在下方新增这个代码块 ▼▼▼
+// 仅当“已读”开关开启，并且是用户发送的消息时，才生成“已读”HTML
+
+// 只要“已读”开关开启，就为双方的消息生成“已读”HTML
+if (friendOrGroup && friendOrGroup.readReceiptSettings && friendOrGroup.readReceiptSettings.enabled) {
+    // (可选优化) 系统提示消息不显示“已读”
+    if (msg.contentType !== 'system_tip') {
+        readReceiptHTML = `<div class="message-timestamp">已读</div>`;
+    }
+}
+
+// ▲▲▲ 添加到此结束 ▲▲▲
 
     let contentHTML;
     
@@ -12859,21 +13170,46 @@ if (msg.type === 'sent') {
         </div>
     `;
         
-    }  else if (hasVoice) {
-                const textLength = msg.content.length;
-                const duration = Math.max(1, Math.min(60, Math.round(textLength / 4)));
-                const barWidth = Math.max(80, Math.min(220, 80 + textLength * 2.5));
-                const voiceIconSVG = `<svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" opacity="0.8"/></svg>`;
-                const sentContent = `<span class="voice-duration">${duration}"</span><div class="voice-play-icon">${voiceIconSVG}</div>`;
-                const receivedContent = `<div class="voice-play-icon">${voiceIconSVG}</div><span class="voice-duration">${duration}"</span>`;
-                contentHTML = `
-                    <div class="message-body">
-                        ${(friendOrGroup.isGroup && msg.type === 'received') ? `<div class="message-sender-name">${sender.name}</div>` : ''}
-                        <div class="voice-message-bar" style="width: ${barWidth}px;" onclick="toggleVoiceText('${msg.id}')">
-                           ${msg.type === 'sent' ? sentContent : receivedContent}
-                        </div>
-                        <div class="voice-text-content" id="voice-text-${msg.id}">${msg.content.replace(/\n/g, '<br>')}</div>
-                    </div>`;
+   
+
+} else if (hasVoice) {
+    const textLength = msg.content.length;
+    const duration = Math.max(1, Math.min(60, Math.round(textLength / 4)));
+    const barWidth = Math.max(80, Math.min(220, 80 + textLength * 2.5));
+
+    // 核心修改：播放图标现在是一个按钮，点击后调用播放函数
+    // ▼▼▼ 请用这个最终修正版，完整替换旧的 playIconSVG 定义 ▼▼▼
+
+const playIconSVG = `
+    <svg id="play-icon-${msg.id}" viewBox="0 0 24 24">
+        <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" opacity="0.8"/>
+    </svg>
+`;
+
+// ▲▲▲ 替换到此结束 ▲▲▲
+
+    const sentContent = `<span class="voice-duration">${duration}"</span><div class="voice-play-icon">${playIconSVG}</div>`;
+const receivedContent = `<div class="voice-play-icon">${playIconSVG}</div><span class="voice-duration">${duration}"</span>`;
+
+contentHTML = `
+    <div class="message-body">
+        ${(friendOrGroup.isGroup && msg.type === 'received') ? `<div class="message-sender-name">${sender.name}</div>` : ''}
+        
+        <!-- 新增的包裹容器，让语音条和加载圈在同一行 -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+
+            <!-- 这是原来的语音条 -->
+            <div class="voice-message-bar" style="width: ${barWidth}px;" onclick="toggleVoiceTextAndPlay('${msg.id}')">
+               ${msg.type === 'sent' ? sentContent : receivedContent}
+            </div>
+            
+            <!-- 这是移到外面的加载圆圈 -->
+            <div class="loading-spinner" id="spinner-${msg.id}" style="display: none; width: 20px; height: 20px; border-width: 2px; border-top-color: var(--text-color);"></div>
+
+        </div> 
+        
+        <div class="voice-text-content" id="voice-text-${msg.id}" style="display: none;">${msg.content.replace(/\n/g, '<br>')}</div>
+    </div>`;
             } else if (msg.contentType === 'listen_invite') {
             content = `(用户向你发起了“一起听歌”的邀请，这是一个特殊操作卡片，你必须对此作出回应。)`;
                  const cardTitle = msg.type === 'sent' ? '你发起了听歌邀请' : `${sender.name}邀请你一起听歌`;
@@ -13037,8 +13373,42 @@ if (msg.isOfflineMessage) {
                 msgDiv.innerHTML = (msg.type === 'sent') ? `${contentHTML}${getAvatarHtml(sender)}` : `${getAvatarHtml(sender)}${contentHTML}`;
                 container.appendChild(msgDiv);
             } else {
-                 const messageBodyHtml = `<div class="message-body">${senderNameHtml}<div class="${contentClass}">${contentHTML}</div></div>`;
-                msgDiv.innerHTML = (msg.type === 'sent') ? `${messageBodyHtml}${getAvatarHtml(sender)}` : `${getAvatarHtml(sender)}${messageBodyHtml}`;
+                 // ▼▼▼ 步骤2：在这里粘贴 ▼▼▼
+
+let footerHtml = '';
+    const showTimestampBelow = timestampSettings && timestampSettings.enabled && timestampSettings.style === 'below_bubble';
+    const showReadReceiptBelow = friendOrGroup.readReceiptSettings && friendOrGroup.readReceiptSettings.enabled && friendOrGroup.readReceiptSettings.style === 'below_bubble';
+
+    // 核心逻辑：当需要在气泡下方显示任何信息时，创建一个容器
+    if (showTimestampBelow || showReadReceiptBelow) {
+        footerHtml = `
+            <div class="message-footer-container">
+                ${showTimestampBelow ? timestampHTML : ''}
+                ${showReadReceiptBelow ? readReceiptHTML : ''}
+            </div>
+        `;
+    }
+
+    const messageBodyHtml = `
+        <div class="message-body">
+            ${senderNameHtml}
+            <div class="${contentClass}">${contentHTML}</div>
+            ${footerHtml}
+        </div>`;
+
+const avatarContainerHtml = `
+    <div class="avatar-container">
+        ${getAvatarHtml(sender)}
+        ${(timestampSettings && timestampSettings.enabled && timestampSettings.style === 'below_avatar') ? timestampHTML : ''}
+        ${(friendOrGroup.readReceiptSettings && friendOrGroup.readReceiptSettings.enabled && friendOrGroup.readReceiptSettings.style === 'below_avatar') ? readReceiptHTML : ''}
+    </div>`;
+
+// 语音消息有特殊结构，需要单独处理
+if (hasVoice) {
+     msgDiv.innerHTML = (msg.type === 'sent') ? `${contentHTML}${avatarContainerHtml}` : `${avatarContainerHtml}${contentHTML}`;
+} else {
+    msgDiv.innerHTML = (msg.type === 'sent') ? `${messageBodyHtml}${avatarContainerHtml}` : `${avatarContainerHtml}${messageBodyHtml}`;
+}
                 container.appendChild(msgDiv);
             }
 
@@ -13318,6 +13688,8 @@ function handleChatScroll(event) {
 function backToWechat() {
     document.getElementById('chatMessages').onscroll = null; 
     setActivePage('wechatApp');
+    document.getElementById('chatScreen').classList.remove('hide-avatars-both', 'hide-avatars-received', 'hide-avatars-sent');
+
     hideFunctionMenus();
     if (multiSelectMode) exitMultiSelectMode();
 
@@ -14691,7 +15063,25 @@ try {
         }
 
 
-        function handleKeyPress(event) { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); } }
+        /**
+ * 【最终版】处理常规聊天界面的键盘事件（发送消息 + 取消引用）
+ */
+function handleKeyPress(event) {
+    const input = document.getElementById('messageInput');
+
+    // 逻辑1：当按下Enter键且没有按Shift键时，发送消息
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); // 阻止默认的换行行为
+        sendMessage();
+        return; // 发送后结束函数，避免执行下面的逻辑
+    }
+
+    // 逻辑2：当按下删除键，并且输入框为空，并且当前正处于引用状态时，取消引用
+    if (event.key === 'Backspace' && input.value.trim() === '' && quotedMessage) {
+        event.preventDefault(); // 阻止任何可能的默认行为
+        cancelQuote(); // 调用我们之前添加的取消引用函数
+    }
+}
         
         // --- ↓↓↓ 请从这里开始复制，完整替换你的旧函数 ↓↓↓ ---
 
@@ -14825,6 +15215,18 @@ function backToChat() {
             document.getElementById('editFriendPatGroup').style.display = 'block';
             document.getElementById('selectPersonaItemGroup_Friend').style.display = 'block';
 
+  // ▼▼▼ 从这里开始粘贴新增的代码 ▼▼▼
+    // 初始化时间戳设置
+    const timestampSettings = friend.timestampSettings || { enabled: false, style: 'below_bubble', showSeconds: false };
+    document.getElementById('timestampToggle').checked = timestampSettings.enabled;
+    document.getElementById('timestampStyleSelect').value = timestampSettings.style;
+    document.getElementById('timestampSecondsToggle').checked = timestampSettings.showSeconds; toggleTimestampOptions(timestampSettings.enabled); // 根据开关状态决定是否显示样式选项
+    // ▲▲▲ 粘贴到这里结束 ▲▲▲
+
+loadReadReceiptSettings(friend);
+
+loadAvatarHidingSettings(friend);
+
             // 最后，切换到设置页面
             setActivePage('friendSettingsScreen');
         }
@@ -14838,6 +15240,7 @@ function backToChat() {
 
         document.getElementById('pinChatText').textContent = friend.pinned ? '取消置顶' : '置顶聊天';
         showAlert(friend.pinned ? '置顶成功' : '取消置顶成功');
+        document.getElementById('currentCloneVoiceId').textContent = friend.cloneVoiceId || '未设置';
 
         // 异步保存数据，不影响界面刷新
         await saveData();
@@ -14862,6 +15265,16 @@ function backToChat() {
                     friend.remark = document.getElementById('editFriendRemark').value.trim();
                     friend.role = document.getElementById('editFriendRole').value.trim() || '你是一个友好的助手。';
                     friend.patAction = document.getElementById('editFriendPatAction').value.trim() || '';
+                    if (!friend.timestampSettings) {
+            friend.timestampSettings = {};
+        }
+        friend.timestampSettings.enabled = document.getElementById('timestampToggle').checked;
+        friend.timestampSettings.style = document.getElementById('timestampStyleSelect').value;
+        friend.timestampSettings.showSeconds = document.getElementById('timestampSecondsToggle').checked;
+        saveReadReceiptSettings(friend);
+        saveAvatarHidingSettings(friend);
+
+const chatTitle = friend.isGroup ? `${friend.name} (${friend.members.length})` : (friend.remark || friend.name);
                 } else {
                     // 【核心修改】确保群聊在没有图片头像时，文字头像是“群”
                     if (!friend.avatarImage) {
@@ -14874,6 +15287,7 @@ function backToChat() {
 
                 await saveData();
                 updateFriendList();
+                refreshChatView(); 
                 showAlert('设置已保存');
                 backToChatSettings();
             }
@@ -17887,10 +18301,17 @@ const recentChatHistory = (chatHistories[characterId] || [])
     })
     .join('\n');
 
-    const recentMoments = moments.slice(0, 1).map(m => {
-        const author = getAuthorById(m.authorId);
-        return `[${author.name} 在 ${m.timestamp.slice(0,10)} 发布的朋友圈]: ${m.content}`;
-    }).join('\n');
+    // 1. 筛选出只和当前角色及用户相关的朋友圈
+const relevantMoments = moments
+    .filter(m => m.authorId === character.id || m.authorId === userProfile.id)
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // 按时间排序
+    .slice(0, 1); // 获取其中最新的一条
+
+// 2. 基于筛选后的结果生成情报
+const recentMoments = relevantMoments.map(m => {
+    const author = getAuthorById(m.authorId);
+    return `[${author.name} 在 ${m.timestamp.slice(0,10)} 发布的朋友圈]: ${m.content}`;
+}).join('\n');
     const currentDate = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
     
     let prompt = `你正在深度模拟角色"${character.name}"的手机，你需要生成手机中某个应用的内容。
@@ -19391,6 +19812,7 @@ function getSelectorForKey(key) {
 function applyAllSettings() {
     // 基础设置，顺序保持不变
     applyDarkMode();
+    applyWallpaper();
     applyFont();
     applyAppLabelColor();
     applyRoundedCorners();
@@ -19401,7 +19823,7 @@ function applyAllSettings() {
     // 【核心修复】
     // 只有在白天模式下，才应用颜色和背景相关的设置
     if (!darkModeEnabled) {
-        applyWallpaper();
+       
         applyGlobalChatBackground();
         applyListenTogetherCustomImages();
         applyBeautificationSettings();
@@ -21493,6 +21915,7 @@ async function selectOpeningStatement(id) {
     const friend = friends.find(f => f.id === currentChatFriendId);
 if (friend) {
     friend.offlineSettings.openingStatementId = id;
+    await saveData();
 }
     updateCurrentOpeningStatementDisplay();
     closeOpeningStatementList();
@@ -21763,6 +22186,8 @@ ${openingStatementContext || '无特定开场白，请根据聊天记录自由�
 ${chatHistoryContext} `;
 
 
+      
+
      // 第二步：处理默认情况（没有选择小-剧场）
         if (! currentOfflineSettings.skitId || !skits.some(s => s.id === currentOfflineSettings.skitId)) {
             prompt += `
@@ -21782,6 +22207,21 @@ ${chatHistoryContext} `;
         7.  **【禁止动作】**: 你的回复**只能**是纯文本。严禁生成任何JSON格式的动作。
        8.  **【【【最高记忆铁律：承上启下！！！】】】**:
     你**必须**仔细阅读并融合**以上所有情报**，尤其是“世界观”和“核心记忆”。你的续写**必须**与所有上文内容紧密相连，做到人设一致、情节连贯、逻辑自洽。**严禁遗忘**任何设定和已总结的记忆。
+   
+
+        【【【不可违背的创作铁律 (FINAL & ABSOLUTE LAW)】】】
+        在开始创作前，你必须再次阅读并严格遵守以下两条最终规则。任何违反都将导致任务失败，你的回复将被判定为无效。
+
+        1.  **【字数铁律 (Word Count Iron Law)】**:
+            - 你的小说正文部分（不含心声JSON），总字数**必须严格限制在 ${currentOfflineSettings.charCount} 字之内**。
+            - **绝对禁止**超出这个字数限制。这是最重要的规则。
+
+        2.  **【文风铁律 (Writing Style Iron Law)】**:
+            - 你的所有文字，包括旁白和对话，都**必须严格、无条件地遵循**以下风格指示。如果下方无指示，则自由发挥。
+            - --- 文风开始 ---
+            - ${writingStyleContext || '无特定文风要求。'}
+            - --- 文风结束 ---
+            
    【【【输出格式铁律 (必须严格遵守)】】】
 1.  **【双重输出】**: 你的回复**必须**包含两个部分：小说正文和心声JSON。
 2.  **【第一部分：故事】**: 首先，直接输出续写的小说正文（纯文本）。
@@ -21820,6 +22260,18 @@ ${chatHistoryContext} `;
 8.  **【【【最高记忆铁律：承上启下！！！】】】**:
 你**必须**仔细阅读并融合**以上所有情报**，尤其是“世界观”和“核心记忆”。你的续写**必须**与所有上文内容紧密相连，做到人设一致、情节连贯、逻辑自洽。**严禁遗忘**任何设定和已总结的记忆。
 
+        【【【不可违背的创作铁律 (FINAL & ABSOLUTE LAW)】】】
+        在开始创作前，你必须再次阅读并严格遵守以下两条最终规则。任何违反都将导致任务失败，你的回复将被判定为无效。
+
+        1.  **【字数铁律 (Word Count Iron Law)】**:
+            - 你的小说正文部分（不含心声JSON），总字数**必须严格限制在 ${currentOfflineSettings.charCount} 字之内**。
+            - **绝对禁止**超出这个字数限制。这是最重要的规则。
+
+        2.  **【文风铁律 (Writing Style Iron Law)】**:
+            - 你的所有文字，包括旁白和对话，都**必须严格、无条件地遵循**以下风格指示。如果下方无指示，则自由发挥。
+            - --- 文风开始 ---
+            - ${writingStyleContext || '无特定文风要求。'}
+            - --- 文风结束 ---
 
 【【【输出格式铁律 (必须严格遵守)】】】
 1.  **【第一部分：故事】**: 首先，直接输出续写的小说正文（纯文本）。
@@ -21864,6 +22316,16 @@ ${chatHistoryContext} `;
         // 在 10 html小剧场.txt 中，用下面的代码块替换从 18066行 到 18104行的内容
 
         const data = await response.json();
+        // ▼▼▼ 核心修复与诊断代码 ▼▼▼
+if (!data || !data.choices || data.choices.length === 0) {
+    // 如果检查失败，就在控制台打印出AI返回的真实内容，方便你查找原因
+    console.error("【诊断信息】API返回了非预期的格式:", data); 
+    
+    // 尝试从错误信息中提取关键内容，并抛出一个我们能看懂的新错误
+    const errorMessage = data.error ? data.error.message : JSON.stringify(data);
+    throw new Error(`API返回错误: ${errorMessage}`);
+}
+// ▲▲▲ 修复与诊断结束 ▲▲▲
         const responseText = data.choices[0].message.content;
 
         // 1. 定义我们的两个“暗号”
@@ -22001,6 +22463,7 @@ async function selectWritingStyle(id) {
     const friend = friends.find(f => f.id === currentChatFriendId);
 if (friend) {
     friend.offlineSettings.writingStyleId = id;
+    await saveData();
 }
     updateCurrentWritingStyleDisplay();
     closeWritingStyleList();
@@ -22170,6 +22633,7 @@ async function selectSkit(id) {
     const friend = friends.find(f => f.id === currentChatFriendId);
     if (friend) {
         friend.offlineSettings.skitId = id;
+        await saveData();
     }
     // (下面的代码保持不变)
     updateCurrentSkitDisplay();
@@ -24326,40 +24790,57 @@ async function generatePostComments(postId) {
 // --- ↓↓↓ 请用这个【体验优化版】，完整替换旧的 renderForumDetailView 函数 ↓↓↓ ---
 
 /**
- * [V5 - 作者ID精准渲染版] 核心功能：将帖子和评论渲染成详情页UI
+ * 核心功能：将帖子和评论渲染成详情页UI (V4 - 异步评论占位版)
  * @param {object} post - 包含或不包含评论的帖子对象
  */
 function renderForumDetailView(post) {
     const pageContainer = document.getElementById('forumDetailView');
     const postViews = Math.floor(Math.random() * 8000) + 100;
     
-    // 渲染主贴作者信息 (这部分逻辑是正确的，保持不变)
-    let postAuthor;
-    let postAvatarHtml; // 我们把主贴作者的头像HTML存起来，后面要复用
-    if (post.authorId === userProfile.id) {
-        postAuthor = { name: forumProfileData.name, id: userProfile.id };
-        const avatarSrc = forumProfileData.avatarImage || userProfile.avatarImage;
-        postAvatarHtml = avatarSrc ? `<div class="post-avatar" style="background-image: url('${avatarSrc}')"></div>` : `<div class="post-avatar" style="background-color: #1da1f2; color: white;">${forumProfileData.name.substring(0, 1)}</div>`;
-    } else if (post.authorId) {
-        postAuthor = getAuthorById(post.authorId);
-        postAvatarHtml = postAuthor.avatarImage ? `<div class="post-avatar" style="background-image: url('${postAuthor.avatarImage}')"></div>` : `<div class="post-avatar" style="background-color: ${getRandomColor()}; color: white;">${postAuthor.avatar}</div>`;
-    } else {
-        postAuthor = { name: post.authorName, id: `passerby_${post.id}` };
-        if (post.authorAvatarUrl) {
-            postAvatarHtml = `<div class="post-avatar" style="background-image: url('${post.authorAvatarUrl}')"></div>`;
-        } else if (post.authorName === '匿名用户') {
-            postAvatarHtml = `<div class="post-avatar">?</div>`;
-        } else {
-            postAvatarHtml = `<div class="post-avatar" style="background-color: #ccc; color: white;">?</div>`;
-        }
-    }
+    // 这是修正后的新代码
+let postAuthor;
+let postAvatarHtml;
 
+// 优先级 1: 检查帖子的作者是不是用户自己
+if (post.authorId === userProfile.id) {
+    // 如果是，就明确地使用论坛的个人资料 (forumProfileData)
+    postAuthor = {
+        name: forumProfileData.name, // 核心修复：直接使用论坛昵称
+        id: userProfile.id
+    };
+    // 头像也优先使用论坛专属头像
+    const avatarSrc = forumProfileData.avatarImage || userProfile.avatarImage;
+    postAvatarHtml = avatarSrc
+        ? `<div class="post-avatar" style="background-image: url('${avatarSrc}')"></div>`
+        : `<div class="post-avatar" style="background-color: #1da1f2; color: white;">${forumProfileData.name.substring(0, 1)}</div>`;
+}
+// 优先级 2: 如果不是用户，再检查是不是已知的AI好友
+else if (post.authorId) {
+    postAuthor = getAuthorById(post.authorId);
+    postAvatarHtml = postAuthor.avatarImage
+        ? `<div class="post-avatar" style="background-image: url('${postAuthor.avatarImage}')"></div>`
+        : `<div class="post-avatar" style="background-color: ${getRandomColor()}; color: white;">${postAuthor.avatar}</div>`;
+}
+// 优先级 3: 如果以上都不是，说明是“路人”
+else {
+    postAuthor = {
+        name: post.authorName,
+        id: `passerby_${post.id}`
+    };
+    if (post.authorAvatarUrl) {
+        postAvatarHtml = `<div class="post-avatar" style="background-image: url('${post.authorAvatarUrl}')"></div>`;
+    } else if (post.authorName === '匿名用户') {
+        postAvatarHtml = `<div class="post-avatar">?</div>`;
+    } else {
+        postAvatarHtml = `<div class="post-avatar" style="background-color: #ccc; color: white;">?</div>`;
+    }
+}
     const mainPostHtml = `
         <div class="forum-detail-main-post">
             <div class="post-header" style="justify-content: space-between; align-items: center;">
                 <div style="display: flex; align-items: center;">
                     ${postAvatarHtml}
-                    <div class="post-author-info" style="flex-direction: column; align-items: flex-start; margin-left: 10px;">
+                    <div class="post-author-info" style="flex-direction: column; align-items: flex-start; margin-left: 0px;">
                         <span class="post-author-name">${postAuthor.name}</span>
                         <span class="post-handle">@${postAuthor.name.replace(/\s+/g, '')}</span>
                     </div>
@@ -24377,65 +24858,113 @@ function renderForumDetailView(post) {
     `;
 
     let commentsHtml = '';
-    if (post.comments && post.comments.length > 0) {
-        commentsHtml = post.comments.map(comment => {
-            
-            // ▼▼▼ 核心修复：重构评论作者的查找和渲染逻辑 ▼▼▼
-            let avatarHtml;
-            const commentAuthorName = comment.authorName || '未知用户';
-            const commentAuthorHandle = `@${(commentAuthorName).replace(/\s+/g, '')}`;
+if (post.comments && post.comments.length > 0) {
+    // **状态一：评论已加载完毕**，正常渲染所有评论
+    commentsHtml = post.comments.map(comment => {
+        
+        // ▼▼▼ 用下面这个【最终版】的完整代码块，替换您现有的整个头像渲染逻辑 ▼▼▼
 
-            const knownAuthor = getAuthorById(comment.authorId);
+let avatarHtml;
+const userAvatarSrc = forumProfileData.avatarImage || userProfile.avatarImage;
 
-            if (knownAuthor && knownAuthor.id !== 'unknown') {
-                // Case 1: 评论者是已知的用户 (你自己或AI好友)
-                if (knownAuthor.avatarImage) {
-                    avatarHtml = `<div class="post-avatar" style="background-image: url('${knownAuthor.avatarImage}')"></div>`;
-                } else {
-                    const bgColor = (knownAuthor.id === userProfile.id) ? '#1da1f2' : getRandomColor();
-                    avatarHtml = `<div class="post-avatar" style="background-color: ${bgColor}; color: white;">${knownAuthor.avatar || commentAuthorName.substring(0, 1)}</div>`;
-                }
-            } else if (comment.authorName === postAuthor.name) {
-                // Case 2: 评论者是原帖作者 (即使他/她是个路人)
-                // 直接复用我们为原帖作者生成的头像HTML！
-                avatarHtml = postAvatarHtml;
-            } else if (comment.authorAvatarUrl) {
-                // Case 3: 评论者是一个带有头像URL的随机路人
-                avatarHtml = `<div class="post-avatar" style="background-image: url('${comment.authorAvatarUrl}')"></div>`;
-            } else {
-                // Case 4: 备用方案，适用于匿名用户或数据出错的路人
-                const avatarChar = commentAuthorName === '匿名用户' ? '?' : commentAuthorName.substring(0, 1);
-                avatarHtml = `<div class="post-avatar" style="background-color: #ccc; color: white;">${avatarChar}</div>`;
-            }
-            // ▲▲▲ 核心修复结束 ▲▲▲
+// 尝试在好友列表中查找评论作者
+const commentAuthor = friends.find(f => f.name === comment.authorName);
 
-            return `
+// 优先级 1: 检查是不是您自己
+if (comment.authorName === forumProfileData.name) {
+    if (userAvatarSrc) {
+        avatarHtml = `<div class="post-avatar" style="background-image: url('${userAvatarSrc}')"></div>`;
+    } else {
+        avatarHtml = `<div class="post-avatar" style="background-color: #1da1f2; color: white;">${forumProfileData.name.substring(0,1)}</div>`;
+    }
+}
+// 优先级 2: 检查是不是已知的AI好友
+else if (commentAuthor) {
+    if (commentAuthor.avatarImage) {
+        avatarHtml = `<div class="post-avatar" style="background-image: url('${commentAuthor.avatarImage}')"></div>`;
+    } else {
+        avatarHtml = `<div class="post-avatar" style="background-color: ${getRandomColor()}; color: white;">${commentAuthor.avatar}</div>`;
+    }
+}
+// 优先级 3: 检查是不是“楼主”（作为备用）
+else if (comment.authorName === postAuthor.name) {
+    avatarHtml = postAvatarHtml;
+}
+// 优先级 4: 检查是不是“匿名”
+else if (comment.isAnonymous) {
+    avatarHtml = `<div class="post-avatar">?</div>`;
+}
+// 优先级 5: 检查是不是有头像URL的“路人”
+else if (comment.authorAvatarUrl) {
+    avatarHtml = `<div class="post-avatar" style="background-image: url('${comment.authorAvatarUrl}')"></div>`;
+}
+// 优先级 6: 如果以上都不是，最后才显示问号
+else {
+    avatarHtml = `<div class="post-avatar">?</div>`;
+}
+
+// ▲▲▲ 替换到这里结束 ▲▲▲
+        // ▲▲▲ 修改结束 ▲▲▲
+
+        // 下面返回HTML模板的部分保持不变
+        return `
                 <div class="comment-thread-item">
                     <div class="comment-avatar-container">${avatarHtml}<div class="thread-line"></div></div>
                     <div class="comment-content-container">
                         <div class="post-header">
-                            <span class="post-author-name">${commentAuthorName}</span>
-                            <span class="post-handle">${commentAuthorHandle} · ${timeSince(post.timestamp)}</span>
+                            <span class="post-author-name">${comment.authorName}</span>
+                            <span class="post-handle">@${comment.authorName.replace(/\s+/g, '')} · 18小时</span>
                             <span class="post-more-btn" style="margin-left: auto;">...</span>
                         </div>
                         <div class="post-text">${comment.content}</div>
-                        ${generateForumActionsHtml(post.id, false)}
+                       
+
+<div class="post-actions">
+    <span class="post-action-btn" onclick="prepareReplyToComment(event, '${post.id}', '${comment.id || generateUniqueId()}', '${comment.authorName}')">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <span>${Math.floor(Math.random() * 20)}</span>
+    </span>
+   
+    <span class="post-action-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zM.23 8.33c.292.293.767.293 1.06 0l2.22-2.22V16.35c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-5.85c-1.24 0-2.25-1.01-2.25-2.25V6.11l2.22 2.22c.293.293.768.293 1.06 0s.294-.768 0-1.06l-3.5-3.5c-.145-.147-.337-.22-.53-.22s-.383.072-.53-.22l-3.5 3.5c-.294.292-.294.767 0-1.06z"></path></svg>
+        <span>${Math.floor(Math.random() * 10)}</span>
+    </span>
+    <span class="post-action-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.253 0 5.27 6.69 11.237 8.55 11.237.173 0 .174 0 .175-.002 1.86-1.07 8.55-5.966 8.55-11.235 0-2.265-1.823-4.253-3.902-4.253-1.928 0-3.168 1.507-3.58 2.25h-2.454c-.412-.743-1.652-2.25-3.58-2.25z"></path></svg>
+        <span>${Math.floor(Math.random() * 50)}</span>
+    </span>
+ 
+    <span class="post-action-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-6h2v6h-2.004zM13.25 21l.004-11h2v11h-2.004z"></path></svg>
+        <span>${Math.floor(Math.random() * 2000 + 50)}</span>
+    </span>
+    <span class="post-action-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.879 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"></path></svg>
+    </span>
+    <span class="post-action-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"></path></svg>
+    </span>
+</div>
                     </div>
                 </div>
             `;
         }).join('');
     } else {
+        // **状态二：评论还未加载**，显示一个占位的加载提示
         commentsHtml = '<div style="text-align: center; padding: 40px; color: var(--text-secondary);">正在加载评论...</div>';
     }
+    // --- ★★★ 修改结束 ★★★ ---
 
     const replyBarHtml = `
         <div class="bottom-reply-bar">
-            <div class="reply-bar-avatar" style="background-image: url('${userProfile.avatarImage}')"></div>
-            <input type="text" id="forumReplyInput" placeholder="发布你的回复" class="reply-bar-input">
-            <button id="forumReplySendBtn" style="display: none;">发送</button>
-        </div>
+    <div class="reply-bar-avatar" style="background-image: url('${userProfile.avatarImage}')"></div>
+    <input type="text" id="forumReplyInput" placeholder="发布你的回复" class="reply-bar-input">
+    <!-- ▼▼▼ 新增一个发送按钮 ▼▼▼ -->
+    <button id="forumReplySendBtn" style="display: none; /* 更多样式在CSS中定义 */">发送</button>
+</div>
     `;
 
+    // 组装最终页面
     pageContainer.innerHTML = `
         <div class="nav-bar">
             <button class="nav-btn" onclick="backToForumTimeline()">←</button>
@@ -24445,6 +24974,7 @@ function renderForumDetailView(post) {
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M22 4v4h-4"/></svg>
                 </button>
             </div>
+           
         </div>
         <div class="wechat-content" id="forumDetailContent">
             ${mainPostHtml}
@@ -24452,21 +24982,26 @@ function renderForumDetailView(post) {
         </div>
         ${replyBarHtml}
     `;
+    // ▼▼▼ 在 renderForumDetailView 函数末尾添加 ▼▼▼
+const replyInput = document.getElementById('forumReplyInput');
+const sendBtn = document.getElementById('forumReplySendBtn');
 
-    const replyInput = document.getElementById('forumReplyInput');
-    const sendBtn = document.getElementById('forumReplySendBtn');
-    if (replyInput && sendBtn) {
-        replyInput.addEventListener('input', () => {
-            sendBtn.style.display = replyInput.value.trim() ? 'block' : 'none';
-        });
-        sendBtn.addEventListener('click', postForumReply);
-        replyInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                postForumReply();
-            }
-        });
-    }
+if (replyInput && sendBtn) {
+    replyInput.addEventListener('input', () => {
+        // 当用户输入时，显示发送按钮
+        sendBtn.style.display = replyInput.value.trim() ? 'block' : 'none';
+    });
+
+    sendBtn.addEventListener('click', postForumReply);
+    
+    replyInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            postForumReply();
+        }
+    });
+}
+// ▲▲▲ 添加结束 ▲▲▲
 }
 
 /**
@@ -24518,6 +25053,7 @@ const isLiked = forumLikes.some(p => p.id === postId);
         </div>
     `;
 }
+
 
 // 打开侧滑菜单
 function openForumSideMenu() {
@@ -26769,8 +27305,10 @@ function prepareReplyToComment(event, postId, commentId, authorName) {
     input.focus(); // 聚焦输入框
 }
 
+// ▼▼▼ 请用这个【最终修复版】，完整替换旧的 postForumReply 函数 ▼▼▼
+
 /**
- * 用户在帖子详情页发布回复 (V2 - 匿名模式分离版)
+ * 用户在帖子详情页发布回复 (V3 - 数据结构修正版)
  */
 async function postForumReply() {
     const input = document.getElementById('forumReplyInput');
@@ -26784,9 +27322,12 @@ async function postForumReply() {
     const post = findForumPostById(postId);
     if (!post) return;
 
+    // --- 核心修改就在这里 ---
     let finalContent = content;
+    // 检查全局变量 currentReplyingTo 中是否记录了回复目标
     if (currentReplyingTo.authorName) {
-        finalContent = `回复@${currentReplyingTo.authorName}：${content}`;
+        // 如果有，就在发送的内容前手动加上 "回复@目标名字: " 的前缀
+        finalContent = `回复@${currentReplyingTo.authorName}: ${content}`;
     }
 
     // 核心修改：根据匿名状态，决定评论者的名字
@@ -27133,16 +27674,26 @@ async function triggerAiPostReactions(postId) {
         const jsonMatch = responseText.match(/\[[\s\S]*\]/);
         if (!jsonMatch) throw new Error("AI未能返回有效的评论JSON数组。");
         
+       // ▼▼▼ 请用这个【最终修复版】，完整替换旧的代码块 ▼▼▼
         const commentsData = JSON.parse(jsonMatch[0]);
 
         // 将AI生成的评论添加到帖子数据中
         commentsData.forEach(comment => {
             const authorIsAiFriend = aiParticipants.find(ai => ai.name === comment.authorName);
-            if (!authorIsAiFriend) { // 如果是路人，分配随机头像
+            
+            // --- 【【【核心修复就在这里！】】】 ---
+            if (authorIsAiFriend) {
+                // 如果这个评论者是我们的AI好友，就把他的ID加上
+                comment.authorId = authorIsAiFriend.id;
+            } else {
+                // 如果是路人，才分配随机头像URL
                 comment.authorAvatarUrl = passerbyAvatarUrls[Math.floor(Math.random() * passerbyAvatarUrls.length)];
             }
+            // --- 【【【修复结束】】】 ---
+
             post.comments.push(comment);
         });
+        // ▲▲▲ 替换到此结束 ▲▲▲
 
         await saveData();
         
@@ -29750,6 +30301,347 @@ async function refreshTrendDetailPosts() {
     }
 }
 // ▲▲▲ 新增代码结束 ▲▲▲
+
+function toggleTimestampOptions(is_enabled) {
+    document.getElementById('timestampStyleGroup').style.display = is_enabled ? 'block' : 'none';
+    document.getElementById('timestampSecondsGroup').style.display = is_enabled ? 'block' : 'none';
+}
+
+// ▼▼▼ 将下面这三个新函数，完整地粘贴到 <script> 的末尾 ▼▼▼
+
+/**
+ * [新增] 控制“已读样式”下拉框的显示与隐藏
+ */
+function toggleReadReceiptOptions(is_enabled) {
+    document.getElementById('readReceiptStyleGroup').style.display = is_enabled ? 'block' : 'none';
+}
+
+/**
+ * [新增] 在 openFriendSettings 函数中，添加加载“已读”设置的逻辑
+ */
+function loadReadReceiptSettings(friend) {
+    // 为旧数据提供默认值
+    const settings = friend.readReceiptSettings || { enabled: false, style: 'below_bubble' };
+    
+    document.getElementById('readReceiptToggle').checked = settings.enabled;
+    document.getElementById('readReceiptStyleSelect').value = settings.style;
+    
+    // 根据读取到的状态，决定是否显示样式选项
+    toggleReadReceiptOptions(settings.enabled);
+}
+
+/**
+ * [新增] 在 saveFriendSettings 函数中，添加保存“已读”设置的逻辑
+ */
+function saveReadReceiptSettings(friend) {
+    if (!friend.readReceiptSettings) {
+        friend.readReceiptSettings = {};
+    }
+    friend.readReceiptSettings.enabled = document.getElementById('readReceiptToggle').checked;
+    friend.readReceiptSettings.style = document.getElementById('readReceiptStyleSelect').value;
+}
+
+// ▲▲▲ 添加到此结束 ▲▲▲
+
+/**
+ * [新增] 控制“隐藏模式”下拉菜单的显示与隐藏
+ */
+function toggleAvatarHidingOptions(isEnabled) {
+    document.getElementById('avatarHidingModeGroup').style.display = isEnabled ? 'block' : 'none';
+}
+
+/**
+ * [新增] 加载“隐藏头像”的设置到UI上
+ */
+function loadAvatarHidingSettings(friend) {
+    // 为旧数据提供默认值
+    const settings = friend.avatarHidingSettings || { enabled: false, mode: 'both' };
+    
+    document.getElementById('avatarHidingToggle').checked = settings.enabled;
+    document.getElementById('avatarHidingModeSelect').value = settings.mode;
+    
+    // 根据读取到的状态，决定是否显示下拉菜单
+    toggleAvatarHidingOptions(settings.enabled);
+}
+
+/**
+ * [新增] 保存“隐藏头像”的设置
+ */
+function saveAvatarHidingSettings(friend) {
+    if (!friend.avatarHidingSettings) {
+        friend.avatarHidingSettings = {};
+    }
+    friend.avatarHidingSettings.enabled = document.getElementById('avatarHidingToggle').checked;
+    friend.avatarHidingSettings.mode = document.getElementById('avatarHidingModeSelect').value;
+}
+
+/**
+ * [新增] 核心刷新函数：根据最新的好友设置，立即刷新当前聊天界面
+ */
+function refreshChatView() {
+    // 安全检查，确保我们处在一个有效的聊天中
+    if (!currentChatFriendId) return;
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (!friend) return;
+
+    // 1. 刷新聊天标题
+    const chatTitle = friend.isGroup ? `${friend.name} (${friend.members.length})` : (friend.remark || friend.name);
+    document.getElementById('chatTitle').textContent = chatTitle;
+
+    // 2. 应用隐藏头像的设置
+    const chatScreen = document.getElementById('chatScreen');
+    chatScreen.classList.remove('hide-avatars-both', 'hide-avatars-received', 'hide-avatars-sent');
+    if (friend.avatarHidingSettings && friend.avatarHidingSettings.enabled) {
+        const modeClass = 'hide-avatars-' + friend.avatarHidingSettings.mode;
+        chatScreen.classList.add(modeClass);
+    }
+
+    // 3. 应用聊天背景设置
+    applyIndividualChatBackground(friend);
+
+    // 4. 【最关键的一步】重新渲染整个消息列表
+    // 这是最可靠的方式，可以确保所有消息都应用上最新的时间戳、已读、头像等设置。
+    renderInitialMessages();
+}
+
+/**
+ * 新增：取消引用消息的函数
+ */
+function cancelQuote() {
+    // 1. 清空全局的引用消息变量
+    quotedMessage = '';
+    
+    // 2. 将输入框的提示文字恢复默认
+    const input = document.getElementById('messageInput');
+    input.placeholder = '输入消息...';
+    
+    // 3. (可选) 如果你希望取消引用后发送按钮也立刻消失，可以调用一下这个函数
+    toggleSendButtonActive(input);
+}
+
+// 新增函数：打开克隆音色设置页面
+function openCloneApiSettings() {
+    document.getElementById('voiceCloneToggle').checked = isVoiceCloneEnabled;
+    document.getElementById('minimaxGroupId').value = cloneApiSettings.groupId;
+    document.getElementById('minimaxApiKey').value = cloneApiSettings.apiKey;
+    setActivePage('cloneApiSettingsScreen');
+}
+
+// 新增函数：保存克隆音色设置
+async function saveCloneApiSettings() {
+    isVoiceCloneEnabled = document.getElementById('voiceCloneToggle').checked;
+    cloneApiSettings.groupId = document.getElementById('minimaxGroupId').value.trim();
+    cloneApiSettings.apiKey = document.getElementById('minimaxApiKey').value.trim();
+    
+    // 我们将这个设置存入数据库
+    await dbManager.set('cloneApiSettings', { id: 'settings', ...cloneApiSettings, enabled: isVoiceCloneEnabled });
+
+    showAlert('克隆音色设置已保存！');
+    backToSettingsMenu();
+}
+
+// 新增函数：打开音色ID输入弹窗
+function openVoiceIdModal() {
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (friend) {
+        document.getElementById('voiceIdInput').value = friend.cloneVoiceId || '';
+        document.getElementById('voiceIdModal').classList.add('show');
+    }
+}
+
+// 新增函数：关闭弹窗
+function closeVoiceIdModal() {
+    document.getElementById('voiceIdModal').classList.remove('show');
+}
+
+// 新增函数：保存音色ID
+async function saveVoiceId() {
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (friend) {
+        const voiceId = document.getElementById('voiceIdInput').value.trim();
+        friend.cloneVoiceId = voiceId;
+        
+        // 更新好友设置页面的显示
+        document.getElementById('currentCloneVoiceId').textContent = voiceId || '未设置';
+        
+        await saveData(); // 保存到数据库
+        closeVoiceIdModal();
+        showAlert('音色ID已保存！');
+    }
+}
+
+// 全局音频播放器的一个引用，确保同一时间只有一个声音在播放
+let currentAudio = null;
+
+async function toggleVoiceTextAndPlay(messageId) { // 推荐在函数前加上 async
+    const textEl = document.getElementById(`voice-text-${messageId}`);
+    if (!textEl) return;
+
+    // --- 新增代码：在这里获取消息数据 ---
+    const msg = (chatHistories[currentChatFriendId] || []).find(m => m.id === messageId);
+
+    const isCurrentlyVisible = textEl.style.display === 'block';
+
+    if (isCurrentlyVisible) {
+        textEl.style.display = 'none';
+        if (currentAudio && currentAudio.dataset.messageId === messageId && !currentAudio.paused) {
+            currentAudio.pause();
+            const playIcon = document.getElementById(`play-icon-${messageId}`);
+            const spinner = document.getElementById(`spinner-${messageId}`);
+            if (playIcon) playIcon.style.display = 'block';
+            if (spinner) spinner.style.display = 'none';
+        }
+    } else {
+        textEl.style.display = 'block';
+        
+        // --- 核心修改在这里 ---
+        // 只有当语音克隆功能开启，并且消息是对方(received)发送的时候，才播放语音
+        if (isVoiceCloneEnabled && msg && msg.type === 'received') {
+            await playClonedVoice(messageId); // 调用播放函数
+        }
+    }
+}
+
+async function playClonedVoice(messageId) {
+    // 1. 如果当前有其他音频正在播放，先停止它
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        const previousPlayingId = currentAudio.dataset.messageId;
+        // 恢复上一个音频的播放图标
+        if (previousPlayingId) {
+            const prevPlayIcon = document.getElementById(`play-icon-${previousPlayingId}`);
+            const prevSpinner = document.getElementById(`spinner-${previousPlayingId}`);
+            // <--- 修改点1：不再需要重新显示图标，因为它一直都在 ---
+            // if (prevPlayIcon) prevPlayIcon.style.display = 'block'; 
+            if (prevSpinner) prevSpinner.style.display = 'none';
+        }
+    }
+    
+    // 2. 获取当前点击的语音条的UI元素
+    const playIcon = document.getElementById(`play-icon-${messageId}`);
+    const spinner = document.getElementById(`spinner-${messageId}`);
+    
+    // 工具函数：用于在播放结束或出错时恢复UI
+    const resetUI = () => {
+        // <--- 修改点2：不再需要重新显示图标 ---
+        // if (playIcon) playIcon.style.display = 'block';
+        if (spinner) spinner.style.display = 'none';
+    };
+
+    // --- 核心修改 1：播放前，先检查数据库缓存 ---
+    try {
+        const cachedAudio = await dbManager.get('voiceAudioCache', messageId);
+        if (cachedAudio && cachedAudio.audioBlob) {
+            console.log("从数据库缓存播放音频:", messageId);
+
+            // <--- 修改点3：不再隐藏播放图标，只显示加载圈 ---
+            // if (playIcon) playIcon.style.display = 'none'; // <--- 这行被删除
+            if (spinner) spinner.style.display = 'block';
+
+            const audioUrl = URL.createObjectURL(cachedAudio.audioBlob);
+            
+            currentAudio = new Audio(audioUrl);
+            currentAudio.dataset.messageId = messageId;
+            currentAudio.play();
+            
+            currentAudio.onended = () => { resetUI(); currentAudio = null; URL.revokeObjectURL(audioUrl); };
+            currentAudio.onplaying = () => { if (spinner) spinner.style.display = 'none'; }; // 播放时隐藏加载圈
+            currentAudio.onerror = (e) => {
+                 console.error("缓存音频播放时出错:", e);
+                 showAlert("音频播放失败。");
+                 resetUI();
+            };
+            return; 
+        }
+    } catch (dbError) {
+        console.error("检查语音缓存时数据库出错:", dbError);
+    }
+    
+    // --- 如果缓存中没有，则执行API请求 ---
+    try {
+        const friend = friends.find(f => f.id === currentChatFriendId);
+        const msg = (chatHistories[currentChatFriendId] || []).find(m => m.id === messageId);
+        
+        if (!isVoiceCloneEnabled || !cloneApiSettings.groupId || !cloneApiSettings.apiKey || !friend || !friend.cloneVoiceId || !msg || !msg.content) {
+            showAlert("语音克隆所需配置不完整或消息内容为空。");
+            return;
+        }
+
+        const cleanedText = msg.content.replace(/[\s\u200B-\u200D\uFEFF]/g, '');
+        if (!cleanedText) {
+             showAlert("语音内容为空，无法生成音频。");
+            return;
+        }
+        
+        // <--- 修改点4：不再隐藏播放图标，只显示加载圈 ---
+        // if (playIcon) playIcon.style.display = 'none'; // <--- 这行被删除
+        if (spinner) spinner.style.display = 'block';
+
+        const apiUrl = `https://api.minimax.chat/v1/t2a_v2?GroupId=${cloneApiSettings.groupId}`;
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${cloneApiSettings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "text": cleanedText, "model": "speech-02-hd", "voice_setting": { "voice_id": friend.cloneVoiceId } })
+        });
+
+        const responseData = await response.json();
+        if (responseData.base_resp && responseData.base_resp.status_code !== 0) {
+            throw new Error(responseData.base_resp.status_msg || 'API返回了一个未知的业务错误');
+        }
+
+        const hexAudio = responseData.data?.audio;
+        if (!hexAudio) throw new Error('API响应中不包含有效的音频数据。');
+
+        const audioBlob = hexToBlob(hexAudio, 'audio/mp3');
+        if (!audioBlob) throw new Error('将十六进制数据转换为音频Blob时失败。');
+
+        await dbManager.set('voiceAudioCache', { id: messageId, audioBlob: audioBlob });
+        console.log("音频已存入数据库缓存:", messageId);
+        
+        const audioUrl = URL.createObjectURL(audioBlob);
+        
+        currentAudio = new Audio(audioUrl);
+        currentAudio.dataset.messageId = messageId;
+        currentAudio.play();
+        
+        currentAudio.onended = () => { resetUI(); currentAudio = null; URL.revokeObjectURL(audioUrl); };
+        currentAudio.onplaying = () => { if (spinner) spinner.style.display = 'none'; }; // 播放时隐藏加载圈
+        currentAudio.onerror = (e) => {
+             console.error("音频播放时出错:", e);
+             throw new Error("音频文件解码或播放时发生错误。");
+        };
+        
+    } catch (error) {
+        console.error("语音克隆失败:", error);
+        showAlert(`语音播放失败:\n${error.message}`);
+        resetUI();
+    }
+}
+
+/**
+ * [新增] 辅助函数：将 十六进制 (HEX) 字符串转换为 Blob 对象
+ * @param {string} hex - 十六进制编码的字符串
+ * @param {string} contentType - 内容类型, 例如 'audio/mp3'
+ * @returns {Blob}
+ */
+function hexToBlob(hex, contentType = '') {
+    // 移除可能存在的前缀，并确保长度是偶数
+    const hexString = hex.startsWith('0x') ? hex.slice(2) : hex;
+    if (hexString.length % 2 !== 0) {
+        console.error('无效的十六进制字符串，长度必须是偶数。');
+        return null;
+    }
+    
+    // 将十六进制字符串转换为字节数组
+    const bytes = new Uint8Array(hexString.length / 2);
+    for (let i = 0; i < hexString.length; i += 2) {
+        bytes[i / 2] = parseInt(hexString.substring(i, i + 2), 16);
+    }
+    
+    const blob = new Blob([bytes], {type: contentType});
+    return blob;
+}
 
     </script>
  <script src="https://unpkg.com/pinyin-pro"></script>
