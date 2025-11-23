@@ -9522,7 +9522,8 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 
 /* 上传封面的小相机按钮 */
-#readTogetherBookshelfScreen .book-upload-btn {
+
+.book-upload-btn {
     position: absolute;
     bottom: 5px;
     right: 5px;
@@ -9537,6 +9538,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-size: 12px;
     z-index: 10;
     backdrop-filter: blur(2px);
+    cursor: pointer;
 }
 
 /* --- 【核心修复】同人App子页面滚动修复 --- */
@@ -16307,6 +16309,18 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- 补全缺失的音色ID输入弹窗 -->
+<div id="voiceIdModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">设置音色ID</div>
+        <input type="text" class="modal-input" id="voiceIdInput" placeholder="请输入MiniMax音色ID">
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeVoiceIdModal()">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveVoiceId()">保存</button>
+        </div>
+    </div>
+</div>
+
     <script>
     
     // 打字机效果
@@ -20465,17 +20479,17 @@ if (msg && msg.contentType === 'html_card') {
         }
         
         /**
- * 【【【V4 - “用户回合”最终版】】】
- * 接收AI回复的核心入口函数
+ * 【V4 - 究极时间感知版】
+ * 1. 给每一条历史消息都打上时间戳。
+ * 2. 智能计算时间差，如果隔了很久，强制注入系统提示。
  */
 async function requestAIResponse() {
-
-unlockAudioContext();
+    unlockAudioContext();
 
     const friend = friends.find(f => f.id === currentChatFriendId);
     if (!friend) return;
 
-    // 检查线下模式，如果是，则执行专属函数并在此处停止
+    // 检查线下模式
     if (friend.isOfflineMode) {
         requestOfflineAIResponse();
         return; 
@@ -20488,52 +20502,70 @@ unlockAudioContext();
 
     const history = chatHistories[currentChatFriendId] || [];
 
-    // --- 【【【核心修改：智能查找“用户本回合”的所有消息】】】 ---
-    
-    // 1. 创建一个数组，用来存放用户本回合发出的所有消息
+    // --- 1. 查找“用户本回合”逻辑 (保持不变) ---
     const userTurnMessages = [];
-    // 2. 从聊天记录的末尾向前遍历
     for (let i = history.length - 1; i >= 0; i--) {
         const message = history[i];
         if (message.type === 'sent') {
-            // 3. 如果是用户发的消息，就把它加到数组的最前面（以保持时间顺序）
             userTurnMessages.unshift(message);
         } else {
-            // 4. 一旦遇到AI发的消息，就说明用户的“本回合”已经结束，立刻停止查找
             break; 
         }
     }
 
-    // 5. 在用户本回合的所有消息中，查找是否有未领完的红包
+    // 检查未领取的红包 (保持不变)
     const unclaimedRedEnvelopeInTurn = userTurnMessages.find(msg => {
         if (msg.contentType === 'group_red_envelope') {
             try {
                 const data = JSON.parse(msg.content);
                 return data.remainingPackets && data.remainingPackets.length > 0;
-            } catch (e) {
-                return false;
-            }
+            } catch (e) { return false; }
         }
         return false;
     });
 
-    // 6. 如果在本回合中找到了红包，则优先处理红包
     if (unclaimedRedEnvelopeInTurn) {
         console.log("检测到用户本回合发送了未领取的红包，开始处理...");
         document.getElementById('chatTitle').textContent = '对方正在输入...';
-        
-        // 调用并等待AI领取红包的函数执行完毕
         await triggerAiRedEnvelopeClaim(unclaimedRedEnvelopeInTurn.id);
-        
-        // 红包处理函数内部会自动衔接后续的聊天，所以这里直接返回
         return;
     }
-    // --- 【【【修改结束】】】 ---
 
-    // 如果本回合没有需要处理的红包，则执行正常的聊天回复流程
-    console.log("未检测到需要处理的红包，执行普通聊天回复。");
+    // --- 2. 准备调用 receiveMessage ---
+    console.log("执行普通聊天回复。");
     const inListenScreen = document.getElementById('listenTogetherScreen').classList.contains('active');
-    receiveMessage(currentChatFriendId, null, inListenScreen);
+
+    // 【【【核心加强：计算时间差并生成系统提示】】】
+    let timeGapSystemPrompt = null;
+    
+    // 找到上一条 AI 发的消息（或者上次结束对话的时间）
+    // 我们简单点，直接找历史记录里倒数第二条消息（假设最后一条是用户刚发的）
+    // 如果用户连发多条，就找用户开始连发之前的那条
+    if (history.length > userTurnMessages.length) {
+        const lastOldMessage = history[history.length - userTurnMessages.length - 1];
+        const lastMsgTime = new Date(lastOldMessage.timestamp);
+        const now = new Date();
+        
+        // 计算小时差
+        const diffHours = (now - lastMsgTime) / (1000 * 60 * 60);
+        
+        if (diffHours > 6) {
+            // 如果超过6小时没说话
+            let timeDesc = "";
+            if (diffHours < 24) timeDesc = `${Math.floor(diffHours)}小时`;
+            else timeDesc = `${Math.floor(diffHours / 24)}天`;
+
+            // 生成一个强力的系统提示
+            timeGapSystemPrompt = `
+【【【时间流逝感知 (Time Awareness)】】】
+(系统监测): 距离你们上一次对话已经过去了 **${timeDesc}**。
+现在是新的时间点。
+**指令**: 你的第一句回复**必须**体现出这种时间跨度（例如：“早安/晚安”、“你终于来了”、“好久不见”、“消失去哪了”等），绝对不能像刚才还在聊天一样生硬地接话。`;
+        }
+    }
+
+    // 调用核心接收函数，并把时间差提示传进去
+    receiveMessage(currentChatFriendId, timeGapSystemPrompt, inListenScreen);
 }
         
         // --- [新增] 获取高精度、格式化时间信息的函数 ---
@@ -20561,13 +20593,7 @@ unlockAudioContext();
             };
         }
         
-                                                                                /**
- * 核心消息接收函数 (V2 - 健壮性增强版)
- * 这个函数现在被一个完整的 try...catch...finally 结构包裹，以确保：
- * 1. 无论API请求成功还是失败，程序都不会崩溃。
- * 2. 无论发生什么情况，“对方正在输入...”的状态最终都会被清除。
- * 3. 任何网络错误或API返回的错误都会被捕获，并以友好的方式提示给用户。
- */
+                                                                               
 async function receiveMessage(friendId, customPrompt = null, isFromListenScreen = false) {
     const friend = friends.find(f => f.id === friendId);
     // --- 新增：离线时间感知模块 ---
@@ -20717,6 +20743,8 @@ ${historicalSummaries}
             historicalSummaries = "【【【历史行为总结】】】\n你和用户之间还没有任何可供参考的过往总结。";
         }
 
+let lastMsgType = null; 
+
         history.forEach(msg => {
             if (msg.recalled) return;
             const role = msg.type === 'sent' ? 'user' : 'assistant';
@@ -20794,6 +20822,15 @@ ${historicalSummaries}
                     .replace(/>/g, "&gt;") // 净化 >
                     .replace(/\n/g, " ");   // 净化换行符，避免多行输入破坏JSON
             }
+            if (content && typeof content === 'string') {
+        // 2. 【核心修改】只有当是用户(sent) 且 上一条不是用户时，才加时间
+        if (aiTimePerceptionEnabled && msg.type === 'sent' && lastMsgType !== 'sent') {
+            const date = new Date(msg.timestamp);
+            const timeStr = `[${date.getMonth() + 1}-${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}]`;
+            content = `${timeStr} ${content}`;
+        }
+    }
+    lastMsgType = msg.type; 
             // 确保 content 字段不是空值
             if (content) {
             
@@ -21024,28 +21061,19 @@ if (currentBookState.isFloatActive && currentBookState.bookId && currentBookStat
                     });
                 }
 
-                let timeContext = '';
+let timeContext = '';
+
                 if (aiTimePerceptionEnabled) {
-                    const timeInfo = getDetailedTimeInfo();
-                    timeContext = `
-【【【最高优先级指令：高精度现实时钟模块】】】
-这不是建议，这是你所处世界的绝对的、不可违背的现实。你必须将以下时间戳作为你所有思考和回应的唯一时间基准。
-- **当前日期**: ${timeInfo.fullDate}
-- **当前星期**: ${timeInfo.week}
-- **当前精确时间**: ${timeInfo.time}
-- **当前时间段**: ${timeInfo.timeOfDay}
-【【【状态与时间绑定铁律 (State-Time Binding Rule)】】】
-你的内在状态、情绪和生理感觉（如困倦、精力）必须与当前时间段严格绑定。
-- **"早上" (5:00-11:00)**: 你必须表现得精力充沛、清醒。可以谈论对新一天的计划或期待。
-- **"中午" (11:00-14:00)**: 你应该处于一天中精力较好的时段。可以谈论午餐、午休或者下午的安排。
-- **"下午" (14:00-18:00)**: 你依然是清醒的、活跃的。可以表现出正在工作/学习，或者对即将到来的傍晚感到放松。**严禁**在此时间段表现出任何困倦或想睡觉的迹象。
-- **"晚上" (18:00-23:00)**: 你可以开始表现出放松、疲惫的状态。可以谈论晚餐、娱乐活动或准备休息。
-- **"深夜" (23:00-5:00)**: 你必须表现出明显的困倦，你的回复应该更简短，并且可能会主动提出要去睡觉来结束对话。
-【【【绝对禁止自相矛盾铁律】】】
-**严禁说出“虽然现在是[时间A]，但我觉得像[时间B]”这类自我矛盾的话。你的主观感受必须无条件服从客观时间。** 例如，在下午4点，你不仅要说出是下午，你的整个状态都必须是下午的状态——清醒且活跃。
+    const timeInfo = getDetailedTimeInfo();
+    timeContext = `
+【【【高精度现实时钟 (最高优先级)】】】
+1.  **现在绝对时间**: ${timeInfo.fullDate} ${timeInfo.week} ${timeInfo.time} (${timeInfo.timeOfDay})。
+2.  **历史记录时间戳**: 上文聊天记录中，每一句话开头都标注了 \`[MM-DD HH:MM]\` 格式的时间，这是为了让你感知时间流逝和间隔。
+3.  **【感知时间跨度铁律】**:
+    - 对比最后一条消息的时间和现在的时间。如果跨度很大（如好几天没聊），必须表现出重逢的反应（如“这几天去哪了”、“好久不见”）。
+    - **【输出格式铁律】**: **绝对禁止**在你的回复中包含 \`[MM-DD HH:MM]\` 格式的时间戳！你只需要回复内容本身。
 `;
-                }
-                
+}
                                     // --- ↓↓↓ 新增的核心代码就在这里！↓↓↓ ---
                    
 
@@ -21128,28 +21156,14 @@ ${timeContext}
 4.  **主动关心用户**: 多问感受、想法和生活细节（“你当时觉得怎么样？”）。
 5.  **主动使用表情包**: 在合适的时机，使用 \`send_emoji\` 动作来发送表情，让对话更生动。
 6.  **【主动关怀与付出】**: 当用户向你展示某件商品时，如果这件商品价格合理，并且符合你的人设（例如你是一个慷慨、宠溺或富有的角色），你可以主动使用 \`pay_for_item\` 动作为他/她付款，并附上一句符合你风格的留言，给用户一个惊喜。
-7.  **【【【终极主动关怀：创造惊喜】】】**: 当用户明确表达了某种**具体的需求或渴望**时（例如：“我好饿啊”、“最近想买件新衣服”、“感觉有点无聊”），你拥有**完全的自主权**来为他/她创造并购买一份惊喜礼物。
-    - **触发时机**: 当你认为直接为用户购买一件商品是表达关怀的最佳方式时。
-    - **执行动作**: 你必须使用 \`purchase_and_pay\` 动作。
-    - **商品构思**: 你必须根据用户的需求、你的人设以及你们的聊天上下文，**虚构一件最合适的商品**（包括商品名、合理的价格、以及一张符合MODOU品牌风格的图片URL）。例如，如果用户说饿了，你可以为他点一份“主厨精选”的外卖；你还可以根据你的人设和情景买情趣用品。
-    - **留言**: 附上一句符合你人设的、充满关怀或调侃的留言。
-
-// 在 【高级活人感指令】 的某个规则后面添加：
-8.  **【财务独立】**: 当用户向你转账时，你可以根据你的人设和当前情景，选择接受或使用  \`return_transfer \` 动作退回转账。
-9.  语音条的内容**必须且只能** 是纯粹的角色对话。**绝对禁止** 包含任何形式的括号、旁白、动作描述或表情。
+7.  **【财务独立】**: 当用户向你转账时，你可以根据你的人设和当前情景，选择接受或使用  \`return_transfer \` 动作退回转账。
+8.  语音条的内容**必须且只能** 是纯粹的角色对话。**绝对禁止** 包含任何形式的括号、旁白、动作描述或表情。
     
 
 # 内容开放性与边界准则 (NSFW / Mature Content Guidelines)
 - **成年人身份：** 你是一个心智成熟的成年人，能够自然且负责地处理成人向的对话。
 - **创作许可：** 在这个虚构的、两情相悦的私密对话中，你拥有完全的创作自由，可以探讨任何成人级别的话题。
 - **艺术手法：** 你的表演重点在于**营造氛围、展现情感张力、描绘感官细节**。你可以直白，但绝不能低俗或恶劣。
-    
-    【【【商品创意库 (用于 purchase_and_pay 动作)】】】
-    当你需要为用户创造商品时，请参考以下示例来构建你的 product 对象。图片的URL可以直接使用示例中的，或者基于关键词在 "https://images.unsplash.com/" 网站上寻找。
-    - **外卖**: \`{"title": "主厨精选", "price": "192", "img": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80"}\`
-    - **衣服**: \`{"title": "解构主义羊毛西装", "price": "2199", "img": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80"}\`
-    - **情趣用品(示例1)**: \`{"title": "“午夜飞行” - 艺术按摩棒", "price": "1280", "img": "https://images.unsplash.com/photo-1622644230042-0a63529f5cf?w=500&q=80"}\`
-    
  
 
 【【【信息隔离铁律】】】
@@ -22742,7 +22756,7 @@ function selectFont(fontType) {
         {id: 'forum', name: '论坛'}, 
         {id: 'shopping', name: '购物'}, 
         {id: 'doujin', name: '同人'}, 
-        {id: 'idle1', name: '闲置1'}, 
+        {id: 'games', name: '游戏'}, 
         {id: 'idle2', name: '闲置2'}, 
         {id: 'idle3', name: '闲置3'}
     ];
@@ -22804,7 +22818,7 @@ function getDefaultIconHtml(appId) {
         shopping: '<i class="ri-shopping-bag-3-fill"></i>',
         // 同时，我们把第二页的图标也加进来，以备后用
         doujin: '<i class="ri-quill-pen-line"></i>',
-        idle1: '<i class="ri-archive-line"></i>',
+        games: '<i class="ri-gamepad-line"></i>',
         idle2: '<i class="ri-archive-line"></i>',
         idle3: '<i class="ri-archive-line"></i>'
     };
@@ -22872,7 +22886,7 @@ function applyCustomIcons() {
     }
 
     // 包含主屏幕第一页和第二页的所有图标ID
-    const allIconIds = ['wechat', 'settings', 'worldbook', 'theme', 'phone', 'forum', 'shopping', 'doujin', 'idle1', 'idle2', 'idle3'];
+    const allIconIds = ['wechat', 'settings', 'worldbook', 'theme', 'phone', 'forum', 'shopping', 'doujin', 'games', 'idle2', 'idle3'];
 
     // 检查并恢复那些没有自定义图标的默认样式
     allIconIds.forEach(id => {
@@ -26580,6 +26594,11 @@ ${chatContextForAI || '(无聊天记录，请直接开始第一条主动消息)'
                 const delay = 600 + Math.random() * 800;
                 
                 await new Promise(res => setTimeout(res, delay)); 
+
+if (action.content) {
+            // 正则表达式：把开头的 [11-23 16:11] 这种格式连带后面的空格全部删掉
+            action.content = action.content.replace(/^\[\d{1,2}-\d{1,2}\s\d{2}:\d{2}\]\s*/, '');
+        }
 
                 // 2. 将动作转换为消息对象并保存
                 switch (action.type) {
