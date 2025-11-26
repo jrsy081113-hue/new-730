@@ -12010,16 +12010,16 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 .wechat-dark-mode .bill-filter-btn { background-color: #3a3a3c; }
 
 /* 聊天气泡里的亲属卡 - 黑白风格 */
+
 .message-content .chat-family-card {
     width: 230px;
-    /* 核心修改：黑白渐变背景 */
-    background: linear-gradient(135deg, #2c2c2e 0%, #000000 100%);
+    background: #000000;       /* 确保这里是纯黑，去掉渐变 */
     border-radius: 10px;
     overflow: hidden;
     color: #fff;
     position: relative;
     cursor: pointer;
-    border: 1px solid #444;
+    border: 1px solid #333;    /* 建议加个深灰边框，防止在黑色背景下看不清 */
 }
 
 .chat-family-card-body {
@@ -12053,12 +12053,13 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 
 .chat-family-card-footer {
-    background: #fff;
-    color: #999;
+    background: #000000;       /* 背景由 #fff 改为纯黑 */
+    color: rgba(255,255,255,0.5); /* 文字改为半透明白色，或者 #fff */
     font-size: 11px;
     padding: 6px 15px;
-    border-top: 1px solid #eee;
+    border-top: none;          /* 去掉分割线，让整体浑然一体 */
 }
+
 /* 已领取状态变灰 */
 .chat-family-card.claimed {
     opacity: 0.8;
