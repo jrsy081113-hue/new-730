@@ -20509,7 +20509,8 @@ friends = loadedFriends || [];
                 favorites = loadedFavorites || [];
                 // 这是【修改后】的代码
 moments = (loadedMoments || []).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                customEmojis = loadedCustomEmojis || [];
+                // 加一个 .reverse()，让最新的排在最前面
+customEmojis = (loadedCustomEmojis || []).reverse();
                 forumPosts = (loadedForumPosts || []).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // <<<<<<< 新增这一行
 
                 // 恢复播放列表
@@ -31561,7 +31562,7 @@ function closeManualSummaryModal() {
 }
 
 /**
- * [修改版] 确认手动总结 (带校验)
+ * [修改版] 确认手动总结 (修复校验逻辑)
  */
 async function confirmManualSummary() {
     const friend = friends.find(f => f.id === currentChatFriendId);
@@ -31569,7 +31570,10 @@ async function confirmManualSummary() {
 
     const input = document.getElementById('manualSummaryTurnsInput');
     const turnCount = parseInt(input.value, 10);
-    const maxPending = friend.turnCountSinceLastMemory || 0;
+    
+    // 【核心修复】：这里原来是读取 friend.turnCountSinceLastMemory，现在改为实时计算
+    // 这样就和弹窗显示的数量（图1）保持一致了
+    const maxPending = getRealPendingTurnCount(friend.id);
 
     if (isNaN(turnCount) || turnCount <= 0) {
         showAlert('请输入一个有效的正整数。');
@@ -41664,13 +41668,12 @@ doujinCurrentChapterIndex = chapterIndex;
 
     const commentsList = document.getElementById('comments-list');
     
-    // 现在，这里的 postData.comments 已经包含了正确的、已保存的评论了！
+    // 修改后：如果没有评论，只显示提示文字，不再自动生成
     if (postData.comments && postData.comments.length > 0) {
         doujinRenderComments(postData.id, chapterIndex);
     } else {
-        commentsList.innerHTML = '<div style="text-align:center; padding: 30px; color: #999;">正在生成评论...</div>';
-        await doujinGenerateCommentsForPost(postData.id, chapterIndex);
-        doujinRenderComments(postData.id, chapterIndex);
+        // 仅显示提示，不调用生成函数
+        commentsList.innerHTML = '<div style="text-align:center; padding: 30px; color: #999;">暂无评论，点击右上角刷新按钮生成</div>';
     }
 }
 
