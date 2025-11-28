@@ -18696,6 +18696,74 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- 日记设置弹窗 -->
+
+<!-- 日记设置弹窗 (黑白极简版) -->
+<div id="diarySettingsModal" class="modal">
+    <div class="modal-content" style="background-color: #fff; border-radius: 24px; padding: 30px 25px;">
+        <div class="modal-title" style="color: #000; font-weight: 700;">日记设置</div>
+        
+        <!-- 自动写日记开关 -->
+        <div class="form-group" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label class="form-label" style="margin: 0; color: #000; font-weight: 500;">开启自动写日记</label>
+                <!-- 【修改】加上 bw-switch 类，让开关变黑白 -->
+                <label class="toggle-switch bw-switch">
+                    <input type="checkbox" id="diaryAutoWriteToggle" onchange="toggleDiaryAutoWrite()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div style="font-size: 12px; color: #999; margin-top: 8px; line-height: 1.4;">
+                开启后，角色会定期根据你们的聊天内容自动生成日记。
+            </div>
+        </div>
+
+        <!-- 文风选择 -->
+        <div class="form-group" style="margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <label class="form-label" style="margin: 0; color: #000; font-weight: 500;">全局日记文风</label>
+                <!-- 【修改】添加按钮改为黑色文字 -->
+                <button class="nav-btn" style="font-size: 14px; color: #000; font-weight: bold;" onclick="openDiaryStyleAddModal()">+ 添加</button>
+            </div>
+            <!-- 文风显示区域 -->
+            <div id="currentDiaryStyleDisplay" class="form-input" style="line-height: 2.5; cursor: pointer; text-align: center; background: #f7f7f7; border-radius: 12px; color: #333; border: none;" onclick="openDiaryStyleSelectModal()">
+                无 (默认)
+            </div>
+        </div>
+
+        <div class="modal-buttons" style="margin-top: 25px;">
+            <!-- 【修改】确认按钮改为黑底白字 -->
+            <button class="modal-btn modal-btn-confirm" onclick="closeDiarySettingsModal()" style="background-color: #000; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">完成</button>
+        </div>
+    </div>
+</div>
+
+<!-- 文风选择列表弹窗 -->
+<div id="diaryStyleSelectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">选择文风</div>
+        <div id="diaryStyleList" class="friend-list" style="max-height: 50vh; overflow-y: auto;">
+            <!-- JS生成列表 -->
+        </div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('diaryStyleSelectModal').classList.remove('show')">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 添加/编辑文风弹窗 -->
+<div id="diaryStyleEditModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">编辑文风</div>
+        <input type="text" class="modal-input" id="diaryStyleTitleInput" placeholder="文风名称 (例如：发疯文学)">
+        <textarea class="modal-textarea" id="diaryStyleContentInput" placeholder="具体的文风指令... 例如：多使用感叹号，情绪激动，逻辑跳跃。" style="min-height: 150px;"></textarea>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('diaryStyleEditModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveDiaryStyle()">保存</button>
+        </div>
+    </div>
+</div>
+
     <script>
     
     // 打字机效果
@@ -19090,6 +19158,13 @@ let currentEditingRuleId = null; // 用于编辑
 let forumLikes = [];
 
 let isForumAnonymous = false;
+
+// --- 日记全局设置 ---
+let diaryGlobalSettings = {
+    autoWrite: false, // 自动写日记开关
+    selectedStyleId: null // 当前选中的文风ID
+};
+let diaryStylesLibrary = []; // 存储用户自定义的日记文风列表
 
 // ...（在其他全局变量下方）
 let forumProfileData = {
@@ -20329,6 +20404,9 @@ storeCartItems: storeCartItems,
 
 storePendingShipmentItems: storePendingShipmentItems,
 
+diaryGlobalSettings: diaryGlobalSettings, // <--- 新增这一行
+    diaryStylesLibrary: diaryStylesLibrary,  
+
 };
                 savePromises.push(dbManager.set('appSettings', appSettings));
                 
@@ -20713,6 +20791,10 @@ autoSummaryEnabled = settings.autoSummaryEnabled || false; // <-- 【【【新�
                 wechatAppGlobalBgImage = settings.wechatAppGlobalBgImage || '';
                 simPhoneContentCache = settings.simPhoneContentCache || {};
 memoryGenerationTurns = settings.memoryGenerationTurns || 20; // <-- 新增：加载记忆轮数设置
+
+// 在 loadData 函数恢复 appSettings 后添加：
+diaryGlobalSettings = settings.diaryGlobalSettings || { autoWrite: false, selectedStyleId: null };
+diaryStylesLibrary = settings.diaryStylesLibrary || [];
 
 bubbleCssPresets = loadedBubblePresets || [];
 interfaceCssPresets = loadedInterfacePresets || [];
@@ -25051,14 +25133,11 @@ function toggleWbFolder(header) {
         function openDiary() { 
             setActivePage('diaryScreen');
             renderDiaryFriendList();
-            document.getElementById('diaryNavFriendName').textContent = '';
+           
         }
 
                 /**
  * [修复版] 渲染日记好友选择列表
- * 修复了：
- * 1. 返回时顶部管理按钮残留的问题
- * 2. 返回时底部批量操作栏可能未关闭的问题
  */
 function renderDiaryFriendList() {
     // 1. 找到日记页面的导航栏和返回按钮
@@ -25068,17 +25147,23 @@ function renderDiaryFriendList() {
     // 2. 将返回按钮的onclick事件恢复为 backToDiscover()
     backBtn.setAttribute('onclick', 'backToDiscover()');
     
-    // --- ▼▼▼ 核心修复开始 ▼▼▼ ---
+    // --- ▼▼▼ 核心修改开始 ▼▼▼ ---
     
-    // 3. 清空导航栏右侧的按钮（小铅笔和管理图标）
-    document.getElementById('diaryNavFriendName').innerHTML = '';
+    // 3. 在这里添加“设置”按钮 (原代码这里是清空 innerHTML = '')
+    // 这个按钮只会显示在“角色选择列表”界面
+    document.getElementById('diaryNavFriendName').innerHTML = `
+        <button class="nav-btn" onclick="openDiarySettingsModal()" style="font-size: 20px; color: #000; padding:0;">
+            <i class="ri-settings-3-line"></i>
+        </button>
+    `;
     
+    // --- ▲▲▲ 核心修改结束 ▲▲▲ ---
+
     // 4. 强制关闭底部批量操作栏，并重置管理状态
     document.getElementById('diaryBatchBar').classList.remove('show');
     isDiaryManaging = false;
     selectedDiaryIds.clear();
     
-    // --- ▲▲▲ 核心修复结束 ▲▲▲ ---
 
     const friendList = document.getElementById('diaryFriendList');
     const contentArea = document.getElementById('diaryContentArea');
@@ -25086,7 +25171,6 @@ function renderDiaryFriendList() {
     // 切换显示区域
     friendList.style.display = 'block';
     contentArea.innerHTML = ''; // 清空日记列表内容
-    // 移除可能存在的管理模式样式
     contentArea.className = 'diary-list'; 
 
     friendList.innerHTML = ''; // 清空好友列表旧内容
@@ -26190,37 +26274,21 @@ async function generateDiaryForFriend(friendId, isManualTrigger = false) {
         return false;
     }
 
-    // --- 1. 定义文风库 ---
-    const diaryStyles = [
-        { name: "村上春树风", desc: "淡淡的孤独感,日常细节描写,爵士乐般的节奏感,多用隐喻" },
-        { name: "三毛风", desc: "洒脱自由,充满异域风情,细腻的情感流动,真挚热烈" },
-        { name: "汪曾祺风", desc: "市井烟火气,闲适从容,平淡中见真味,文字干净" },
-        { name: "周作人风", desc: "冲淡平和,带有文人雅趣,涩味与回甘" },
-        { name: "梁实秋风", desc: "幽默风趣,人情练达,富含生活哲理,雅舍笔意" },
-        { name: "林清玄风", desc: "禅意悠远,温暖治愈,富有人生智慧,清雅柔和" },
-        { name: "张爱玲风", desc: "苍凉世故,细节精准,华丽而克制,对色彩敏感" },
-        { name: "鲁迅风", desc: "犀利简洁,批判性思考,短句有力,冷峻幽默" },
-        { name: "朱自清风", desc: "清新朴实,抒情细腻,书卷气息,写景优美" },
-        { name: "沈从文风", desc: "诗化语言,乡土气息,纯净澄澈,柔美哀愁" },
-        { name: "杨绛风", desc: "淡定从容,智慧通透,举重若轻,含蓄内敛" },
-        { name: "木心风", desc: "典雅精致,中西融合,冷峻诗意,金句频出" },
-        { name: "老舍风", desc: "京味儿十足,幽默风趣,充满生活气息,通俗老辣" },
-        { name: "余华风", desc: "冷静克制,荒诞现实,直白有力,极简叙事" },
-        { name: "海明威风", desc: "极简主义,短句为主,冰山理论,硬汉柔情" },
-        { name: "卡夫卡风", desc: "荒诞离奇,梦境感,存在主义,压抑与疏离" },
-        { name: "普鲁斯特风", desc: "意识流,细腻绵长,感官描写丰富,对逝去时光的追忆" },
-        { name: "弗吉尼亚·伍尔夫风", desc: "内心独白,诗意流动,女性视角,捕捉瞬间的感受" },
-        { name: "博尔赫斯风", desc: "哲学思辨,迷宫意象,时空交错,神秘而理性" },
-        { name: "卡尔维诺风", desc: "轻盈奇幻,寓言性,想象力丰富,结构精巧" },
-        { name: "纪德风", desc: "真诚袒露,道德探索,内心剖析,充满矛盾美" },
-        { name: "安妮·弗兰克风", desc: "少女视角,真挚动人,对未来的渴望,细腻的心理描写" },
-        { name: "弗朗西斯·培根(画家)风", desc: "文字具有碎片化、情绪化特征,原始而真实,带有痛感" },
-        { name: "托尔斯泰风", desc: "道德反思,宏大与细腻并存,质朴深刻,心理描写透彻" },
-        { name: "契诃夫风", desc: "淡淡忧伤,生活切片,留白艺术,幽默中含着泪" }
-    ];
-
-    // --- 2. 随机抽取一种文风 ---
-    const randomStyle = diaryStyles[Math.floor(Math.random() * diaryStyles.length)];
+    // --- 修改开始：不再随机抽取，而是读取全局配置 ---
+    let styleInstruction = "";
+    
+    if (diaryGlobalSettings.selectedStyleId) {
+        const style = diaryStylesLibrary.find(s => s.id === diaryGlobalSettings.selectedStyleId);
+        if (style) {
+            styleInstruction = `
+【【【本次写作风格指令 (最高优先级)】】】
+请你**必须严格模仿**以下文风来撰写这篇日记：
+**风格特征/指令**：${style.content}
+*注意：请在保持你原有角色人设(语气、口癖)的基础上，融合上述文风的笔触和氛围。*`;
+        }
+    }
+    // 如果没有选中风格，styleInstruction 为空，AI将按默认方式生成
+    // --- 修改结束 ---
 
     // 【【【核心修复 1：无论成功失败，最后都必须清空欲望值！】】】
     try {
@@ -26242,17 +26310,14 @@ async function generateDiaryForFriend(friendId, isManualTrigger = false) {
 【你的任务】:
 严格根据你和"${userProfile.name}"**刚刚发生的、下面提供的这段对话**，写一篇日记。
 
-【【【本次写作风格指令 (最高优先级)】】】
-请你**模仿【${randomStyle.name}】**来撰写这篇日记。
-**风格特征参考**：${randomStyle.desc}。
-*注意：请在保持你原有角色人设(语气、口癖)的基础上，融合上述文风的笔触和氛围。不要完全变成另一个人，而是用那种风格去记录你的心情。*
+${styleInstruction}  
 
 【你需要总结的对话记录】:
 ${todayChats || '我们刚刚很安静，没有聊天。'}
 
 【内容要求】:
 1.  **推断天气**：根据聊天内容或心情推断天气。
-2.  **日记正文**：至少350字，使用多个换行符(\\n)分段。必须围绕对话展开，但也请加入符合${randomStyle.name}的环境描写或心理独白。
+2.  **日记正文**：至少350字，使用多个换行符(\\n)分段。必须围绕对话展开，但也请加入符合文风的环境描写或心理独白。
 3.  **心里话**：写一句点睛之笔。
 
 【输出格式铁律】:
@@ -26343,12 +26408,11 @@ ${todayChats || '我们刚刚很安静，没有聊天。'}
         try {
             // --- 日记部分的逻辑 (已修改：限制每天一篇 + 提示) ---
             const todayStr = new Date().toLocaleDateString('en-CA'); // 获取今天日期
-            
+           
             // 检查该角色今天是否已经存在日记
             const hasWrittenToday = diaries.some(d => d.authorId === friend.id && d.date === todayStr);
 
-            // 只有欲望值够了 且 今天还没写过，才生成
-            if (!hasWrittenToday && friend.diaryWritingUrge >= 400) { 
+            if (diaryGlobalSettings.autoWrite && !hasWrittenToday && friend.diaryWritingUrge >= 400) { 
                 const success = await generateDiaryForFriend(friend.id, false); 
                 
                 if (success) {
@@ -49843,6 +49907,112 @@ async function confirmCartShare() {
 
     doujinHideModal('sharePostModal');
     showToast('代付请求已发送');
+}
+
+// 打开设置弹窗
+function openDiarySettingsModal() {
+    document.getElementById('diaryAutoWriteToggle').checked = diaryGlobalSettings.autoWrite;
+    updateDiaryStyleDisplay();
+    document.getElementById('diarySettingsModal').classList.add('show');
+}
+
+function closeDiarySettingsModal() {
+    document.getElementById('diarySettingsModal').classList.remove('show');
+}
+
+// 切换自动写日记开关
+async function toggleDiaryAutoWrite() {
+    diaryGlobalSettings.autoWrite = document.getElementById('diaryAutoWriteToggle').checked;
+    await saveData();
+}
+
+// 更新文风显示文字
+function updateDiaryStyleDisplay() {
+    const display = document.getElementById('currentDiaryStyleDisplay');
+    if (diaryGlobalSettings.selectedStyleId) {
+        const style = diaryStylesLibrary.find(s => s.id === diaryGlobalSettings.selectedStyleId);
+        display.textContent = style ? style.title : '无 (默认)';
+    } else {
+        display.textContent = '无 (默认)';
+    }
+}
+
+// 打开文风选择列表
+function openDiaryStyleSelectModal() {
+    const container = document.getElementById('diaryStyleList');
+    container.innerHTML = '';
+
+    // "无" 选项
+    const noneItem = document.createElement('div');
+    noneItem.className = 'opening-statement-item';
+    noneItem.innerHTML = '<span style="flex-grow:1;">无 (默认)</span>';
+    noneItem.onclick = () => selectDiaryStyle(null);
+    container.appendChild(noneItem);
+
+    // 自定义选项
+    diaryStylesLibrary.forEach(style => {
+        const item = document.createElement('div');
+        item.className = 'opening-statement-item';
+        item.innerHTML = `
+            <span style="flex-grow: 1;" onclick="selectDiaryStyle('${style.id}')">${style.title}</span>
+            <div class="item-actions">
+                <span class="delete-btn" onclick="deleteDiaryStyle(event, '${style.id}')">✕</span>
+            </div>
+        `;
+        container.appendChild(item);
+    });
+
+    document.getElementById('diaryStyleSelectModal').classList.add('show');
+}
+
+// 打开添加文风弹窗
+function openDiaryStyleAddModal() {
+    document.getElementById('diaryStyleTitleInput').value = '';
+    document.getElementById('diaryStyleContentInput').value = '';
+    document.getElementById('diaryStyleEditModal').classList.add('show');
+}
+
+// 保存新文风
+async function saveDiaryStyle() {
+    const title = document.getElementById('diaryStyleTitleInput').value.trim();
+    const content = document.getElementById('diaryStyleContentInput').value.trim();
+    if (!title || !content) return alert('请填写完整');
+
+    const newStyle = { id: `ds_${Date.now()}`, title, content };
+    diaryStylesLibrary.push(newStyle);
+    
+    // 自动选中新建的
+    diaryGlobalSettings.selectedStyleId = newStyle.id;
+    
+    await saveData();
+    document.getElementById('diaryStyleEditModal').classList.remove('show');
+    updateDiaryStyleDisplay();
+    // 如果选择列表打开着，刷新它
+    if(document.getElementById('diaryStyleSelectModal').classList.contains('show')) {
+        openDiaryStyleSelectModal();
+    }
+}
+
+// 选中逻辑
+async function selectDiaryStyle(id) {
+    diaryGlobalSettings.selectedStyleId = id;
+    await saveData();
+    updateDiaryStyleDisplay();
+    document.getElementById('diaryStyleSelectModal').classList.remove('show');
+}
+
+// 删除逻辑
+async function deleteDiaryStyle(e, id) {
+    e.stopPropagation();
+    if (!confirm('确定删除此文风吗？')) return;
+    
+    diaryStylesLibrary = diaryStylesLibrary.filter(s => s.id !== id);
+    if (diaryGlobalSettings.selectedStyleId === id) {
+        diaryGlobalSettings.selectedStyleId = null;
+    }
+    await saveData();
+    openDiaryStyleSelectModal(); // 刷新列表
+    updateDiaryStyleDisplay();
 }
 
     </script>
