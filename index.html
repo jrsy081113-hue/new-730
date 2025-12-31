@@ -18836,29 +18836,43 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     margin-top: 60px;
 }
 
-/* 6. 对话日志区域 (防遮挡 + 渐变) */
+/* --- 修复版：视频通话日志区域 --- */
 .video-log-container {
     position: relative;
     z-index: 10;
-    flex: 1;
-    overflow-y: auto;
+    flex: 1; /* 占据剩余空间 */
     
-    /* 【位置修复】220px = 顶部空隙 + 头像高度 + 缓冲距离 */
-    /* 这会让第一条消息最高只能到达红线下方，绝不会碰到右上角的头像 */
+    /* 【安卓滚动修复核心】 */
+    height: 0 !important; /* 强制高度为0，由flex撑开，触发滚动 */
+    min-height: 0 !important; 
+    overflow-y: auto !important; /* 必须是 auto */
+    -webkit-overflow-scrolling: touch !important; /* iOS 惯性滚动 */
+    touch-action: pan-y !important; /* 允许垂直触摸操作 */
+    
+    /* 顶部留白，避开头像 */
     padding-top: 220px !important; 
-    
     padding-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
     
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* 消息从底部开始堆叠 */
+    justify-content: flex-start; /* 改为从上往下排，防止安卓回弹问题 */
     gap: 15px;
     
-    /* 顶部渐变遮罩，让滚上去的消息慢慢消失 */
+    /* 顶部渐变遮罩 */
     mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+}
+
+/* 【新增】强制显示滚动条 (Webkit) */
+.video-log-container::-webkit-scrollbar {
+    width: 4px;
+    display: block; /* 强制显示 */
+}
+.video-log-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
 }
 
 /* 7. 视频通话气泡 */
@@ -19198,6 +19212,316 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     border-color: #000;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     transform: scale(1.02);
+}
+
+/* =========================================
+   真心话大冒险 (Truth or Dare) 终极修复版 CSS
+   ========================================= */
+
+/* 1. 游戏主页面容器：强制粉色背景，去除非法背景图 */
+#truthDareGameScreen .wechat-content {
+    background-color: #fff0f5 !important; /* 盐系浅粉 */
+    background-image: none !important;    /* 核心：移除单聊的背景图 */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-bottom: 0 !important;
+    overflow: hidden;
+}
+
+/* 2. 上半部分：游戏操作盘 (压缩高度，留空间给聊天) */
+.td-game-board {
+    background: rgba(255, 255, 255, 0.6); /* 半透明白，透出底下的粉 */
+    backdrop-filter: blur(5px);
+    padding: 10px 0; /* 减小内边距 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 2px dashed #ffb6c1;
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.15);
+    flex-shrink: 0; /* 防止被压缩 */
+    z-index: 10;
+}
+
+/* 霓虹灯牌 */
+.td-neon-sign {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 5px;
+    background: #fff;
+    padding: 6px 20px;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #ffe4e1;
+    transform: scale(0.9); /* 稍微缩小一点 */
+}
+.neon-text {
+    font-size: 15px;
+    font-weight: 900;
+    color: #ddd;
+    text-shadow: none;
+    transition: all 0.3s;
+    opacity: 0.5;
+}
+.neon-text.active.pink {
+    color: #ff1493;
+    text-shadow: 0 0 5px #ff69b4;
+    opacity: 1;
+    transform: scale(1.1);
+}
+.neon-text.active.blue {
+    color: #00bfff;
+    text-shadow: 0 0 5px #87cefa;
+    opacity: 1;
+    transform: scale(1.1);
+}
+.neon-divider { color: #ffd700; font-size: 14px; }
+
+/* 抽取按钮 */
+.td-draw-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-bottom: 5px;
+}
+.td-draw-btn:active { transform: scale(0.95); }
+.td-draw-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+
+/* 3. 圆盘区域 (核心修复) */
+.td-turntable-container {
+    position: relative;
+    width: 240px;  /* 缩小尺寸，给聊天留空间 */
+    height: 240px;
+    margin: 5px auto; /* 居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 虚线轨迹 */
+.td-avatar-circle {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    border: 2px dashed #ffc0cb; /* 粉色虚线 */
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+/* 头像样式 - 增加 transform 修正位移 */
+.td-game-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    position: absolute;
+    /* top/left 由 JS 计算圆周点 */
+    
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #ffb6c1;
+    z-index: 10;
+    
+    /* 核心：将自身的中心点对齐到坐标点 */
+    transform: translate(-50%, -50%);
+}
+
+/* 选中高亮 */
+.td-game-avatar.selected {
+    border-color: #ff1493;
+    box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.3);
+    z-index: 20;
+    transform: translate(-50%, -50%) scale(1.2); /* 保持居中并放大 */
+}
+
+/* 4. 酒瓶样式 (修复图片2的效果) */
+.td-bottle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 120px; /* 长一点适合瓶子 */
+    
+    /* 负边距居中法，配合 transform rotate 使用最稳定 */
+    margin-left: -40px;
+    margin-top: -60px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.td-bottle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+    /* 如果原图是歪的，这里微调初始角度 */
+    transform: rotate(0deg); 
+}
+
+/* 提示条 */
+.td-status-bar {
+    font-size: 13px;
+    color: #d63384;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 15px;
+    border-radius: 12px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* 5. 聊天区域 (扩大显示范围) */
+#tdChatArea {
+    flex: 1; /* 自动撑满剩余空间 */
+    background: transparent !important;
+    padding: 10px 15px;
+    overflow-y: auto;
+    /* 确保最后一条消息不被输入框遮挡 */
+    padding-bottom: 20px;
+}
+
+/* 6. 底部输入框 (修复左侧空白和布局) */
+#truthDareGameScreen .chat-input {
+    background: #fff0f5 !important;
+    border-top: 1px solid #ffdeeb;
+    
+    /* 使用 Flex 布局填满宽度 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px; /* 控件之间的间距 */
+    
+    padding: 10px 15px;
+    /* 适配底部安全区 */
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* 输入框本体 */
+#truthDareGameScreen .chat-input input {
+    flex: 1; /* 核心：占满中间所有剩余空间 */
+    height: 38px;
+    border-radius: 20px;
+    border: 1px solid #ffb6c1;
+    padding: 0 15px;
+    background: #fff;
+    outline: none;
+    font-size: 15px;
+    color: #333;
+}
+
+/* 按钮统一 */
+#truthDareGameScreen .chat-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    flex-shrink: 0; /* 防止被压缩 */
+}
+
+/* 7. 气泡配色 */
+#tdChatArea .message-content {
+    background-color: #ffffff !important;
+    border: 1px solid #ffe4e1;
+    color: #333 !important;
+    box-shadow: 0 1px 3px rgba(255,182,193,0.1);
+}
+#tdChatArea .message.sent .message-content {
+    background-color: #ffeff5 !important; /* 我发的消息是粉色 */
+    border-color: #ffc0cb;
+}
+/* 隐藏无关元素 */
+#truthDareGameScreen .message-footer-container { display: none !important; }
+
+/* --- 心声记录多选模式样式 --- */
+
+/* 1. 复选框样式 */
+.voice-history-card .message-checkbox {
+    left: 10px; /* 距离左边 10px */
+    display: none; /* 默认隐藏 */
+    z-index: 10;
+    background-color: #fff; /* 确保背景不透明 */
+}
+
+/* 2. 选中状态 */
+.voice-history-card.selected .message-checkbox {
+    background: #07c160;
+    border-color: #07c160;
+}
+.voice-history-card.selected .message-checkbox::after {
+    content: '✓';
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
+/* 3. 进入选择模式时 */
+.hearts-voice-select-mode .voice-history-card {
+    padding-left: 45px; /* 给内容腾出空间放复选框 */
+    cursor: pointer;
+}
+
+.hearts-voice-select-mode .voice-history-card .message-checkbox {
+    display: block; /* 显示复选框 */
+}
+
+/* 4. 调整卡片过渡效果 */
+.voice-history-card {
+    transition: padding-left 0.3s ease;
+    /* 确保相对定位，以便复选框定位 */
+    position: relative; 
+}
+
+/* --- 修复心声记录页面的底部操作栏位置 --- */
+#heartsVoiceToolbar {
+    /* 强制固定在最底部，覆盖默认的 bottom: 50px */
+    bottom: 0 !important;
+    /* 适配 iPhone 底部小黑条 */
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    /* 增加一点高度，让按钮不至于太贴底 */
+    height: auto !important;
+    min-height: 60px;
+    padding-top: 10px;
+    background: #f7f7f7; /* 保持背景色一致 */
+}
+
+/* 微调全选/删除按钮的样式，让它们在底部更好看 */
+#heartsVoiceToolbar .multi-select-btn {
+    margin-bottom: 5px; 
 }
 
     </style>
@@ -21078,7 +21402,17 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
             <div class="form-group-row clickable" id="proactiveRoleSetting" style="display: none;" onclick="openProactiveRolesModal()">
                 <label class="form-label">选择生效角色</label>
                 <div class="form-value-display">点击选择 <i class="ri-arrow-right-s-line"></i></div>
+               
             </div>
+            <!-- 在 settingsApp 的 form-card 里添加这个开关 -->
+<div class="form-group-row switch-row">
+    <label class="form-label">后台通知保活</label>
+    <label class="toggle-switch bw-switch">
+        <input type="checkbox" id="backgroundKeepAliveToggle" onchange="toggleBackgroundSystem(this)">
+        <span class="toggle-slider"></span>
+    </label>
+</div>
+<div class="form-hint">开启后将播放静音音频，确保锁屏或后台时能收到系统通知。</div>
         </div>
         
         <!-- 卡片 3：智能总结 -->
@@ -25719,19 +26053,31 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
-<!-- 新增：心声历史记录页面 (修正版) -->
+<!-- 新增：心声历史记录页面 (修正版 + 删除功能) -->
 <div id="heartsVoiceHistoryScreen" class="page">
     <div class="nav-bar">
-        <!-- 返回按钮，返回到聊天界面 -->
+        <!-- 返回按钮 -->
         <button class="nav-btn" onclick="backToChat()"><i class="ri-arrow-left-s-line"></i></button>
         <div class="nav-title">心声记录簿</div>
-        <div style="width: 40px;"></div>
+        <!-- 新增：选择按钮 -->
+       <button class="nav-btn nav-right-action-btn" id="heartsVoiceManageBtn" onclick="toggleHeartsVoiceSelectionMode()">
+    <i class="ri-list-check-2" style="font-size: 22px;"></i>
+</button>
     </div>
-    <!-- 【核心修改】这里增加了 padding-top: 84px -->
-    <!-- 解释：74px 是(状态栏30 + 导航栏44)的高度，额外加 10px 是为了美观的间距 -->
-    <div class="wechat-content" style="background-color: #f7f7f7; padding: 20px; padding-top: 84px;">
-        <div id="heartsVoiceHistoryList" style="padding-bottom: 40px;">
+    
+    <!-- 内容区域 -->
+    <div class="wechat-content" id="heartsVoiceContentContainer" style="background-color: #f7f7f7; padding: 20px; padding-top: 84px;">
+        <div id="heartsVoiceHistoryList" style="padding-bottom: 60px;">
             <!-- JS 将在这里生成历史卡片 -->
+        </div>
+    </div>
+
+    <!-- 新增：底部批量操作栏 (默认隐藏) -->
+    <div id="heartsVoiceToolbar" class="multi-select-toolbar">
+        <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+            <button class="multi-select-btn" style="background: #fff; color: #333; border: 1px solid #ccc;" onclick="toggleHeartsVoiceSelectAll()">全选</button>
+            <span class="multi-select-count" id="heartsVoiceSelectCount" style="font-size: 14px;">已选 0 项</span>
+            <button class="multi-select-btn delete" onclick="deleteSelectedHeartsVoice()">删除</button>
         </div>
     </div>
 </div>
@@ -26006,6 +26352,98 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- 1. 真心话大冒险 - 设置弹窗 -->
+<div id="truthDareSetupModal" class="modal">
+    <div class="modal-content" style="border-radius: 20px;">
+        <div class="modal-title" style="color: #ff69b4;">💗 真心话大冒险 💗</div>
+        
+        <div class="form-group">
+            <label class="form-label">题目来源</label>
+            <div class="uc-mode-group">
+                <div class="uc-mode-btn active" onclick="selectTdMode('random')" id="btnTdRandom">
+                    <div>随机题目</div>
+                    <div style="font-size:10px;">(系统出题)</div>
+                </div>
+                <div class="uc-mode-btn" onclick="selectTdMode('custom')" id="btnTdCustom">
+                    <div>自由出题</div>
+                    <div style="font-size:10px;">(抽取玩家出题)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">邀请好友 (1-7人)</label>
+            <div id="tdFriendSelectList" class="multi-select-list" style="max-height: 200px; border: 1px solid #ffdeeb; background: #fff5f8;">
+                <!-- JS 生成 -->
+            </div>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('truthDareSetupModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="startTruthDareGame()" style="background: linear-gradient(135deg, #ff9a9e, #ff69b4); box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);">开始派对</button>
+        </div>
+    </div>
+</div>
+
+<!-- 2. 真心话大冒险 - 游戏主界面 -->
+<div id="truthDareGameScreen" class="page">
+    <!-- 粉色系导航栏 -->
+    <div class="nav-bar" style="background: #fff0f5; border-bottom: 1px solid #ffdeeb;">
+        <button class="nav-btn" onclick="quitTruthDareGame()" style="color: #ff69b4;"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title" style="color: #d63384; font-weight: 800;">真心话大冒险</div>
+        <button class="nav-btn" onclick="resetTdRound()" style="color: #ff69b4;"><i class="ri-refresh-line"></i></button>
+    </div>
+
+    <div class="wechat-content" style="background: #fffafc; display: flex; flex-direction: column; padding-top: 74px; padding-bottom: 0;">
+        
+        <!-- 上半部分：游戏操作区 -->
+        <div class="td-game-board">
+            <!-- 灯牌 -->
+            <div class="td-neon-sign">
+                <div id="light-truth" class="neon-text pink">真心话</div>
+                <div class="neon-divider">⚡</div>
+                <div id="light-dare" class="neon-text blue">大冒险</div>
+            </div>
+
+            <!-- 抽取按钮 -->
+            <button id="tdDrawBtn" class="td-draw-btn" onclick="drawTruthOrDareAction()">
+                <span>🎲 点击抽取</span>
+            </button>
+
+            <!-- 转盘区域 -->
+            <div class="td-turntable-container">
+                <div id="tdAvatarCircle" class="td-avatar-circle">
+                    <!-- JS 动态生成头像 -->
+                </div>
+                <!-- 酒瓶 -->
+                <!-- 酒瓶：使用写实风格绿色酒瓶 -->
+<div id="tdBottle" class="td-bottle" onclick="spinTdBottle()">
+    <!-- 这是一个更写实的酒瓶素材链接 -->
+    <img src="https://cdn-icons-png.flaticon.com/512/2405/2405596.png" alt="Bottle">
+</div>
+            </div>
+            
+            <!-- 当前指令提示条 -->
+            <div id="tdStatusText" class="td-status-bar">等待开始...</div>
+        </div>
+
+        <!-- 下半部分：聊天区 -->
+        <div id="tdChatArea" class="chat-messages" style="flex: 1; background: transparent; padding-bottom: 0;"></div>
+
+        <!-- 底部输入框 (复用样式) -->
+        <div class="chat-input" style="background: #fff0f5; border-top: 1px solid #ffdeeb;">
+            <!-- 接收按钮 -->
+            <button class="chat-btn" onclick="requestTdAiReaction()" title="请求大家回复" style="color: #ff69b4;">
+                <i class="ri-group-line"></i>
+            </button>
+            <input type="text" id="tdInput" placeholder="输入内容..." onkeydown="handleTdInputEnter(event)" style="background: #fff;">
+            <button class="chat-btn send-btn active" onclick="sendTdMessage()" style="background: #ff69b4; color: white; width: 40px; margin-left:5px;">
+                <i class="ri-send-plane-fill"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
     <script>
     
     // 打字机效果
@@ -26180,9 +26618,9 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 9, // 版本号升级
+    version: 10, // 版本号升级
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>6.6元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能</h3><ul class="update-list"><li>1.增加海龟汤游戏</li><li>2.新增视频通话功能</li><li>3.增加心声记录，可以查看历史心声</li><li>4.增加谁是卧底号码随机，用户不再是1号。</li></ul></div><div class="update-section"><h3 class="update-subtitle">Bug修复</h3><ul class="update-list"><li>1.修复线上消息消失跑到线下的bug，由于之前的已经被标记了所以没办法恢复，但是之后大概率不会再出现之前的情况了。</li><li>2.去掉了查手机通知角色的功能</li><li>3.朋友圈分组可见bug修复</li><li>4.修复谁是卧底流程卡住的bug</li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>6.6元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能</h3><ul class="update-list"><li>1. 增加后台消息弹窗，ios等消息可以退出网页，后台收到系统弹窗。 </li><li>2. 优化视频通话功能，现在记忆互通，人称统一，可以滑动查看历史消息 </li><li>3. 增加心声记录删除，可以多选或全选删除。</li></ul></div>`
 };
 
 
@@ -26229,6 +26667,9 @@ let currentDesktopAvatarPlaceholderId = null;
 
 let doujin_selectedChars = []; // 用于存储当前选中的角色ID
 
+let isHeartsVoiceSelectMode = false;
+let selectedHeartsVoiceIds = new Set();
+
 let fontPresets = []; // 新增：字体预设数组
 
 let currentStickerTab = 'local'; // 当前选中的标签页
@@ -26274,6 +26715,8 @@ let nextSoupConfig = {
 };
 
 let currentDoujinShareId = null;
+
+let isBackgroundKeepAliveEnabled = false; // [新增] 后台保活状态
 
 // 朋友圈自动设置 (默认全关闭)
 let momentsSettings = {
@@ -26768,6 +27211,42 @@ let turtleSoupState = {
     maxClues: 3,
     isProcessing: false // 防止重复请求
 };
+
+// 1. 全局状态管理
+let tdGameState = {
+    active: false,
+    mode: 'random', // 'random' (随机题) or 'custom' (自由出题)
+    players: [],    // 参与玩家列表 [{id, name, avatar, angle}]
+    currentType: null, // 'truth' or 'dare'
+    currentVictim: null, // 被选中的玩家 (object)
+    currentAsker: null,  // 提问者 (仅 custom 模式)
+    currentQuestion: '', // 当前题目内容
+    isSpinning: false,   // 是否正在转瓶子
+    bottleAngle: 0       // 瓶子当前角度
+};
+
+// 题库 (你可以随意扩充)
+const TD_QUESTIONS = {
+    truth: [
+        "你最近一次哭是因为什么？", "你最想对在场的哪一位说声对不起？", "有没有偷偷喜欢过朋友的恋人？",
+        "你手机里最舍不得删的一张照片是什么？", "上一次说谎是什么时候？", "如果能回到过去，你最想改变哪件事？",
+        "你觉得在场谁最符合你的择偶标准？", "最近的一个春梦主角是谁？", "你做过最丢脸的事情是什么？",
+        "有没有在心里偷偷骂过在场的某个人？"
+    ],
+    dare: [
+        "给列表第10位异性发一句'我想你了'", "模仿一种动物叫声10秒", "深情地对着墙壁表白30秒",
+        "拍一张鬼脸照发到朋友圈，3分钟后才能删", "用屁股写字，让大家猜是什么字",
+        "选一位异性对视20秒，不许笑", "大喊三声'我是猪'", "对着在场的一位异性撒娇",
+        "发一段语音，用夹子音说话", "模仿甄嬛传里的经典台词"
+    ]
+};
+
+// 1. 0.5秒的静音 MP3 Base64
+const SILENT_AUDIO_DATA = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//////////////////////////////////////////////////////////////////wAAAAAATGF2YzU4LjU0AAAAAAAAAAAAAAAAJAAAAAAAAAAAASAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAA';
+
+let keepAliveAudio = new Audio(SILENT_AUDIO_DATA);
+keepAliveAudio.loop = true; // 循环播放
+keepAliveAudio.volume = 0.1; // 极低音量（虽然本身就是静音）
 
 // 预设海龟汤题库 (包含用户提供 + 经典扩充，共67道)
 const TURTLE_SOUP_DB = [
@@ -28490,6 +28969,8 @@ loversTransactions: loversTransactions, // 保存情侣账本数据
 
 storePendingShipmentItems: storePendingShipmentItems,
 
+isBackgroundKeepAliveEnabled: isBackgroundKeepAliveEnabled,
+
 diaryGlobalSettings: diaryGlobalSettings, // <--- 新增这一行
     diaryStylesLibrary: diaryStylesLibrary,  
 
@@ -28759,6 +29240,11 @@ worldviews = settings.worldviews || [];
 
 forumRules = loadedForumRules || []; 
 
+if (settings) {
+    isBackgroundKeepAliveEnabled = settings.isBackgroundKeepAliveEnabled || false;
+    const bgToggle = document.getElementById('backgroundKeepAliveToggle');
+    if (bgToggle) bgToggle.checked = isBackgroundKeepAliveEnabled;
+}
 
 // --- ↓↓↓ 在 loadData 函数中，用这段代码替换 forumSettings 的加载逻辑 ↓↓↓ ---
 
@@ -29017,6 +29503,7 @@ if (loadedGameApiSettings) {
                     document.getElementById('apiTemperature').value = loadedApiSettings.apiTemperature || 0.9;
                     aiTimePerceptionEnabled = loadedApiSettings.aiTimePerceptionEnabled !== false;
                     document.getElementById('aiTimePerceptionToggle').checked = aiTimePerceptionEnabled;
+                   
                 }
                 // --- 新增：同步API设置到购物App ---
 if (loadedApiSettings) {
@@ -32607,6 +33094,7 @@ try {
                                 lastMessageId = msgData.id;
                                 playMessageSound('received'); 
                                 showNotification(friend, action.content);
+                                sendRealNotification(friend.remark || friend.name, action.content, friend.avatarImage);
                                 if (isFromListenScreen) {
                                     addMessageToDOM(msgData, friend, 'listenTogetherChatOverlay');
                                 } else if (currentChatFriendId === friendId) {
@@ -35018,6 +35506,7 @@ ${todayChats || '我们刚刚很安静，没有聊天。'}
             };
             const newId = await dbManager.set('diaries', newDiary);
             newDiary.id = newId;
+            sendRealNotification(friend.name, `写了一篇新日记`, friend.avatarImage);
             diaries.unshift(newDiary);
 
             await saveData();
@@ -35239,6 +35728,7 @@ ${recentFriendMoments || '你最近没有发过朋友圈。'}
 
                             const newId = await dbManager.set('moments', newMoment);
                             newMoment.id = newId;
+                            sendRealNotification(friend.name, `发布了一条朋友圈: ${momentData.content}`, friend.avatarImage);
                             broadcastAiActivity('ai_moment', { content: momentData.content }, friend.id);
                             moments.unshift(newMoment);
                             
@@ -37941,6 +38431,24 @@ window.onload = async function() {
         setActivePage('homeScreen');
 
 checkPeriodReminder(); 
+
+if (isBackgroundKeepAliveEnabled) {
+    // 定义一个一次性监听器
+    const autoStartAudio = () => {
+        enableBackgroundSystem(); // 启动音频和通知权限
+        console.log("检测到用户交互，已恢复后台保活状态");
+        // 移除监听器，确保只执行一次
+        document.removeEventListener('click', autoStartAudio);
+        document.removeEventListener('touchstart', autoStartAudio);
+    };
+
+    // 监听任意点击或触摸
+    document.addEventListener('click', autoStartAudio);
+    document.addEventListener('touchstart', autoStartAudio);
+    
+    // 如果用户是在设置页刷新，可能希望看到提示
+    // showToast("点击页面任意位置以恢复后台保活");
+}
 
         audioElement = document.getElementById('audioPlayer');
         audioElement.addEventListener('play', () => {
@@ -42755,6 +43263,7 @@ async function postForumMessage() {
 
     const newId = await dbManager.set('forumPosts', newPost);
     newPost.id = newId;
+    sendRealNotification("论坛新动态", `${randomAi.name} 发布了新帖子: ${content.substring(0, 30)}...`, randomAi.avatarImage);
     forumPosts.unshift(newPost);
 
     if (currentForumSubTab === 'recommended') {
@@ -61900,6 +62409,7 @@ ${history || '无'}
                 timestamp: new Date().toISOString()
             };
             friend.loversWhispersList.unshift(newWhisper);
+            sendRealNotification(friend.name, `在情侣空间悄悄贴了一张纸条...`, friend.avatarImage);
             broadcastAiActivity('ai_whisper', { content: text }, friend.id);
             newCount++;
         });
@@ -67136,7 +67646,7 @@ function openHeartsVoiceHistory() {
 }
 
 /**
- * [V2 修正版] 渲染历史记录列表 (修复颜文字遮挡问题)
+ * [替换旧函数] 渲染历史记录列表 (支持多选模式)
  */
 function renderHeartsVoiceHistoryList(friend) {
     const container = document.getElementById('heartsVoiceHistoryList');
@@ -67146,6 +67656,8 @@ function renderHeartsVoiceHistoryList(friend) {
 
     if (history.length === 0) {
         container.innerHTML = '<div style="text-align:center; padding:50px; color:#999;">暂无历史记录</div>';
+        // 如果没有记录，强制退出选择模式
+        if (isHeartsVoiceSelectMode) toggleHeartsVoiceSelectionMode();
         return;
     }
 
@@ -67155,24 +67667,31 @@ function renderHeartsVoiceHistoryList(friend) {
         const data = item.data;
 
         const card = document.createElement('div');
-        card.className = 'voice-history-card';
+        // 如果被选中，添加 selected 类
+        const isSelected = selectedHeartsVoiceIds.has(item.id);
+        card.className = `voice-history-card ${isSelected ? 'selected' : ''}`;
         
-        // 核心修改：
-        // 1. 删除了原本用来做背景装饰的 <div class="voice-history-emoji">...</div>
-        // 2. 在 voice-history-content 内部第一位新增了一个 item 来专门展示颜文字
+        // 点击事件：如果是选择模式，切换选中；否则无操作
+        card.onclick = () => {
+            if (isHeartsVoiceSelectMode) {
+                toggleHeartsVoiceItem(item.id);
+            }
+        };
+
         card.innerHTML = `
+            <!-- 复选框 -->
+            <div class="message-checkbox"></div>
+
             <div class="voice-history-time">
                 <span>记录时间</span>
                 <span>${timeStr}</span>
             </div>
             
             <div class="voice-history-content">
-                <!-- 【新增】单独一行展示状态/颜文字 -->
                 <div class="voice-history-item">
                     <span class="voice-history-label">状态：</span>
                     <span class="voice-history-text" style="font-size: 16px; color: #333;">${data.emoji}</span>
                 </div>
-
                 <div class="voice-history-item">
                     <span class="voice-history-label">好感：</span>
                     <span class="voice-history-text" style="color: #ff69b4;">${data.favorability}</span>
@@ -67299,7 +67818,7 @@ async function sendUserVideoMessage() {
 }
 
 /**
- * 请求 AI 视频回复 (核心 Prompt 修改)
+ * [V5 记忆融合 + 人称修正版] 请求 AI 视频回复
  */
 async function requestAIVideoResponse(userContent) {
     if (aiReplyingSet.has(videoCallFriendId)) return;
@@ -67315,46 +67834,97 @@ async function requestAIVideoResponse(userContent) {
     loadingDiv.id = 'videoLoading';
     loadingDiv.textContent = "对方正在看着屏幕...";
     logContainer.appendChild(loadingDiv);
+    // 滚动到底部
+    logContainer.scrollTop = logContainer.scrollHeight;
     
     try {
-        const persona = userPersonas.find(p => p.id === (friend.activeUserPersonaId || 'default_user')) || userProfile;
+        const personaId = friend.activeUserPersonaId || 'default_user';
+        const persona = userPersonas.find(p => p.id === personaId) || userProfile;
         
-        // 获取最近的视频聊天记录作为上下文
-        const recentLogs = Array.from(document.querySelectorAll('#videoCallLog .video-bubble, #videoCallLog .video-narration'))
-            .slice(-10)
+        // --- 【核心修改 1：记忆读取与融合】 ---
+        
+        // 1. 读取主聊天界面的历史记录 (取最近 50 条)
+        const mainChatHistoryRaw = chatHistories[videoCallFriendId] || [];
+        // 过滤掉本次通话的记录(避免重复)，只看之前的聊天
+        const mainChatHistory = mainChatHistoryRaw
+            .filter(m => m.contentType !== 'voice_call_dialogue') 
+            .slice(-50) 
+            .map(m => {
+                const senderName = m.type === 'sent' ? persona.name : friend.name;
+                // 使用摘要函数处理图片/语音等内容
+                return `[${formatTimestampForAI(m.timestamp)}] ${senderName}: ${summarizeMessageContentForAI(m)}`;
+            });
+
+        // 2. 读取本次视频通话的实时记录 (全部读取)
+        // 我们直接从 chatHistories 里找类型为 'voice_call_dialogue' 的最新记录
+        // 注意：这里我们假设界面上的 log 已经是最新的，直接从 DOM 取更准确实时性
+        const currentCallLogs = Array.from(document.querySelectorAll('#videoCallLog .video-bubble, #videoCallLog .video-narration'))
             .map(el => {
+                // 排除掉 loading 提示
+                if (el.id === 'videoLoading') return null;
+                
                 const isUser = el.classList.contains('user');
                 const isNarration = el.classList.contains('video-narration');
-                if (isNarration) return `(画面/动作): ${el.textContent}`;
-                return `${isUser ? '用户' : '你'}: ${el.textContent}`;
-            }).join('\n');
+                
+                if (isNarration) return `(旁白/动作): ${el.textContent}`;
+                return `${isUser ? persona.name : friend.name}: "${el.textContent}"`;
+            })
+            .filter(Boolean); // 过滤掉 null
+
+        // 3. 合并上下文 (主聊天 + 本次通话)
+        // 按照用户设置的记忆条数进行最终截取，但优先保留本次通话内容
+        const memoryLimit = parseInt(settings.memoryMessagesCount) || 20;
+        
+        // 先把两部分拼起来
+        const fullContextArray = [...mainChatHistory, "--- 以下是正在进行的视频通话 ---", ...currentCallLogs];
+        
+        // 截取最后 N 条作为最终发给 AI 的内容
+        // 注意：如果通话记录很长，会挤掉主聊天记录，这是符合逻辑的（当下最重要）
+        const finalContext = fullContextArray.slice(-(memoryLimit + 10)).join('\n');
+
+        // --- 【修改结束】 ---
+
+        // 获取当前通话时长
+        const callDuration = document.getElementById('videoDuration').textContent;
+
+        // 获取时间信息
+        let timeContext = '';
+        if (aiTimePerceptionEnabled) {
+            const timeInfo = getDetailedTimeInfo();
+            timeContext = `当前时间: ${timeInfo.fullDate} ${timeInfo.time} (${timeInfo.timeOfDay})`;
+        }
 
         const prompt = `
 【模式】: **视频通话 (Video Call)**
 【你的身份】: "${friend.name}" (人设: ${friend.role})
-【对话对象】: "${persona.name}"
-【当前情景】: 你们正在进行视频通话。你能看到对方的脸和环境，对方也能看到你。
+【对话对象】: "${persona.name}" (人设: ${persona.personality || '普通人'})
+【通话状态】: 通话中 (已持续 ${callDuration})
+${timeContext}
 
-【上下文回顾】:
-${recentLogs}
+【【【记忆与上下文 (Memory Context)】】】
+${finalContext}
+
 【用户刚刚说/做】: "${userContent}"
 
-【【【视频通话演绎铁律】】】
-1.  **【视觉化旁白】**: 你的回复必须包含大量的**视觉描写**。因为是视频，你要描写你的**表情、眼神、手势**以及你**背景里的环境**。
-    -   *示例*: (凑近镜头看了看) / (害羞地移开视线) / (拿起手边的水杯喝了一口) / (指着身后的猫咪)。
-2.  **【眼神交流】**: 旁白要体现出你们通过屏幕的眼神接触。
-3.  **【格式要求】**:
-    -   你的回复必须是一个 JSON 数组。
-    -   包含 \`dialogue\` (你的话) 和 \`narration\` (画面动作描写)。
-    -   **narration (旁白)**: 用于描写画面。例如："他撑着下巴，笑盈盈地看着镜头。"
-    -   **dialogue (对话)**: 正常的口语交流。
+【【【叙事视角与人称铁律 (Perspective Rules - CRITICAL)】】】
+1.  **旁白 (Narration)**: 必须使用**第三人称**描写你的动作/神态。
+    -   用 "**他/她**" 指代你自己 (${friend.name})。
+    -   用 "**你**" 指代屏幕对面的用户 (${persona.name})。
+    -   *正确示例*: "他凑近屏幕看了看你，嘴角微微上扬。"
+    -   *错误示例*: "我凑近屏幕看了看..." (禁止用“我”做旁白主语)
+2.  **对话 (Dialogue)**: 正常的第一人称口语交流。
+    -   *示例*: "你看得清我吗？"
+
+【【【视频演绎要求】】】
+1.  **视觉描写**: 多描写透过镜头看到的细节（你的表情、眼神、背景环境、光线）。
+2.  **眼神交流**: 经常描写注视镜头（即注视用户）的动作。
+3.  **格式**: 返回 JSON 数组，包含 \`dialogue\` 和 \`narration\`。
 
 【JSON格式示例】:
 [
-  { "type": "narration", "content": "他调整了一下手机角度，露出刚洗完澡湿漉漉的头发，有些慵懒地靠在枕头上。" },
-  { "type": "dialogue", "content": "怎么这么晚才打过来？" },
-  { "type": "narration", "content": "屏幕里的他微微皱眉，似乎在仔细观察你的脸色。" },
-  { "type": "dialogue", "content": "你看上去有点累啊。" }
+  { "type": "narration", "content": "他伸手调整了一下摄像头，昏黄的灯光映在他脸上。" },
+  { "type": "dialogue", "content": "喂？听得到吗？" },
+  { "type": "narration", "content": "看着屏幕里的你，他的眼神变得温柔起来。" }
 ]
 
 现在，请生成回复。`;
@@ -67365,31 +67935,41 @@ ${recentLogs}
             body: JSON.stringify({
                 model: settings.modelName,
                 messages: [{ role: 'user', content: prompt }],
-                temperature: 0.95
+                temperature: 0.9
             })
         });
 
+        if (!response.ok) throw new Error("API Error");
+
         const data = await response.json();
         const contentStr = data.choices[0].message.content;
-        const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
         
-        if (jsonMatch) {
-            const actions = JSON.parse(jsonMatch[0]);
-            
-            // 移除 loading
-            if (document.getElementById('videoLoading')) document.getElementById('videoLoading').remove();
+        // 尝试解析 JSON
+        let actions = [];
+        try {
+            const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+            if (jsonMatch) actions = JSON.parse(jsonMatch[0]);
+            else throw new Error("Format Error");
+        } catch (e) {
+            // 兜底：如果不是JSON，就当纯对话
+            actions = [{ type: 'dialogue', content: contentStr }];
+        }
+        
+        // 移除 loading
+        const loader = document.getElementById('videoLoading');
+        if (loader) loader.remove();
 
-            for (const action of actions) {
-                await new Promise(r => setTimeout(r, 800)); // 模拟节奏
-                addVideoLogItem(action, 'ai');
-                // 保存记录 (复用 voice_call_dialogue 类型，因为本质一样)
-                saveChatMessage(videoCallFriendId, 'received', action.content, '', friend.id, 'voice_call_dialogue');
-            }
+        for (const action of actions) {
+            await new Promise(r => setTimeout(r, 800)); 
+            addVideoLogItem(action, 'ai');
+            // 保存记录
+            await saveChatMessage(videoCallFriendId, 'received', action.content, '', friend.id, 'voice_call_dialogue');
         }
 
     } catch (e) {
         console.error(e);
-        if (document.getElementById('videoLoading')) document.getElementById('videoLoading').textContent = "(信号不佳...)";
+        const loader = document.getElementById('videoLoading');
+        if (loader) loader.textContent = "(信号中断...)";
     } finally {
         aiReplyingSet.delete(videoCallFriendId);
     }
@@ -68116,6 +68696,776 @@ function loadNewSoupGame(soupData) {
         // 触发AI猜题
         setTimeout(() => requestTurtleSoupAIResponse(null, 'start_guessing'), 1000);
     }
+}
+
+// --- [新增] 后台保活与系统通知模块 ---
+
+// 2. 请求通知权限并启动保活
+function enableBackgroundSystem() {
+    // A. 尝试播放静音音频（需要用户交互触发）
+    keepAliveAudio.play().then(() => {
+        console.log("后台保活已启动 (静音音频播放中)");
+    }).catch(e => {
+        console.warn("无法自动播放静音音频，请确保有点击交互", e);
+    });
+
+    // B. 请求系统通知权限
+    if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                showToast("系统通知权限已获取");
+            } else {
+                showAlert("请允许通知权限，否则后台无法弹窗。");
+            }
+        });
+    } else {
+        showAlert("当前浏览器不支持系统通知。");
+    }
+}
+
+// 3. 发送真实系统通知的函数
+function sendRealNotification(title, body, icon) {
+    // 只有当页面不可见（在后台）或者用户开启了强制通知时触发
+    if (document.visibilityState === 'hidden') {
+        if (Notification.permission === "granted") {
+            // 在手机上，ServiceWorker 推送是标准的，但纯前端环境下，
+            // 只要音频在播放（线程活着），new Notification 也能在部分安卓/iOS版本触发横幅
+            try {
+                // 如果是安卓设备，尝试震动
+                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                
+                const n = new Notification(title, {
+                    body: body,
+                    icon: icon || 'https://jrsy081113-hue.github.io/jrsy/star-icon.png',
+                    tag: 'ai_reply', // 防止消息过多刷屏，相同的tag会覆盖
+                    renotify: true   // 允许覆盖后再次震动/响铃
+                });
+                
+                n.onclick = function() {
+                    window.focus(); // 点击通知尝试切回网页
+                    n.close();
+                };
+            } catch (e) {
+                console.error("系统通知发送失败:", e);
+            }
+        }
+    }
+}
+
+// [修改版] 控制后台保活开关 (带保存功能)
+async function toggleBackgroundSystem(checkbox) {
+    isBackgroundKeepAliveEnabled = checkbox.checked;
+    await saveData(); // 保存状态到数据库
+
+    if (checkbox.checked) {
+        enableBackgroundSystem(); // 尝试开启
+    } else {
+        if (window.keepAliveAudio) {
+            window.keepAliveAudio.pause(); // 关闭音频
+            showToast("后台保活已关闭");
+        }
+    }
+}
+
+// ==========================================
+// START: 真心话大冒险 (Truth or Dare) 完整逻辑
+// ==========================================
+
+// --- 入口与设置 ---
+
+function openTruthDareSetup() {
+    // 渲染好友列表
+    const list = document.getElementById('tdFriendSelectList');
+    list.innerHTML = '';
+    
+    // 筛选非群聊AI好友
+    const aiFriends = friends.filter(f => !f.isGroup);
+    
+    if (aiFriends.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">暂无AI好友</div>';
+    } else {
+        aiFriends.forEach(friend => {
+            const item = document.createElement('div');
+            item.className = 'multi-select-item';
+            // 粉色风格选中框
+            item.innerHTML = `
+                <input type="checkbox" id="td-friend-${friend.id}" value="${friend.id}" style="accent-color: #ff69b4;">
+                <label for="td-friend-${friend.id}" style="margin-left:8px; flex:1; color:#333;">${friend.remark || friend.name}</label>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    // 默认设置
+    selectTdMode('random');
+    document.getElementById('truthDareSetupModal').classList.add('show');
+}
+
+function selectTdMode(mode) {
+    tdGameState.mode = mode;
+    document.getElementById('btnTdRandom').className = `uc-mode-btn ${mode === 'random' ? 'active' : ''}`;
+    document.getElementById('btnTdCustom').className = `uc-mode-btn ${mode === 'custom' ? 'active' : ''}`;
+}
+
+// 开始游戏初始化
+function startTruthDareGame() {
+    const checkboxes = document.querySelectorAll('#tdFriendSelectList input:checked');
+    const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+
+    if (selectedIds.length === 0) return showAlert("至少选择一位好友！");
+    if (selectedIds.length > 7) return showAlert("最多选择7位好友(加上你共8人)");
+
+    // 1. 初始化玩家列表
+    tdGameState.players = [];
+    
+    // 加入用户
+    tdGameState.players.push({
+        id: userProfile.id,
+        name: userProfile.name,
+        avatar: userProfile.avatarImage || userProfile.name[0],
+        isImage: !!userProfile.avatarImage,
+        isUser: true,
+        angle: 0 // 角度稍后计算
+    });
+
+    // 加入AI
+    selectedIds.forEach(id => {
+        const f = friends.find(friend => friend.id === id);
+        tdGameState.players.push({
+            id: f.id,
+            name: f.remark || f.name,
+            avatar: f.avatarImage || (f.avatar || f.name[0]),
+            isImage: !!f.avatarImage,
+            isUser: false,
+            friendData: f
+        });
+    });
+
+    // 2. 计算角度并渲染界面
+    layoutTdTable();
+
+    // 3. 切换页面
+    document.getElementById('truthDareSetupModal').classList.remove('show');
+    setActivePage('truthDareGameScreen');
+    document.querySelector('.phone').classList.add('status-bar-hidden'); // 沉浸式
+    
+    // 4. 重置状态
+    resetTdRound();
+    document.getElementById('tdChatArea').innerHTML = ''; // 清空聊天
+    addSystemMessageToTd("💗 派对开始！请点击“抽取”决定玩什么~");
+}
+
+// 布局圆桌
+
+// 布局圆桌 (完美圆形修复版)
+function layoutTdTable() {
+    const container = document.getElementById('tdAvatarCircle');
+    container.innerHTML = '';
+    
+    const count = tdGameState.players.length;
+    
+    // 容器尺寸 (必须与 CSS .td-turntable-container 保持一致)
+    const containerSize = 240; 
+    const center = containerSize / 2; // 圆心 (120, 120)
+    
+    // 半径：容器一半减去头像半径(22)再留点余量
+    const radius = 95; 
+    
+    const step = 360 / count;
+
+    tdGameState.players.forEach((player, index) => {
+        // 计算角度：减90度是为了让第一个人从正上方开始
+        const angleDeg = index * step;
+        const angleRad = (angleDeg - 90) * (Math.PI / 180);
+        
+        // 计算圆周上的点
+        const x = center + radius * Math.cos(angleRad);
+        const y = center + radius * Math.sin(angleRad);
+
+        player.angle = angleDeg; // 存角度给酒瓶用
+
+        const div = document.createElement('div');
+        div.className = 'td-game-avatar';
+        div.id = `td-player-${player.id}`;
+        
+        // 直接设置 left/top 为圆周上的点
+        // CSS 的 transform: translate(-50%, -50%) 会自动把头像中心对准这个点
+        div.style.left = `${x}px`;
+        div.style.top = `${y}px`;
+        
+        if (player.isImage) {
+            div.style.backgroundImage = `url('${player.avatar}')`;
+            div.textContent = '';
+        } else {
+            div.textContent = player.avatar;
+        }
+
+        container.appendChild(div);
+    });
+}
+
+// --- 游戏流程控制 ---
+
+// 1. 点击抽取 (决定真心话还是大冒险)
+function drawTruthOrDareAction() {
+    if (tdGameState.isSpinning) return;
+    
+    const btn = document.getElementById('tdDrawBtn');
+    const lightTruth = document.getElementById('light-truth');
+    const lightDare = document.getElementById('light-dare');
+    
+    btn.disabled = true;
+    document.getElementById('tdStatusText').textContent = "正在抽取题目类型...";
+
+    // 闪烁动画
+    let flashCount = 0;
+    const maxFlash = 6;
+    const interval = setInterval(() => {
+        flashCount++;
+        const isTruth = flashCount % 2 === 0;
+        lightTruth.classList.toggle('active', isTruth);
+        lightDare.classList.toggle('active', !isTruth);
+        
+        if (flashCount >= maxFlash) {
+            clearInterval(interval);
+            // 最终结果 (50% 概率)
+            const result = Math.random() > 0.5 ? 'truth' : 'dare';
+            tdGameState.currentType = result;
+            
+            // 定格灯光
+            lightTruth.classList.toggle('active', result === 'truth');
+            lightDare.classList.toggle('active', result === 'dare');
+            
+            const typeText = result === 'truth' ? "真心话" : "大冒险";
+            addSystemMessageToTd(`🎯 本轮抽取：【${typeText}】`);
+            document.getElementById('tdStatusText').textContent = `请点击酒瓶，抽取谁来${typeText}`;
+            
+            // 激活瓶子点击
+            document.getElementById('tdBottle').style.cursor = 'pointer';
+            document.getElementById('tdBottle').onclick = spinTdBottle; // 重新绑定防止误触
+        }
+    }, 200);
+}
+
+// 2. 转瓶子 (决定受罚者)
+function spinTdBottle() {
+    if (!tdGameState.currentType) return showToast("请先点击“抽取”按钮");
+    if (tdGameState.isSpinning) return;
+
+    tdGameState.isSpinning = true;
+    document.getElementById('tdBottle').onclick = null; // 禁用点击
+    document.getElementById('tdStatusText').textContent = "酒瓶旋转中...";
+
+    // 随机选中一个玩家
+    const randomIndex = Math.floor(Math.random() * tdGameState.players.length);
+    const targetPlayer = tdGameState.players[randomIndex];
+    tdGameState.currentVictim = targetPlayer;
+
+    // 计算旋转角度
+    // 目标角度 = 玩家角度 + 360*圈数 + 随机偏移
+    // 注意：瓶子默认指向12点(0度)，玩家0也在12点。
+    // 我们需要让瓶口指过去。
+    const spins = 5 + Math.floor(Math.random() * 5); // 5-10圈
+    const targetAngle = targetPlayer.angle + (spins * 360);
+    
+    const bottle = document.getElementById('tdBottle');
+    bottle.style.transform = `rotate(${targetAngle}deg)`;
+    
+    // 播放音效 (可选)
+    // playSound('spin');
+
+    // 动画结束后 (3秒)
+    setTimeout(() => {
+        tdGameState.isSpinning = false;
+        tdGameState.bottleAngle = targetAngle % 360; // 记录当前角度
+        
+        // 高亮头像
+        document.querySelectorAll('.td-game-avatar').forEach(a => a.classList.remove('selected'));
+        document.getElementById(`td-player-${targetPlayer.id}`).classList.add('selected');
+
+        handleSpinResult();
+
+    }, 3100);
+}
+
+// 3. 处理转盘结果
+async function handleSpinResult() {
+    const victim = tdGameState.currentVictim;
+    const typeText = tdGameState.currentType === 'truth' ? "真心话" : "大冒险";
+    
+    // 自由出题模式下的逻辑分支
+    if (tdGameState.mode === 'custom' && !tdGameState.currentAsker) {
+        // 如果是自由模式，且还没选出题人，刚才转到的是出题人！
+        tdGameState.currentAsker = victim;
+        addSystemMessageToTd(`👑 出题人是：${victim.name}`);
+        document.getElementById('tdStatusText').textContent = `出题人已定，请再次点击酒瓶抽取受罚者`;
+        
+        // 重置状态以进行第二次旋转
+        setTimeout(() => {
+             document.getElementById('tdBottle').onclick = spinTdBottle; // 恢复点击
+             document.querySelectorAll('.td-game-avatar').forEach(a => a.classList.remove('selected'));
+        }, 1000);
+        return;
+    }
+
+    // --- 正常流程 (随机模式 或 自由模式已选完人) ---
+    addSystemMessageToTd(`👉 指向了：${victim.name}`);
+    
+    if (tdGameState.mode === 'random') {
+        // 系统随机出题
+        const pool = TD_QUESTIONS[tdGameState.currentType];
+        const question = pool[Math.floor(Math.random() * pool.length)];
+        tdGameState.currentQuestion = question;
+        
+        addSystemMessageToTd(`📝 题目：${question}`);
+        document.getElementById('tdStatusText').textContent = `等待 ${victim.name} 执行...`;
+
+        // 触发 AI 逻辑
+        if (victim.isUser) {
+            showToast("轮到你了！请在输入框回答或描述动作");
+        } else {
+            // AI 受罚
+            await triggerAiPerform(victim, question, tdGameState.currentType);
+        }
+
+    } else {
+        // 自由出题
+        const asker = tdGameState.currentAsker;
+        const actionStr = tdGameState.currentType === 'truth' ? "问一个问题" : "指定一个大冒险";
+        
+        addSystemMessageToTd(`请 ${asker.name} 向 ${victim.name} ${actionStr}`);
+        
+        if (asker.isUser) {
+            document.getElementById('tdStatusText').textContent = "请你在输入框输入题目...";
+            showToast("轮到你出题了！");
+        } else {
+            // AI 出题
+            document.getElementById('tdStatusText').textContent = `${asker.name} 正在思考题目...`;
+            await triggerAiAsk(asker, victim, tdGameState.currentType);
+        }
+    }
+}
+
+// --- AI 逻辑核心 ---
+
+async function triggerAiPerform(player, question, type) {
+    addSystemMessageToTd(`${player.name} 正在思考...`);
+    await new Promise(r => setTimeout(r, 1500));
+
+    const settings = await dbManager.get('apiSettings', 'settings');
+    const friendData = player.friendData;
+    // 获取用户人设
+    const personaId = friendData.activeUserPersonaId || 'default_user';
+    const userPersona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+    let taskDesc = "";
+    if (type === 'truth') {
+        taskDesc = `你选了真心话。问题是：“${question}”。请根据你的人设诚实回答。`;
+    } else {
+        taskDesc = `你选了大冒险。任务是：“${question}”。
+        **【格式铁律】**: 必须返回一个包含 "narration" (动作描述) 和 "dialogue" (说的话) 的JSON数组，生动地演绎你执行这个任务的过程。`;
+    }
+
+    const prompt = `
+【游戏】: 真心话大冒险
+【你的身份】: "${player.name}" (人设: ${friendData.role})
+【在场用户】: "${userPersona.name}" (人设: ${userPersona.personality})。
+【当前场景】: 大家都看着你，等待你的表演。
+
+【任务】: ${taskDesc}
+
+【要求】:
+1. **符合人设**: 不要OOC，害羞的要害羞，大胆的要大胆。
+2. **简短有力**: 不要写小作文！这是即时聊天游戏。
+3. **互动感**: 如果任务涉及他人，请带入在场的角色名字。
+
+【输出格式】:
+如果是真心话 -> 直接返回纯文本回答。
+如果是大冒险 -> 返回 JSON 数组: [{"type":"narration","content":"..."},{"type":"dialogue","content":"..."}]
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 1.0 })
+        });
+        const data = await response.json();
+        let content = data.choices[0].message.content.trim();
+
+        if (type === 'dare') {
+            try {
+                const jsonMatch = content.match(/\[[\s\S]*\]/);
+                const actions = JSON.parse(jsonMatch ? jsonMatch[0] : content);
+                for (const act of actions) {
+                    await new Promise(r => setTimeout(r, 800));
+                    if (act.type === 'narration') {
+                        addTdLog(player, `(动作) ${act.content}`, 'action');
+                    } else {
+                        addTdLog(player, act.content, 'chat');
+                    }
+                }
+            } catch (e) {
+                addTdLog(player, content, 'chat');
+            }
+        } else {
+            addTdLog(player, content, 'chat');
+        }
+        
+        // 执行完毕，触发全员围观 (randomOne = false，所有人都会说话)
+        setTimeout(() => requestTdAiReaction(player.id, false), 1500);
+
+    } catch (e) {
+        console.error(e);
+        addSystemMessageToTd(`(AI连接失败，${player.name} 喝了一杯酒跳过了)`);
+    }
+}
+
+// AI 出题
+async function triggerAiAsk(asker, victim, type) {
+    // 1. 准备 Prompt
+    const settings = await dbManager.get('apiSettings', 'settings');
+    const prompt = `
+【游戏】: 真心话大冒险
+【你的身份】: "${asker.name}"。
+【受罚者】: "${victim.name}"。
+【任务】: 请给对方出一个"${type === 'truth' ? '真心话问题' : '大冒险指令'}"。
+要求：符合你的人设，可以是刁钻的、搞笑的或者暧昧的。
+格式：只返回题目内容，不要引号。`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 1.0 })
+        });
+        const data = await response.json();
+        const question = data.choices[0].message.content.trim();
+        
+        tdGameState.currentQuestion = question;
+        addTdLog(asker, question, 'chat'); // AI 发送题目
+        addSystemMessageToTd(`题目已出：${question}`);
+        
+        // 轮到受罚者执行
+        if (victim.isUser) {
+            document.getElementById('tdStatusText').textContent = "轮到你了！请回答或执行...";
+            showToast("请在输入框回应");
+        } else {
+            await triggerAiPerform(victim, question, type);
+        }
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+/**
+ * [核心修复] 围观群众反应
+ * @param {string} excludeId - 排除谁（通常是刚刚说话的那个人）
+ * @param {boolean} randomOne - 是否只随机选一个人回（防止闲聊时刷屏），false则全员回复
+ */
+async function requestTdAiReaction(excludeId = null, randomOne = false) {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings.apiKey) return;
+    
+    // 1. 筛选围观者：排除用户、排除刚刚说话的人
+    let onlookers = tdGameState.players.filter(p => !p.isUser && p.id !== excludeId);
+    
+    if (onlookers.length === 0) return;
+
+    // 如果指定只随机一人回复
+    if (randomOne) {
+        const luckyOne = onlookers[Math.floor(Math.random() * onlookers.length)];
+        onlookers = [luckyOne];
+    }
+
+    // 2. 获取游戏上下文
+    const gameContext = getTdGameContext();
+
+    // 3. 并发触发所有围观者
+    onlookers.forEach(async (player) => {
+        // 模拟思考延迟，错开回复时间
+        const delay = Math.random() * 2000 + 1000;
+        await new Promise(r => setTimeout(r, delay));
+
+        // 获取人设信息
+        const friendData = player.friendData;
+        const personaId = friendData.activeUserPersonaId || 'default_user';
+        const userPersona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+        // 获取私聊记忆（增加熟人感）
+        const privateChat = (chatHistories[player.id] || []).slice(-10).map(m => 
+            `${m.type === 'sent' ? userPersona.name : player.name}: ${m.content}`
+        ).join('\n');
+
+        const prompt = `
+【场景】: 真心话大冒险派对现场。
+【你的身份】: "${player.name}"。
+【你的人设】: "${friendData.role}"。
+【你与用户(${userPersona.name})的关系】: 熟人/好友。你们的私聊记录参考：
+${privateChat}
+
+【派对实时记录 (刚刚发生了什么)】:
+${gameContext}
+
+【你的任务】:
+作为围观群众，对刚才发生的事情发表一句评论。
+1.  **拒绝OOC**: 必须符合你的人设（毒舌的吐槽、温柔的起哄、胆小的害怕等）。
+2.  **简短口语**: 像群聊一样，字数控制在 20 字以内。不要长篇大论！
+3.  **熟人感**: 你认识在场的人，特别是用户。不要像个陌生人。
+4.  **格式**: 只返回纯文本。
+
+请回复：`;
+
+        try {
+            const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 0.9})
+            });
+            const data = await response.json();
+            const content = data.choices[0].message.content.trim().replace(/^["“”]|["“”]$/g, '');
+            
+            addTdLog(player, content, 'chat');
+
+        } catch (e) {
+            console.error(e);
+        }
+    });
+}
+
+// --- 消息处理 ---
+
+async function sendTdMessage() {
+    const input = document.getElementById('tdInput');
+    const text = input.value.trim();
+    if (!text) return;
+    
+    // 1. 上屏
+    addTdLog(tdGameState.players.find(p => p.isUser), text, 'chat');
+    input.value = '';
+
+    // 2. 逻辑判断：如果是自由模式且轮到用户出题
+    if (tdGameState.mode === 'custom' && tdGameState.currentAsker?.isUser && !tdGameState.currentQuestion) {
+        tdGameState.currentQuestion = text;
+        addSystemMessageToTd(`题目已确认：${text}`);
+        // 触发受罚者执行
+        await triggerAiPerform(tdGameState.currentVictim, text, tdGameState.currentType);
+    }
+    // 3. 如果轮到用户受罚，且用户发了言 -> 视为完成任务
+    else if (tdGameState.currentVictim?.isUser && tdGameState.currentQuestion) {
+        // 用户回应了，触发大家围观
+        requestTdAiReaction(userProfile.id); 
+    }
+    // 4. 【新增】如果是普通闲聊，也可能触发群聊回复
+    else {
+        // 20% 概率触发随机一人回复，或者你可以点击左下角接收按钮强制触发全员
+        if (Math.random() < 0.2) {
+             requestTdAiReaction(userProfile.id, true); // true 代表随机选一个人回
+        }
+    }
+}
+
+function handleTdInputEnter(event) {
+    if (event.key === 'Enter') sendTdMessage();
+}
+
+// 添加日志到界面
+function addTdLog(player, text, type) {
+    const container = document.getElementById('tdChatArea');
+    const div = document.createElement('div');
+    
+    if (type === 'sys') {
+        // 系统消息
+        div.className = 'system-message-tip';
+        div.textContent = text;
+    } else {
+        // 聊天/动作消息
+        const isMe = player.isUser;
+        div.className = `message ${isMe ? 'sent' : 'received'}`;
+        
+        let avatarHtml;
+        if (player.isImage) {
+            avatarHtml = `<div class="chat-avatar" style="background-image: url('${player.avatar}')"></div>`;
+        } else {
+            avatarHtml = `<div class="chat-avatar">${player.avatar}</div>`;
+        }
+
+        // 旁白/动作增加特殊样式
+        let contentHtml = text;
+        if (type === 'action') {
+            contentHtml = `<span style="color:#888; font-style:italic;">${text}</span>`;
+        }
+        
+        const bubbleHtml = `<div class="message-content" style="background:${isMe?'#fff0f5':'#fff'};">${contentHtml}</div>`;
+        
+        div.innerHTML = isMe ? (bubbleHtml + avatarHtml) : (avatarHtml + bubbleHtml);
+    }
+    
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+function addSystemMessageToTd(text) {
+    addTdLog(null, text, 'sys');
+}
+
+// --- 重置与退出 ---
+
+function resetTdRound() {
+    tdGameState.currentType = null;
+    tdGameState.currentVictim = null;
+    tdGameState.currentAsker = null;
+    tdGameState.currentQuestion = '';
+    tdGameState.isSpinning = false;
+    
+    // UI 重置
+    document.getElementById('light-truth').classList.remove('active');
+    document.getElementById('light-dare').classList.remove('active');
+    document.getElementById('tdDrawBtn').disabled = false;
+    document.querySelectorAll('.td-game-avatar').forEach(a => a.classList.remove('selected'));
+    document.getElementById('tdStatusText').textContent = "准备就绪，点击抽取开始！";
+    
+    addSystemMessageToTd("──────── 新的一轮 ────────");
+}
+
+function quitTruthDareGame() {
+    // 退出前可以保存记录到主聊天（可选）
+    showConfirm("确定退出游戏吗？聊天记录将不会保存。", (yes) => {
+        if(yes) {
+            setActivePage('gamesApp');
+            document.querySelector('.phone').classList.remove('status-bar-hidden');
+        }
+    });
+}
+
+// 记得把 'gamesApp' 加入到 openApp 函数的映射表中
+// 并确保在游戏中心里添加了真心话大冒险的入口卡片
+
+/**
+ * [新增] 获取游戏内的所有文本记录（作为记忆）
+ */
+function getTdGameContext() {
+    const chatArea = document.getElementById('tdChatArea');
+    if (!chatArea) return "游戏刚开始。";
+
+    // 抓取最近 15 条记录
+    const logs = Array.from(chatArea.children).slice(-15).map(node => {
+        if (node.classList.contains('system-message-tip')) {
+            return `[系统]: ${node.textContent}`;
+        }
+        if (node.classList.contains('message')) {
+            const isMe = node.classList.contains('sent');
+            const name = isMe ? userProfile.name : (node.querySelector('.chat-avatar')?.textContent || "某人");
+            const content = node.querySelector('.message-content')?.textContent || "";
+            return `${name}: ${content}`;
+        }
+        return "";
+    }).join('\n');
+
+    return logs;
+}
+
+/**
+ * [修改版] 切换选择模式（图标 <-> 取消）
+ */
+function toggleHeartsVoiceSelectionMode() {
+    isHeartsVoiceSelectMode = !isHeartsVoiceSelectMode;
+    
+    const container = document.getElementById('heartsVoiceContentContainer');
+    const toolbar = document.getElementById('heartsVoiceToolbar');
+    const btn = document.getElementById('heartsVoiceManageBtn');
+    
+    if (isHeartsVoiceSelectMode) {
+        // === 进入多选模式 ===
+        container.classList.add('hearts-voice-select-mode');
+        toolbar.classList.add('show');
+        
+        // 按钮变成文字“取消”
+        btn.innerHTML = '<span style="font-size: 15px;">取消</span>';
+        
+        selectedHeartsVoiceIds.clear(); 
+        updateHeartsVoiceSelectCount();
+    } else {
+        // === 退出多选模式 ===
+        container.classList.remove('hearts-voice-select-mode');
+        toolbar.classList.remove('show');
+        
+        // 按钮变回图标
+        btn.innerHTML = '<i class="ri-list-check-2" style="font-size: 22px;"></i>';
+        
+        selectedHeartsVoiceIds.clear();
+        document.querySelectorAll('.voice-history-card.selected').forEach(el => el.classList.remove('selected'));
+    }
+}
+
+/**
+ * [新增] 切换单个项目的选中状态
+ */
+function toggleHeartsVoiceItem(id) {
+    if (selectedHeartsVoiceIds.has(id)) {
+        selectedHeartsVoiceIds.delete(id);
+    } else {
+        selectedHeartsVoiceIds.add(id);
+    }
+    
+    // 重新渲染以更新UI（简单直接）
+    // 或者只切换 class 以优化性能，这里为了代码简单直接重绘
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (friend) renderHeartsVoiceHistoryList(friend);
+    
+    updateHeartsVoiceSelectCount();
+}
+
+/**
+ * [新增] 更新底部“已选 X 项”
+ */
+function updateHeartsVoiceSelectCount() {
+    document.getElementById('heartsVoiceSelectCount').textContent = `已选 ${selectedHeartsVoiceIds.size} 项`;
+}
+
+/**
+ * [新增] 全选/取消全选
+ */
+function toggleHeartsVoiceSelectAll() {
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (!friend || !friend.heartsVoiceHistory) return;
+
+    // 如果当前已经全选了，就取消全选
+    if (selectedHeartsVoiceIds.size === friend.heartsVoiceHistory.length) {
+        selectedHeartsVoiceIds.clear();
+    } else {
+        // 否则全选
+        friend.heartsVoiceHistory.forEach(item => selectedHeartsVoiceIds.add(item.id));
+    }
+    
+    renderHeartsVoiceHistoryList(friend);
+    updateHeartsVoiceSelectCount();
+}
+
+/**
+ * [新增] 删除选中的记录
+ */
+function deleteSelectedHeartsVoice() {
+    if (selectedHeartsVoiceIds.size === 0) return showToast("请先选择要删除的记录");
+
+    showConfirm(`确定要删除这 ${selectedHeartsVoiceIds.size} 条心声记录吗？`, async (confirmed) => {
+        if (!confirmed) return;
+
+        const friend = friends.find(f => f.id === currentChatFriendId);
+        if (!friend) return;
+
+        // 过滤掉被选中的ID
+        friend.heartsVoiceHistory = friend.heartsVoiceHistory.filter(item => !selectedHeartsVoiceIds.has(item.id));
+        
+        await saveData();
+        
+        // 退出选择模式并刷新
+        toggleHeartsVoiceSelectionMode(); // 这会自动重置UI和清空Set
+        renderHeartsVoiceHistoryList(friend); // 刷新列表显示
+        
+        showToast("删除成功");
+    });
 }
 
     </script>
