@@ -19524,6 +19524,105 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     margin-bottom: 5px; 
 }
 
+/* --- 🎁 礼物功能专属样式 (优化版) --- */
+
+/* 1. 核心：强制去除聊天气泡的默认背景和阴影 */
+.message-content.has-gift-card {
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important; /* 允许阴影显示 */
+}
+
+/* 2. 卡片本体：更小巧精致 */
+.gift-message-card {
+    width: 200px; /* 宽度减小 */
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ffe4e1; 
+    box-shadow: 0 2px 8px rgba(255, 192, 203, 0.3); /* 更柔和的阴影 */
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.gift-message-card:active {
+    transform: scale(0.98);
+}
+
+/* 顶部装饰条 */
+.gift-card-header {
+    background: linear-gradient(90deg, #fff0f5 0%, #fff5f7 100%);
+    padding: 10px 12px; /* 减小内边距 */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px dashed #ffdae0;
+}
+
+.gift-card-icon {
+    width: 30px; /* 图标变小 */
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff69b4;
+    font-size: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.gift-card-title {
+    font-size: 12px; /* 字体变小 */
+    font-weight: bold;
+    color: #d63384;
+}
+
+/* 中间内容区 */
+.gift-card-body {
+    padding: 12px;
+    text-align: center;
+}
+
+.gift-item-name {
+    font-size: 15px; /* 字体变小 */
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gift-item-price {
+    font-size: 13px;
+    color: #ff69b4;
+    font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-weight: 500;
+}
+
+/* 底部标签 */
+.gift-card-footer {
+    background: #fff;
+    padding: 6px 12px;
+    font-size: 10px;
+    color: #aaa;
+    text-align: right;
+    border-top: 1px solid #fcfcfc;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 弹窗按钮样式保持不变 */
+#giftInputModal .modal-btn-confirm {
+    background-color: #ff69b4 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3) !important;
+}
+
     </style>
 </head>
 <body>
@@ -20906,6 +21005,14 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
                 <label class="form-label"><i class="ri-lock-password-line" style="color:#333; margin-right:10px;"></i> 支付密码</label>
                 <div class="form-value-display" id="paymentPasswordStatus">未设置 <i class="ri-arrow-right-s-line"></i></div>
             </div>
+           
+<div class="form-group-row switch-row">
+    <label class="form-label"><i class="ri-shield-flash-line" style="color:#333; margin-right:10px;"></i> 免密支付</label>
+    <label class="toggle-switch bw-switch">
+        <input type="checkbox" id="passwordFreeToggle" onchange="togglePasswordFreePayment()">
+        <span class="toggle-slider"></span>
+    </label>
+</div>
             <div class="form-group-row clickable" onclick="rechargeWallet()">
                 <label class="form-label"><i class="ri-bank-card-line" style="color:#333; margin-right:10px;"></i> 充值</label>
                 <div class="form-value-display"><i class="ri-arrow-right-s-line"></i></div>
@@ -26444,6 +26551,28 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- 新增：发送礼物弹窗 -->
+<div id="giftInputModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" style="color: #ff69b4;">赠送礼物</div>
+        
+        <div class="form-group">
+            <label class="form-label">礼物名称</label>
+            <input type="text" class="modal-input" id="giftNameInput" placeholder="例如：爱马仕包包 / 鲜花">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">价格 (元)</label>
+            <input type="number" class="modal-input" id="giftPriceInput" placeholder="0.00">
+        </div>
+
+        <div class="modal-buttons" style="margin-top: 20px;">
+            <button class="modal-btn modal-btn-cancel" onclick="closeGiftInputModal()">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="confirmSendCustomGift()"> 赠送</button>
+        </div>
+    </div>
+</div>
+
     <script>
     
     // 打字机效果
@@ -26618,9 +26747,9 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 10, // 版本号升级
+    version: 11, // 版本号升级
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>6.6元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能</h3><ul class="update-list"><li>1. 增加后台消息弹窗，ios等消息可以退出网页，后台收到系统弹窗。 </li><li>2. 优化视频通话功能，现在记忆互通，人称统一，可以滑动查看历史消息 </li><li>3. 增加心声记录删除，可以多选或全选删除。</li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能</h3><ul class="update-list"><li>1. 钱包里增加免密支付，打开后不需要再输入密码</li><li>2. 功能面板里增加自定义礼物，可以自定义礼物赠送给角色，不消耗api</li></ul></div><div class="update-section"><h3 class="update-subtitle">bug修复</h3><ul class="update-list"><li>1. 修复论坛不能发帖的bug</li><li>2. 修复一起看书导入没有立马刷新的bug</li><li>3. 修复生理期弹窗点击没反应的bug</li><li>4. 修复记账本角色留言都以为是支出的bug</li><li>5. 修复线下模式的心声没有保存在记录里的bug</li></ul></div>`
 };
 
 
@@ -30704,6 +30833,27 @@ if (!videoCallButton) {
 // 私聊显示，群聊隐藏
 videoCallButton.style.display = friend.isGroup ? 'none' : 'flex';
 
+// ... 在 openChat 函数内部 ...
+
+    // --- [修改版] 动态添加礼物按钮 (颜色统一，位置在最后) ---
+    let giftButton = functionMenu.querySelector('.function-item[onclick="openGiftInputModal()"]');
+    
+    // 如果按钮不存在，才创建
+    if (!giftButton) {
+        giftButton = document.createElement('div');
+        giftButton.className = 'function-item';
+        giftButton.setAttribute('onclick', 'openGiftInputModal()');
+        
+        // 【修改点1】：移除了 style="color: #ff69b4;"，图标会自动继承默认灰色
+        giftButton.innerHTML = `<div class="function-icon"><i class="ri-gift-line"></i></div><div class="function-label">礼物</div>`;
+        
+        // 【修改点2】：直接 appendChild，这样它就会排在所有按钮的最后面
+        functionMenu.appendChild(giftButton);
+    }
+
+    // 仅在私聊显示
+    giftButton.style.display = friend.isGroup ? 'none' : 'flex';
+
     if (friend.isGroup) {
         // 如果是群聊
         if (listenTogetherButton) listenTogetherButton.style.display = 'none'; 
@@ -31247,6 +31397,37 @@ contentHTML = `
                  contentHTML = `<span>通话时长 ${msg.content}</span><svg class="call-icon" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.27-.27.35-.66.24-1.01-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.75 0 .99-.65.99-.99v-3.45c0-.54-.45-.98-.99-.98z"/></svg>`;
                  
 
+// ... 在 addMessageToDOM 函数内部 ...
+
+} else if (msg.contentType === 'gift_card') {
+    // --- [新增] 礼物卡片渲染逻辑 ---
+    let giftData = {};
+    try {
+        giftData = JSON.parse(msg.content);
+    } catch(e) {
+        giftData = { name: "未知礼物", price: "0.00" };
+    }
+
+    contentHTML = `
+        <div class="gift-message-card">
+            <div class="gift-card-header">
+                <div class="gift-card-icon"><i class="ri-gift-2-fill"></i></div>
+                <div class="gift-card-title">送你一份礼物</div>
+            </div>
+            <div class="gift-card-body">
+                <div class="gift-item-name">${giftData.name}</div>
+                <div class="gift-item-price">¥ ${giftData.price}</div>
+            </div>
+            <div class="gift-card-footer">
+                <span>Heartfelt Gift</span>
+                <span style="color:#ff69b4;">MODOU</span>
+            </div>
+        </div>
+    `;
+    
+    // 标记为特殊类型，以便 CSS 去除默认气泡背景
+    // 注意：在下面的 contentClass 定义中，我们也要加上它
+
 } else if (hasHtmlCard) {
     // 留空，等待后续处理
     contentHTML = '';
@@ -31291,7 +31472,11 @@ if (msg.isOfflineMessage) {
 
 
 
-            const contentClass = `message-content ${hasImage ? 'has-image' : ''} ${hasEmoji ? 'has-emoji' : ''} ${hasVoice ? 'has-voice' : ''} ${hasGroupRedEnvelope ? 'has-red-envelope' : ''} ${hasPoll ? 'has-poll' : ''} ${(msg.contentType.startsWith('listen_') || msg.contentType.startsWith('transfer_') || hasLocation || hasHtmlCard) ? 'has-image' : ''} ${hasVoiceCallEnd ? 'has-voice-call-end' : ''}`;
+            
+
+// 找到这一行定义 contentClass 的代码，确保 gift_card 的判断在里面
+const contentClass = `message-content ${hasImage ? 'has-image' : ''} ${hasEmoji ? 'has-emoji' : ''} ${hasVoice ? 'has-voice' : ''} ${hasGroupRedEnvelope ? 'has-red-envelope' : ''} ${hasPoll ? 'has-poll' : ''} ${(msg.contentType.startsWith('listen_') || msg.contentType.startsWith('transfer_') || hasLocation || hasHtmlCard || msg.contentType === 'gift_card') ? 'has-image' : ''} ${msg.contentType === 'gift_card' ? 'has-gift-card' : ''} ${hasVoiceCallEnd ? 'has-voice-call-end' : ''}`;
+
             const senderNameHtml = (friendOrGroup.isGroup && msg.type === 'received') ? `<div class="message-sender-name">${sender.name}</div>` : '';
             
             if (containerId === 'listenTogetherChatOverlay') {
@@ -33911,7 +34096,18 @@ const chatTitle = friend.isGroup ? `${friend.name} (${friend.members.length})` :
         function backToMySettings() { setActivePage('mySettingsScreen'); }
         
         function updateWalletDisplay() { document.getElementById('balanceAmount').textContent = `¥ ${parseFloat(userProfile.balance).toFixed(2)}`; }
-        function openWallet() { updateWalletDisplay(); setActivePage('walletScreen'); }
+        function openWallet() { 
+    updateWalletDisplay(); 
+    setActivePage('walletScreen'); 
+    
+    // 【新增】回显免密支付开关状态
+    const toggle = document.getElementById('passwordFreeToggle');
+    if (toggle) {
+        // 如果数据里没有这个字段，默认为 false
+        if (userProfile.passwordFreePayment === undefined) userProfile.passwordFreePayment = false;
+        toggle.checked = userProfile.passwordFreePayment;
+    }
+}
         function rechargeWallet() { const amount = prompt("请输入充值金额:", "100"); if(amount && !isNaN(parseFloat(amount))) { userProfile.balance += parseFloat(amount); saveData(); updateWalletDisplay(); showAlert("充值成功！"); } else { showAlert("请输入有效金额。"); } }
         function withdrawWallet() { const amount = prompt("请输入提现金额:", "100"); if(amount && !isNaN(parseFloat(amount))) { if(userProfile.balance >= parseFloat(amount)) { userProfile.balance -= parseFloat(amount); saveData(); updateWalletDisplay(); showAlert("提现成功！"); } else { showAlert("余额不足。"); } } else { showAlert("请输入有效金额。"); } }
         function transferWallet() { showAlert('请在与好友的聊天界面中使用转账功能。'); }
@@ -41363,7 +41559,14 @@ function summarizeMessageContentForAI(msg) {
             } catch (e) {
                 return "[分享了一篇同人文]";
             }
-            
+            case 'gift_card':
+            try {
+                const data = JSON.parse(msg.content);
+                // 【关键】告诉AI：用户送了什么，多少钱
+                return `[用户送了礼物]: "${data.name}" (价值 ¥${data.price})`;
+            } catch (e) {
+                return "[送了一份礼物]";
+            }
 case 'lovers_invite':
     return `[发起了情侣空间邀请]`;
 case 'lovers_accept':
@@ -42150,7 +42353,28 @@ if (!data || !data.choices || data.choices.length === 0) {
             try {
                 const heartsVoiceData = JSON.parse(heartsVoiceJsonString);
                 if (heartsVoiceData) {
+                    // 1. 更新当前显示的心声
                     friend.heartsVoice = heartsVoiceData;
+
+                    // 2. 【核心修复】必须同时存入历史记录数组
+                    if (!friend.heartsVoiceHistory) {
+                        friend.heartsVoiceHistory = [];
+                    }
+
+                    const historyItem = {
+                        id: generateUniqueId(),
+                        timestamp: new Date().toISOString(),
+                        data: {
+                            favorability: heartsVoiceData.favorability || '...',
+                            dressing: heartsVoiceData.dressing || '...',
+                            action: heartsVoiceData.action || '...',
+                            thought: heartsVoiceData.thought || '...',
+                            emoji: heartsVoiceData.emoji || '( ´• ω •` )'
+                        }
+                    };
+                    
+                    // 存入数组开头
+                    friend.heartsVoiceHistory.unshift(historyItem);
                 }
             } catch (e) {
                 console.error("解析心声JSON失败:", e);
@@ -43263,7 +43487,11 @@ async function postForumMessage() {
 
     const newId = await dbManager.set('forumPosts', newPost);
     newPost.id = newId;
-    sendRealNotification("论坛新动态", `${randomAi.name} 发布了新帖子: ${content.substring(0, 30)}...`, randomAi.avatarImage);
+    if (isForumAnonymous) {
+        sendRealNotification("论坛新动态", `匿名用户 发布了新帖子`, null);
+    } else {
+        sendRealNotification("论坛新动态", `你发布了新帖子: ${content.substring(0, 30)}...`, userProfile.avatarImage);
+    }
     forumPosts.unshift(newPost);
 
     if (currentForumSubTab === 'recommended') {
@@ -54297,59 +54525,73 @@ async function openReadTogetherBookshelf() {
     // ▲▲▲ 新增结束 ▲▲▲
 }
 
-// [修改后] 上传小说 - 保存原始数据以便后续切换编码
+// [修改后] 上传小说 - 优化版：立即刷新界面，后台保存数据
 function handleNovelUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
+    // 显示一个简单的加载提示
+    const navRightBtn = document.querySelector('#readTogetherBookshelfScreen .nav-right-action-btn');
+    const originalBtnContent = navRightBtn.innerHTML;
+    navRightBtn.innerHTML = '<i class="ri-loader-4-line fa-spin"></i>'; // 转圈图标
+
     const reader = new FileReader();
-    
-    // 读取为 ArrayBuffer (二进制)
     reader.readAsArrayBuffer(file); 
 
     reader.onload = async (e) => {
-        const buffer = e.target.result;
-        let text = '';
-        let detectedEncoding = 'utf-8'; // 默认编码
-        
-       
-
         try {
-            // 尝试 UTF-8
-            const decoder = new TextDecoder('utf-8', { fatal: true });
-            text = decoder.decode(buffer);
-        } catch (error) {
-            // 失败则回退到 GB18030 (比 GBK 更强大)
-            console.log("自动切换为 GB18030 编码");
-            const decoder = new TextDecoder('gb18030'); // <--- 这里改成 gb18030
-            text = decoder.decode(buffer);
-            detectedEncoding = 'gb18030'; // <--- 这里也改
+            const buffer = e.target.result;
+            let text = '';
+            let detectedEncoding = 'utf-8'; 
+            
+            try {
+                const decoder = new TextDecoder('utf-8', { fatal: true });
+                text = decoder.decode(buffer);
+            } catch (error) {
+                console.log("自动切换为 GB18030 编码");
+                const decoder = new TextDecoder('gb18030');
+                text = decoder.decode(buffer);
+                detectedEncoding = 'gb18030';
+            }
+
+            const pageSize = readerSettings.pageSize || 800;
+            const pages = [];
+            for (let i = 0; i < text.length; i += pageSize) {
+                pages.push(text.slice(i, i + pageSize));
+            }
+
+            const newBook = {
+                id: generateUniqueId(),
+                title: file.name.replace('.txt', ''),
+                content: text, 
+                rawBuffer: buffer,
+                encoding: detectedEncoding,
+                pages: pages,
+                totalPages: pages.length,
+                cover: '',
+                currentPage: 0 
+            };
+            
+            // 1. 先更新内存数据
+            sharedBooks.push(newBook);
+            
+            // 2. 【关键修改】立即刷新界面！不用等保存！
+            renderReadTogetherGrid();
+            
+            // 3. 恢复按钮状态
+            navRightBtn.innerHTML = originalBtnContent;
+
+            // 4. 弹出成功提示
+            showAlert(`小说上传成功！\n当前编码: ${detectedEncoding.toUpperCase()}`);
+
+            // 5. 最后在后台慢慢保存到数据库
+            await saveData(); 
+
+        } catch (err) {
+            console.error(err);
+            navRightBtn.innerHTML = originalBtnContent;
+            showAlert('小说解析失败，请检查文件格式。');
         }
-
-
-        const pageSize = readerSettings.pageSize || 800;
-        const pages = [];
-        for (let i = 0; i < text.length; i += pageSize) {
-            pages.push(text.slice(i, i + pageSize));
-        }
-
-        const newBook = {
-            id: generateUniqueId(),
-            title: file.name.replace('.txt', ''),
-            content: text, 
-            rawBuffer: buffer, // 【关键】保存原始二进制数据！
-            encoding: detectedEncoding, // 【关键】记录当前使用的编码
-            pages: pages,
-            totalPages: pages.length,
-            cover: '',
-            currentPage: 0 
-        };
-        
-        sharedBooks.push(newBook);
-        await saveData(); 
-        
-        renderReadTogetherGrid();
-        showAlert(`小说上传成功！\n当前编码: ${detectedEncoding.toUpperCase()}`);
     };
     
     // 清空 input，允许重复上传同一文件
@@ -57283,29 +57525,35 @@ async function claimFamilyCard(messageId, limit, senderName) {
 }
 
 
-// 1. 启动支付流程 (UI显示优化版)
+// [修改版] 启动支付流程 (支持免密)
 function startPaymentProcess(type, amount, params) {
+    // 1. 初始化交易数据
+    pendingTransaction = { type, amount, params, method: 'balance', cardId: null }; 
+    inputPassword = [];
+    
+    // 2. 【核心修改】检查是否开启了免密支付
+    if (userProfile.passwordFreePayment) {
+        // 如果开启了，直接检查余额并执行交易，跳过弹窗
+        completeTransaction();
+        return;
+    }
+
+    // 3. 如果没开启免密，且没设置密码，提示设置
     if (!userProfile.paymentPassword) {
         showAlert('请先在钱包中设置支付密码');
         return;
     }
-    // 初始化交易数据
-    pendingTransaction = { type, amount, params, method: 'balance', cardId: null }; 
-    inputPassword = [];
     
-    // 更新UI标题
+    // 4. 更新UI标题 (原逻辑)
     const payTitleEl = document.getElementById('payTargetName');
     
     if (type === 'doujin_gift') {
-        // 显示：打赏作者：玫瑰
         const author = friends.find(f => f.id === params.authorId);
         const authorName = author ? (author.remark || author.name) : '作者';
         payTitleEl.textContent = `打赏${authorName}：${params.giftName}`;
     } else if (type === 'doujin_egg') {
-        // 显示：砸场子：臭鸡蛋
         payTitleEl.textContent = `砸场子：${params.giftName}`;
     } else if (type === 'doujin_urge') {
-        // 显示：催更《小说名》
         const book = doujin_bookshelf.find(b => b.id === params.bookId);
         const bookTitle = book ? book.title : '小说';
         payTitleEl.textContent = `催更《${bookTitle}》(${params.chapterCount}章)`;
@@ -57314,6 +57562,9 @@ function startPaymentProcess(type, amount, params) {
         payTitleEl.textContent = `向 ${friend ? (friend.remark || friend.name) : '群聊'} 转账`;
     } else if (type === 'redEnvelope') {
         payTitleEl.textContent = `发群红包`;
+    } else if (type === 'store_checkout') {
+        // 增加购物标题适配
+        payTitleEl.textContent = `购买商品`;
     } else {
         payTitleEl.textContent = `支付交易`;
     }
@@ -57351,7 +57602,7 @@ function updatePwdDots() {
     }
 }
 
-// 3. 验证密码并扣款 (记录账单与亲属卡优化版)
+// [修改版] 仅负责验证密码，验证通过后调用执行函数
 async function verifyPaymentPassword() {
     const enteredPwd = inputPassword.join('');
     if (enteredPwd !== userProfile.paymentPassword) {
@@ -57360,90 +57611,95 @@ async function verifyPaymentPassword() {
         updatePwdDots();
         return;
     }
+    
+    // 密码正确，执行交易
+    await completeTransaction();
+}
 
+// [新增] 核心交易执行函数 (独立出来，供免密支付调用)
+async function completeTransaction() {
     const amount = pendingTransaction.amount;
     const params = pendingTransaction.params || {};
-    
-    // --- 1. 准备账单描述和亲属卡通知内容 ---
-    let billTitle = "消费";
-    let fcTargetName = "未知消费";
-    let billAvatar = ""; 
 
-if (pendingTransaction.type === 'store_checkout') {
-        // 获取商品名称，如果没有则默认为"商品"
-        const names = params.itemNames || '商品';
-        
-        // 设置账单显示的标题
-        billTitle = `购物-${names}`; 
-        
-        // 设置亲属卡通知 AI 的内容 (这样 AI 就能看到你具体买了什么)
-        fcTargetName = `购买了 ${names}`; 
-        
-        // 设置账单图标 (使用购物袋图标)
-        billAvatar = 'https://cdn-icons-png.flaticon.com/512/1170/1170678.png'; 
-    } 
-
-    else if (pendingTransaction.type === 'doujin_gift') {
-        // 【修改点】名称改得更具体
-        billTitle = `同人打赏-${params.giftName}`;
-        fcTargetName = `给小说作者打赏-${params.giftName}`; 
-        billAvatar = params.giftImg;
-    } else if (pendingTransaction.type === 'doujin_egg') {
-        // 【修改点】名称改得更具体
-        billTitle = `同人砸场-${params.giftName}`;
-        fcTargetName = `给烂文作者投掷-${params.giftName}`;
-        billAvatar = params.giftImg;
-    } else if (pendingTransaction.type === 'doujin_urge') {
-        const book = doujin_bookshelf.find(b => b.id === params.bookId);
-        const title = book ? book.title : '小说';
-        billTitle = `同人催更-${title}`;
-        fcTargetName = `催更小说-${title}`;
-        // 默认用书本图标
-        billAvatar = 'https://cdn-icons-png.flaticon.com/512/3330/3330314.png'; 
-    }
-    // ... 下面的 transfer 和 redEnvelope 逻辑保持不变 ...
-    else if (pendingTransaction.type === 'transfer') {
-        const friend = friends.find(f => f.id === currentChatFriendId);
-        const name = friend ? friend.name : "他人";
-        billTitle = `转账-给${name}`;
-        fcTargetName = `转账给${name}`;
-    } else if (pendingTransaction.type === 'redEnvelope') {
-        billTitle = `微信红包`;
-        fcTargetName = `发群红包`;
-    }
-
-    // --- 2. 执行扣款 ---
+    // --- 1. 余额/额度 检查与扣款 ---
     if (pendingTransaction.method === 'balance') {
         if (userProfile.balance < amount) {
-            alert('余额不足！'); inputPassword = []; updatePwdDots(); return;
+            // 如果是免密支付，因为没有弹窗，所以直接弹Alert
+            if (userProfile.passwordFreePayment) {
+                showAlert('支付失败：余额不足！');
+            } else {
+                alert('余额不足！'); 
+                inputPassword = []; 
+                updatePwdDots(); 
+            }
+            return;
         }
         userProfile.balance -= amount;
     } else {
         // 使用亲属卡扣款
         const card = (userProfile.receivedFamilyCards || []).find(c => c.id === pendingTransaction.cardId);
         if (!card || card.limit < amount) {
-            alert('亲属卡余额不足！'); inputPassword = []; updatePwdDots(); return;
+            if (userProfile.passwordFreePayment) {
+                showAlert('支付失败：亲属卡余额不足！');
+            } else {
+                alert('亲属卡余额不足！'); 
+                inputPassword = []; 
+                updatePwdDots();
+            }
+            return;
         }
         card.limit -= amount; 
+        
+        // 亲属卡通知逻辑
+        let fcTargetName = "未知消费";
+        if (pendingTransaction.type === 'store_checkout') fcTargetName = `购买了 ${params.itemNames || '商品'}`;
+        else if (pendingTransaction.type === 'doujin_gift') fcTargetName = `给小说作者打赏-${params.giftName}`;
+        else if (pendingTransaction.type === 'doujin_egg') fcTargetName = `给烂文作者投掷-${params.giftName}`;
+        else if (pendingTransaction.type === 'doujin_urge') fcTargetName = `催更小说`;
+        else if (pendingTransaction.type === 'transfer') fcTargetName = `转账`;
+        else if (pendingTransaction.type === 'redEnvelope') fcTargetName = `发红包`;
+
         const cardGiver = friends.find(f => f.name === card.from || f.remark === card.from);
         if (cardGiver) {
             broadcastAiActivity('family_card_expense', {
                 amount: amount.toFixed(2),
-                target: fcTargetName // 之前定义的消费项目名称，如"购买了商品xxx"
+                target: fcTargetName
             }, cardGiver.id);
         }
-        // 触发亲属卡留言 (AI回复)
         if (userProfile.enableFcMessages) {
-            // 这里传入具体的 fcTargetName (例如：打赏-玫瑰)
             generateFamilyCardReaction(card, amount, fcTargetName);
         }
     }
 
-   // --- 3. 【核心新增】保存账单记录到用户数据中 ---
-    // 这是一个新的数组，专门用来存非聊天产生的消费（如打赏）
+    // --- 2. 准备账单描述 ---
+    let billTitle = "消费";
+    let billAvatar = ""; 
+
+    if (pendingTransaction.type === 'store_checkout') {
+        const names = params.itemNames || '商品';
+        billTitle = `购物-${names}`; 
+        billAvatar = 'https://cdn-icons-png.flaticon.com/512/1170/1170678.png'; 
+    } else if (pendingTransaction.type === 'doujin_gift') {
+        billTitle = `同人打赏-${params.giftName}`;
+        billAvatar = params.giftImg;
+    } else if (pendingTransaction.type === 'doujin_egg') {
+        billTitle = `同人砸场-${params.giftName}`;
+        billAvatar = params.giftImg;
+    } else if (pendingTransaction.type === 'doujin_urge') {
+        const book = doujin_bookshelf.find(b => b.id === params.bookId);
+        const title = book ? book.title : '小说';
+        billTitle = `同人催更-${title}`;
+        billAvatar = 'https://cdn-icons-png.flaticon.com/512/3330/3330314.png'; 
+    } else if (pendingTransaction.type === 'transfer') {
+        const friend = friends.find(f => f.id === currentChatFriendId);
+        const name = friend ? friend.name : "他人";
+        billTitle = `转账-给${name}`;
+    } else if (pendingTransaction.type === 'redEnvelope') {
+        billTitle = `微信红包`;
+    }
+
+    // --- 3. 保存账单记录 ---
     if (!userProfile.extraBillRecords) userProfile.extraBillRecords = [];
-    
-    // 【修改】排除 'transfer' (转账) 和 'redEnvelope' (红包)，因为它们会自动从聊天记录读取，防止重复
     if (pendingTransaction.type !== 'transfer' && pendingTransaction.type !== 'redEnvelope') {
         userProfile.extraBillRecords.push({
             type: 'expense',
@@ -57454,48 +57710,27 @@ if (pendingTransaction.type === 'store_checkout') {
             method: pendingTransaction.method
         });
     }
-    // --- 4. 扣款成功后续处理 ---
+
+    // --- 4. 关闭弹窗 (如果是开启了免密，这一步其实是多余的但无害) ---
     closePaymentModal();
-   
+
+    // --- 5. 执行具体业务逻辑 ---
     if (pendingTransaction.type === 'store_checkout') {
-        // 1. 获取被购买的商品
         const purchasedItems = storeCartItems.filter(i => i.selected);
-        
-        // --- 【新增】将商品添加到“待发货”列表 ---
         purchasedItems.forEach(item => {
             storePendingShipmentItems.push({
-                id: item.id, // 保持原ID或生成新订单ID
-                title: item.title,
-                price: item.price,
-                img: item.img,
-                count: item.count,
-                orderTime: new Date().toISOString()
+                id: item.id, title: item.title, price: item.price, img: item.img, count: item.count, orderTime: new Date().toISOString()
             });
-        });
-        // --------------------------------------
-
-        // 2. 将选中的商品移动到“藏品/已购” (原有的逻辑)
-        purchasedItems.forEach(item => {
             collectedItems.push({
-                id: generateUniqueId(),
-                title: item.title,
-                price: item.price,
-                img: item.img,
-                collectedDate: new Date().toLocaleDateString('zh-CN'),
-                payerName: '我'
+                id: generateUniqueId(), title: item.title, price: item.price, img: item.img, collectedDate: new Date().toLocaleDateString('zh-CN'), payerName: '我'
             });
         });
-
-        // 3. 从购物车中移除已买商品 (原有的逻辑)
         storeCartItems = storeCartItems.filter(i => !i.selected);
-        
-        // 4. 刷新页面 (原有的逻辑)
         renderStoreCartPage();
         showToast(`支付成功！已购买 ${purchasedItems.length} 件商品`);
     }
-
-    // 处理原有业务逻辑
-    if (pendingTransaction.type === 'doujin_gift') {
+    
+    else if (pendingTransaction.type === 'doujin_gift') {
         const { giftName, giftImg, authorId } = params;
         if (authorId) {
             const author = friends.find(f => f.id === authorId);
@@ -57508,17 +57743,19 @@ if (pendingTransaction.type === 'store_checkout') {
         const { giftName, giftImg } = params;
         playGiftAnimation(giftImg);
         showToast(`成功投掷 ${giftName}！`);
-    } else if (pendingTransaction.type === 'doujin_urge') {
+    } 
+    else if (pendingTransaction.type === 'doujin_urge') {
         const { bookId, chapterCount, plotDirection } = params;
         executeDoujinUrgeGeneration(bookId, chapterCount, plotDirection);
     }
     else if (pendingTransaction.type === 'transfer') {
         executeTransferSend();
-    } else if (pendingTransaction.type === 'redEnvelope') {
+    } 
+    else if (pendingTransaction.type === 'redEnvelope') {
         executeRedEnvelopeSend();
     }
     
-    await saveData(); // 统一保存所有变动
+    await saveData(); 
 }
 
 function closePaymentModal() {
@@ -63194,7 +63431,8 @@ function closeSpyDetailModal() {
 }
 
 /**
- * [新增] 批量触发所有情侣角色的记账评价
+ * [修正版] 批量触发所有情侣角色的记账评价
+ * 修复：正确识别收入/支出，让AI做出正确的反应（夸奖赚钱 vs 吐槽花钱）
  */
 async function triggerBatchAccountReaction(transaction) {
     // 1. 筛选出所有开通了情侣空间的好友
@@ -63204,23 +63442,45 @@ async function triggerBatchAccountReaction(transaction) {
     const settings = await dbManager.get('apiSettings', 'settings');
     if (!settings.apiUrl) return;
 
-    // 2. 准备公共上下文：最近20笔账单 + 月总结
+    // --- 【核心修改 1：动态判断收支类型】 ---
+    const isIncome = transaction.type === 'income';
+    const typeStr = isIncome ? "收入" : "支出";
+    const actionStr = isIncome ? "赚到了" : "消费了";
+    
+    // 针对收入和支出，给AI不同的情感指导
+    let moodInstruction = "";
+    if (isIncome) {
+        moodInstruction = `
+   - **当前是【收入】**：用户赚钱了！
+   - **反应方向**：
+     * 夸奖：“宝宝真棒”、“辛苦啦”、“求包养/求请客”。
+     * 崇拜：“哇，富婆/大款！”
+     * 关心：“赚钱虽然重要，但不要太累哦”。`;
+    } else {
+        moodInstruction = `
+   - **当前是【支出】**：用户花钱了。
+   - **反应方向**：
+     * 宠溺：“不够我给你转”、“喜欢就买”。
+     * 好奇：“买了什么好吃的/好玩的？”
+     * 管家婆（如果人设符合）：“又乱花钱！”`;
+    }
+    // --- 修改结束 ---
+
+    // 2. 准备公共上下文：最近20笔账单
     const recentBills = loversTransactions.slice(-20).map(t => 
         `${t.date} ${t.type==='expense'?'支出':'收入'} ${t.amount} (${t.category}: ${t.note||''})`
     ).join('\n');
     
-    // 简单计算月支出
     const currentMonth = transaction.date.slice(0, 7);
     const monthExpense = loversTransactions
         .filter(t => t.date.startsWith(currentMonth) && t.type === 'expense')
         .reduce((sum, t) => sum + t.amount, 0);
 
-    // 3. 为每个角色准备专属情报 (人设 + 聊天记录)
+    // 3. 为每个角色准备专属情报
     const charactersContext = lovers.map(friend => {
         const personaId = friend.activeUserPersonaId || 'default_user';
         const persona = userPersonas.find(p => p.id === personaId) || userProfile;
         
-        // 获取最近50条聊天
         const chatHistory = (chatHistories[friend.id] || []).slice(-50).map(m => 
             `${m.type === 'sent' ? persona.name : friend.name}: ${m.content.substring(0, 50)}`
         ).join('\n');
@@ -63237,34 +63497,33 @@ ${chatHistory || '暂无'}
 
     // 4. 构建 Prompt
     const prompt = `
-【任务】: 用户刚刚记了一笔账，请你扮演以下 ${lovers.length} 位不同的恋人角色，分别对这笔消费进行评价/吐槽/关心。
+【任务】: 用户刚刚在情侣账本里记了一笔账。请你扮演以下 ${lovers.length} 位不同的恋人角色，分别对这笔账单进行评价。
 
 【公共账单情报】
-- **当前消费**: 支出 ${transaction.amount}元，分类：${transaction.category}，备注：${transaction.note || '无'}
-- **财务背景**: 本月累计支出 ${monthExpense.toFixed(2)}元。
+- **当前账单**: **${typeStr}** ${transaction.amount}元
+- **项目分类**: ${transaction.category}
+- **用户备注**: “${transaction.note || '无'}”
+- **本月累计支出**: ${monthExpense.toFixed(2)}元
 - **近期账单参考**: 
 ${recentBills}
 
 【角色专属情报库】
 ${charactersContext}
 
-【要求】
-1. 必须根据每个角色独特的**人设**、**聊天氛围**以及**对应的用户人设**来生成回复。
-2. 结合账单金额和用途：
-   - 如果是买零食/游戏，有的角色可能宠溺，有的可能吐槽乱花钱。
-   - 如果金额很大，有的可能担心钱不够，有的可能霸气转账。
-3. **格式铁律**: 必须返回一个纯净的 JSON 对象，Key是角色ID，Value是评价内容。
+【反应要求】
+1. **${moodInstruction}**
+2. 必须根据每个角色独特的**人设**、**聊天氛围**以及**对应的用户人设**来生成回复。
+3. **格式铁律**: 必须返回一个纯净的 JSON 对象，Key是角色ID，Value是评价内容 (30字以内)。
 
 【JSON示例】
 {
-  "friend_id_1": "宝宝你又乱花钱，不过开心就好啦。",
-  "friend_id_2": "买了什么好吃的？下次带我一起去！"
+  "friend_id_1": "${isIncome ? '哇！赚了这么多，今晚必须加餐！' : '怎么又买零食，小心长胖哦。'}",
+  "friend_id_2": "${isIncome ? '辛苦了宝贝，快去休息一下。' : '喜欢吗？喜欢就好，钱不够跟我说。'}"
 }
 `;
 
     // 5. 发送请求
     try {
-        // UI提示正在生成（可选，可以在某处显示个loading小图标）
         console.log("正在生成全员账单评价...");
 
         const response = await fetch(`${settings.apiUrl}/chat/completions`, {
@@ -63284,20 +63543,16 @@ ${charactersContext}
             const resultMap = JSON.parse(jsonMatch[0]);
             
             // 6. 将评价存入账单对象
-            // 注意：我们要找到原始数组里的那个对象进行修改
             const targetTrans = loversTransactions.find(t => t.id === transaction.id);
             if (targetTrans) {
-                // 合并新生成的评论
                 targetTrans.comments = { ...targetTrans.comments, ...resultMap };
+                await saveData(); 
                 
-                await saveData(); // 保存到数据库
-                
-                // 如果当前就在记账本页面，刷新显示
+                // 刷新显示
                 if (document.getElementById('account-page').classList.contains('active')) {
                     renderLoversAccountList();
                 }
                 
-                // 可选：弹出提示
                 showToast("情侣空间收到新的账单留言");
             }
         }
@@ -69466,6 +69721,75 @@ function deleteSelectedHeartsVoice() {
         
         showToast("删除成功");
     });
+}
+
+// [新增] 切换免密支付状态
+async function togglePasswordFreePayment() {
+    const isEnabled = document.getElementById('passwordFreeToggle').checked;
+    
+    // 如果是开启，且没设置过密码，提示先设置密码
+    if (isEnabled && !userProfile.paymentPassword) {
+        document.getElementById('passwordFreeToggle').checked = false;
+        return showAlert('为了安全，请先设置支付密码，然后再开启免密支付。');
+    }
+
+    userProfile.passwordFreePayment = isEnabled;
+    await saveData();
+    showToast(isEnabled ? "已开启免密支付" : "已关闭免密支付");
+}
+
+// --- 🎁 礼物功能核心逻辑 ---
+
+// 打开弹窗
+function openGiftInputModal() {
+    document.getElementById('giftNameInput').value = '';
+    document.getElementById('giftPriceInput').value = '';
+    document.getElementById('giftInputModal').classList.add('show');
+    hideFunctionMenus(); // 关闭加号菜单
+}
+
+// 关闭弹窗
+function closeGiftInputModal() {
+    document.getElementById('giftInputModal').classList.remove('show');
+}
+
+// 确认发送
+async function confirmSendCustomGift() {
+    const name = document.getElementById('giftNameInput').value.trim();
+    const price = document.getElementById('giftPriceInput').value.trim();
+
+    if (!name || !price) {
+        return showAlert("请填写完整的礼物信息");
+    }
+
+    const priceNum = parseFloat(price).toFixed(2);
+    
+    // 1. 构建礼物数据对象
+    const giftData = {
+        name: name,
+        price: priceNum
+    };
+
+    // 2. 发送消息（定义新的类型 'gift_card'）
+    // 内容存为 JSON 字符串，方便后续解析
+    const msg = await saveChatMessage(
+        currentChatFriendId, 
+        'sent', 
+        JSON.stringify(giftData), 
+        '', 
+        null, 
+        'gift_card' // <--- 新的消息类型
+    );
+
+    // 3. 上屏显示
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    addMessageToDOM(msg, friend);
+    document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+
+    // 4. 关闭弹窗
+    closeGiftInputModal();
+    
+   
 }
 
     </script>
