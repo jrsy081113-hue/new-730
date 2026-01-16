@@ -26897,6 +26897,12 @@ let currentForumProfileId = null;
 
 let isStatusBarVisible = true; // 默认状态栏是可见的
 
+// 在其他全局变量附近添加这一行
+let productsData = {};
+
+let pendingItems = []; 
+let collectedItems = [];
+
 // 全局变量：提示音设置
 let soundSettings = {
     received: { enabled: false, data: null, name: '' },
