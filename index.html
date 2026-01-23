@@ -19750,6 +19750,31 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
 }
 
+/* 论坛私信重回按钮样式 */
+.dm-regen-btn {
+    position: absolute;
+    right: -30px; /* 显示在气泡右侧外面 */
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    display: none; /* 默认隐藏 */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #999;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-size: 14px;
+    z-index: 10;
+}
+.dm-regen-btn:hover {
+    color: #1d9bf0;
+}
+.dm-bubble-row {
+    overflow: visible !important; /* 允许按钮显示在容器外 */
+}
+
     </style>
 </head>
 <body>
@@ -23739,7 +23764,7 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     <!-- 顶部导航栏，增加了返回按钮 -->
     <!-- ▼▼▼ 替换代码 ▼▼▼ -->
 <div class="nav-bar">
-    <button class="nav-btn" onclick="backToNotifications()"><i class="ri-arrow-left-s-line"></i></button>
+   <button class="nav-btn" onclick="backFromCharProfile()"><i class="ri-arrow-left-s-line"></i></button>
     <div class="nav-title" id="charProfileNavTitle">角色主页</div>
     <!-- 新增的右侧按钮容器 -->
     <div class="nav-right-actions">
@@ -26873,9 +26898,9 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 12, // 版本号升级
+    version: 13, // 版本号升级
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能</h3><ul class="update-list"><li>1. 新增真心话大冒险游戏，可以多人或双人游玩</li><li>2. 增加论坛头像点击查看主页功能，点击角色或NPC头像即可进入并生成主页内容</li><li>3. 增加论坛个人资料修改功能，支持修改时间、关注和粉丝数</li><li>4. 增加论坛私信功能，可以查看陌生人私信，也可以给角色私信</li><li>5. 增加转账退回功能，可以退回角色的转账</li></ul></div><div class="update-section"><h3 class="update-subtitle">bug修复</h3><ul class="update-list"><li>1. 修复送礼物时对方以为是需要代付的bug</li><li>2. 修复论坛规则无法删除，以及匿名模式再次打开会恢复默认的bug</li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><ul class="update-list"><li>1. 增加了论坛主页的帖子删除按键</li><li>2. 减少了私信骂人的频率，现在正向居多</li><li>3. 增加可以点击私信里的对面头像，生成查看该npc/角色的主页。</li><li>4. 增加论坛私信的重回功能，单击角色第一条消息气泡会出现重回按键，可以重新生成回复。</li></ul></div><div class="update-section"><h3 class="update-subtitle">bug修复</h3><ul class="update-list"><li>1. 修复退回转账会认为是接收的bug</li><li>2. 修复论坛主页帖子点击显示不存在的bug</li></ul></div>`
 };
 
         // 全局变量
@@ -32744,9 +32769,14 @@ history.forEach(msg => {
         content = `[转账请求] 金额: ¥${parseFloat(transfer.amount).toFixed(2)}，备注: ${transfer.remark || '无'}`;
     } 
     else if (msg.contentType === 'transfer_accepted') {
-        const transfer = JSON.parse(msg.content);
+    const transfer = JSON.parse(msg.content);
+    // 【核心修复】增加判断：如果是退回状态，明确告诉AI是“退回”
+    if (msg.transfer_status === 'returned') {
+        content = `[系统: 转账 ¥${parseFloat(transfer.amount).toFixed(2)} 已被退回]`;
+    } else {
         content = `[系统: 转账 ¥${parseFloat(transfer.amount).toFixed(2)} 已被接收]`;
-    } 
+    }
+}
     else if (msg.contentType === 'listen_invite') {
         content = `[系统: 用户发起了“一起听歌”邀请]`;
     } 
@@ -41794,6 +41824,10 @@ function summarizeMessageContentForAI(msg) {
             }
 
         case 'transfer_accepted':
+             
+             if (msg.transfer_status === 'returned') {
+                 return "[转账已被退回]";
+             }
              return "[转账已被接收]";
 
         case 'location':
@@ -44057,98 +44091,7 @@ function renderForumProfileTimeline(type) {
     }
 
     postsToDisplay.forEach(post => {
-        const item = document.createElement('div');
-        item.className = 'post-item';
-        item.onclick = () => openForumDetailView(post.id);
-
-        // --- 作者信息判断逻辑 (已修复) ---
-        let displayName, displayHandle, avatarHtml;
-        if (post.authorId && post.authorId === userProfile.id) {
-            displayName = forumProfileData.name;
-            displayHandle = forumProfileData.handle.startsWith('@') ? forumProfileData.handle : `@${forumProfileData.handle}`;
-            const avatarSrc = forumProfileData.avatarImage || userProfile.avatarImage;
-            avatarHtml = avatarSrc 
-                ? `<div class="post-avatar" style="background-image: url('${avatarSrc}')"></div>`
-                : `<div class="post-avatar" style="background-color: #1da1f2; color: white;">${displayName.substring(0,1)}</div>`;
-        } else if (post.authorId) {
-            const author = getAuthorById(post.authorId);
-            displayName = author.name;
-            displayHandle = `@${displayName.replace(/\s+/g, '').substring(0, 8)}`;
-            avatarHtml = author.avatarImage
-                ? `<div class="post-avatar" style="background-image: url('${author.avatarImage}')"></div>`
-                : `<div class="post-avatar" style="background-color: ${getRandomColor()}; color: white;">${author.avatar}</div>`;
-        } else {
-            displayName = post.authorName;
-            displayHandle = `@${displayName.replace(/\s+/g, '').substring(0, 8)}`;
-            if (displayName === '匿名用户') {
-                avatarHtml = `<div class="post-avatar">?</div>`;
-            } else if (post.authorAvatarUrl) {
-                avatarHtml = `<div class="post-avatar" style="background-image: url('${post.authorAvatarUrl}')"></div>`;
-            } else {
-                avatarHtml = `<div class="post-avatar" style="background-color: ${post.authorAvatarColor}; color: white;">${post.authorAvatarChar}</div>`;
-            }
-        }
-
-        const timeAgo = timeSince(post.timestamp);
-        const isLiked = forumLikes.some(p => p.id === post.id);
-        
-        // --- 动态生成随机数 (为了演示) ---
-        const likes = Math.floor(Math.random() * 200);
-        const comments = Math.floor(likes * (Math.random() * 0.5 + 0.2));
-        const retweets = Math.floor(likes * (Math.random() * 0.3 + 0.1));
-        const views = likes * (Math.floor(Math.random() * 10) + 5);
-
-        item.innerHTML = `
-            ${avatarHtml}
-            <div class="post-content-area" style="position: relative;">
-                <div class="post-header">
-                    <div class="post-author-info">
-                        <span class="post-author-name">${displayName}</span>
-                        <span class="post-handle">${displayHandle}</span>
-                        <span class="post-handle">· ${timeAgo}</span>
-                    </div>
-                </div>
-                <div class="post-text">${post.content.replace(/\n/g, '<br>')}</div>
-                ${post.htmlModule ? post.htmlModule : ''}
-                
-                <div class="post-actions">
-    <!-- 1. 评论 (Font: 镜像翻转) -->
-    <span class="post-action-btn">
-        <i class="ri-chat-1-line" style="font-size: 19px; transform: scaleX(-1);"></i>
-        <span>${comments}</span>
-    </span>
-
-    <!-- 2. 转发 (SVG: 方形循环) -->
-    <span class="post-action-btn">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zM.23 8.33c.292.293.767.293 1.06 0l2.22-2.22V16.35c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-5.85c-1.24 0-2.25-1.01-2.25-2.25V6.11l2.22 2.22c.293.293.768.293 1.06 0s.294-.768 0-1.06l-3.5-3.5c-.145-.147-.337-.22-.53-.22s-.383.072-.53.22l-3.5 3.5c-.294.292-.294.767 0-1.06z"></path></svg>
-        <span>${retweets}</span>
-    </span>
-
-    <!-- 3. 点赞 (Font: 爱心) -->
-    <span class="post-action-btn" onclick="toggleLikePost(event, '${post.id}')">
-        <i class="${isLiked ? 'ri-heart-3-fill' : 'ri-heart-3-line'}" 
-           style="font-size: 19px; ${isLiked ? 'color: #f91880;' : ''}"></i>
-        <span>${likes}</span>
-    </span>
-
-    <!-- 4. 浏览量 (SVG: 竖条柱状图) -->
-    <span class="post-action-btn">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-6h2v6h-2.004zM13.25 21l.004-11h2v11h-2.004z"></path></svg>
-        <span>${views}</span>
-    </span>
-
-    <!-- 5. 书签 (Font: 书签) -->
-    <span class="post-action-btn">
-        <i class="ri-bookmark-line" style="font-size: 19px;"></i>
-    </span>
-
-    <!-- 6. 分享 (SVG: 方框箭头) -->
-    <span class="post-action-btn" onclick="openSharePostModal(event, '${post.id}')">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"></path></svg>
-    </span>
-</div>
-            </div>
-        `;
+        const item = createPostElement(post);
         container.appendChild(item);
     });
 }
@@ -47427,15 +47370,16 @@ commentsData.forEach(comment => {
 }
 
 /**
- * 【万能搜索函数 - V3 修复版】
+ * 【万能搜索函数 - V4 终极修复版】
  */
 function findForumPostById(postId) {
-    // 1. 先在所有主时间线和喜欢列表中查找
+    // 1. 先在所有主时间线、喜欢列表、【以及总历史记录】中查找
     const allMainPosts = [
         ...(currentForumPosts || []),
         ...(currentGossipPosts || []),
         ...(currentFollowingPosts || []),
-        ...(forumLikes || [])
+        ...(forumLikes || []),
+        ...(forumPosts || []) // <--- 【核心修复】加上这一行！确保能找到历史总表里的帖子
     ];
     let post = allMainPosts.find(p => p.id === postId);
     if (post) return post;
@@ -47468,7 +47412,7 @@ function findForumPostById(postId) {
         }
     }
 
-    // --- 【核心修复】新增：去临时 NPC 的缓存里搜查 ---
+    // 4. 去临时 NPC 的缓存里搜查
     if (tempNpcData && tempNpcData.profileContentCache) {
         const cache = tempNpcData.profileContentCache;
         // 搜帖子
@@ -47484,7 +47428,6 @@ function findForumPostById(postId) {
             }
         }
     }
-    // --- 修复结束 ---
     
     return null;
 }
@@ -48804,20 +48747,27 @@ function renderForumNotifications() {
 }
 
 /**
- * [修改版] 打开指定角色的主页 (不自动生成，需手动刷新)
- * @param {string} characterId - 角色ID
+ * [修改版 V2] 打开指定角色的主页 (支持从帖子详情页返回)
  */
 function openForumCharacterProfile(characterId) {
+    // 1. 【核心修改】记录来源页面
+    if (document.getElementById('forumDMDetailView').classList.contains('active')) {
+        lastForumPageId = 'forumDMDetailView'; // 来自私信
+    } else if (document.getElementById('forumDetailView').classList.contains('active')) {
+        lastForumPageId = 'forumDetailView';   // 来自帖子详情页
+    } else {
+        lastForumPageId = 'normal';            // 来自通知列表或其他
+    }
+
     currentForumProfileId = characterId; 
     setActivePage('forumCharacterProfileView');
 
-    // 1. 尝试在好友列表里找
+    // 2. 尝试在好友列表里找
     let character = friends.find(f => f.id === characterId);
 
-    // 2. 如果没找到，检查是否是当前的临时NPC
+    // 3. 如果没找到，检查是否是当前的临时NPC
     if (!character && tempNpcData && tempNpcData.id === characterId) {
         character = tempNpcData;
-        console.log(`[角色主页] 正在查看 NPC: ${character.name}`);
     }
 
     if (!character) {
@@ -48825,22 +48775,14 @@ function openForumCharacterProfile(characterId) {
         return;
     }
 
-    // 绑定刷新按钮 (传入ID)
+    // 绑定刷新按钮
     document.getElementById('refreshCharProfileBtn').onclick = () => refreshCharacterProfileContent(characterId);
 
-    // 3. 核心逻辑：
+    // 4. 渲染逻辑
     if (character.profileContentCache) {
-        // A. 如果有缓存，直接加载显示
-        console.log(`[角色主页] 为 ${character.name} 加载已保存的内容。`);
         renderForumCharacterProfile(character, character.profileContentCache);
     } else {
-        // B. 如果没有缓存 (首次进入)
-        console.log(`[角色主页] 首次进入 ${character.name}，等待手动刷新。`);
-        
-        // 先渲染静态头部信息
         renderForumCharacterProfile(character); 
-        
-        // 【关键修改】只显示一行简单的提示文字，没有图标
         const timelineContainer = document.getElementById('charProfileTimeline');
         timelineContainer.innerHTML = `
             <div style="text-align: center; padding: 80px 20px; color: var(--text-secondary); font-size: 14px;">
@@ -48889,18 +48831,34 @@ async function generateCharacterProfileContent(characterId) {
     const personaId = character.activeUserPersonaId || 'default_user';
     const persona = userPersonas.find(p => p.id === personaId) || userProfile;
 
-    // 3. 准备聊天记录 (NPC没有聊天记录，设为无)
+    // 3. 准备聊天记录
     let recentChat = '无';
-    if (!character.isNpc) {
-        // 只有是真好友才去读聊天记录
+
+    // ▼▼▼ 【核心修改】新增：优先查找陌生人私信记录 ▼▼▼
+    // 检查这个角色ID是否对应一个现有的陌生人私信会话 (currentForumDMs 是全局存储陌生人私信的数组)
+    const strangerDM = currentForumDMs.find(dm => dm.id === characterId);
+    
+    if (strangerDM && strangerDM.history && strangerDM.history.length > 0) {
+        // 如果找到了私信记录，就使用它！
+        recentChat = strangerDM.history.slice(-30).map(m => {
+            // isMe=true 是用户，false 是对方(character.name)
+            const senderName = m.isMe ? persona.name : character.name;
+            return `${senderName}: ${m.content}`; 
+        }).join('\n');
+        
+        console.log(`[角色主页] 已载入与 ${character.name} 的陌生人私信记录作为参考。`);
+    }
+    // ▲▲▲ 修改结束 ▲▲▲
+
+    // 原有的好友逻辑 (放在 else if 里)
+    else if (!character.isNpc) {
+        // 只有是真好友才去读微信聊天记录
         recentChat = (chatHistories[character.id] || []).slice(-30).map(m => {
             const senderName = m.type === 'sent' ? persona.name : character.name;
-            // 兼容 summarizeMessageContentForAI 函数，如果不存在则直接用 content
             const contentStr = typeof summarizeMessageContentForAI === 'function' ? summarizeMessageContentForAI(m) : m.content;
             return `${senderName}: ${contentStr}`; 
         }).join('\n');
     }
-    // --- 修改结束 ---
 
     const prompt = `
     【任务】: 你是角色 "${character.name}"，人设是：“${character.role}”。你的任务是为你的个人主页生成内容，包括“你发的帖子”、“你的回复”和“你喜欢的帖子”。
@@ -69423,15 +69381,18 @@ ${worldview.name}: ${worldview.description}
 - 最近发帖: ${myRecentPosts || '无'}
 - 疑似关联人物 (绯闻对象): ${knownCharacters || '无'}
 
+// ... (保留上面的部分) ...
+
 【生成要求 (必须严格遵守)】:
-1.  **【全员陌生人】**: 发送者必须是完全不认识的网友。**严禁**出现用户的好友列表里的人。
-2.  **【内容多变性】**: 不要固定比例，请随机混合以下类型（越丰富越好）：
-    -   **八卦吃瓜**: "哎，你跟那个${knownCharacters.split('、')[0] || '某某'}是不是真的？" / "看到你们互动了，好甜！"
-    -   **粉丝崇拜**: 针对用户的【简介】或【最近发帖】表示喜欢，或者是看到粉丝量多来膜拜大佬。
-    -   **恶意杠精**: 无脑喷用户的帖子、嘲讽简介、或者单纯发泄情绪（"写的什么垃圾"、"取关了"）。
-    -   **奇怪路人**: 发错消息的、发谜语的、上来就借钱的、求互粉的。
-    -   **网络广告**: 卖片、刷单、微商、约稿、减肥药（要符合论坛风格）。
-3.  **【隐私铁律】**: 陌生人**绝对不知道**用户的真实性格、秘密或私下设定。他们只能根据【公开档案】和【最近发帖】来评判用户。
+1.  **【全员陌生人】**: 发送者必须是完全不认识的网友。
+2.  **【【【世界观融合铁律 (最高优先级)】】】**: 
+    - 你的所有私信内容、路人身份和说话方式，**必须**深度结合当前的【世界观设定】。
+3.  **【语气比例控制 】**: 请严格按照以下比例生成内容：
+    -   **40% [友好夸夸]**: 真诚地夸赞用户的简介、头像或之前的帖子，或者表达对大神的崇拜。
+    -   **40% [正常交流]**: 礼貌的吃瓜八卦（询问绯闻）、正常的咨询问题、或者分享一个与世界观相关的小道消息。
+    -   **10% [奇怪路人/广告]**: 发错消息的、发谜语的、借钱的、或者符合世界观的广告（如：卖飞剑/卖义体）。
+    -   **10%  [负面情绪]**: 可以是杠精或发泄情绪，**不要太多**。
+4.  **【隐私铁律】**: 陌生人**绝对不知道**用户的真实性格、秘密或私下设定。他们只能根据【公开档案】和【最近发帖】来评判用户。
 
 【输出格式铁律】:
 返回一个纯净的 JSON 数组 \`[]\`，包含 **15个** 对象。每个对象格式如下：
@@ -69621,15 +69582,13 @@ function openForumDMDetail(dmId) {
         const friendId = dmId.replace('dm_friend_', '');
         const friend = friends.find(f => f.id === friendId);
         if (friend) {
-            // 构造一个临时的 DM 数据对象供渲染用
             dmData = {
                 id: dmId,
                 name: friend.name,
                 handle: `@${friend.name}`,
-                avatar: friend.avatarImage || '', // 如果没图后面会处理
-                // 如果是好友，history 读取 friend.forumDmHistory
+                avatar: friend.avatarImage || '',
                 history: friend.forumDmHistory || [],
-                isFriend: true, // 标记是好友
+                isFriend: true,
                 friendId: friend.id // 记录真实ID
             };
         }
@@ -69647,6 +69606,20 @@ function openForumDMDetail(dmId) {
     
     // 2. 设置头部头像
     const headerAvatar = document.getElementById('dmDetailHeaderAvatar');
+    
+    // --- 【核心修改开始】添加点击事件 ---
+    // 准备点击参数
+    const targetId = dmData.isFriend ? dmData.friendId : dmData.id; // 如果是好友用好友ID，陌生人用DM ID
+    const targetName = dmData.name.replace(/'/g, "\\'"); // 防止名字里有单引号报错
+    const targetAvatarUrl = dmData.avatar || '';
+
+    // 绑定点击跳转功能 (复用已有的处理函数)
+    headerAvatar.onclick = (event) => {
+        handleForumAvatarClick(event, targetId, targetName, targetAvatarUrl);
+    };
+    headerAvatar.style.cursor = 'pointer'; // 鼠标变手型
+    // --- 【核心修改结束】 ---
+
     if (dmData.avatar && dmData.avatar !== '') {
         headerAvatar.style.backgroundImage = `url('${dmData.avatar}')`;
         headerAvatar.textContent = '';
@@ -69664,7 +69637,6 @@ function openForumDMDetail(dmId) {
     // 3. 标记已读 (仅陌生人)
     if (!dmData.isFriend && dmData.isUnread) {
         dmData.isUnread = false;
-        // 注意：这里不需要立即刷新列表，等返回时刷新即可
     }
 
     // 4. 渲染气泡
@@ -69688,8 +69660,33 @@ function renderForumDMBubbles(dm) {
     `;
 
     if (dm.history && dm.history.length > 0) {
-        dm.history.forEach(msg => {
-            appendDMBubbleToUI(msg.content, msg.isMe);
+        dm.history.forEach((msg, index) => {
+            const row = document.createElement('div');
+            row.className = `dm-bubble-row ${msg.isMe ? 'sent' : 'received'}`;
+            
+            // 判断是否是“对方”的“这一轮”的“第一条”消息
+            // 条件：不是我发的 && (是第一条消息 OR 上一条是我发的)
+            let regenHtml = '';
+            let clickEvent = '';
+            
+            const isFirstOfTurn = !msg.isMe && (index === 0 || dm.history[index - 1].isMe);
+
+            if (isFirstOfTurn) {
+                // 如果是该轮第一条，添加点击事件和重回按钮
+                clickEvent = `onclick="toggleDmRegenIcon(this)"`;
+                regenHtml = `
+                    <div class="dm-regen-btn" title="重新生成回复" onclick="regenerateForumDM(event, '${dm.id}', ${index})">
+                        <i class="ri-refresh-line"></i>
+                    </div>
+                `;
+            }
+
+            row.innerHTML = `
+                <div class="dm-bubble ${msg.isMe ? 'sent' : 'received'}" ${clickEvent}>
+                    ${msg.content}
+                    ${regenHtml}
+                </div>`;
+            container.appendChild(row);
         });
     }
 
@@ -70178,6 +70175,100 @@ async function confirmReturnTransfer() {
     
     showAlert('已退还该笔转账');
     currentTransferMsgId = null;
+}
+
+/**
+ * [修改版 V2] 角色主页的智能返回函数
+ */
+function backFromCharProfile() {
+    // 检查刚才记录的来源
+    if (lastForumPageId === 'forumDMDetailView') {
+        // 如果是从私信详情来的
+        setActivePage('forumDMDetailView');
+    } else if (lastForumPageId === 'forumDetailView') {
+        // 【新增】如果是从帖子详情页来的
+        setActivePage('forumDetailView');
+    } else {
+        // 否则（默认情况），回通知列表
+        backToNotifications();
+    }
+}
+
+// [新增] 点击气泡显示重回图标 (显示10秒后自动消失)
+let dmRegenTimer = null;
+function toggleDmRegenIcon(bubbleEl) {
+    const btn = bubbleEl.querySelector('.dm-regen-btn');
+    if (!btn) return;
+
+    // 先隐藏页面上所有其他的重回按钮
+    document.querySelectorAll('.dm-regen-btn').forEach(b => b.style.display = 'none');
+
+    // 显示当前按钮
+    btn.style.display = 'flex';
+
+    // 重置定时器
+    if (dmRegenTimer) clearTimeout(dmRegenTimer);
+    
+    // 10秒后自动隐藏
+    dmRegenTimer = setTimeout(() => {
+        btn.style.display = 'none';
+    }, 10000);
+}
+
+// [新增] 论坛私信重回逻辑
+async function regenerateForumDM(event, dmId, startIndex) {
+    event.stopPropagation(); // 阻止冒泡
+    
+    if(!confirm("确定要删除这之后的回复并重新生成吗？")) return;
+
+    let friendId = null;
+    let targetObj = null; // 指向要操作的数据对象 (friend 或 dm)
+    let historyArray = null;
+
+    // 1. 判断是好友还是陌生人，并获取数据源
+    if (dmId.startsWith('dm_friend_')) {
+        // 好友模式
+        friendId = dmId.replace('dm_friend_', '');
+        targetObj = friends.find(f => f.id === friendId);
+        if (targetObj) historyArray = targetObj.forumDmHistory;
+    } else {
+        // 陌生人模式
+        targetObj = currentForumDMs.find(d => d.id === dmId);
+        if (targetObj) historyArray = targetObj.history;
+    }
+
+    if (!targetObj || !historyArray) return;
+
+    // 2. 删除从 startIndex 开始的所有后续消息 (模拟回退)
+    // 注意：我们要保留 startIndex 之前的消息
+    const newHistory = historyArray.slice(0, startIndex);
+    
+    if (dmId.startsWith('dm_friend_')) {
+        targetObj.forumDmHistory = newHistory;
+    } else {
+        targetObj.history = newHistory;
+        // 更新最后一条消息预览
+        targetObj.lastMessage = newHistory.length > 0 ? newHistory[newHistory.length-1].content : "";
+    }
+
+    // 3. 保存更改
+    await saveData();
+
+    // 4. 重新渲染界面 (此时刚才的回复已消失)
+    // 为了构造 renderForumDMBubbles 需要的参数格式，我们复用 openForumDMDetail 的逻辑
+    // 但为了简单，直接重新打开一次详情页即可刷新
+    openForumDMDetail(dmId);
+
+    // 5. 触发 AI 重新生成
+    if (dmId.startsWith('dm_friend_')) {
+        triggerFriendDMReceive(friendId);
+    } else {
+        // 陌生人需要设置全局 currentDMId 才能触发
+        currentDMId = dmId; 
+        triggerDMReceive();
+    }
+    
+    showToast("正在重新生成回复...");
 }
 
     </script>
