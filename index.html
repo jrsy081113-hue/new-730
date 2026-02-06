@@ -49,14 +49,11 @@ html {
     user-select: none;
     transition: all 0.3s ease;
     color: var(--text-color, #000);
-    /* 【关键】这里不要有任何padding-top或padding-bottom */
 }
 
         .phone {
     width: 100vw;
-    /* 【默认】PWA模式使用vh */
     height: 100vh;
-    /* 其他样式保持不变... */
     background: var(--theme-bg, #f7f7f7);
     position: relative;
     overflow: hidden;
@@ -65,7 +62,7 @@ html {
     transition: all 0.3s ease;
 }
 
-/* 【关键】只在非PWA模式（浏览器模式）下使用dvh */
+
 @media not all and (display-mode: standalone) {
     .phone {
         height: 100dvh;
@@ -82,8 +79,7 @@ html {
             transition: all 0.3s ease;
         }
 
-        /* --- MODIFIED: Status Bar Styles --- */
-        /* --- 步骤 3.1: 精确重构状态栏 --- */
+        
 
 .status-bar {
     height: 30px;
@@ -105,7 +101,7 @@ html {
 }
 
         
-        /* New classes for JS to control transparency */
+        
         .phone.home-screen-active .status-bar,
         .phone.listen-together-active .status-bar {
             background-color: transparent;
@@ -124,7 +120,7 @@ html {
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
-        /* [NEW] Voice call status bar color */
+        
         .phone.voice-call-active .status-bar {
              color: #fff;
              background-color: transparent;
@@ -143,30 +139,30 @@ html {
             gap: 1px;
         }
 
-        /* --- 信号图标样式 --- */
+        
 .signal-icon {
     width: 18px;
     height: 12px;
     display: flex;
     align-items: flex-end;
-    gap: 2px; /* 柱子之间的间距 */
+    gap: 2px; 
 }
 
 .signal-bar {
-    width: 3.5px; /* 柱子宽度 */
+    width: 3.5px; 
     background: var(--text-color, #000);
-    border-radius: 1px; /* 圆角更明显一点 */
+    border-radius: 1px; 
 }
 
-/* 调整每根柱子的高度 */
+
 .signal-bar:nth-child(1) { height: 4px; }
 .signal-bar:nth-child(2) { height: 7px; }
 .signal-bar:nth-child(3) { height: 9.5px; }
 .signal-bar:nth-child(4) { height: 12px; }
 
-/* [新增] 这是让最后一根变灰的关键！ */
+
 .signal-bar.inactive {
-    background: #dcdcdc; /* 或者使用 var(--text-color) 并加上 opacity */
+    background: #dcdcdc; 
 }
         
         .phone.listen-together-active .signal-bar,
@@ -199,21 +195,19 @@ html {
             height: 100%;
         }
 
-        /* --- [最终版] 按照你提供的样式定制的电池图标 --- */
-
-/* 1. 电池图标边框 */
+        
 .battery-icon {
     width: 24px;
     height: 13px;
     border-radius: 4px;
     border: 1.5px solid var(--text-color, #000);
     background-color: transparent;
-    position: relative; /* 确保 tip 的定位正确 */
+    position: relative; 
 }
 
-/* 2. 电池右侧的小凸起 */
+
 .battery-tip {
-    position: absolute; /* 相对于 .battery-icon 定位 */
+    position: absolute; 
     width: 1.5px;
     height: 4px;
     top: 3.5px;
@@ -222,9 +216,9 @@ html {
     background: var(--text-color, #000);
 }
 
-/* 3. 电池内部的电量填充 */
+
 .battery-level {
-    width: 71%; /* 【关键】这里的宽度就是你的电量百分比！ */
+    width: 71%; 
     height: calc(100% - 2px);
     background: var(--text-color, #000);
     border-radius: 2.5px;
@@ -232,7 +226,7 @@ html {
     margin-top: 1px;
 }
 
-/* --- 【重要】为暗色模式、听歌模式等状态添加颜色适配 --- */
+
 .wechat-dark-mode .battery-icon,
 .phone.listen-together-active .battery-icon,
 .phone.voice-call-active .battery-icon {
@@ -265,16 +259,14 @@ html {
             margin-top: 0;
             position: relative;
             overflow-y: auto; 
-            padding-bottom: 120px; /* Space for the bottom dock */
+            padding-bottom: 120px; 
         }
         
-        /* --- NEW: Profile Widget Container --- */
-        /* --- 【最终版】请替换为这段代码 --- */
+        
 
 .profile-widget-container {
     width: 85%;
     max-width: 340px;
-    /* 改为简单固定的边距 */
     margin: 70px auto 20px; 
     background-color: var(--bg-primary, white);
     border-radius: var(--app-radius, 14px);
@@ -395,19 +387,18 @@ html {
             font-family: var(--font-family, monospace); 
             cursor: pointer;
             color: var(--text-color, #333);
-            min-height: 20px; /* ←←← 在这里添加新代码 */
+            min-height: 20px; 
         }
 
-        /* --- ↓↓↓ 请用这个新版本，完整替换旧的 .widget-bubble 样式 ↓↓↓ --- */
+        
 .widget-bubble {
-    /* 核心修改1：将背景色从不透明的 #f5f5f5 改为半透明的白色 */
-    background-color: rgba(255, 255, 255, 0.5); /* 50%透明度的白色 */
+    background-color: rgba(255, 255, 255, 0.5); 
 
-    /* 核心修改2：添加毛玻璃效果的关键属性 */
-    backdrop-filter: blur(10px);           /* 标准的毛玻璃模糊效果 */
-    -webkit-backdrop-filter: blur(10px);   /* 兼容Safari等浏览器 */
+    
+    backdrop-filter: blur(10px);           
+    -webkit-backdrop-filter: blur(10px);   
 
-    /* 其他样式保持不变 */
+    
     border-radius: 20px;
     padding: 8px 12px;
     display: flex;
@@ -417,12 +408,12 @@ html {
     font-weight: 500;
     color: var(--text-color, #333);
 }
-/* --- ↑↑↑ 替换到此结束 ↑↑↑ --- */
+
                 .widget-bubble span {
             cursor: pointer;
             flex-grow: 1;
             text-align: center;
-            min-height: 20px; /* ←←← 新增：给它一个最小高度！ */
+            min-height: 20px; 
         }
         .widget-bubble img {
             width: 32px;
@@ -470,17 +461,17 @@ html {
             background-position: center;
         }
         
-     /* --- 新增：主屏幕字体图标样式 --- */
+     
 .app-icon-container i {
-    font-size: 30px; /* 控制图标的大小 */
-    color: #000;     /* 控制图标的默认颜色 */
+    font-size: 30px; 
+    color: #000;     
 }
 
 .bottom-dock .app-icon-container i {
-    font-size: 28px; /* 让Dock栏的图标稍微小一点，更协调 */
+    font-size: 28px; 
 }
 
-/* 暗色模式下的适配 */
+
 .wechat-dark-mode .app-icon-container i {
     color: #fff;
 }
@@ -491,7 +482,7 @@ html {
 
         .app-label {
     margin-top: 6px;
-    color: var(--app-label-color, #333); /* <--- 修改了这里 */
+    color: var(--app-label-color, #333); 
     font-size: 10px;
     font-weight: 600;
 }
@@ -504,9 +495,9 @@ html {
     width: calc(100% - 30px);
     max-width: 380px;
     height: 95px; 
-        background: rgba(255, 255, 255, 0.2); /* 纯白色，但只有20%的不透明度 */
-    backdrop-filter: blur(15px);           /* <--- 控制模糊的关键！ */
-    -webkit-backdrop-filter: blur(15px);   /* <--- 兼容Safari等浏览器 */
+        background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(15px);           
+    -webkit-backdrop-filter: blur(15px);   
     border-radius: 40px; 
     padding: 10px 20px;
     display: flex;
@@ -516,7 +507,7 @@ html {
     z-index: 50;
 }
         .wechat-dark-mode .bottom-dock {
-            background: rgba(44, 44, 46, 0.7); /* MODIFIED: Frosted glass effect for dark mode */
+            background: rgba(44, 44, 46, 0.7); 
         }
         .bottom-dock .app {
             width: 100%;
@@ -566,10 +557,7 @@ html {
             transform: translateX(100%);
         }
 
-        /* MODIFIED: Top Navigation Bar for Centering Title */
-        /* 替换为下面的新代码 */
-
-/* --- 步骤 3.2: 精确重构导航栏 --- */
+        
 .nav-bar {
     height: 44px;
     background: var(--nav-bg, #f8f8f8);
@@ -579,21 +567,20 @@ html {
     padding: 0 8px;
     flex-shrink: 0;
     position: absolute;
-    /* 【关键】它的顶部位置，精确地等于状态栏的高度 */
     top: 30px !important; 
     left: 0;
     right: 0;
     z-index: 10;
 }
 
-        /* 替换为下面的新代码 */
+        
 .nav-title {
-    position: absolute;   /* 魔法1：让标题"漂浮"起来 */
-    left: 50%;            /* 魔法2：把它推到中线位置 */
+    position: absolute;   
+    left: 50%;            
     top: 50%;
-    transform: translate(-50%,-50%); /* 魔法3：再把它往回拉自己的一半，实现完美居中 */
+    transform: translate(-50%,-50%); 
     
-    /* 以下是保留的样式 */
+   
     text-align: center;
     font-size: var(--nav-font-size, 17px);
     font-weight: 600;
@@ -601,7 +588,7 @@ html {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 60%; /* 添加一个最大宽度，防止标题太长和两边按钮重叠 */
+    max-width: 60%; 
 }
 
         
@@ -612,17 +599,16 @@ html {
 .page > .chat-settings-content,
 .page > .diary-content-view,
 #phoneApp > .phone-app-container {
-    padding-top: 74px; /* <--- 修改为 74px */
+    padding-top: 74px; 
     height: 100%;
     overflow-y: auto;
 }
 
-        /* 修复BUG：为微信主界面的内容容器添加顶部内边距 */
-        /* 修复BUG：为微信主界面的内容容器添加顶部内边距 */
+        
 #wechatApp > .wechat-content {
     padding-top: 74px; 
 }
-        /* 修复BUG：移除子元素的无效顶部内边距，防止双重边距 */
+        
         #wechatApp .discover-content, #wechatApp .profile-content {
             padding-top: 0;
         }
@@ -642,9 +628,8 @@ html {
             gap: 5px;
         }
 
-        /* --- 步骤 2.4: 替换 .wechat-bottom-nav 样式，正确处理安全区 --- */
+        
 .wechat-bottom-nav {
-    /* 【决定性修复】让导航栏的总高度动态增加，以填满底部安全区 */
     height: calc(49px + env(safe-area-inset-bottom, 0px));
     
     background: var(--nav-bg, #f7f7f7);
@@ -652,15 +637,15 @@ html {
     display: flex;
     position: absolute;
     
-    /* 【决定性修复】让它紧贴容器的物理底部 */
+    
     bottom: 0;
     
     width: 100%;
     z-index: 100;
     
-    /* 【新增】确保内边距不会影响高度计算 */
+    
     box-sizing: border-box;
-    /* 【新增】只在底部增加内边距来把 *图标和文字* 推上去，而不是整个元素上移 */
+ 
     padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
@@ -19775,6 +19760,721 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     overflow: visible !important; /* 允许按钮显示在容器外 */
 }
 
+.diary-bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 60px;
+    background: #ffffff;
+    border-top: 1px solid #f0f0f0;
+    display: flex; justify-content: space-around; align-items: center;
+    z-index: 100;
+}
+.diary-tab {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #999; cursor: pointer; font-size: 10px; transition: all 0.2s;
+}
+.diary-tab i { font-size: 24px; margin-bottom: 2px; }
+.diary-tab.active { color: #000; font-weight: 600; }
+/* 暗色模式适配 */
+.wechat-dark-mode .diary-bottom-nav { background: #1c1c1e; border-top-color: #333; }
+.wechat-dark-mode .diary-tab.active { color: #fff; }
+
+/* 日记正文中有批注的句子 (修改版：灰色虚线) */
+.diary-annotated-sentence {
+    border-bottom: 2px dashed #999; /* 核心修改：从 #ff69b4(粉) 改为 #999(灰) */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+/* 鼠标悬停 or 点击时的高亮 (修改版：灰色背景) */
+.diary-annotated-sentence:active,
+.diary-annotated-sentence:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* 核心修改：从粉色背景改为淡淡的黑灰色 */
+}
+
+/* 底部留言区域的容器 */
+.diary-footer-comment-area {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+}
+
+/* 底部长条纸条样式 (修改版：纯白) */
+.diary-footer-note {
+    width: 90%;
+    background-color: #ffffff !important; /* 核心修改：改为纯白，并强制生效 */
+    border: 1px solid #f0f0f0; /* 建议：加一个很淡的边框，白纸在白背景上更好看 */
+    padding: 20px;
+    box-shadow: 2px 3px 8px rgba(0,0,0,0.05); /* 阴影调淡一点 */
+    font-family: var(--diary-note-font, 'Ma Shan Zheng', cursive); /* 确保使用自定义字体变量 */
+    font-size: 16px;
+    color: #333; /* 文字颜色加深一点点 */
+    position: relative;
+    transform: rotate(0deg); /* 建议：去掉旋转，看起来更整洁，或者保留 rotate(1deg) */
+}
+
+/* 纸条上的图钉装饰 */
+.diary-footer-note::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: #ff4d4d;
+    border-radius: 50%;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+}
+
+/* --- 新增：日记纸条字体变量绑定 --- */
+:root {
+    /* 默认使用手写体，如果设置了自定义URL，JS会覆盖这个变量 */
+    --diary-note-font: 'Ma Shan Zheng', cursive; 
+}
+
+/* 底部大留言纸条 */
+.diary-footer-note {
+    /* 强制使用自定义字体变量 */
+    font-family: var(--diary-note-font) !important; 
+}
+
+/* 点击句子弹出的批注纸条 */
+#annotationPaper {
+    /* 强制使用自定义字体变量 */
+    font-family: var(--diary-note-font) !important;
+}
+
+/* --- 表情包分组导航栏样式 --- */
+.sticker-tabs-scroll {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    background: #ffffff;
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 10px;
+    /* 适配导航栏高度，让它在导航栏下面 */
+    margin-top: 74px; 
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    position: sticky; /* 吸顶效果 (可选) */
+    z-index: 10;
+}
+
+/* 隐藏滚动条 */
+.sticker-tabs-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* 单个分组标签 */
+.sticker-group-tab {
+    padding: 6px 16px;
+    font-size: 14px;
+    border-radius: 20px;
+    background-color: #f5f5f5;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    flex-shrink: 0; /* 防止被压缩 */
+}
+
+/* 选中状态：黑底白字 */
+.sticker-group-tab.active {
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 添加按钮 (+) */
+.sticker-group-add {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 1px dashed #999;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 5px;
+}
+
+.sticker-group-add:active {
+    background-color: #f0f0f0;
+}
+
+/* 修正表情包列表的 padding，因为上面加了 margin-top */
+#stickerLibraryScreen .wechat-content {
+    padding-top: 0 !important; 
+}
+
+/* --- 绑定表情包弹窗专属样式 --- */
+
+/* 顶部全局设置卡片 */
+.binding-global-card {
+    background: #f0f2f5;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+.binding-global-card.active {
+    background: #e6f7ff;
+    border-color: #007aff;
+}
+.binding-global-title {
+    font-weight: bold;
+    color: #333;
+    font-size: 15px;
+}
+.binding-global-desc {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* 横向头像栏 */
+.binding-avatar-bar {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 5px;
+    margin-bottom: 15px;
+    scrollbar-width: none; /* 隐藏滚动条 */
+}
+.binding-avatar-bar::-webkit-scrollbar { display: none; }
+
+.binding-avatar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0.6;
+    transition: all 0.2s;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.binding-avatar-item.active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+.binding-avatar-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666;
+}
+.binding-avatar-item.active .binding-avatar-img {
+    border-color: #007aff;
+    box-shadow: 0 4px 10px rgba(0,122,255,0.2);
+}
+.binding-avatar-name {
+    font-size: 10px;
+    color: #333;
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 分组开关列表 */
+.binding-group-list {
+    max-height: 250px;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+}
+.binding-group-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5px;
+    border-bottom: 1px solid #f9f9f9;
+}
+.binding-group-name {
+    font-size: 15px;
+    color: #333;
+}
+.binding-group-count {
+    font-size: 12px;
+    color: #999;
+    margin-left: 5px;
+}
+
+/* 底部小字提示 */
+.binding-footer-hint {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 10px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* --- 聊天窗口内的表情包分组标签栏 --- */
+.chat-emoji-tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+    background: var(--bg-primary, white);
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+    gap: 10px;
+    /* 隐藏滚动条 */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+.chat-emoji-tabs::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* 单个标签样式 */
+.chat-emoji-tab {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    background: var(--bg-hover, #f5f5f5);
+    color: var(--text-secondary, #666);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    flex-shrink: 0;
+}
+
+/* 选中状态：黑底白字 */
+.chat-emoji-tab.active {
+    background: #000;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* 调整表情区域的高度，防止标签栏挤占表情显示空间 */
+.chat-input-area.emoji-open .emoji-picker {
+    display: flex;
+    flex-direction: column;
+    height: 320px; /* 稍微增高一点 */
+    max-height: 320px; 
+}
+
+/* 让表情网格自动填满剩余空间并允许滚动 */
+.emoji-picker .emoji-grid {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 10px;
+    height: auto; 
+    max-height: none; 
+}
+
+/* --- 仿QQ资料页 V2 (修正布局 & 完整版) --- */
+#qqProfileScreen {
+    background-color: #f2f2f2;
+}
+
+/* 1. 顶部背景图 */
+.qq-header-bg {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-color: #ccc;
+}
+
+/* 背景图上的点赞数 */
+.qq-header-like {
+    position: absolute;
+    bottom: 35px; /* 稍微调整位置，适应圆角 */
+    right: 20px;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    font-weight: bold;
+    z-index: 10;
+}
+.qq-header-like i { font-size: 20px; margin-bottom: 2px; }
+
+/* 2. 白色圆角卡片主体 */
+.qq-content-card {
+    background: #fff;
+    border-radius: 20px 20px 0 0; /* 只有上面有圆角 */
+    margin-top: -20px; /* 稍微向上一点点，盖住背景图边缘即可 */
+    position: relative;
+    padding: 0 20px;
+    min-height: calc(100vh - 200px);
+    z-index: 5;
+    /* 【关键修改】增加顶部内边距，给头像留出位置，不再挤到背景图上 */
+    padding-top: 20px; 
+}
+
+/* 3. 头部布局：头像 + 名字 */
+.qq-profile-header {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    position: relative;
+    /* 【关键修改】移除负边距，让头像完全位于白色卡片内部 */
+    top: 0;
+    margin-bottom: 10px;
+}
+
+.qq-avatar-v2 {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    /* 【关键修改】背景已经是白色的了，所以不需要粗白边，改用细灰边 */
+    border: 1px solid #f0f0f0; 
+    background-color: #fff;
+    background-size: cover;
+    background-position: center;
+    margin-right: 15px;
+    /* 移除悬浮阴影，保持平面简洁 */
+    box-shadow: none; 
+    flex-shrink: 0;
+}
+
+.qq-header-right {
+    padding-bottom: 0; /* 移除底部填充 */
+    flex: 1; /* 占满剩余宽度 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 名字行 */
+.qq-name-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+}
+
+.qq-nickname-v2 {
+    font-size: 22px;
+    font-weight: 900;
+    color: #000;
+    line-height: 1.2;
+}
+
+.qq-level-icon {
+    font-size: 10px;
+    background: #f0ad4e;
+    color: white;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-weight: bold;
+    transform: scale(0.9);
+}
+
+/* ID 行 */
+.qq-id-row {
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.qq-id-badge {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 0 2px;
+    font-size: 10px;
+    transform: scale(0.9);
+}
+
+/* 4. 基础信息行 (女 | 14岁 ...) */
+.qq-basic-info-row {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.qq-gender-icon {
+    color: #ff69b4;
+    font-weight: bold;
+    margin-right: 2px;
+}
+
+/* 5. 个性签名 */
+.qq-signature-v2 {
+    margin-top: 12px;
+    font-size: 15px;
+    color: #000;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* 6. 标签行 */
+.qq-tags-v2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.qq-tag-pill {
+    background: #f2f2f7;
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 14px;
+    font-size: 12px;
+}
+
+/* 分割线 */
+.qq-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 20px 0;
+}
+
+/* --- 7. 通用菜单行 (修正版) --- */
+.qq-menu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    color: #333;
+    font-size: 16px; /* 字体稍微调大 */
+    font-weight: 500;
+}
+.qq-menu-left { display: flex; align-items: center; }
+.qq-menu-right { color: #ccc; display: flex; align-items: center; gap: 5px; font-size: 13px; }
+
+/* --- 8. 照片横向滚动 (QQ空间 - 变大版) --- */
+.qq-photo-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    scrollbar-width: none;
+}
+.qq-photo-scroll::-webkit-scrollbar { display: none; }
+
+.qq-scroll-img {
+    /* 【修改点】尺寸变大 */
+    width: 110px;
+    height: 110px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    border: 1px solid #eee;
+}
+
+/* --- 9. 精选照片 (样式统一化) --- */
+.qq-featured-grid {
+    display: flex;
+    gap: 8px; /* 间距与上面保持一致 */
+    overflow-x: auto; /* 允许横向滚动，防止挤压 */
+    padding-bottom: 5px;
+    scrollbar-width: none;
+}
+.qq-featured-grid::-webkit-scrollbar { display: none; }
+
+.qq-feat-img {
+    /* 【修改点】尺寸和样式与 QQ 空间完全一致 */
+    width: 110px;
+    height: 110px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    border: 1px solid #eee;
+}
+
+/* 【已删除】 .qq-img-text-overlay 样式已移除，不再需要 */
+
+/* 10. 底部按钮栏 V2 */
+.qq-bottom-bar-v2 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 10px 15px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+.qq-btn-white {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.qq-btn-blue {
+    flex: 1.5; /* 稍微宽一点 */
+    height: 40px;
+    border: none;
+    background: #0099ff;
+    color: #fff;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 153, 255, 0.3);
+}
+
+/* --- 暗色模式适配 --- */
+.wechat-dark-mode #qqProfileScreen { background-color: #000; }
+.wechat-dark-mode .qq-content-card { background-color: #1c1c1e; }
+.wechat-dark-mode .qq-nickname-v2 { color: #fff; }
+.wechat-dark-mode .qq-basic-info-row { color: #ccc; }
+.wechat-dark-mode .qq-signature-v2 { color: #ddd; }
+.wechat-dark-mode .qq-tag-pill { background-color: #333; color: #ccc; }
+.wechat-dark-mode .qq-divider { background-color: #333; }
+.wechat-dark-mode .qq-menu-row { color: #ddd; }
+.wechat-dark-mode .qq-bottom-bar-v2 { background-color: #1c1c1e; border-top-color: #333; }
+.wechat-dark-mode .qq-btn-white { background-color: #333; border-color: #444; color: #fff; }
+
+/* --- 匿名提问页样式 (黑白风) --- */
+
+/* 头部装饰 */
+.qa-header-banner {
+    background-color: #000;
+    color: #fff;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* 问答卡片 */
+.qa-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 提问部分 */
+.qa-question-section {
+    margin-bottom: 15px;
+}
+
+.qa-question-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.qa-asker-avatar {
+    width: 24px;
+    height: 24px;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.qa-asker-name {
+    font-size: 12px;
+    color: #999;
+}
+
+.qa-question-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    line-height: 1.5;
+    padding-left: 32px; /* 对齐头像 */
+}
+
+/* 回答部分 */
+.qa-answer-section {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #000; /* 黑条装饰 */
+}
+
+.qa-answer-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.qa-answer-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #ddd;
+}
+
+.qa-answer-text {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.qa-meta {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #ccc;
+    text-align: right;
+}
+
+/* 仿QQ资料页入口样式 */
+.qq-entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.qq-entry-row:active {
+    opacity: 0.6;
+}
+
     </style>
 </head>
 <body>
@@ -19882,6 +20582,9 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 <!-- 新增这一行 -->
 <input type="file" id="desktopAvatarUploadInput" accept="image/*" style="display: none;" onchange="handleDesktopAvatarUpload(event)">
+
+<!-- 新增：QQ资料页全局背景上传控件 -->
+<input type="file" id="qqProfileBgInput" accept="image/*" style="display: none;" onchange="handleQQProfileBgUpload(event)">
 
     <div id="message-notification">
         <div id="notification-avatar"></div>
@@ -20462,16 +21165,54 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
             </div>
             
                     <!-- [NEW] Diary Full View Screen -->
-        <div id="diaryViewScreen" class="page">
-            <div class="nav-bar">
-                <button class="nav-btn" id="backToDiaryListBtn"><i class="ri-arrow-left-s-line"></i></button>
-                <div class="nav-title">日记正文</div>
-                <div></div>
-            </div>
-            <div class="wechat-content" id="fullDiaryContent">
-                <!-- 日记的全部内容会显示在这里 -->
+       <!-- 1. 修改后的日记正文浏览页 -->
+<div id="diaryViewScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" id="backToDiaryListBtn"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title">日记正文</div>
+        <!-- 新增：右上角的浏览者头像按钮 -->
+        <div class="nav-right-actions">
+            <div id="diaryViewerAvatarBtn" class="nav-btn" 
+                 style="width: 32px; height: 32px; border-radius: 50%; background-color: #ddd; background-size: cover; background-position: center; border: 1px solid #ccc; cursor: pointer;"
+                 onclick="openDiaryViewerModal()">
+                 <!-- 默认为空，由JS填充 -->
             </div>
         </div>
+    </div>
+    <div class="wechat-content" id="fullDiaryContent" style="padding-bottom: 80px;">
+        <!-- 日记内容将在这里动态生成 -->
+    </div>
+</div>
+
+<!-- 2. 新增：选择浏览者弹窗 -->
+<div id="diaryViewerModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">谁在看日记？</div>
+        <div id="diaryViewerList" class="friend-list" style="max-height: 50vh; overflow-y: auto;">
+            <!-- JS 动态生成好友列表 -->
+        </div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('diaryViewerModal').classList.remove('show')">取消</button>
+        </div>
+    </div>
+</div>
+
+<!-- 3. 新增：纸条批注弹窗 (显示具体的批注内容) -->
+<div id="annotationPaperModal" class="modal" style="background: rgba(0,0,0,0.6);">
+    <!-- 点击背景关闭 -->
+    <div style="position: absolute; width: 100%; height: 100%;" onclick="closeAnnotationPaper()"></div>
+    
+    <!-- 纸条本体，居中显示 -->
+   <!-- 核心修改：width改为85%让它变宽，height:auto 让它随文字自动变短，去掉 min-height 的大数值 -->
+<div id="annotationPaper" class="note-paper revealed" style="width: 85%; max-width: 340px; height: auto !important; min-height: 120px; margin: auto; transform: rotate(-2deg); position: relative; pointer-events: auto; padding: 30px 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;">
+        <div id="annotationContent" class="note-content" style="font-size: 18px; line-height: 1.6; color: #444;">
+            <!-- 批注内容 -->
+        </div>
+        <div id="annotationAuthor" style="position: absolute; bottom: 15px; right: 20px; font-size: 14px; color: #888; font-family: cursive;">
+            -- 批注人
+        </div>
+    </div>
+</div>
 
             <!-- [NEW] Voice Call Screen -->
             <div id="voiceCallScreen" class="page">
@@ -21322,33 +22063,50 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     </div>
 </div>
             
-            <div id="diaryScreen" class="page">
-                <div class="nav-bar">
-                    <button class="nav-btn" onclick="backToDiscover()"><i class="ri-arrow-left-s-line"></i></button>
-                    <div class="nav-title">日记</div>
-                    <div id="diaryNavFriendName"></div>
-                </div>
-                <!-- 原有的内容保持不变 -->
-    <div class="diary-content-view">
+      <div id="diaryScreen" class="page">
+    <div class="nav-bar">
+        <!-- 返回按钮：默认返回发现页 -->
+        <button class="nav-btn" id="diaryNavBarBackBtn" onclick="backToDiscover()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title" id="diaryPageTitle">日记</div>
+        <!-- 右上角按钮容器 -->
+        <div id="diaryNavFriendName"></div>
+    </div>
+    
+    <div class="diary-content-view" style="padding-bottom: 60px;"> <!-- 预留底部导航高度 -->
+        <!-- 1. 角色选择列表容器 -->
         <div id="diaryFriendList" class="friend-list"></div>
+
+        <!-- 2. 我的日记列表容器 (默认隐藏) -->
+        <div id="myDiaryListContainer" class="diary-list" style="display: none; padding: 15px;"></div>
+        
+        <!-- 3. 具体角色的日记内容容器 (点击角色后显示) -->
         <div id="diaryContentArea" class="diary-list"></div>
     </div>
 
-    <!-- 【新增】日记批量操作栏 (插入到这里) -->
+    <!-- 底部导航栏 -->
+    <div id="diaryBottomNav" class="diary-bottom-nav">
+        <div class="diary-tab active" onclick="switchDiaryTab('friends', this)">
+            <i class="ri-contacts-book-2-line"></i>
+            <span>TA的日记</span>
+        </div>
+        <div class="diary-tab" onclick="switchDiaryTab('mine', this)">
+            <i class="ri-book-read-line"></i>
+            <span>我的日记</span>
+        </div>
+    </div>
+
+    <!-- 批量删除栏 (保持不变) -->
     <div id="diaryBatchBar" class="diary-batch-bar">
         <div class="diary-action-item" onclick="toggleDiarySelectAll()">
             <i class="ri-checkbox-circle-line" id="diarySelectAllIcon"></i>
             <span>全选</span>
         </div>
-        <div class="diary-batch-info">
-            SELECTED: <span id="diarySelectCount">0</span>
-        </div>
+        <div class="diary-batch-info">SELECTED: <span id="diarySelectCount">0</span></div>
         <div class="diary-action-item" onclick="deleteSelectedDiaries()">
-            <i class="ri-delete-bin-fill"></i>
-            <span>删除</span>
+            <i class="ri-delete-bin-fill"></i><span>删除</span>
         </div>
     </div>
-            </div>
+</div>
 
             <div id="themeApp" class="page">
     <div class="nav-bar">
@@ -23094,28 +23852,33 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
-<!-- 表情包库主界面 -->
+<!-- 找到 id="stickerLibraryScreen" 的页面 -->
 <div id="stickerLibraryScreen" class="page">
     <div class="nav-bar">
         <button class="nav-btn" onclick="backToDiscover()"><i class="ri-arrow-left-s-line"></i></button>
-        <!-- 点击标题触发绑定弹窗 -->
         <div class="nav-title" onclick="openStickerBindingModal()" style="cursor: pointer;">
             <span id="stickerLibraryTitle">绑定角色 (0)</span> <i class="ri-arrow-down-s-fill" style="font-size: 12px;"></i>
         </div>
-        <!-- 【修改】这里换成了图标按钮 -->
         <button class="nav-btn nav-right-action-btn" id="stickerManageBtn" onclick="toggleStickerManageMode()">
             <i class="ri-list-settings-line" style="font-size: 22px;"></i>
         </button>
     </div>
-    <div class="wechat-content" style="padding-bottom: 60px;"> <!-- 增加底部内边距，防止挡住内容 -->
-        <!-- 表情网格容器 -->
+
+    <!-- ▼▼▼▼▼ 新增：分组导航栏容器 ▼▼▼▼▼ -->
+    <div id="stickerGroupTabs" class="sticker-tabs-scroll">
+        <!-- JS 将在这里动态生成标签 -->
+    </div>
+    <!-- ▲▲▲▲▲ 新增结束 ▲▲▲▲▲ -->
+
+    <!-- 下面这行 style 稍微改一下 padding-top，原先可能是 60px，现在因为加了Tab栏，不用动 content 的 padding，Tab栏占位即可，或者把Tab栏设为 sticky -->
+    <div class="wechat-content" style="padding-bottom: 60px; padding-top: 0;"> 
         <div id="stickerLibraryGrid" class="sticker-library-grid"></div>
     </div>
 
-    <!-- 【新增】底部批量删除栏 -->
     <div id="stickerBottomBar" class="multi-select-toolbar">
         <span class="multi-select-count" id="stickerSelectCount">已选 0 张</span>
         <div class="multi-select-actions">
+        <button class="multi-select-btn" style="margin-right: 10px; background-color: #fff; border: 1px solid #ccc; color: #333;" onclick="openStickerMoveModal()">移动</button>
             <button class="multi-select-btn delete" onclick="deleteSelectedStickers()">删除</button>
         </div>
     </div>
@@ -23618,6 +24381,13 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<div class="form-group">
+            <label class="form-label">预设规则</label>
+            <div id="currentOfflineContentPreset" class="form-input" style="line-height: 2.5; cursor: pointer;" onclick="openOfflineContentPresetList()">
+                未选择预设
+            </div>
+        </div>
+
         
         <!-- 【【【新增代码块：文风选择】】】 -->
 <div class="form-group">
@@ -24022,11 +24792,29 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
-<!-- 新增：发布新帖的模态框 -->
+<!-- 新增：发布新帖的模态框 (修正版) -->
 <div id="newPostModal" class="modal">
     <div class="modal-content">
         <div class="modal-title">发布新帖</div>
-        <textarea class="modal-textarea" id="newPostContentInput" placeholder="有什么新鲜事？" style="min-height: 150px;"></textarea>
+        
+        <!-- 1. 文本输入框 -->
+        <textarea class="modal-textarea" id="newPostContentInput" placeholder="有什么新鲜事？" style="min-height: 100px; margin-bottom: 10px;"></textarea>
+        
+        <!-- 2. 图片预览区域 -->
+        <div id="newPostImagePreviewBox" style="display:none; position: relative; width: 100px; height: 100px; margin-bottom: 15px;">
+            <img id="newPostImagePreview" src="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            <div onclick="clearNewPostImage()" style="position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; background: #ff3b30; color: white; border-radius: 50%; text-align: center; line-height: 18px; cursor: pointer;">×</div>
+        </div>
+
+        <!-- 3. 工具栏（上传按钮） -->
+        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <label style="cursor: pointer; color: #666; font-size: 24px;">
+                <i class="ri-image-add-line"></i>
+                <input type="file" id="newPostImageInput" accept="image/*" style="display: none;" onchange="handleNewPostImage(event)">
+            </label>
+        </div>
+
+        <!-- 4. 底部按钮 -->
         <div class="modal-buttons">
             <button class="modal-btn modal-btn-cancel" onclick="closeNewPostModal()">取消</button>
             <button class="modal-btn modal-btn-confirm" onclick="postForumMessage()">发布</button>
@@ -26721,8 +27509,256 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- 用户写日记页面 -->
+<div id="userWriteDiaryScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="backToMyDiaryList()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title">写日记</div>
+        <button class="nav-btn" onclick="saveUserDiary()" style="font-weight: bold; color: #000;">完成</button>
+    </div>
+    
+    <div class="wechat-content">
+        <div class="write-letter-container">
+            <input type="text" id="userDiaryTitleInput" class="write-letter-title" placeholder="日记标题 (例如：今日心情)">
+            
+            <div class="write-letter-paper">
+                <!-- 【修改点】：在这里增加了 style="min-height: 50vh;"，让它占据屏幕一半高度 -->
+                <textarea id="userDiaryContentInput" class="write-letter-body" style="min-height: 50vh;" placeholder="记录下此刻的想法..."></textarea>
+                <div class="write-letter-footer">
+                    <span>— By 我</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- 新增：日记纸条字体设置弹窗 -->
+<div id="diaryFontSettingsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">日记纸条字体设置</div>
+        <div style="font-size: 13px; color: #666; margin-bottom: 10px;">
+            设置后，日记底部的留言纸条和点击查看的批注纸条将使用此字体。
+        </div>
+        <input type="text" class="modal-input" id="diaryNoteFontUrlInput" placeholder="粘贴字体文件URL (.ttf/.woff)">
+        
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('diaryFontSettingsModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveDiaryNoteFont()">保存并生效</button>
+        </div>
+        
+        <!-- 恢复默认按钮 -->
+        <button class="settings-btn btn-delete" style="margin-top: 15px; font-size: 14px; padding: 8px;" onclick="resetDiaryNoteFont()">
+            恢复默认手写体
+        </button>
+    </div>
+</div>
 
+<!-- 新增：创建表情包分组弹窗 -->
+<div id="addStickerGroupModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">新建表情分组</div>
+        <input type="text" class="modal-input" id="newStickerGroupName" placeholder="分组名称 (如: 熊猫头)">
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('addStickerGroupModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="confirmAddStickerGroup()">创建</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：移动表情包分组弹窗 -->
+<div id="stickerMoveModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">移动到...</div>
+        <div id="stickerMoveGroupList" class="multi-select-list" style="max-height: 300px; border: none;">
+            <!-- JS 动态生成分组列表 -->
+        </div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('stickerMoveModal').classList.remove('show')">取消</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：仿QQ资料主页 (V2 还原版) -->
+<div id="qqProfileScreen" class="page">
+    <!-- 顶部导航 (透明，悬浮) -->
+    <div class="nav-bar" style="background: transparent; border: none; z-index: 20; position: absolute; top: 0; width: 100%;">
+        <button class="nav-btn" onclick="backToChat()" style="color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+            <i class="ri-arrow-left-s-line" style="font-size: 26px;"></i>
+        </button>
+        <div class="nav-title"></div>
+        <button class="nav-btn" style="color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5);" onclick="triggerQQProfileRegeneration()"> 
+    <!-- 上面加了 onclick="triggerQQProfileRegeneration()" -->
+    <i class="ri-more-fill" style="font-size: 26px;"></i>
+</button>
+    </div>
+
+    <div class="wechat-content" style="padding-top: 0; background: #f2f2f2; overflow-y: auto;">
+        
+        <!-- 1. 顶部背景图 -->
+     
+<div id="qqHeaderBg" class="qq-header-bg" onclick="document.getElementById('qqProfileBgInput').click()">
+            <!-- 增加一个点赞按钮在背景图右下角 -->
+            <div class="qq-header-like">
+                <i class="ri-thumb-up-line"></i> <span id="qqLikeCount">1153</span>
+            </div>
+        </div>
+
+        <!-- 2. 白色圆角内容卡片 -->
+        <div class="qq-content-card">
+            
+            <!-- A. 头部信息区 (头像 + 名字) -->
+            <div class="qq-profile-header">
+                <div id="qqAvatar" class="qq-avatar-v2"></div>
+                <div class="qq-header-right">
+                    <div class="qq-name-row">
+                        <span id="qqNickname" class="qq-nickname-v2">加载中...</span>
+                        <!-- 等级图标占位 -->
+                        <span class="qq-level-icon">LV.64</span>
+                    </div>
+                    <div class="qq-id-row">
+                        <span id="qqIdDisplay">QQ号: 88888888</span>
+                        <span class="qq-id-badge">ID</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. 基础信息行 (女 | 14岁 | 天蝎座) -->
+            <div class="qq-basic-info-row" id="qqBasicInfoText">
+                <!-- JS 生成: ♀ 女 | 14岁 | 11月4日 天蝎座 -->
+            </div>
+
+            <!-- C. 个性签名 (纯文本，无标题) -->
+            <div id="qqSignature" class="qq-signature-v2">
+                <!-- JS 生成 -->
+            </div>
+
+            <!-- D. 个性标签 (胶囊) -->
+            <div id="qqPersonalityTags" class="qq-tags-v2">
+                <!-- JS 生成 -->
+            </div>
+
+            <!-- 分割线 -->
+            <div class="qq-divider"></div>
+
+           
+
+            <!-- E. Qzone / 精选照片 -->
+            <div class="qq-menu-row" style="align-items: flex-start;">
+                <div class="qq-menu-left" style="font-weight: 500;">
+                    <i class="ri-star-line" style="font-size: 18px; margin-right: 10px;"></i>
+                    <span>QQ空间</span>
+                </div>
+                <div class="qq-menu-right" style="font-size: 12px; color: #586b95;">
+                    分享新鲜事 <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <!-- 照片横向滚动条 -->
+            <div id="qqPhotoScroll" class="qq-photo-scroll">
+                <!-- JS 生成 -->
+            </div>
+            
+            <div class="qq-menu-row" style="margin-top: 0;">
+                <div class="qq-menu-left" style="font-weight: 500;">
+                    <i class="ri-grid-fill" style="font-size: 18px; margin-right: 10px;"></i>
+                    <span>精选照片</span>
+                </div>
+                 <div class="qq-menu-right">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+
+            <!-- F. 更多大图预览 (精选照片) -->
+            <div id="qqFeaturedPhotos" class="qq-featured-grid">
+                <!-- JS 生成 -->
+            </div>
+
+            <!-- 底部留白 -->
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- 底部按钮栏 -->
+    <div class="qq-bottom-bar-v2">
+        <button class="qq-btn-white">音视频通话</button>
+        <button class="qq-btn-white" onclick="openFriendSettings()">送礼物</button>
+        <button class="qq-btn-blue" onclick="backToChat()">发消息</button>
+    </div>
+</div>
+
+<!-- 新增：匿名提问列表页 (仿图2布局，黑白风) -->
+<div id="qqAnonymousQAScreen" class="page">
+    <div class="nav-bar" style="background: #fff; border-bottom: 1px solid #f0f0f0;">
+        <button class="nav-btn" onclick="backToQQProfile()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title">匿问我答</div>
+        <div style="display: flex; gap: 5px;">
+            <!-- 生成按键 (换成了魔术棒图标) -->
+            <button class="nav-btn" id="btnGenQA" onclick="generateRandomQAs()" title="随机生成">
+                <i class="ri-magic-line" style="font-size: 22px;"></i>
+            </button>
+            <!-- 提问按键 (换成了提问图标) -->
+            <button class="nav-btn" onclick="openAnonymousAskModal()" title="我要提问">
+                <i class="ri-question-answer-line" style="font-size: 22px;"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 问答列表容器 -->
+    <!-- 【修改点】：padding-top 改为 74px，完美避开导航栏遮挡 -->
+    <div class="wechat-content" style="padding-top: 74px; background: #f2f2f2; padding-bottom: 40px;">
+        <!-- 头部装饰区域 -->
+        <div class="qa-header-banner">
+            <div style="font-size: 24px; font-weight: 900; letter-spacing: 2px;">ASK ME</div>
+            <div style="font-size: 12px; margin-top: 5px; opacity: 0.6;">邀请大家匿名问我</div>
+        </div>
+        
+        <div id="qqQAList" style="padding: 15px;">
+            <!-- JS 动态生成卡片 -->
+        </div>
+    </div>
+</div>
+
+<!-- 新增：发起提问的弹窗 -->
+<div id="qqAnonymousAskModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">匿名提问</div>
+        <div style="font-size: 12px; color: #999; margin-bottom: 15px; text-align: center;">
+            对方不知道是你问的，请放心大胆地问吧！
+        </div>
+        <textarea id="qqAnonymousQuestionInput" class="modal-textarea" placeholder="想问什么？(例如：你有喜欢的人吗？)" style="min-height: 100px;"></textarea>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('qqAnonymousAskModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="submitUserAnonymousQuestion()" style="background-color: #000;">发送</button>
+        </div>
+    </div>
+</div>
+
+<!-- 预设选择列表弹窗 -->
+<div id="offlineContentPresetListModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>选择预设规则</span>
+            <button class="nav-btn" style="padding: 4px 8px;" onclick="openEditOfflineContentPresetModal(null)">+</button>
+        </div>
+        <div id="offlineContentPresetList" class="friend-list" style="max-height: 50vh; overflow-y: auto;"></div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-confirm" onclick="document.getElementById('offlineContentPresetListModal').classList.remove('show')">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新建/编辑预设弹窗 -->
+<div id="editOfflineContentPresetModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" id="editOfflineContentPresetTitle">新建预设</div>
+        <input type="text" class="modal-input" id="offlineContentPresetTitleInput" placeholder="预设标题 (如: 虐恋剧本)">
+        <textarea class="modal-textarea" id="offlineContentPresetContentInput" placeholder="请输入具体的规则指令... 例如：严禁角色笑，结局必须悲剧，环境必须是下雨天。" style="min-height: 200px;"></textarea>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('editOfflineContentPresetModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveOfflineContentPreset()">保存</button>
+        </div>
+    </div>
+</div>
 
     <script>
     
@@ -26771,11 +27807,11 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
         const dbManager = {
             db: null,
             dbName: 'JRSY_DB_V2',
-            dbVersion: 19,
+            dbVersion: 21,
             stores: [
                 'friends', 'chatHistories', 'diaries', 'worldBooks', 'worldBookFolders', 
                 'favorites', 'moments', 'playlist', 'appSettings', 'apiSettings', 'customEmojis',
-                'memories', 'openingStatements' , 'writingStyles', 'skits', 'forumPosts' , 'forumRules', 'forumLikes' , 'bubbleCssPresets', 'interfaceCssPresets', 'apiPresets', 'cloneApiSettings',
+                'memories', 'openingStatements' , 'writingStyles', 'skits', 'forumPosts' , 'forumRules', 'forumLikes' , 'bubbleCssPresets', 'stickerGroups','interfaceCssPresets', 'apiPresets', 'cloneApiSettings', 'offlineContentPresets',
         'voiceAudioCache' , 'fontPresets', 'offlineCssPresets' , 'gameApiSettings' 
             ],
 
@@ -26898,9 +27934,9 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 13, // 版本号升级
+    version: 14, // 版本号升级
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><ul class="update-list"><li>1. 增加了论坛主页的帖子删除按键</li><li>2. 减少了私信骂人的频率，现在正向居多</li><li>3. 增加可以点击私信里的对面头像，生成查看该npc/角色的主页。</li><li>4. 增加论坛私信的重回功能，单击角色第一条消息气泡会出现重回按键，可以重新生成回复。</li></ul></div><div class="update-section"><h3 class="update-subtitle">bug修复</h3><ul class="update-list"><li>1. 修复退回转账会认为是接收的bug</li><li>2. 修复论坛主页帖子点击显示不存在的bug</li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1.增加写日记功能，可以写日记并选择哪个角色看日记，会生成该角色对你的日记批注和留言。</li><li>2.新增表情包分组功能，可以添加删除表情包分组，移动表情包，可以选择全局表情包，也可以给角色单独绑定某个分组。</li><li>3.优化了表情包库上传表情包的格式，现在可以和聊天界面一样带表情包名称上传了。</li><li>4.增加仿qq的角色主页，聊天界面点击角色头像可以进入生成，还可以要求角色自己更改个性签名和网名，角色在聊天时也可以主动更改。</li><li>5.增加匿名问答，可以生成问题，也可以提问</li><li>6. 增加论坛发帖可以发图片的功能</li><li>7.线下模式增加了预设设置，如果重复多可以写预设控制下（ps线下优化了下，但由于我之前线下基本没问题，所以不知道效果怎么样，只能一点点慢慢调。）</li></ul></div>`
 };
 
         // 全局变量
@@ -26993,6 +28029,8 @@ let simPhoneGlobalWallpaper = ''; // 新增：用于存储角色手机的全局�
 
 let currentSimContext = { level: 'home', app: null, data: null };
 
+let globalQQProfileBg = ''; 
+
 // 全局临时变量，用于下一局的设置
 let nextSoupConfig = {
     host: 'friend',
@@ -27017,6 +28055,8 @@ let doujinSelectedBookIds = new Set(); // 存储选中的书籍ID
 
 // 暂存“我在该聊天中”的临时头像
 let tempEditingFriendUserAvatar = '';
+
+let tempForumPostImage = '';
 
 // --- 全局变量 ---
 let currentDMTab = 'stranger'; // 'stranger' (陌生人) 或 'friend' (好友)
@@ -27059,6 +28099,9 @@ let currentOfflineStyleMode = 'v1'; // 默认为样式1
 let offlineCssPresets = []; // 存储预设
 
 let writingStyles = []; // 用于存储所有文风
+
+let offlineContentPresets = []; // 存储线下模式预设
+let currentEditingContentPresetId = null;
 
 let skits = []
 
@@ -27122,6 +28165,9 @@ let currentEditingAnniId = null;
 
 // 找到这两行并剪切（删除）
 
+// 用于记录当前聊天窗口选中的表情包分组ID
+let currentChatStickerTabId = null;
+
 // 浅色/莫兰迪色系配置
 const dmColors = [
     '#FFB7B2', // 柔粉色
@@ -27182,6 +28228,9 @@ let loversChartInstance = null;
 
 // 【新增】全局变量，用来临时存放正在查看的路人NPC数据
 let tempNpcData = null;
+
+let stickerGroups = []; // 存储分组信息 [{id: 'default', name: '未分组'}, ...]
+let currentStickerGroupId = 'default'; // 当前选中的分组ID
 
 // 换肤功能
 const loversAccThemes = [
@@ -27422,7 +28471,10 @@ let userProfile = {
     patAction: '拍了拍'
 };
 // ↑↑↑ 替换结束 ↑↑↑
-        
+        // 全局表情包分组ID列表
+let globalStickerGroupIds = []; 
+// 当前绑定弹窗选中的目标 ('global' 或者 friendId)
+let currentBindingTarget = 'global';
         let homeWidgetData = {
             headerText: '(:::[♡]:::)..?',
             image1: 'https://i.imgur.com/example-avatar-1.png',
@@ -29383,6 +30435,8 @@ storeCartItems: storeCartItems,
 
 forumDMs: currentForumDMs,
 
+globalQQProfileBg: globalQQProfileBg,
+
 loversTransactions: loversTransactions, // 保存情侣账本数据
 
 storePendingShipmentItems: storePendingShipmentItems,
@@ -29405,6 +30459,8 @@ globalLoversBackground,
                 (skits || []).forEach(item => savePromises.push(dbManager.set('skits', item))); // <--- 新增这一行
 
 (apiPresets || []).forEach(preset => savePromises.push(dbManager.set('apiPresets', preset)));
+
+(stickerGroups || []).forEach(g => savePromises.push(dbManager.set('stickerGroups', g)));
 
                 await Promise.all(savePromises);
 
@@ -29455,7 +30511,7 @@ globalLoversBackground,
                 const [
                     loadedFriends, loadedChatHistories, loadedDiaries, loadedWorldBooks, 
                     loadedWorldBookFolders, loadedFavorites, loadedMoments, loadedPlaylist, 
-                    loadedAppSettings, loadedApiSettings, loadedCustomEmojis, loadedMemories, loadedOpeningStatements, loadedWritingStyles, loadedSkits, loadedForumPosts, loadedForumRules, loadedForumLikes, loadedBubblePresets, loadedInterfacePresets, loadedApiPresets, loadedCloneApiSettings, loadedFontPresets , loadedOfflinePresets, loadedGameApiSettings
+                    loadedAppSettings, loadedApiSettings, loadedCustomEmojis, loadedMemories, loadedOpeningStatements, loadedWritingStyles, loadedSkits, loadedForumPosts, loadedForumRules, loadedForumLikes, loadedBubblePresets, loadedInterfacePresets, loadedApiPresets, loadedCloneApiSettings, loadedFontPresets , loadedOfflinePresets, loadedGameApiSettings, loadedStickerGroups, loadedOfflineContentPresets
                 ] = await Promise.all([
                     dbManager.getAll('friends'), dbManager.getAll('chatHistories'), dbManager.getAll('diaries'),
                     dbManager.getAll('worldBooks'), dbManager.getAll('worldBookFolders'), dbManager.getAll('favorites'),
@@ -29486,7 +30542,11 @@ dbManager.getAll('fontPresets'),
 
 dbManager.getAll('offlineCssPresets'),
 
-dbManager.get('gameApiSettings', 'settings')
+dbManager.get('gameApiSettings', 'settings'),
+
+dbManager.getAll('stickerGroups'),
+
+dbManager.getAll('offlineContentPresets')
 
                 ]);
                 
@@ -29511,6 +30571,21 @@ characterMemories = {};
     }
     characterMemories[memory.friendId].push(memory);
 });
+
+customEmojis = (loadedCustomEmojis || []).reverse();
+
+                // 2. 恢复分组数据
+                stickerGroups = loadedStickerGroups || [];
+                // 如果没有分组（旧数据），初始化一个默认的
+                if (stickerGroups.length === 0) {
+                    stickerGroups = [{ id: 'default', name: '未分组' }];
+                }
+
+                // 3. 【关键兼容性修复】：遍历所有表情，如果没有 groupId，强制设为 'default'
+                // 这样旧的表情包就会自动归类到“未分组”，不会消失
+                customEmojis.forEach(e => {
+                    if (!e.groupId) e.groupId = 'default';
+                });
 
                 // 恢复好友数据
                 friends = loadedFriends || [];
@@ -29729,6 +30804,8 @@ openingStatements = loadedOpeningStatements || [];
 
 writingStyles = loadedWritingStyles || []; // <-- 【新增这一行】
 
+globalQQProfileBg = settings.globalQQProfileBg || '';
+
 skits = loadedSkits || [];
 
 forumRules = loadedForumRules || [];
@@ -29736,6 +30813,8 @@ forumRules = loadedForumRules || [];
 forumLikes = loadedForumLikes || []; 
 
 offlineCssPresets = loadedOfflinePresets || [];
+
+offlineContentPresets = loadedOfflineContentPresets || [];
 
 // 在 loadData 函数内部，settings 赋值之后添加：
 currentForumDMs = settings.forumDMs || []; // 读取保存的私信，如果没有则为空数组
@@ -29828,6 +30907,10 @@ currentMomentGroupId = settings.currentMomentGroupId || 'default';
 
 globalLoversBackground = settings.globalLoversBackground || ''; 
 
+diaryGlobalSettings = settings.diaryGlobalSettings || { autoWrite: false, selectedStyleId: null, noteFontUrl: '' }; // 确保有 noteFontUrl 字段
+// 立即应用保存的字体
+applyDiaryNoteFont();
+
 // 【新增】读取排行榜数据，如果读取不到（或者旧数据是数组），就初始化为默认对象结构
 if (settings.doujin_rankingData && !Array.isArray(settings.doujin_rankingData)) {
     doujin_rankingData = settings.doujin_rankingData;
@@ -29854,6 +30937,15 @@ if (settings) {
     document.getElementById('offlineFloatBall').style.display = 'none';
 }
 // ▲▲▲ 粘贴结束 ▲▲▲
+
+globalStickerGroupIds = settings.globalStickerGroupIds || [];
+
+// 确保每个好友都有 enabledStickerGroupIds 字段
+friends.forEach(f => {
+    if (!f.enabledStickerGroupIds) {
+        f.enabledStickerGroupIds = [];
+    }
+});
 
 // 在 const settings = loadedAppSettings; 之后添加：
 
@@ -29959,7 +31051,8 @@ userPersonas = [userProfile];
             moments = [];
             playlist = [];
             simPhoneContentCache = {};
-            
+            stickerGroups = [{ id: 'default', name: '未分组' }];
+    await dbManager.set('stickerGroups', stickerGroups[0]);
             await saveData();
         }
 
@@ -30502,35 +31595,102 @@ async function handlePhotoUpload(event) {
             closeCameraModal();
         }
         
-        function renderEmojiPicker() {
-            const grid = document.getElementById('emojiGrid');
-            grid.innerHTML = '';
+        /**
+ * [汇总修正版] 渲染聊天界面的表情包选择器
+ * 功能：显示所有分组，点击标签切换，点击加号上传到当前组。
+ */
+function renderEmojiPicker() {
+    const pickerContainer = document.getElementById('emojiPicker');
+    pickerContainer.innerHTML = ''; // 清空旧内容
 
-            // Add button first
-            const addItem = document.createElement('div');
-            addItem.className = 'function-item';
-            addItem.title = "添加表情";
-            addItem.onclick = openAddEmojiModal;
-            addItem.innerHTML = `
-                <div class="function-icon" style="border: 2px dashed var(--border-color, #ccc); background: transparent; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--text-secondary, #999);">+</div>
-                <div class="function-label" style="opacity: 0;">-</div>
+    // 1. 获取所有分组 (如果没有分组，这就显示默认的)
+    const groupsToShow = stickerGroups || [{ id: 'default', name: '未分组' }];
+
+    // 2. 确定当前选中的 Tab
+    // 如果当前记录的ID无效（比如刚删除了分组），默认选中第一个
+    if (!currentChatStickerTabId || !groupsToShow.some(g => g.id === currentChatStickerTabId)) {
+        currentChatStickerTabId = groupsToShow[0]?.id || 'default';
+    }
+
+    // --- A. 渲染顶部：管理按钮 + 管理入口 ---
+    const header = document.createElement('div');
+    header.className = 'emoji-picker-header';
+    header.style.padding = "5px 10px";
+    header.innerHTML = `
+        <button class="emoji-picker-btn manage" id="manageEmojiBtn" onclick="toggleEmojiManagement()">管理</button>
+    `;
+    pickerContainer.appendChild(header);
+
+    // --- B. 渲染标签栏：显示所有分组 ---
+    const tabsContainer = document.createElement('div');
+    tabsContainer.className = 'chat-emoji-tabs';
+    
+    groupsToShow.forEach(group => {
+        const tab = document.createElement('div');
+        // 如果ID匹配，添加 active 类(变黑)
+        tab.className = `chat-emoji-tab ${group.id === currentChatStickerTabId ? 'active' : ''}`;
+        tab.textContent = group.name;
+        
+        // 点击切换分组
+        tab.onclick = () => {
+            currentChatStickerTabId = group.id;
+            renderEmojiPicker(); // 重新渲染面板
+        };
+        tabsContainer.appendChild(tab);
+    });
+    pickerContainer.appendChild(tabsContainer);
+
+    // --- C. 渲染表情网格 ---
+    const grid = document.createElement('div');
+    grid.id = 'emojiGrid';
+    grid.className = `emoji-grid ${isEmojiManaging ? 'managing' : ''}`; // 保持删除模式状态
+
+    // 添加 "+" 按钮 (始终在第一个)
+    const addItem = document.createElement('div');
+    addItem.className = 'function-item';
+    addItem.onclick = () => {
+        // 关键：点击加号时，把全局上传目标设置为当前选中的这个分组
+        currentStickerGroupId = currentChatStickerTabId; 
+        openAddEmojiModal();
+    };
+    addItem.innerHTML = `
+        <div class="function-icon" style="border: 2px dashed #ccc; background: transparent; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #999;">+</div>
+    `;
+    grid.appendChild(addItem);
+
+    // 筛选出属于当前选中分组的表情
+    const filteredEmojis = customEmojis.filter(e => e.groupId === currentChatStickerTabId);
+
+    if (filteredEmojis.length === 0) {
+        // 空状态提示
+        const emptyTip = document.createElement('div');
+        emptyTip.style.cssText = "grid-column: 1 / -1; text-align: center; color: #999; font-size: 12px; padding: 20px;";
+        emptyTip.textContent = "该分组下暂无表情";
+        grid.appendChild(emptyTip);
+    } else {
+        // 渲染表情列表
+        filteredEmojis.forEach(emoji => {
+            const item = document.createElement('div');
+            item.className = 'function-item';
+            item.title = emoji.name;
+            
+            // 点击发送
+            item.onclick = () => { 
+                if (!isEmojiManaging) sendEmoji(emoji.url, emoji.name); 
+            };
+            
+            item.innerHTML = `
+                <div class="function-icon" style="background-image: url('${emoji.url}')"></div>
+                <div class="function-label" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${emoji.name}</div>
+                <!-- 删除按钮 (管理模式下显示) -->
+                <div class="emoji-delete-btn" onclick="deleteEmoji(event, '${emoji.name}')">&times;</div>
             `;
-            grid.appendChild(addItem);
+            grid.appendChild(item);
+        });
+    }
 
-            customEmojis.forEach(emoji => {
-                const item = document.createElement('div');
-                item.className = 'function-item';
-                item.title = emoji.name;
-                item.setAttribute('data-emoji-name', emoji.name);
-                item.onclick = () => { if (!isEmojiManaging) sendEmoji(emoji.url, emoji.name); };
-                item.innerHTML = `
-                    <div class="function-icon" style="background-image: url('${emoji.url}')"></div>
-                    <div class="function-label" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">${emoji.name}</div>
-                    <div class="emoji-delete-btn" onclick="deleteEmoji(event, '${emoji.name}')">&times;</div>
-                `;
-                grid.appendChild(item);
-            });
-        }
+    pickerContainer.appendChild(grid);
+}
         
         function sendEmoji(url, name) {
             sendImageMessage(url, 'emoji', '', name);
@@ -30623,108 +31783,120 @@ async function handlePhotoUpload(event) {
         }
 
         async function addSingleEmoji() {
-            const name = document.getElementById('singleEmojiNameInput').value.trim();
-            const url = document.getElementById('singleEmojiUrlInput').value.trim();
-            
-            if (!name) return showAlert('请输入表情名称。');
-            if (!url && !singleEmojiFile) return showAlert('请输入URL或选择本地文件。');
+    const name = document.getElementById('singleEmojiNameInput').value.trim();
+    const url = document.getElementById('singleEmojiUrlInput').value.trim();
+    
+    if (!name) return showAlert('请输入表情名称。');
+    if (!url && !singleEmojiFile) return showAlert('请输入URL或选择本地文件。');
 
-            let imageUrl = url;
-            if (singleEmojiFile) {
-                try {
-                    imageUrl = await fileToBase64(singleEmojiFile);
-                } catch (e) {
-                    showAlert('文件读取失败'); return;
-                }
-            }
-
-            if(customEmojis.some(e => e.name === name)) return showAlert('该表情名称已存在。');
-            
-            const newEmoji = { name, url: imageUrl };
-            const newId = await dbManager.set('customEmojis', newEmoji);
-            newEmoji.id = newId;
-            customEmojis.unshift(newEmoji);
-
-            renderEmojiPicker();
-            showAlert('表情添加成功！');
-            closeAddEmojiModal();
+    let imageUrl = url;
+    if (singleEmojiFile) {
+        try {
+            imageUrl = await fileToBase64(singleEmojiFile);
+        } catch (e) {
+            showAlert('文件读取失败'); return;
         }
+    }
+
+    if(customEmojis.some(e => e.name === name)) return showAlert('该表情名称已存在。');
+    
+    const newEmoji = { 
+        name, 
+        url: imageUrl,
+        // ▼▼▼▼▼ 核心修复：记录当前所在的分组ID ▼▼▼▼▼
+        groupId: currentStickerGroupId || 'default' 
+    };
+
+    const newId = await dbManager.set('customEmojis', newEmoji);
+    newEmoji.id = newId;
+    customEmojis.unshift(newEmoji);
+
+    // 重新渲染，你就能立刻看到它了
+    renderStickerLibraryGrid();
+    renderEmojiPicker();
+    showAlert('表情添加成功！');
+    closeAddEmojiModal();
+}
 
         async function addBatchEmojisV2() {
-            const input = document.getElementById('batchEmojiInput').value.trim();
-            const localFiles = window.batchEmojiFiles || [];
+    const input = document.getElementById('batchEmojiInput').value.trim();
+    const localFiles = window.batchEmojiFiles || [];
 
-            if (!input) return showAlert('请输入表情信息。');
+    if (!input) return showAlert('请输入表情信息。');
 
-            const lines = input.split('\n');
-            let addedCount = 0, errorCount = 0;
-            const newEmojis = [];
+    const lines = input.split('\n');
+    let addedCount = 0, errorCount = 0;
+    const newEmojis = [];
 
-            const processEntry = async (name, url) => {
-                if (name && url) {
-                    let finalUrl = url.trim();
-                    const localFileMatch = finalUrl.match(/\[本地文件:\s*(.*?)\]/);
+    const processEntry = async (name, url) => {
+        if (name && url) {
+            let finalUrl = url.trim();
+            const localFileMatch = finalUrl.match(/\[本地文件:\s*(.*?)\]/);
 
-                    if (localFileMatch) {
-                        const fileName = localFileMatch[1].trim();
-                        const file = localFiles.find(f => f.name === fileName);
-                        if (file) {
-                            finalUrl = await fileToBase64(file);
-                        } else {
-                            errorCount++;
-                            return; // Skip this entry
-                        }
-                    }
-
-                    if (!customEmojis.some(e => e.name === name) && !newEmojis.some(e => e.name === name)) {
-                        newEmojis.push({ name, url: finalUrl });
-                        addedCount++;
-                    }
-                }
-            };
-            
-            let currentName = null;
-            let currentUrl = '';
-
-            for (const line of lines) {
-                const match = line.match(/^([^:：]+)[:：]\s*(.*)/); // 匹配中英文冒号
-                if (match) {
-                    // Process the previous entry before starting a new one
-                    if (currentName) {
-                        await processEntry(currentName, currentUrl);
-                    }
-                    currentName = match[1].trim();
-                    currentUrl = match[2].trim();
-                } else if (currentName) {
-                    // This is a continuation of the previous URL (for multi-line URLs)
-                    currentUrl += line.trim();
+            if (localFileMatch) {
+                const fileName = localFileMatch[1].trim();
+                const file = localFiles.find(f => f.name === fileName);
+                if (file) {
+                    finalUrl = await fileToBase64(file);
+                } else {
+                    errorCount++;
+                    return; 
                 }
             }
-            // Process the last entry
+
+            if (!customEmojis.some(e => e.name === name) && !newEmojis.some(e => e.name === name)) {
+                newEmojis.push({ 
+                    name, 
+                    url: finalUrl,
+                    // ▼▼▼▼▼ 核心修复：记录当前所在的分组ID ▼▼▼▼▼
+                    groupId: currentStickerGroupId || 'default'
+                });
+                addedCount++;
+            }
+        }
+    };
+    
+    let currentName = null;
+    let currentUrl = '';
+
+    for (const line of lines) {
+        const match = line.match(/^([^:：]+)[:：]\s*(.*)/);
+        if (match) {
             if (currentName) {
                 await processEntry(currentName, currentUrl);
             }
-
-            if (newEmojis.length > 0) {
-                for(const emoji of newEmojis) {
-                    const newId = await dbManager.set('customEmojis', emoji);
-                    emoji.id = newId;
-                    customEmojis.unshift(emoji);
-                }
-                renderEmojiPicker();
-            }
-            
-            let message = '';
-            if(addedCount > 0) message += `成功添加 ${addedCount} 个表情！\n`;
-            if(errorCount > 0) message += `有 ${errorCount} 行格式错误、文件未找到或已存在，已跳过。`;
-
-            showAlert(message || '未添加任何新表情。');
-
-            if (addedCount > 0) {
-                 window.batchEmojiFiles = []; // Clear cache
-                 closeAddEmojiModal();
-            }
+            currentName = match[1].trim();
+            currentUrl = match[2].trim();
+        } else if (currentName) {
+            currentUrl += line.trim();
         }
+    }
+    if (currentName) {
+        await processEntry(currentName, currentUrl);
+    }
+
+    if (newEmojis.length > 0) {
+        for(const emoji of newEmojis) {
+            const newId = await dbManager.set('customEmojis', emoji);
+            emoji.id = newId;
+            customEmojis.unshift(emoji);
+        }
+        // 重新渲染
+        renderStickerLibraryGrid();
+        renderEmojiPicker();   
+    }
+    
+    let message = '';
+    if(addedCount > 0) message += `成功添加 ${addedCount} 个表情！\n`;
+    if(errorCount > 0) message += `有 ${errorCount} 行格式错误、文件未找到或已存在，已跳过。`;
+
+    showAlert(message || '未添加任何新表情。');
+
+    if (addedCount > 0) {
+            window.batchEmojiFiles = []; 
+            closeAddEmojiModal();
+    }
+}
 
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
@@ -31123,6 +32295,35 @@ videoCallButton.style.display = friend.isGroup ? 'none' : 'flex';
 
 // ... 在 openChat 函数内部 ...
 
+// --- [新增] 动态添加“主页”按钮 ---
+    let profileButton = functionMenu.querySelector('.function-item[id="btn-chat-profile"]');
+    
+    // 如果按钮不存在，才创建
+    if (!profileButton) {
+        profileButton = document.createElement('div');
+        profileButton.className = 'function-item';
+        profileButton.id = 'btn-chat-profile'; // 给个ID防止重复
+        
+        // 绑定点击事件：打开资料页 + 关闭菜单
+        profileButton.onclick = function() {
+            openQQProfile(currentChatFriendId);
+            hideFunctionMenus();
+        };
+        
+        profileButton.innerHTML = `<div class="function-icon"><i class="ri-account-box-line"></i></div><div class="function-label">主页</div>`;
+        
+        // 将按钮插入到“视频通话”按钮的后面
+        // 如果 videoCallButton 还没创建成功，就直接放到最后
+        if (videoCallButton && videoCallButton.parentNode) {
+            videoCallButton.insertAdjacentElement('afterend', profileButton);
+        } else {
+            functionMenu.appendChild(profileButton);
+        }
+    }
+
+    // 仅在私聊显示，群聊隐藏
+    profileButton.style.display = friend.isGroup ? 'none' : 'flex';
+
     // --- [修改版] 动态添加礼物按钮 (颜色统一，位置在最后) ---
     let giftButton = functionMenu.querySelector('.function-item[onclick="openGiftInputModal()"]');
     
@@ -31205,16 +32406,21 @@ if (friend.isOfflineMode && currentOfflineMode === 'float') {
 
 function getAvatarHtml(sender) {
     if (!sender) return `<div class="chat-avatar">?</div>`;
-    const name = sender.name || '', avatarImage = sender.avatarImage || '';
+    
+    const name = sender.name || '';
+    const avatarImage = sender.avatarImage || '';
     const avatarText = sender.avatar || (name ? name.substring(0, 1) : '?');
     
-    // --- ↓↓↓ 核心修改就在下面这一行 ↓↓↓ ---
-    // 我们从 style 属性中删除了 "border: none;"
+    // 【核心修改】添加 onclick 事件，调用 openQQProfile
+    // 如果 sender 是用户自己，点击无反应或去设置页（这里设为无反应）
+    const clickAttr = (sender.id === userProfile.id) ? '' : `onclick="openQQProfile('${sender.id}'); event.stopPropagation();"`;
+    const cursorStyle = (sender.id === userProfile.id) ? '' : 'cursor: pointer;';
+
     return avatarImage 
-        ? `<div class="chat-avatar" data-sender-id="${sender.id}" style="background-image: url('${avatarImage}');"></div>` 
-        : `<div class="chat-avatar" data-sender-id="${sender.id}">${avatarText}</div>`;
-    // --- ↑↑↑ 修改结束 ↑↑↑ ---
+        ? `<div class="chat-avatar" data-sender-id="${sender.id}" style="background-image: url('${avatarImage}'); ${cursorStyle}" ${clickAttr}></div>` 
+        : `<div class="chat-avatar" data-sender-id="${sender.id}" style="${cursorStyle}" ${clickAttr}>${avatarText}</div>`;
 }
+
         async function handlePatPat(targetId) {
      const friend = friends.find(f => f.id === currentChatFriendId);
      if(!friend) return;
@@ -32912,14 +34118,21 @@ if (recentPollMessage) {
             }).join('\n');
             const recentMoments = moments.filter(m => m.authorId === userProfile.id).slice(0, 5).map(m => `- "${m.content}"`).join('\n');
 
-// --- 新增：群聊表情包库注入 ---
-let groupStickerContext = "";
-// 检查当前群聊ID是否在绑定列表中，且库里有表情
-if (stickerLibraryBindings.includes(friend.id) && customEmojis.length > 0) {
-    // 提取所有表情包名称
-    const stickerNames = customEmojis.map(e => e.name).join('", "');
-    
-    groupStickerContext = `
+// --- 新增：群聊表情包库注入 (V2 - 仅全局包) ---
+            let groupStickerContext = "";
+
+            // 假设群聊目前只使用“全局表情包”
+            // (逻辑说明：群聊通常人多，直接用全局配置最合理，避免单独为每个群配置的繁琐)
+            const groupAvailableGroupIds = globalStickerGroupIds || []; 
+
+            // 筛选出属于全局开启分组的表情
+            const groupAvailableEmojis = customEmojis.filter(e => groupAvailableGroupIds.includes(e.groupId));
+
+            if (groupAvailableEmojis.length > 0) {
+                // 提取所有表情包名称
+                const stickerNames = groupAvailableEmojis.map(e => e.name).join('", "');
+                
+                groupStickerContext = `
 【【【表情包使用授权】】】
 你已被授权使用用户的“表情包库”。
 当前可用的表情包名称有：["${stickerNames}"]。
@@ -32928,8 +34141,7 @@ if (stickerLibraryBindings.includes(friend.id) && customEmojis.length > 0) {
 2. 使用方法：在返回的动作中，指定表情包的名称。
 3. 格式示例：\`{"sender_name": "角色名", "action": {"type": "send_emoji", "data": {"name": "表情包名称"}}, "delay_seconds": 2}\` (注意：name必须完全匹配上面的列表)。
 `;
-}
-// --- 新增结束 ---
+            }
 
 
 
@@ -33097,12 +34309,23 @@ let activeUserPersona = userPersonas.find(p => p.id === friend.activeUserPersona
 
 
     
-    // --- 新增：表情包库注入 ---
+    // --- 新增：表情包库注入 (V2 - 混合模式) ---
     let stickerContext = "";
-    // 检查当前聊天的角色是否在绑定列表中
-    if (stickerLibraryBindings.includes(friend.id) && customEmojis.length > 0) {
+    
+    // 1. 获取该好友能用的所有分组 ID (全局 + 个人)
+    // 确保数组去重
+    const availableGroupIds = [...new Set([
+        ...(globalStickerGroupIds || []),
+        ...(friend.enabledStickerGroupIds || [])
+    ])];
+
+    // 2. 筛选出属于这些分组的表情
+    // 注意：customEmojis 是全局的表情数组
+    const availableEmojis = customEmojis.filter(e => availableGroupIds.includes(e.groupId));
+
+    if (availableEmojis.length > 0) {
         // 提取所有表情包名称
-        const stickerNames = customEmojis.map(e => e.name).join('", "');
+        const stickerNames = availableEmojis.map(e => e.name).join('", "');
         
         stickerContext = `
 【【【表情包使用授权】】】
@@ -33205,6 +34428,7 @@ ${loversContext}
 2.  **【主动关怀与付出】**: 当用户向你展示某件商品时，如果这件商品价格合理，并且符合你的人设（例如你是一个慷慨、宠溺或富有的角色），你可以主动使用 \`pay_for_item\` 动作为他/她付款，并附上一句符合你风格的留言，给用户一个惊喜。
 4.  **【财务独立】**: 当用户向你转账时，你可以根据你的人设和当前情景，选择接受或使用  \`return_transfer \` 动作退回转账。
 5.  语音条的内容**必须且只能** 是纯粹的角色对话。**绝对禁止** 包含任何形式的括号、旁白、动作描述或表情。 6.  **【主动关怀与付出】**: 当用户表达需求（如“饿了”、“冷了”、“想要那个”）时，如果符合你的人设（大方/宠溺/照顾人），请**务必主动**使用\`purchase_and_pay\` 动作直接为用户购买物品，并附上一句暖心的留言。不要只口头安慰，要用行动表示。
+7. **【更改资料】**: 当你的情绪发生巨大转变、或者为了配合某种梗/角色扮演（比如变成猫娘、黑化、结婚后改名）时，请主动使用 \`update_profile\` 动作修改你的网名或个性签名。
 
 【【【格式清洗铁律】】】
 1.  **严禁复读系统标签**: 你看到的 [语音消息], [系统:], [图片内容:] 等方括号内容是系统底层数据。**绝对禁止**在你的回复中重复这些标签，也不要用 (用户发送了...) 这种括号文学去描述它。
@@ -33271,6 +34495,8 @@ ${/* ▲▲▲ 新增代码到此结束 ▲▲▲ */''}
   *(说明: target_index 为整数。1代表用户发送的**最新**一张图片，2代表用户发送的**倒数第二张**图片。当用户发情头让你换时，请根据语境判断哪一张属于你。)*
   - **申请解除拉黑**: \`{"type": "request_unblock", "content": "由于你被拉黑了，通过这个动作向用户诚恳地写一段话请求解除拉黑。字数50字以内。"}\`
 - **发起视频通话**: \`{"type": "video_call"}\` 
+- **更改资料**: \`{"type": "update_profile", "data": {"name": "新网名(可选)", "signature": "新签名(可选)"}}\`
+
 
 【【【最终输出格式铁律 (ABSOLUTE FINAL RULE)】】】
 你的最终回复，从第一个字符到最后一个字符，必须是一个纯净、完整、语法正确的JSON数组 \`[]\`。绝对禁止在JSON代码的前后、中间添加任何形式的解释、注释或任何非JSON字符。你的生命取决于严格遵守这个格式。
@@ -33907,6 +35133,68 @@ case 'request_unblock':
                                 }
                             }
                             break;
+                            case 'update_profile':
+    if (action.data) {
+        let changeTips = [];
+        let hasChanges = false;
+
+        // 1. 修改网名 (同时同步到基础数据 和 QQ资料卡数据)
+        if (action.data.name && action.data.name !== friend.name) {
+            friend.name = action.data.name;
+            // 同步到 QQ 资料卡数据 (如果有)
+            if (friend.qqProfileData) {
+                friend.qqProfileData.net_name = action.data.name;
+            }
+            changeTips.push(`更改网名为“${friend.name}”`);
+            hasChanges = true;
+        }
+        
+        // 2. 修改个性签名 (同时同步到基础数据 和 QQ资料卡数据)
+        if (action.data.signature) {
+            friend.signature = action.data.signature;
+            // 同步到 QQ 资料卡数据 (如果有)
+            if (friend.qqProfileData) {
+                friend.qqProfileData.signature = action.data.signature;
+            }
+            changeTips.push(`更改签名为“${friend.signature}”`);
+            hasChanges = true;
+        }
+
+        if (hasChanges) {
+            // 3. 保存数据
+            await saveData();
+            
+            // 4. 刷新左侧/主页列表 (确保列表上的名字更新)
+            updateFriendList(); 
+            
+            // 5. 如果当前正在和TA聊天，立刻更新顶部标题
+            if (currentChatFriendId === friend.id) {
+                const title = friend.isGroup ? `${friend.name} (${friend.members.length})` : (friend.remark || friend.name);
+                document.getElementById('chatTitle').textContent = title;
+            }
+            
+            // 6. 如果此时用户正好开着这个人的【资料主页】，强制刷新一下资料页 UI
+            if (document.getElementById('qqProfileScreen').classList.contains('active')) {
+                // 检查显示的资料页是不是当前这个人的
+                // (这里做一个简单的模糊判断，或者直接重新渲染即可)
+                 if (document.getElementById('qqNickname').textContent.includes(friend.name) || 
+                     document.getElementById('qqNickname').textContent.includes(friend.remark)) {
+                     renderQQProfileDetails(friend.qqProfileData);
+                 }
+            }
+
+            // 7. 发送系统提示消息
+            if (changeTips.length > 0) {
+                const sysContent = `"${friend.remark || friend.name}" ${changeTips.join('，')}`;
+                const sysMsg = await saveChatMessage(friendId, 'system', sysContent, '', null, 'system_tip');
+                
+                if (currentChatFriendId === friendId) {
+                    addMessageToDOM(sysMsg, friend);
+                }
+            }
+        }
+    }
+    break;
         case 'voice_call_dialogue':
             if (Array.isArray(action.data)) {
                 for (const item of action.data) {
@@ -34735,50 +36023,38 @@ function toggleWbFolder(header) {
         }
 
         function openDiary() { 
-            setActivePage('diaryScreen');
-            renderDiaryFriendList();
-           
-        }
-
-                /**
- * [修复版] 渲染日记好友选择列表
- */
-function renderDiaryFriendList() {
-    // 1. 找到日记页面的导航栏和返回按钮
+    setActivePage('diaryScreen');
+    
+    // 强制重置为“TA的日记”状态
+    const friendsTab = document.querySelector('#diaryBottomNav .diary-tab'); // 获取第一个tab
+    switchDiaryTab('friends', friendsTab); 
+}
+                function renderDiaryFriendList() {
     const navBar = document.querySelector('#diaryScreen .nav-bar');
-    const backBtn = navBar.querySelector('.nav-btn');
+    // 返回按钮逻辑：在一级界面点击返回，退出 App 回到发现页
+    navBar.querySelector('.nav-btn').setAttribute('onclick', 'backToDiscover()');
 
-    // 2. 将返回按钮的onclick事件恢复为 backToDiscover()
-    backBtn.setAttribute('onclick', 'backToDiscover()');
+    // 确保显示底部导航栏
+    document.getElementById('diaryBottomNav').style.display = 'flex';
     
-    // --- ▼▼▼ 核心修改开始 ▼▼▼ ---
-    
-    // 3. 在这里添加“设置”按钮 (原代码这里是清空 innerHTML = '')
-    // 这个按钮只会显示在“角色选择列表”界面
+    // 显示好友列表，隐藏其他
+    document.getElementById('diaryFriendList').style.display = 'block';
+    document.getElementById('diaryContentArea').innerHTML = ''; 
+
+    // 右上角显示设置按钮
     document.getElementById('diaryNavFriendName').innerHTML = `
         <button class="nav-btn" onclick="openDiarySettingsModal()" style="font-size: 20px; color: #000; padding:0;">
             <i class="ri-settings-3-line"></i>
         </button>
     `;
     
-    // --- ▲▲▲ 核心修改结束 ▲▲▲ ---
-
-    // 4. 强制关闭底部批量操作栏，并重置管理状态
+    // 关闭管理模式
     document.getElementById('diaryBatchBar').classList.remove('show');
     isDiaryManaging = false;
-    selectedDiaryIds.clear();
-    
 
+    // --- 生成网格列表 ---
     const friendList = document.getElementById('diaryFriendList');
-    const contentArea = document.getElementById('diaryContentArea');
-    
-    // 切换显示区域
-    friendList.style.display = 'block';
-    contentArea.innerHTML = ''; // 清空日记列表内容
-    contentArea.className = 'diary-list'; 
-
-    friendList.innerHTML = ''; // 清空好友列表旧内容
-
+    friendList.innerHTML = ''; 
     const availableFriends = friends.filter(f => !f.isGroup);
 
     if(availableFriends.length === 0) {
@@ -34786,27 +36062,21 @@ function renderDiaryFriendList() {
          return;
     }
     
-    // 创建网格容器
     const gridContainer = document.createElement('div');
     gridContainer.className = 'diary-friend-grid';
 
     availableFriends.forEach(friend => {
         const item = document.createElement('div');
         item.className = 'diary-book-item';
-        item.onclick = () => showFriendDiary(friend.id);
+        item.onclick = () => showFriendDiary(friend.id); // 点击进入二级界面
 
         const avatarHtml = friend.avatarImage 
             ? `<div class="diary-book-avatar" style="background-image: url(${friend.avatarImage})"></div>`
             : `<div class="diary-book-avatar">${friend.avatar}</div>`;
 
-        item.innerHTML = `
-            ${avatarHtml}
-            <div class="diary-book-name">${friend.remark || friend.name}</div>
-        `;
-
+        item.innerHTML = `${avatarHtml}<div class="diary-book-name">${friend.remark || friend.name}</div>`;
         gridContainer.appendChild(item);
     });
-    
     friendList.appendChild(gridContainer);
 }
         
@@ -34814,38 +36084,35 @@ function renderDiaryFriendList() {
     const friend = friends.find(f => f.id === friendId);
     if (!friend) return;
     
-    currentDiaryFriendId = friendId; // 记录当前ID
-    isDiaryManaging = false; // 重置管理状态
-    selectedDiaryIds.clear(); // 清空选择
-    
-    // 重置底部栏UI
+    currentDiaryFriendId = friendId;
+    isDiaryManaging = false; 
+    selectedDiaryIds.clear();
     document.getElementById('diaryBatchBar').classList.remove('show');
+
+    // 【核心修改】：隐藏底部导航栏
+    document.getElementById('diaryBottomNav').style.display = 'none';
     
-    // 1. 设置返回按钮逻辑
-    const navBar = document.querySelector('#diaryScreen .nav-bar');
-    const backBtn = navBar.querySelector('.nav-btn');
-    backBtn.setAttribute('onclick', 'renderDiaryFriendList()');
-
+    // 隐藏一级列表
     document.getElementById('diaryFriendList').style.display = 'none';
-    const listContainer = document.getElementById('diaryContentArea');
-    listContainer.className = 'diary-list'; // 确保移除 managing 类
 
-    // 2. 【核心修改】更新导航栏右侧：生成按钮 + 管理按钮
+    // 返回按钮逻辑：点击返回，回到一级界面（renderDiaryFriendList）
+    const navBar = document.querySelector('#diaryScreen .nav-bar');
+    navBar.querySelector('.nav-btn').setAttribute('onclick', 'renderDiaryFriendList()');
+
+    // 右上角功能：生成 + 管理
     const navRightSide = document.getElementById('diaryNavFriendName');
     navRightSide.innerHTML = `
         <div style="display: flex; gap: 15px; align-items: center;">
             <button class="generate-diary-btn nav-right-action-btn" id="manualGenerateBtn" onclick="forceGenerateDiary('${friend.id}')" title="生成日记">
                 <svg viewBox="0 0 24 24"><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>
             </button>
-            <!-- 新增：管理按钮 (图标) -->
             <button class="nav-btn" id="diaryManageBtn" onclick="toggleDiaryManageMode()" style="font-size: 20px; color: #000; padding:0;">
                 <i class="ri-list-check-2"></i>
             </button>
         </div>
     `;
 
-    // 3. 渲染列表
-    renderCurrentDiaryList(); // 提取渲染逻辑为单独函数，方便复用
+    renderCurrentDiaryList(); // 渲染日记卡片
 }
         
         /**
@@ -34884,36 +36151,57 @@ async function forceGenerateDiary(friendId) {
         }
         
             /**
-     * 新增：显示单篇日记的全文
-     * @param {string} diaryId - 要显示的日记的ID
-     */
-    function showFullDiary(diaryId) {
-        const diary = diaries.find(d => d.id === diaryId);
-        if (!diary) return;
+ * [修改版] 显示单篇日记的全文 (含权限控制)
+ */
+function showFullDiary(diaryId) {
+    const diary = diaries.find(d => d.id === diaryId);
+    if (!diary) return;
+    
+    currentViewingDiaryData = diary; // 暂存
 
-        // 找到我们新创建的HTML页面和内容区域
-        const contentDiv = document.getElementById('fullDiaryContent');
-        const backBtn = document.getElementById('backToDiaryListBtn');
+    // 默认视角重置为自己
+    currentDiaryViewerId = userProfile.id;
+    
+    const backBtn = document.getElementById('backToDiaryListBtn');
+    // 让返回按钮知道应该返回到哪个好友的日记列表
+    backBtn.setAttribute('onclick', `backToDiaryList('${diary.authorId}')`);
 
-        // 把日记内容填进去
-        contentDiv.textContent = diary.content;
-        
-        // 让返回按钮知道应该返回到哪个好友的日记列表
-        backBtn.setAttribute('onclick', `backToDiaryList('${diary.authorId}')`);
-
-        // 切换到日记全文页面
-        setActivePage('diaryViewScreen');
+    // --- 【核心修改：控制右上角按钮显示】 ---
+    const viewerBtn = document.getElementById('diaryViewerAvatarBtn');
+    
+    // 只有当这篇日记的作者是“我”时，才允许让别人看（显示按钮）
+    if (diary.authorId === userProfile.id) {
+        viewerBtn.style.display = 'block'; // 或者 'flex'，取决于你的CSS，通常 block/flex 即可
+        // 初始化右上角头像 (显示我自己)
+        updateDiaryViewerAvatar();
+    } else {
+        // 如果是好友的日记，隐藏该按钮
+        viewerBtn.style.display = 'none';
     }
+    // ------------------------------------
 
-    /**
-     * 新增：从日记全文页返回到日记封面列表页
-     * @param {string} friendId - 好友的ID
-     */
+    // 切换页面
+    setActivePage('diaryViewScreen');
+
+    // 初始渲染：只显示纯文本，没有任何批注
+    renderDiaryContentWithAnnotations(diary.content, null);
+}
+
     function backToDiaryList(friendId) {
-        setActivePage('diaryScreen');
-        // 重新调用一次 showFriendDiary 来刷新列表页
+    setActivePage('diaryScreen');
+    
+    // 如果 ID 是用户本人，切换到“我的日记”Tab
+    if (friendId === userProfile.id) {
+        const myTab = document.querySelectorAll('#diaryBottomNav .diary-tab')[1];
+        switchDiaryTab('mine', myTab);
+    } else {
+        // 否则切换到“TA的日记”并进入详情
+        // 注意：这里需要先恢复底栏状态
+        document.getElementById('diaryBottomNav').style.display = 'flex';
+        // 重新调用进入详情页的逻辑
         showFriendDiary(friendId);
     }
+}
         
         function backToTheme() { setActivePage('themeApp'); }
 
@@ -42476,6 +43764,14 @@ if (userPersonSetting === 'second') {
             chatHistoryContext = '【你需要回应的、最近的实时互动记录】:\n(无历史记录，请你主动开始一段故事。)';
         }
 
+let presetContent = "";
+if (currentOfflineSettings.contentPresetId) {
+    const preset = offlineContentPresets.find(p => p.id === currentOfflineSettings.contentPresetId);
+    if (preset) {
+        presetContent = `【【【最高优先级剧情规则 (必须严格遵守)】】】\n${preset.content}\n\n`;
+    }
+}
+
        
 
         // --- 全新的、更严格的AI指令 V3 ---
@@ -42490,6 +43786,8 @@ if (userPersonSetting === 'second') {
 
 1.  【世界观设定 (绝对真理)】:
 ${worldBookContext}
+
+${presetContent} 
 
 2.  【核心记忆与过往总结 (长期记忆)】:
 ${summaryContext}
@@ -42522,7 +43820,7 @@ ${chatHistoryContext} `;
         7.  **【禁止动作】**: 你的回复**只能**是纯文本。严禁生成任何JSON格式的动作。
        8.  **【【【最高记忆铁律：承上启下！！！】】】**:
     你**必须**仔细阅读并融合**以上所有情报**，尤其是“世界观”和“核心记忆”。你的续写**必须**与所有上文内容紧密相连，做到人设一致、情节连贯、逻辑自洽。**严禁遗忘**任何设定和已总结的记忆。
-   
+   **【防复读铁律】**: 严禁重复输出上文中已经发生过的剧情或已经描写过的心理活动。故事必须向前推进，不能在原地打转。
 
         【【【不可违背的创作铁律 (FINAL & ABSOLUTE LAW)】】】
         在开始创作前，你必须再次阅读并严格遵守以下两条最终规则。任何违反都将导致任务失败，你的回复将被判定为无效。
@@ -42574,6 +43872,8 @@ ${personInstruction}
 8.  **【【【最高记忆铁律：承上启下！！！】】】**:
 你**必须**仔细阅读并融合**以上所有情报**，尤其是“世界观”和“核心记忆”。你的续写**必须**与所有上文内容紧密相连，做到人设一致、情节连贯、逻辑自洽。**严禁遗忘**任何设定和已总结的记忆。
 
+**【防复读铁律】**: 严禁重复输出上文中已经发生过的剧情或已经描写过的心理活动。故事必须向前推进，不能在原地打转。
+
         【【【不可违背的创作铁律 (FINAL & ABSOLUTE LAW)】】】
         在开始创作前，你必须再次阅读并严格遵守以下两条最终规则。任何违反都将导致任务失败，你的回复将被判定为无效。
 
@@ -42620,8 +43920,7 @@ ${personInstruction}
             body: JSON.stringify({
                 model: settings.modelName,
                 messages: [{ role: 'user', content: prompt }],
-                temperature: 0.9,
-                // 我们不再使用 max_tokens，而是让AI自己控制长度
+                temperature: parseFloat(settings.apiTemperature) || 0.9,
             }),
            signal: abortSignal
         });
@@ -43655,11 +44954,11 @@ function openNewPostModal() {
     document.getElementById('newPostModal').classList.add('show');
 }
 
-/**
- * 关闭新的帖子编辑模态框
- */
 function closeNewPostModal() {
     document.getElementById('newPostModal').classList.remove('show');
+    // [新增] 清理数据
+    document.getElementById('newPostContentInput').value = '';
+    clearNewPostImage(); 
 }
 
 // --- ↓↓↓ 请用这个【版块感知版】，完整替换旧的 postForumMessage 函数 ↓↓↓ ---
@@ -43669,7 +44968,8 @@ function closeNewPostModal() {
  */
 async function postForumMessage() {
     const content = document.getElementById('newPostContentInput').value.trim();
-    if (!content) return showAlert('帖子内容不能为空');
+    // 如果既没内容，也没图片，才报错
+if (!content && !tempForumPostImage) return showAlert('内容或图片不能为空');
 
     // 核心修改：根据匿名状态，为帖子打上不同的“作者”标签
     const newPost = {
@@ -43678,6 +44978,7 @@ async function postForumMessage() {
         authorId: isForumAnonymous ? null : userProfile.id, 
         authorName: isForumAnonymous ? '匿名用户' : userProfile.name,
         content: content,
+        imageUrl: tempForumPostImage, // 新增这一行
         htmlModule: null, // 用户发帖暂时不支持HTML模块
         timestamp: new Date().toISOString(),
         comments: [],
@@ -43704,7 +45005,7 @@ async function postForumMessage() {
     await saveData();
 
 broadcastUserActivity('forum', {
-        title: "用户动态", // 如果有标题输入框可用 title，没有就写固定值或截取内容
+        title: "图文动态", // 如果有标题输入框可用 title，没有就写固定值或截取内容
         content: content,
         section: currentForumSubTab // 告诉AI发在哪个版块
     });
@@ -44755,7 +46056,7 @@ async function refreshForumTimeline() {
                 body: JSON.stringify({
                     model: settings.modelName,
                     messages: [{ role: 'user', content: prompt }],
-                    temperature: 1.0,
+                    temperature: parseFloat(settings.apiTemperature) || 1.0,
                 })
             });
 
@@ -44980,13 +46281,39 @@ async function generatePostComments(postId) {
     6.  **【【【创新铁律】】】**: 你生成的10条评论，其内容、角度和昵称都必须富有创意且绝不重复。你需要模拟一个真实、多元化的网络社区。
     【输出格式铁律】: 你的回复必须是一个纯净的JSON数组，包含10个对象，每个对象有 "content" 和 "authorName" 两个键。`;
 
+// --- [修改开始] 构建消息体 (支持识图) ---
+    let apiMessages = [];
+    // 检查是否有图片且格式正确
+    if (post.imageUrl && post.imageUrl.startsWith('data:image')) {
+        apiMessages = [
+            {
+                role: 'user',
+                content: [
+                    // 把提示词和图片放在同一个 content 数组里
+                    { type: 'text', text: prompt + "\n\n【额外提示】这条帖子包含一张图片，请务必结合图片内容进行评论！" },
+                    { 
+                        type: 'image_url', 
+                        image_url: { 
+                            url: post.imageUrl,
+                            detail: "low" // low模式更省token且速度快
+                        } 
+                    }
+                ]
+            }
+        ];
+    } else {
+        // 如果没图片，就只发文本
+        apiMessages = [{ role: 'user', content: prompt }];
+    }
+    // --- [修改结束] ---
+
     try {
         const response = await fetch(`${settings.apiUrl}/chat/completions`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: settings.modelName,
-                messages: [{ role: 'user', content: prompt }],
+                messages: apiMessages, // <--- 替换成刚才定义的变量
                 temperature: 0.9
             })
         });
@@ -45100,7 +46427,17 @@ function renderForumDetailView(post) {
     else {
         postAvatarHtml = `<div class="post-avatar" style="background-color: #ccc; color: white; cursor: pointer;" onclick="handleForumAvatarClick(event, '${authorIdForClick}', '${escapedName}', '')">${postAuthor.name[0]}</div>`;
     }
- 
+ // --- 新增：处理详情页图片 ---
+    let detailImageHtml = '';
+    if (post.imageUrl) {
+        const blobUrl = dataUrlToBlobUrl(post.imageUrl);
+        detailImageHtml = `
+            <div style="margin-top: 10px; width: 100%;">
+                <img src="${blobUrl}" style="width: 100%; border-radius: 12px; cursor: pointer;" onclick="viewImage('${blobUrl}')">
+            </div>
+        `;
+    }
+    // -------------------------
     const mainPostHtml = `
         <div class="forum-detail-main-post">
             <div class="post-header" style="justify-content: space-between; align-items: center;">
@@ -45114,6 +46451,7 @@ function renderForumDetailView(post) {
                 <button class="forum-follow-btn">关注</button>
             </div>
             <div class="post-text" style="font-size: 15px; line-height: 1.5; margin: 15px 0; white-space: pre-wrap; word-wrap: break-word;">${post.content.trim().replace(/\n/g, '<br>')}</div>
+           ${detailImageHtml}
             ${post.htmlModule ? post.htmlModule : ''}
             <div class="post-stats-bar">
                 <span>${new Date(post.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} · ${new Date(post.timestamp).toLocaleDateString()} · <strong style="color: var(--text-color, #000);">${postViews.toLocaleString()}</strong> 次查看</span>
@@ -46192,6 +47530,18 @@ function createPostElement(post) {
     }
     const timeAgo = timeSince(post.timestamp);
 
+// [新增] 图片HTML生成
+    let imageHtml = '';
+    if (post.imageUrl) {
+        // 使用你已有的 dataUrlToBlobUrl 优化性能
+        const blobUrl = dataUrlToBlobUrl(post.imageUrl);
+        imageHtml = `
+            <div style="margin-top: 10px; max-width: 200px;">
+                <img src="${blobUrl}" style="width: 100%; border-radius: 8px; cursor: pointer;" onclick="event.stopPropagation(); viewImage('${blobUrl}')">
+            </div>
+        `;
+    }
+
     item.innerHTML = `
         ${avatarHtml}
         <div class="post-content-area" style="position: relative;">
@@ -46215,6 +47565,7 @@ function createPostElement(post) {
 
             </div>
             <div class="post-text">${post.content.replace(/\n/g, '<br>')}</div>
+            ${imageHtml} <!-- 插入图片 -->
             ${post.htmlModule ? post.htmlModule : ''}
             
             ${generateForumActionsHtml(post.id)}
@@ -46394,7 +47745,7 @@ const prompt = `
         const response = await fetch(`${settings.apiUrl}/chat/completions`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 1.1 })
+            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: parseFloat(settings.apiTemperature) || 1.0 })
         });
         if (!response.ok) throw new Error(`API 请求失败: ${response.status}`);
         const data = await response.json();
@@ -46611,7 +47962,7 @@ const prompt = `
         const response = await fetch(`${settings.apiUrl}/chat/completions`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 1.0 })
+            body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: parseFloat(settings.apiTemperature) || 1.0})
         });
         if (!response.ok) throw new Error(`API 请求失败: ${response.status}`);
         
@@ -47325,7 +48676,7 @@ ${specialInstructionsForAI}
             body: JSON.stringify({
                 model: settings.modelName,
                 messages: [{ role: 'user', content: prompt }],
-                temperature: 0.9
+                temperature: parseFloat(settings.apiTemperature) || 0.9
             })
         });
 
@@ -47505,6 +48856,21 @@ async function triggerAiPostReactions(postId) {
 现在，开始你的创作。`;
 
 
+// --- [新增] 图片识别逻辑 ---
+    let apiMessages = [];
+    if (post.imageUrl && post.imageUrl.startsWith('data:image')) {
+        // 如果有图，发送 Vision 格式
+        apiMessages = [{
+            role: 'user',
+            content: [
+                { type: 'text', text: prompt + "\n\n【视觉信号】用户发了一张图片，请仔细看图，评论内容要提到图片里的细节！" },
+                { type: 'image_url', image_url: { url: post.imageUrl, detail: "low" } }
+            ]
+        }];
+    } else {
+        // 没图，发送纯文本
+        apiMessages = [{ role: 'user', content: prompt }];
+    }
 
     // --- ▲▲▲ 核心修改2结束 ▲▲▲ ---
 
@@ -47515,7 +48881,7 @@ async function triggerAiPostReactions(postId) {
             headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: settings.modelName,
-                messages: [{ role: 'user', content: prompt }],
+                messages: apiMessages, 
                 temperature: 1.0
             })
         });
@@ -47828,6 +49194,20 @@ async function triggerAnonymousReactions(postId) {
 
 现在，请开始你的创作。`;
 
+// --- [新增] 图片识别逻辑 ---
+    let apiMessages = [];
+    if (post.imageUrl && post.imageUrl.startsWith('data:image')) {
+        apiMessages = [{
+            role: 'user',
+            content: [
+                { type: 'text', text: prompt + "\n\n【视觉信号】这是一个匿名用户的图片帖，请根据图片内容进行评论！" },
+                { type: 'image_url', image_url: { url: post.imageUrl, detail: "low" } }
+            ]
+        }];
+    } else {
+        apiMessages = [{ role: 'user', content: prompt }];
+    }
+
     // 后续的API请求和数据处理逻辑与原函数基本一致
     try {
         const response = await fetch(`${settings.apiUrl}/chat/completions`, {
@@ -47835,7 +49215,7 @@ async function triggerAnonymousReactions(postId) {
             headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: settings.modelName,
-                messages: [{ role: 'user', content: prompt }],
+                messages: apiMessages,
                 temperature: 1.0
             })
         });
@@ -49668,7 +51048,7 @@ async function generatePostsForTrend(trendKeyword) {
             body: JSON.stringify({
                 model: settings.modelName,
                 messages: [{ role: 'user', content: prompt }],
-                temperature: 1.0 // 使用较高的温度以增加创作的多样性
+                temperature: parseFloat(settings.apiTemperature) || 1.0
             })
         });
 
@@ -52589,7 +53969,7 @@ async function triggerMentionedAiReply(postId, userComment, mentionedAiIds) {
             return fetch(`${settings.apiUrl}/chat/completions`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: 1.0 })
+                body: JSON.stringify({ model: settings.modelName, messages: [{ role: 'user', content: prompt }], temperature: parseFloat(settings.apiTemperature) || 1.0})
             })
             .then(response => {
                 if (!response.ok) throw new Error(`API 请求失败: ${response.status}`);
@@ -53675,24 +55055,30 @@ function openStickerLibrary() {
     updateBindingTitle();
 }
 
-// 渲染网格 (修复版)
 function renderStickerLibraryGrid() {
     const container = document.getElementById('stickerLibraryGrid');
     if (!container) return;
     
-    container.innerHTML = ''; // 1. 必须先清空容器
+    // 1. 先渲染顶部的分组Tabs
+    renderStickerGroupTabs();
+    
+    container.innerHTML = ''; 
 
-    // 2. 先添加加号按钮 (只在非管理模式下显示)
+    // 2. 添加加号按钮 (只在非管理模式下显示)
+    // 这里的上传现在会默认添加到当前 currentStickerGroupId
     if (!isStickerManaging) {
         const addBtn = document.createElement('div');
         addBtn.className = 'sticker-lib-item sticker-add-btn';
         addBtn.innerHTML = '<i class="ri-add-line"></i>';
         addBtn.onclick = openStickerAddModal;
-        container.appendChild(addBtn); // 确保它是第一个被添加的子元素
+        container.appendChild(addBtn); 
     }
 
-    // 3. 再循环添加表情图片
-    customEmojis.forEach(emoji => {
+    // 3. 【核心修改】只筛选出属于当前分组的表情
+    const filteredEmojis = customEmojis.filter(e => e.groupId === currentStickerGroupId);
+
+    // 4. 循环渲染
+    filteredEmojis.forEach(emoji => {
         const item = document.createElement('div');
         const isSelected = selectedStickerIds.has(emoji.id);
         item.className = `sticker-lib-item ${isStickerManaging ? 'managing' : ''} ${isSelected ? 'selected' : ''}`;
@@ -53747,8 +55133,6 @@ function toggleStickerManageMode() {
 }
 
 
-
-// 批量上传处理
 async function handleLibraryUpload(event) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -53760,8 +55144,10 @@ async function handleLibraryUpload(event) {
         try {
             const base64 = await fileToBase64(file);
             const newEmoji = {
-                name: file.name.replace(/\.[^/.]+$/, "").substring(0, 10), // 默认取文件名
-                url: base64
+                name: file.name.replace(/\.[^/.]+$/, "").substring(0, 10),
+                url: base64,
+                // ▼▼▼▼▼ 核心修复：记录当前所在的分组ID ▼▼▼▼▼
+                groupId: currentStickerGroupId || 'default'
             };
             const newId = await dbManager.set('customEmojis', newEmoji);
             newEmoji.id = newId;
@@ -53772,9 +55158,11 @@ async function handleLibraryUpload(event) {
     }
     
     await saveData();
+    // 重新渲染当前分组，这样图片就会立刻出现了
     renderStickerLibraryGrid();
+    renderEmojiPicker();
     showToast("上传完成！");
-    event.target.value = ''; // 重置input
+    event.target.value = ''; 
     closeStickerAddModal(); 
 }
 
@@ -53807,38 +55195,213 @@ async function renameLibrarySticker(id, oldName) {
 // --- 绑定角色逻辑 ---
 
 function openStickerBindingModal() {
-    const list = document.getElementById('stickerBindingList');
-    list.innerHTML = '';
+    // 默认选中全局设置
+    currentBindingTarget = 'global';
     
-    friends.forEach(friend => {
-        const item = document.createElement('div');
-        item.className = 'multi-select-item';
-        const isChecked = stickerLibraryBindings.includes(friend.id);
-        
-        item.innerHTML = `
-            <input type="checkbox" id="bind-sticker-${friend.id}" value="${friend.id}" ${isChecked ? 'checked' : ''}>
-            <label for="bind-sticker-${friend.id}">${friend.remark || friend.name}</label>
-        `;
-        list.appendChild(item);
-    });
+    // 渲染 UI
+    renderBindingModalUI();
     
     document.getElementById('stickerBindingModal').classList.add('show');
 }
+
+/**
+ * 渲染弹窗的所有内容
+ */
+function renderBindingModalUI() {
+    const modalContent = document.querySelector('#stickerBindingModal .modal-content');
+    
+    // 1. 构建基础 HTML 结构
+    modalContent.innerHTML = `
+        <div class="modal-title">表情包分配管理</div>
+        
+        <!-- 全局设置入口 -->
+        <div class="binding-global-card ${currentBindingTarget === 'global' ? 'active' : ''}" onclick="switchBindingTarget('global')">
+            <div>
+                <div class="binding-global-title">全局表情包设置</div>
+                <div class="binding-global-desc">选中的分组将对所有好友开放</div>
+            </div>
+            ${currentBindingTarget === 'global' ? '<i class="ri-checkbox-circle-fill" style="color:#007aff; font-size:20px;"></i>' : '<i class="ri-arrow-right-s-line" style="color:#ccc;"></i>'}
+        </div>
+
+        <!-- 好友头像栏 -->
+        <div style="font-size:12px; color:#666; margin-bottom:8px; padding-left:5px;">或为特定好友单独开启：</div>
+        <div class="binding-avatar-bar" id="bindingAvatarBar">
+            <!-- JS 生成头像 -->
+        </div>
+
+        <!-- 分组开关列表 -->
+        <div class="binding-group-list" id="bindingGroupList">
+            <!-- JS 生成分组开关 -->
+        </div>
+
+        <div class="binding-footer-hint" id="bindingFooterHint">
+            当前正在配置：<span style="color:#007aff; font-weight:bold;">全局设置</span><br>
+            所有角色都能使用被勾选的表情分组。
+        </div>
+
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="closeStickerBindingModal()">关闭</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveStickerBindings()">保存配置</button>
+        </div>
+    `;
+
+    // 2. 渲染头像栏
+    renderBindingAvatars();
+
+    // 3. 渲染分组列表
+    renderBindingGroups();
+}
+
+/**
+ * 渲染头像栏
+ */
+function renderBindingAvatars() {
+    const bar = document.getElementById('bindingAvatarBar');
+    bar.innerHTML = '';
+    
+    // 筛选非群聊好友
+    const aiFriends = friends.filter(f => !f.isGroup);
+
+    aiFriends.forEach(friend => {
+        const item = document.createElement('div');
+        const isActive = currentBindingTarget === friend.id;
+        item.className = `binding-avatar-item ${isActive ? 'active' : ''}`;
+        item.onclick = () => switchBindingTarget(friend.id);
+
+        const avatarStyle = friend.avatarImage 
+            ? `background-image: url('${friend.avatarImage}')` 
+            : `background-color: #eee; color: #666;`;
+        const avatarContent = friend.avatarImage ? '' : (friend.avatar || friend.name[0]);
+
+        item.innerHTML = `
+            <div class="binding-avatar-img" style="${avatarStyle}">${avatarContent}</div>
+            <div class="binding-avatar-name">${friend.remark || friend.name}</div>
+        `;
+        bar.appendChild(item);
+    });
+}
+
+function switchBindingTarget(targetId) {
+    currentBindingTarget = targetId;
+    
+    // 更新 UI 高亮
+    const globalCard = document.querySelector('.binding-global-card');
+    if (targetId === 'global') {
+        globalCard.classList.add('active');
+        // 去掉 global 卡片右边的箭头，换成勾选
+        globalCard.querySelector('i').className = 'ri-checkbox-circle-fill';
+        globalCard.querySelector('i').style.color = '#007aff';
+    } else {
+        globalCard.classList.remove('active');
+        globalCard.querySelector('i').className = 'ri-arrow-right-s-line';
+        globalCard.querySelector('i').style.color = '#ccc';
+    }
+
+    // 更新头像栏高亮
+    renderBindingAvatars(); // 简单重绘以更新样式
+    
+    // 更新列表和提示文案
+    renderBindingGroups();
+}
+
+/**
+ * 渲染分组开关列表 (核心逻辑)
+ */
+function renderBindingGroups() {
+    const list = document.getElementById('bindingGroupList');
+    const hint = document.getElementById('bindingFooterHint');
+    list.innerHTML = '';
+
+    // 1. 获取当前目标的数据
+    let targetName = "全局设置";
+    let targetEnabledGroups = []; // 当前目标已启用的分组ID列表
+    
+    if (currentBindingTarget === 'global') {
+        targetEnabledGroups = globalStickerGroupIds; // 使用全局变量
+        hint.innerHTML = `当前正在配置：<span style="color:#007aff; font-weight:bold;">全局设置</span><br>被勾选的分组将开放给所有好友使用。`;
+    } else {
+        const friend = friends.find(f => f.id === currentBindingTarget);
+        if (friend) {
+            targetName = friend.remark || friend.name;
+            targetEnabledGroups = friend.enabledStickerGroupIds || [];
+            
+            hint.innerHTML = `当前正在配置：<span style="color:#007aff; font-weight:bold;">${targetName}</span><br>
+            <span style="color:#666;">该角色可用表情 = 全局包 + 下方单独勾选的包。</span>`;
+        }
+    }
+
+    // 2. 遍历所有分组
+    let hasGroupsToShow = false;
+
+    stickerGroups.forEach(group => {
+        // 计算该组有多少表情
+        const count = customEmojis.filter(e => e.groupId === group.id).length;
+        
+        // 【关键逻辑】
+        // 如果当前是“个人设置”模式，且该分组已经是“全局开启”的，则隐藏它（或者显示为禁用且已开启状态）
+        // 这里选择：不显示，只显示没进入全局的，符合你的“下面就是没有进入全局表情包大全分组”的要求
+        if (currentBindingTarget !== 'global' && globalStickerGroupIds.includes(group.id)) {
+            return; // 跳过，因为全局已经开了，不需要个人再开
+        }
+        
+        hasGroupsToShow = true;
+
+        const isChecked = targetEnabledGroups.includes(group.id);
+        
+        const row = document.createElement('div');
+        row.className = 'binding-group-row';
+        
+        row.innerHTML = `
+            <div>
+                <span class="binding-group-name">${group.name}</span>
+                <span class="binding-group-count">(${count}张)</span>
+            </div>
+            <label class="toggle-switch bw-switch" style="transform: scale(0.8);">
+                <input type="checkbox" onchange="toggleStickerGroupBinding('${group.id}', this.checked)" ${isChecked ? 'checked' : ''}>
+                <span class="toggle-slider"></span>
+            </label>
+        `;
+        list.appendChild(row);
+    });
+
+    if (!hasGroupsToShow) {
+        if (currentBindingTarget === 'global') {
+            list.innerHTML = `<div style="text-align:center; padding:30px; color:#999;">暂无表情分组</div>`;
+        } else {
+            list.innerHTML = `<div style="text-align:center; padding:30px; color:#999;">
+                没有更多可选分组了<br>
+                (其余分组已在全局设置中开启)
+            </div>`;
+        }
+    }
+}
+
 
 function closeStickerBindingModal() {
     document.getElementById('stickerBindingModal').classList.remove('show');
 }
 
 async function saveStickerBindings() {
-    const checkedBoxes = document.querySelectorAll('#stickerBindingList input:checked');
-    stickerLibraryBindings = Array.from(checkedBoxes).map(cb => cb.value);
+    // 1. globalStickerGroupIds 已经在 toggle 函数中实时更新了内存变量
+    // 这里需要将它保存到 appSettings 中
     
-    // 保存到全局设置中 (需要修改 saveData 函数来包含这个变量)
-    await saveData();
+    // 2. 将全局变量写入设置对象
+    const settings = await dbManager.get('appSettings', 'settings') || { id: 'settings' };
+    settings.globalStickerGroupIds = globalStickerGroupIds;
+    await dbManager.set('appSettings', settings);
+
+    // 3. 朋友个人的设置已经在 friends 数组的内存中更新了
+    // 这里统一保存所有好友数据到数据库
+    const savePromises = friends.map(f => dbManager.set('friends', f));
+    await Promise.all(savePromises);
     
-    updateBindingTitle();
+    // 4. 更新界面标题（可选）
+    const totalBoundCount = friends.filter(f => f.enabledStickerGroupIds?.length > 0).length;
+    const titleEl = document.getElementById('stickerLibraryTitle');
+    if(titleEl) titleEl.textContent = `绑定管理 (全局+${totalBoundCount}人)`;
+
     closeStickerBindingModal();
-    showToast("绑定设置已保存");
+    showToast("表情包分配策略已保存！");
 }
 
 function updateBindingTitle() {
@@ -53878,7 +55441,7 @@ function triggerLocalStickerUpload() {
     // 我们需要在那个函数里加一个关闭弹窗的操作
 }
 
-// 确认按钮逻辑
+// 确认按钮逻辑 (增强版：支持 "名称:URL" 格式)
 async function confirmStickerAdd() {
     if (currentStickerTab === 'local') {
         // 如果在本地页点击确定，效果等同于点击中间的加号
@@ -53887,34 +55450,52 @@ async function confirmStickerAdd() {
         // 处理 URL 批量上传
         const text = document.getElementById('stickerUrlTextarea').value;
         if (!text.trim()) {
-            return showAlert("请输入图片链接");
+            return showAlert("请输入内容");
         }
 
-        const urls = text.split('\n').filter(line => line.trim() !== '');
+        const lines = text.split('\n');
         let addedCount = 0;
 
-        for (const url of urls) {
-            const trimmedUrl = url.trim();
-            // 简单尝试从URL获取文件名作为表情名，或者使用随机名
-            let name = "未命名";
-            try {
-                const urlObj = new URL(trimmedUrl);
-                const pathname = urlObj.pathname;
-                const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
-                name = filename ? filename.split('.')[0].substring(0, 8) : "网络表情";
-                // 如果名字是乱码或太长，稍微处理下
-                if (name.length < 2) name = "表情包";
-            } catch (e) {
-                name = "网络表情";
+        for (const line of lines) {
+            // 跳过空行
+            if (!line.trim()) continue;
+
+            let name = "";
+            let url = "";
+
+            // 1. 尝试匹配 "名称:链接" 或 "名称：链接" 格式
+            const match = line.match(/^([^:：]+)[:：]\s*(.*)/);
+
+            if (match) {
+                // 如果匹配成功，提取名称和链接
+                name = match[1].trim();
+                url = match[2].trim();
+            } else {
+                // 2. 如果没匹配到冒号，说明整行都是链接
+                url = line.trim();
+                
+                // 尝试从URL获取文件名作为默认名称
+                try {
+                    const urlObj = new URL(url);
+                    const pathname = urlObj.pathname;
+                    const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
+                    name = filename ? filename.split('.')[0].substring(0, 8) : "网络表情";
+                    if (name.length < 2) name = "表情包";
+                } catch (e) {
+                    name = "网络表情";
+                }
             }
 
+            // 3. 构建表情对象
             const newEmoji = {
                 id: generateUniqueId(), // 确保有ID
-                name: decodeURIComponent(name), // 解码URL编码的字符
-                url: trimmedUrl
+                name: decodeURIComponent(name), // 解码可能存在的编码字符
+                url: url,
+                // ▼▼▼ 核心修复：记录当前所在的分组ID ▼▼▼
+                groupId: currentStickerGroupId || 'default'
             };
             
-            // 保存到数据库
+            // 4. 保存到数据库
             const newId = await dbManager.set('customEmojis', newEmoji);
             newEmoji.id = newId;
             customEmojis.unshift(newEmoji);
@@ -53924,7 +55505,7 @@ async function confirmStickerAdd() {
         await saveData();
         renderStickerLibraryGrid();
         closeStickerAddModal();
-        showToast(`成功添加 ${addedCount} 个网络表情！`);
+        showToast(`成功添加 ${addedCount} 个表情！`);
     }
 }
 
@@ -70269,6 +71850,1718 @@ async function regenerateForumDM(event, dmId, startIndex) {
     }
     
     showToast("正在重新生成回复...");
+}
+
+/**
+ * 渲染“我的日记”列表 (修改版：只显标题 + 头像)
+ */
+function renderMyDiaryList() {
+    const container = document.getElementById('myDiaryListContainer');
+    container.innerHTML = '';
+
+    // 1. 筛选出作者是“我”的日记
+    const myDiaries = diaries
+        .filter(d => d.authorId === userProfile.id)
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); 
+
+    if (myDiaries.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 60px 20px; color: #999;">
+                <i class="ri-book-3-line" style="font-size: 40px; opacity: 0.5;"></i>
+                <p style="margin-top:10px">还没有写过日记<br>点击右上角图标开始记录</p>
+            </div>`;
+        return;
+    }
+
+    // 2. 渲染列表
+    myDiaries.forEach(diary => {
+        const item = document.createElement('div');
+        item.className = 'diary-cover-item'; 
+        item.onclick = () => showFullDiary(diary.id);
+
+        // 【修改点1】正确处理用户头像：有图显示图，没图显示字
+        let avatarStyle = '';
+        let avatarInner = '';
+        
+        if (userProfile.avatarImage) {
+            // 如果有自定义图片
+            avatarStyle = `background-image: url('${userProfile.avatarImage}'); background-size: cover; background-position: center;`;
+        } else {
+            // 默认样式
+            avatarStyle = `background-color: #333; color: #fff; display:flex; align-items:center; justify-content:center;`;
+            avatarInner = userProfile.name ? userProfile.name[0] : '我';
+        }
+
+        item.innerHTML = `
+            <div class="diary-cover-header" style="margin-bottom: 5px;">
+                <!-- 显示头像 -->
+                <div class="diary-cover-avatar" style="${avatarStyle}">
+                   ${avatarInner}
+                </div>
+                <div class="diary-cover-info">
+                    <div class="diary-cover-author">${userProfile.name}</div>
+                    <div class="diary-cover-date">${diary.date}</div>
+                </div>
+            </div>
+            
+            <!-- 删除按钮 -->
+            <div onclick="deleteDiary(event, '${diary.id}', '${userProfile.id}')" 
+                 style="position: absolute; top: 15px; right: 15px; color: #ccc; cursor: pointer; padding: 5px;">
+                <i class="ri-delete-bin-line"></i>
+            </div>
+
+            <!-- 【修改点2】：只显示标题(心声)，去掉了正文预览的 div -->
+            <div class="diary-cover-thought" style="font-weight:bold; color:#000; font-size: 16px; margin-top: 10px;">
+                ${diary.heartfeltThought || diary.title}
+            </div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+function switchDiaryTab(tab, element) {
+    // 1. 样式切换：移除所有 tab 的激活状态，给当前点击的 tab 加上激活状态
+    document.querySelectorAll('.diary-tab').forEach(t => t.classList.remove('active'));
+    if(element) element.classList.add('active');
+
+    // 2. 确保底栏显示 (因为从二级页面回来可能被隐藏了)
+    document.getElementById('diaryBottomNav').style.display = 'flex';
+
+    // 3. 隐藏二级页面容器（清空阅读内容）
+    document.getElementById('diaryContentArea').innerHTML = '';
+    
+    // 4. 内容切换逻辑
+    if (tab === 'friends') {
+        // === 切换到“TA的日记” ===
+        document.getElementById('diaryPageTitle').textContent = '日记';
+        document.getElementById('diaryFriendList').style.display = 'block';
+        document.getElementById('myDiaryListContainer').style.display = 'none';
+        
+        // 渲染好友列表，并显示右上角通用的设置按钮（用于管理好友日记文风等）
+        renderDiaryFriendList(); 
+        
+    } else {
+        // === 切换到“我的日记” ===
+        document.getElementById('diaryPageTitle').textContent = '我的日记';
+        document.getElementById('diaryFriendList').style.display = 'none';
+        document.getElementById('myDiaryListContainer').style.display = 'block';
+        
+        // 【核心修改】右上角显示：写日记按钮 + 字体设置按钮
+        document.getElementById('diaryNavFriendName').innerHTML = `
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <!-- 原有的写日记按钮 -->
+                <button class="nav-btn" onclick="openUserWriteDiary()" style="font-size: 20px; color: #000; padding:0;" title="写日记">
+                    <i class="ri-edit-line"></i>
+                </button>
+                <!-- 新增：字体设置按钮 -->
+                <button class="nav-btn" onclick="openDiaryFontSettings()" style="font-size: 20px; color: #000; padding:0;" title="纸条字体">
+                    <i class="ri-font-size-2"></i>
+                </button>
+            </div>
+        `;
+        
+        // 渲染我的日记列表
+        renderMyDiaryList(); 
+    }
+}
+
+function openUserWriteDiary() {
+    // 清空输入框
+    document.getElementById('userDiaryTitleInput').value = '';
+    document.getElementById('userDiaryContentInput').value = '';
+    
+    // 自动填充今天的日期作为默认标题后缀（可选）
+    const today = new Date().toLocaleDateString();
+    document.getElementById('userDiaryTitleInput').placeholder = `日记 ${today}`;
+
+    setActivePage('userWriteDiaryScreen');
+}
+
+function backToMyDiaryList() {
+    // 返回到日记主页
+    setActivePage('diaryScreen');
+    // 确保仍处于“我的日记”Tab
+    const myTab = document.querySelectorAll('#diaryBottomNav .diary-tab')[1];
+    switchDiaryTab('mine', myTab);
+}
+
+async function saveUserDiary() {
+    const titleInput = document.getElementById('userDiaryTitleInput');
+    const contentInput = document.getElementById('userDiaryContentInput');
+    
+    let title = titleInput.value.trim();
+    const content = contentInput.value.trim();
+
+    if (!content) return showAlert("日记内容不能为空");
+    
+    // 如果没写标题，自动生成默认标题
+    if (!title) {
+        title = `日记 ${new Date().toLocaleDateString()}`;
+    }
+
+    const now = new Date();
+    // 格式化日期：YYYY-MM-DD (用于排序)
+    const dateStr = now.toLocaleDateString('en-CA'); 
+
+    const newDiary = {
+        id: `user_diary_${Date.now()}`,
+        authorId: userProfile.id, // 关键：标记作者是你自己
+        author: userProfile.name, // 你的名字
+        // 心里话字段对于用户日记可以留空，或者存入副标题
+        heartfeltThought: title, 
+        content: content,
+        date: dateStr,
+        timestamp: now.toISOString()
+    };
+
+    // 保存到内存和数据库
+    diaries.unshift(newDiary);
+    await dbManager.set('diaries', newDiary);
+    
+    showToast("日记已保存");
+    backToMyDiaryList(); // 返回并自动刷新列表
+}
+
+/**
+ * 更新右上角“浏览者”头像
+ */
+function updateDiaryViewerAvatar() {
+    const btn = document.getElementById('diaryViewerAvatarBtn');
+    
+    let avatarUrl = '';
+    let text = '';
+    
+    if (currentDiaryViewerId === userProfile.id) {
+        // 如果是我自己
+        avatarUrl = userProfile.avatarImage;
+        text = '我';
+    } else {
+        // 如果是好友
+        const friend = friends.find(f => f.id === currentDiaryViewerId);
+        if (friend) {
+            avatarUrl = friend.avatarImage;
+            text = friend.name[0];
+        }
+    }
+
+    if (avatarUrl) {
+        btn.style.backgroundImage = `url('${avatarUrl}')`;
+        btn.textContent = '';
+    } else {
+        btn.style.backgroundImage = '';
+        btn.style.backgroundColor = '#1d9bf0';
+        btn.style.color = '#fff';
+        btn.style.display = 'flex';
+        btn.style.alignItems = 'center';
+        btn.style.justifyContent = 'center';
+        btn.textContent = text;
+    }
+}
+
+/**
+ * 打开“选择浏览者”弹窗
+ */
+function openDiaryViewerModal() {
+    const list = document.getElementById('diaryViewerList');
+    list.innerHTML = '';
+    
+    // 1. 添加“我自己”的选项
+    const selfItem = document.createElement('div');
+    selfItem.className = 'friend-item';
+    selfItem.onclick = () => switchDiaryViewer(userProfile.id);
+    const selfAvatar = userProfile.avatarImage 
+        ? `<div class="friend-avatar" style="background-image: url('${userProfile.avatarImage}');"></div>`
+        : `<div class="friend-avatar" style="background:#1d9bf0; color:white;">我</div>`;
+        
+    selfItem.innerHTML = `
+        ${selfAvatar}
+        <div class="friend-info">
+            <div class="friend-name">我自己 (原视图)</div>
+        </div>
+        ${currentDiaryViewerId === userProfile.id ? '<i class="ri-check-line" style="color:#07c160;"></i>' : ''}
+    `;
+    list.appendChild(selfItem);
+
+    // 2. 添加好友列表 (排除群聊)
+    friends.filter(f => !f.isGroup).forEach(friend => {
+        const item = document.createElement('div');
+        item.className = 'friend-item';
+        item.onclick = () => switchDiaryViewer(friend.id);
+        
+        const avatarHtml = friend.avatarImage 
+            ? `<div class="friend-avatar" style="background-image: url('${friend.avatarImage}');"></div>`
+            : `<div class="friend-avatar">${friend.avatar || friend.name[0]}</div>`;
+
+        item.innerHTML = `
+            ${avatarHtml}
+            <div class="friend-info">
+                <div class="friend-name">${friend.remark || friend.name}</div>
+            </div>
+            ${currentDiaryViewerId === friend.id ? '<i class="ri-check-line" style="color:#07c160;"></i>' : ''}
+        `;
+        list.appendChild(item);
+    });
+
+    document.getElementById('diaryViewerModal').classList.add('show');
+}
+
+/**
+ * 核心：切换浏览者 (支持缓存读取)
+ */
+async function switchDiaryViewer(viewerId) {
+    document.getElementById('diaryViewerModal').classList.remove('show');
+    
+    // 如果没有变化，或是切回自己
+    if (viewerId === currentDiaryViewerId) return;
+    
+    currentDiaryViewerId = viewerId;
+    updateDiaryViewerAvatar();
+
+    // 1. 如果切回自己 (userProfile.id)，恢复原文，移除批注
+    if (viewerId === userProfile.id) {
+        renderDiaryContentWithAnnotations(currentViewingDiaryData.content, null);
+        return;
+    }
+
+    const friend = friends.find(f => f.id === viewerId);
+    if (!friend) return;
+
+    // --- 【新增】检查是否有缓存数据 ---
+    // 检查结构: diary.savedAnnotations[friendId]
+    if (currentViewingDiaryData.savedAnnotations && currentViewingDiaryData.savedAnnotations[friend.id]) {
+        console.log(`[日记] 读取 ${friend.name} 的本地缓存批注...`);
+        // 直接渲染缓存的数据，不请求API
+        renderDiaryContentWithAnnotations(currentViewingDiaryData.content, currentViewingDiaryData.savedAnnotations[friend.id]);
+        showToast(`已加载 ${friend.name} 的批注记录`);
+        return;
+    }
+    // --------------------------------
+
+    // 2. 如果没有缓存，显示加载提示并请求 AI
+    showToast(`正在生成 ${friend.name} 的批注...`, 3000);
+    const contentDiv = document.getElementById('fullDiaryContent');
+    const loaderHtml = `<div id="annotationLoader" style="text-align:center; padding:20px; color:#999;"><i class="ri-loader-4-line fa-spin"></i> ${friend.name} 正在阅读日记...</div>`;
+    contentDiv.innerHTML = loaderHtml + contentDiv.innerHTML;
+
+    // 调用AI生成
+    await generateAiDiaryAnnotations(friend, currentViewingDiaryData);
+}
+
+/**
+ * AI API 调用：生成批注和留言 (V3 - 深度记忆+人设适配版)
+ */
+async function generateAiDiaryAnnotations(friend, diary) {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiKey) {
+        document.getElementById('annotationLoader')?.remove();
+        return showAlert("请先配置API");
+    }
+
+    // 1. 获取自定义温度，默认 0.9
+    const apiTemp = parseFloat(settings.apiTemperature) || 0.9;
+
+    // 2. 获取当前绑定的用户人设
+    const personaId = friend.activeUserPersonaId || 'default_user';
+    const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+    // 3. 获取最近 50 条聊天记录 (作为语气参考)
+    const history = (chatHistories[friend.id] || []).slice(-50).map(m => 
+        `${m.type === 'sent' ? persona.name : friend.name}: ${m.content.substring(0, 50)}`
+    ).join('\n');
+
+    // 4. 获取最近 5 条总结记忆 (作为长期记忆)
+    const allMemories = characterMemories[friend.id] || [];
+    const recentMemories = allMemories
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        .slice(0, 5)
+        .map(m => `[记忆]: ${m.content}`)
+        .join('\n');
+
+    const prompt = `
+【任务】: 你是角色 "${friend.name}"。你正在偷看/阅读你的朋友 "${persona.name}" 的一篇日记。
+
+【核心情报库】
+1. **你的性格人设**: ${friend.role}
+2. **用户人设**: ${persona.name} (${persona.personality || '普通人'})
+3. **重要记忆 (参考背景)**:
+${recentMemories || '暂无重要记忆'}
+
+【语言风格参考库 (必须严格模仿)】
+以下是你们最近的聊天记录。请仔细分析你在里面的说话方式、口癖、长短句习惯、表情使用习惯。
+**你的回复语气必须与下列记录保持高度一致**：
+---
+${history || '暂无聊天记录'}
+---
+
+【日记内容】:
+"""
+${diary.content}
+"""
+
+【你的工作】:
+1.  **批注 (Annotate)**: 从日记正文中挑选 **2-4个** 让你觉得有趣、感触深、想吐槽或者想反驳的**句子**（必须是原文片段），并给出你的**内心批注**。
+2.  **留言 (Comment)**: 读完全文后，在日记末尾写下一张**纸条留言**。
+
+【要求】:
+- **语气铁律**：绝对不要用AI味的说教语气！要像聊天记录里那样说话。如果是傲娇就傲娇，如果是搞笑男就搞笑。
+- **内容短小**：批注要像弹幕一样短。
+- **原文引用**：必须完全匹配日记里的文字，否则无法定位。
+
+【输出格式】:
+必须返回纯净的 JSON 对象：
+{
+  "annotations": [
+    { "original_text": "日记里的一句原文", "comment": "你的批注内容" },
+    { "original_text": "日记里的另一句原文", "comment": "你的批注内容" }
+  ],
+  "general_comment": "给这篇日记的整体留言（写在纸条上）"
+}
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: apiTemp // 使用设置里的温度
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`API请求失败: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        // 增加数据校验
+        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+            throw new Error("API返回数据格式异常");
+        }
+
+        const contentStr = data.choices[0].message.content;
+        const jsonMatch = contentStr.match(/\{[\s\S]*\}/);
+        
+        if (jsonMatch) {
+            const result = JSON.parse(jsonMatch[0]);
+            
+            // --- 保存数据 ---
+            if (!diary.savedAnnotations) {
+                diary.savedAnnotations = {};
+            }
+            diary.savedAnnotations[friend.id] = result;
+            await dbManager.set('diaries', diary);
+            
+            // --- 渲染 ---
+            renderDiaryContentWithAnnotations(diary.content, result);
+            showToast("批注已生成并保存！点击下划线查看");
+        } else {
+            throw new Error("AI未能返回有效的JSON格式，请重试。");
+        }
+
+    } catch (e) {
+        console.error("生成批注失败", e);
+        document.getElementById('annotationLoader')?.remove();
+        
+        // 【核心修改】直接弹出报错弹窗
+        showAlert(`批注生成失败！\n\n原因: ${e.message}\n请检查API设置或网络连接。`);
+    }
+}
+
+/**
+ * 渲染日记内容：替换文本为带下划线的span，并添加底部纸条 (修改版：白色纸条)
+ * @param {string} rawContent - 日记原文
+ * @param {object} annotationData - AI返回的 JSON 数据
+ */
+function renderDiaryContentWithAnnotations(rawContent, annotationData) {
+    const container = document.getElementById('fullDiaryContent');
+    
+    // 1. 处理换行
+    let html = rawContent.replace(/\n/g, '<br>');
+
+    // 2. 如果有批注数据，进行文本替换
+    if (annotationData && annotationData.annotations) {
+        annotationData.annotations.forEach((anno, index) => {
+            const safeOriginal = anno.original_text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+            const regex = new RegExp(safeOriginal); 
+            
+            const encodedComment = encodeURIComponent(anno.comment);
+            const replacement = `<span class="diary-annotated-sentence" onclick="showAnnotationPaper('${encodedComment}')">${anno.original_text}</span>`;
+            
+            html = html.replace(regex, replacement);
+        });
+    }
+
+    // 3. 设置正文 HTML
+    container.innerHTML = html;
+
+    // 4. 如果有底部总留言，添加纸条
+    if (annotationData && annotationData.general_comment) {
+        // 【核心修改】：不再随机选择，强制使用白色样式
+        const randomStyle = "note-white"; 
+        
+        const footerHtml = `
+            <div class="diary-footer-comment-area">
+                <div class="diary-footer-note ${randomStyle}">
+                    ${annotationData.general_comment}
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', footerHtml);
+    }
+}
+
+/**
+ * 显示纸条弹窗 (尺寸修复版)
+ * @param {string} encodedComment - 经过 encodeURIComponent 的批注内容
+ */
+function showAnnotationPaper(encodedComment) {
+    // 1. 修复单引号可能导致解码失败的问题
+    const comment = decodeURIComponent(encodedComment).replace(/%27/g, "'");
+    
+    const modal = document.getElementById('annotationPaperModal');
+    const paper = document.getElementById('annotationPaper');
+    const contentEl = document.getElementById('annotationContent');
+    const authorEl = document.getElementById('annotationAuthor');
+
+    // 2. 设置内容
+    contentEl.textContent = comment;
+    
+    // 3. 设置作者名
+    const friend = friends.find(f => f.id === currentDiaryViewerId);
+    authorEl.textContent = `— ${friend ? friend.name : '神秘人'}`;
+
+    // 4. 随机更换纸条样式
+    const noteStyles = ["note-lined", "note-pink", "note-grid", "note-kraft", "note-blue", "note-white"];
+    // 移除旧样式
+    noteStyles.forEach(s => paper.classList.remove(s));
+    // 添加新随机样式
+    const randomStyle = noteStyles[Math.floor(Math.random() * noteStyles.length)];
+    
+    // 【核心修复在这里！】
+    // 旧代码：paper.className = `note-paper big-note revealed ${randomStyle}`;
+    // 新代码：删掉了 'big-note'，这样它就不会被强制撑高了！
+    paper.className = `note-paper revealed ${randomStyle}`; 
+
+    // 5. 显示弹窗
+    modal.classList.add('show');
+}
+
+/**
+ * 关闭纸条弹窗
+ */
+function closeAnnotationPaper() {
+    document.getElementById('annotationPaperModal').classList.remove('show');
+}
+
+// --- [新增] 日记纸条字体设置功能 ---
+
+// 打开设置弹窗
+function openDiaryFontSettings() {
+    const currentUrl = diaryGlobalSettings.noteFontUrl || '';
+    document.getElementById('diaryNoteFontUrlInput').value = currentUrl;
+    document.getElementById('diaryFontSettingsModal').classList.add('show');
+}
+
+// 保存字体设置
+async function saveDiaryNoteFont() {
+    const url = document.getElementById('diaryNoteFontUrlInput').value.trim();
+    
+    if (!url) {
+        return showAlert("请输入字体URL，或点击下方恢复默认。");
+    }
+
+    // 更新全局设置
+    diaryGlobalSettings.noteFontUrl = url;
+    
+    // 保存到数据库
+    await saveData();
+    
+    // 应用字体
+    await applyDiaryNoteFont();
+    
+    document.getElementById('diaryFontSettingsModal').classList.remove('show');
+    showToast("字体设置已保存生效！");
+}
+
+// 恢复默认字体
+async function resetDiaryNoteFont() {
+    diaryGlobalSettings.noteFontUrl = ''; // 清空
+    await saveData();
+    applyDiaryNoteFont(); // 这会恢复 CSS 里的默认值
+    document.getElementById('diaryFontSettingsModal').classList.remove('show');
+    showToast("已恢复默认手写体");
+}
+
+// 核心：应用字体逻辑
+async function applyDiaryNoteFont() {
+    const url = diaryGlobalSettings.noteFontUrl;
+    const root = document.documentElement;
+    const styleId = 'diary-custom-note-font-style';
+    
+    // 移除旧的样式标签
+    const oldStyle = document.getElementById(styleId);
+    if (oldStyle) oldStyle.remove();
+
+    if (!url) {
+        // 如果没有 URL，重置变量，让它回退到 CSS 中定义的默认值 ('Ma Shan Zheng')
+        root.style.removeProperty('--diary-note-font');
+        return;
+    }
+
+    // 尝试加载字体
+    try {
+        const fontName = 'DiaryUserCustomFont';
+        const fontFace = new FontFace(fontName, `url(${url})`);
+        await fontFace.load();
+        document.fonts.add(fontFace);
+        
+        // 设置 CSS 变量
+        root.style.setProperty('--diary-note-font', `'${fontName}', sans-serif`);
+        
+    } catch (e) {
+        console.error("加载日记字体失败:", e);
+        showToast("字体加载失败，请检查URL是否有效");
+    }
+}
+
+function renderStickerGroupTabs() {
+    const container = document.getElementById('stickerGroupTabs');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // 1. 渲染所有分组标签
+    stickerGroups.forEach(group => {
+        const tab = document.createElement('div');
+        tab.className = `sticker-group-tab ${group.id === currentStickerGroupId ? 'active' : ''}`;
+        tab.textContent = group.name;
+        
+        // 绑定点击切换事件
+        tab.onclick = () => switchStickerGroup(group.id);
+        
+        container.appendChild(tab);
+    });
+
+    // 2. 渲染末尾的加号按钮 (添加分组)
+    const addBtn = document.createElement('div');
+    addBtn.className = 'sticker-group-add';
+    addBtn.title = "新建分组";
+    addBtn.innerHTML = '+';
+    addBtn.onclick = openAddStickerGroupModal;
+    container.appendChild(addBtn);
+
+    // 3. 【新增】渲染删除按钮 (删除当前分组)
+    // 逻辑：只有当当前选中的不是“默认分组”时，才显示删除按钮
+    if (currentStickerGroupId !== 'default') {
+        const delBtn = document.createElement('div');
+        delBtn.className = 'sticker-group-add'; // 复用加号的样式基础
+        delBtn.style.color = '#ff4d4d';         // 红色图标
+        delBtn.style.borderColor = '#ff4d4d';   // 红色边框
+        delBtn.title = "删除当前分组";
+        delBtn.innerHTML = '<i class="ri-delete-bin-line" style="font-size:16px;"></i>';
+        delBtn.onclick = deleteCurrentStickerGroup; // 绑定删除函数
+        container.appendChild(delBtn);
+    }
+}
+
+// 切换分组
+function switchStickerGroup(groupId) {
+    currentStickerGroupId = groupId;
+    renderStickerGroupTabs(); // 更新高亮
+    renderStickerLibraryGrid(); // 重新渲染网格内容
+}
+
+// 打开添加分组弹窗
+function openAddStickerGroupModal() {
+    document.getElementById('newStickerGroupName').value = '';
+    document.getElementById('addStickerGroupModal').classList.add('show');
+}
+
+// 确认添加分组
+async function confirmAddStickerGroup() {
+    const name = document.getElementById('newStickerGroupName').value.trim();
+    if (!name) return showToast("请输入分组名称");
+    
+    // 创建新分组
+    const newGroup = {
+        id: `group_${Date.now()}`,
+        name: name
+    };
+    
+    stickerGroups.push(newGroup);
+    await dbManager.set('stickerGroups', newGroup); // 单独保存
+    
+    // 自动切换到新分组
+    currentStickerGroupId = newGroup.id;
+    
+    document.getElementById('addStickerGroupModal').classList.remove('show');
+    renderStickerGroupTabs();
+    renderStickerLibraryGrid();
+}
+
+// 删除分组 (可选)
+async function deleteStickerGroup(groupId, groupName) {
+    if (!confirm(`确定要删除分组“${groupName}”吗？\n该分组下的表情包将移动到“未分组”。`)) return;
+    
+    // 1. 将该组表情包移到 default
+    customEmojis.forEach(e => {
+        if (e.groupId === groupId) e.groupId = 'default';
+    });
+    
+    // 2. 删除分组
+    stickerGroups = stickerGroups.filter(g => g.id !== groupId);
+    await dbManager.delete('stickerGroups', groupId);
+    
+    // 3. 如果当前在被删的分组，切回 default
+    if (currentStickerGroupId === groupId) {
+        currentStickerGroupId = 'default';
+    }
+    
+    await saveData(); // 保存所有更改
+    renderStickerGroupTabs();
+    renderStickerLibraryGrid();
+    showToast("分组已删除");
+}
+
+/**
+ * [新增] 打开移动表情包的弹窗
+ */
+function openStickerMoveModal() {
+    if (selectedStickerIds.size === 0) {
+        return showAlert("请先选择要移动的表情");
+    }
+
+    const list = document.getElementById('stickerMoveGroupList');
+    list.innerHTML = '';
+
+    // 遍历所有分组
+    stickerGroups.forEach(group => {
+        // 为了体验更好，不显示当前所在的分组（因为移动到当前组没意义）
+        if (group.id === currentStickerGroupId) return;
+
+        const item = document.createElement('div');
+        item.className = 'friend-item'; // 复用列表项样式
+        item.style.padding = '12px';
+        item.style.borderBottom = '1px solid #f5f5f5';
+        
+        // 点击即触发移动
+        item.onclick = () => confirmMoveStickers(group.id, group.name);
+
+        item.innerHTML = `
+            <div class="friend-info" style="pointer-events: none;">
+                <div class="friend-name" style="font-size: 16px;">${group.name}</div>
+            </div>
+            <i class="ri-arrow-right-s-line" style="color: #ccc;"></i>
+        `;
+        list.appendChild(item);
+    });
+
+    if (list.children.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">没有其他分组可移动</div>';
+    }
+
+    document.getElementById('stickerMoveModal').classList.add('show');
+}
+
+/**
+ * [新增] 执行移动操作
+ */
+async function confirmMoveStickers(targetGroupId, targetGroupName) {
+    // 1. 遍历所有选中的表情ID
+    for (const stickerId of selectedStickerIds) {
+        const sticker = customEmojis.find(e => e.id === stickerId);
+        if (sticker) {
+            // 修改分组ID
+            sticker.groupId = targetGroupId;
+            // 更新数据库
+            await dbManager.set('customEmojis', sticker);
+        }
+    }
+
+    // 2. 隐藏弹窗
+    document.getElementById('stickerMoveModal').classList.remove('show');
+
+    // 3. 清空选择状态
+    selectedStickerIds.clear();
+    updateStickerSelectCount();
+
+    // 4. 刷新当前页面（因为移动走了，所以当前列表里应该消失）
+    renderStickerLibraryGrid();
+
+    // 5. 退出管理模式（可选，通常移动完就完成了操作）
+    toggleStickerManageMode();
+
+    showToast(`已移动到“${targetGroupName}”`);
+}
+
+/**
+ * [新增] 删除当前选中的表情分组及其内容
+ */
+async function deleteCurrentStickerGroup() {
+    // 1. 安全检查：默认分组不能删
+    if (currentStickerGroupId === 'default') {
+        return showAlert("“未分组”是系统默认分组，无法删除。");
+    }
+
+    const group = stickerGroups.find(g => g.id === currentStickerGroupId);
+    if (!group) return;
+
+    // 2. 计算将要删除的表情数量
+    const stickersInGroup = customEmojis.filter(e => e.groupId === currentStickerGroupId);
+    const count = stickersInGroup.length;
+
+    // 3. 弹出确认框
+    showConfirm(`确定要删除分组“${group.name}”吗？\n该分组下的 ${count} 个表情也将一并被永久删除！`, async (confirmed) => {
+        if (!confirmed) return;
+
+        // 4. 从数据库删除该分组下的所有表情
+        for (const sticker of stickersInGroup) {
+            await dbManager.delete('customEmojis', sticker.id);
+        }
+
+        // 5. 从数据库删除分组本身
+        await dbManager.delete('stickerGroups', currentStickerGroupId);
+
+        // 6. 更新内存数据
+        // 移除表情
+        customEmojis = customEmojis.filter(e => e.groupId !== currentStickerGroupId);
+        // 移除分组
+        stickerGroups = stickerGroups.filter(g => g.id !== currentStickerGroupId);
+
+        // 7. 自动切回默认分组
+        currentStickerGroupId = 'default';
+
+        // 8. 刷新界面
+        await saveData(); // 保存全局变更（以防万一）
+        renderStickerGroupTabs();
+        renderStickerLibraryGrid();
+        
+        showToast(`分组已删除，清空了 ${count} 个表情`);
+    });
+}
+
+/**
+ * [新增] 切换表情包分组的启用状态 (内存更新)
+ * @param {string} groupId - 分组ID
+ * @param {boolean} isChecked - 开关是否打开
+ */
+function toggleStickerGroupBinding(groupId, isChecked) {
+    if (currentBindingTarget === 'global') {
+        // --- 1. 处理全局设置 ---
+        if (!globalStickerGroupIds) globalStickerGroupIds = [];
+
+        if (isChecked) {
+            // 如果开启，且数组里没有，就加进去
+            if (!globalStickerGroupIds.includes(groupId)) {
+                globalStickerGroupIds.push(groupId);
+            }
+        } else {
+            // 如果关闭，就从数组里过滤掉
+            globalStickerGroupIds = globalStickerGroupIds.filter(id => id !== groupId);
+        }
+    } else {
+        // --- 2. 处理特定好友设置 ---
+        const friend = friends.find(f => f.id === currentBindingTarget);
+        if (friend) {
+            if (!friend.enabledStickerGroupIds) friend.enabledStickerGroupIds = [];
+
+            if (isChecked) {
+                if (!friend.enabledStickerGroupIds.includes(groupId)) {
+                    friend.enabledStickerGroupIds.push(groupId);
+                }
+            } else {
+                friend.enabledStickerGroupIds = friend.enabledStickerGroupIds.filter(id => id !== groupId);
+            }
+        }
+    }
+}
+
+// --- QQ 主页逻辑 V2 ---
+
+/**
+ * [修复版 V3] 打开好友的 QQ 风格资料页
+ * 修改点：增加全局背景图的立即预加载逻辑
+ */
+async function openQQProfile(friendId) {
+    const friend = friends.find(f => f.id === friendId);
+    if (!friend) return;
+
+    // 1. 切换页面
+    setActivePage('qqProfileScreen');
+    document.querySelector('.phone').classList.add('status-bar-hidden');
+
+    // --- 【新增核心逻辑】立即应用全局背景 ---
+    // 即使下面的数据还没加载出来，只要有全局背景，先把它贴上去
+    const headerBg = document.getElementById('qqHeaderBg');
+    if (globalQQProfileBg) {
+        headerBg.style.backgroundImage = `url('${globalQQProfileBg}')`;
+    } else {
+        // 如果没有全局背景，先设为默认灰色，等待 renderQQProfileDetails 加载 AI 图片
+        headerBg.style.backgroundColor = '#ccc';
+        headerBg.style.backgroundImage = 'none';
+    }
+    // --- 新增结束 ---
+
+    // 2. 渲染基础头部信息 (头像、名字、等级)
+    renderBasicQQInfo(friend);
+
+    // 3. 【核心修复】先清空详情区域的内容，防止显示旧数据
+    const fieldsToClear = ['qqBasicInfoText', 'qqSignature', 'qqPersonalityTags', 'qqPhotoScroll', 'qqFeaturedPhotos'];
+    fieldsToClear.forEach(id => document.getElementById(id).innerHTML = '');
+
+    // 4. 检查数据是否存在且有效
+    // 只有当数据存在，且里面有 signature (签名) 字段时，才算有效数据
+    if (friend.qqProfileData && friend.qqProfileData.signature) {
+        renderQQProfileDetails(friend.qqProfileData);
+    } else {
+        // 5. 【核心修复】如果没有数据，显示明显的“加载中”占位符
+        showQQProfileLoadingState();
+        
+        // 开始生成
+        await generateQQProfileData(friend);
+    }
+}
+
+/**
+ * [新增] 显示资料页的加载占位符
+ */
+function showQQProfileLoadingState() {
+    // 基础信息占位
+    document.getElementById('qqBasicInfoText').innerHTML = 
+        `<span style="background:#f0f0f0; color:transparent; border-radius:4px;">加载中...</span>`;
+    
+    // 签名占位 (带旋转图标)
+    document.getElementById('qqSignature').innerHTML = `
+        <div style="display:flex; align-items:center; color:#999; gap:8px; padding: 20px 0;">
+            <div class="loading-spinner" style="width:16px; height:16px; border-width:2px; border-top-color:#0099ff;"></div>
+            <span>AI 正在分析人设并生成资料...</span>
+        </div>`;
+    
+    // 标签占位
+    document.getElementById('qqPersonalityTags').innerHTML = 
+        `<span class="qq-tag-pill" style="color:#ccc;">...</span> <span class="qq-tag-pill" style="color:#ccc;">...</span>`;
+        
+    // 照片占位
+    document.getElementById('qqPhotoScroll').innerHTML = 
+        `<div style="padding:10px; color:#ccc; font-size:12px;">正在生成生活照...</div>`;
+}
+
+/**
+ * 渲染基础信息 (头像/名字)
+ */
+function renderBasicQQInfo(friend) {
+    // 头像
+    const avatarEl = document.getElementById('qqAvatar');
+    if (friend.avatarImage) {
+        avatarEl.style.backgroundImage = `url('${friend.avatarImage}')`;
+        avatarEl.textContent = '';
+    } else {
+        avatarEl.style.backgroundImage = '';
+        avatarEl.style.backgroundColor = '#0099ff';
+        avatarEl.textContent = friend.avatar || friend.name[0];
+        avatarEl.style.display = 'flex';
+        avatarEl.style.alignItems = 'center';
+        avatarEl.style.justifyContent = 'center';
+        avatarEl.style.color = 'white';
+        avatarEl.style.fontSize = '30px';
+    }
+
+    document.getElementById('qqNickname').textContent = friend.remark || friend.name;
+    
+    // 虚拟QQ号
+    let fakeQQ = '1';
+    for(let i=0; i<friend.id.length; i++) fakeQQ += friend.id.charCodeAt(i);
+    document.getElementById('qqIdDisplay').textContent = `QQ号: ${fakeQQ.substring(0, 9)}`;
+    
+    // 随机点赞数
+    document.getElementById('qqLikeCount').textContent = Math.floor(Math.random() * 5000 + 500);
+}
+
+/**
+ * [V4 隐私保护 & 签名特训版] AI 生成 QQ 资料
+ * 修改点：增加公私分明逻辑、优化签名风格、过滤敏感内容
+ */
+async function generateQQProfileData(friend) {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    
+    // 如果没有配置API，直接显示提示
+    if (!settings || !settings.apiKey) {
+        document.getElementById('qqSignature').innerHTML = 
+            '<span style="color:red; font-size:13px;">请先在设置中配置API Key</span>';
+        return;
+    }
+
+    const personaId = friend.activeUserPersonaId || 'default_user';
+    const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+    // 1. 获取聊天记录 (作为内心情绪的参考，而非直接素材)
+    const history = (chatHistories[friend.id] || []).slice(-50).map(m => 
+        `${m.type === 'sent' ? persona.name : friend.name}: ${m.content.substring(0, 50)}`
+    ).join('\n');
+
+    // 2. 获取记忆总结
+    const memories = (characterMemories[friend.id] || [])
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        .slice(0, 10)
+        .map(m => `[记忆]: ${m.content}`)
+        .join('\n');
+
+    // 3. 获取温度
+    const customTemp = parseFloat(settings.apiTemperature) || 1.0;
+
+    const prompt = `
+【任务】: 你是角色 "${friend.name}"。你需要为你自己的 **QQ个人资料页 (Qzone)** 填写信息。
+
+【角色人设】: ${friend.role}
+
+【参考情报 (仅供参考你的近期心情，严禁直接泄露隐私)】:
+${memories || '暂无总结'}
+${history || '暂无聊天'}
+
+【【【场景定义：公共社交空间】】】
+这里是 **QQ空间**，是一个**所有人**（包括普通同学、亲戚、不熟的网友）都能看到的公开场合。
+**不是私聊！不是情侣空间！**
+
+【【【隐私与分寸感铁律 (Privacy & Decency - 最重要)】】】
+1.  **严禁泄露私密**：绝对禁止直接描述聊天记录中发生的性行为、裸露身体、过于肉麻的私密情话。
+2.  **转化与包装**：如果参考情报里你们刚聊完羞羞的话题，在QQ空间里，你应该表现为“心情很好”、“刚洗完澡准备睡了”、“晚安世界”或者发一张“朦胧的月亮图”。**要把私密情绪转化为公开可接受的社交语言。**
+3.  **照片尺度**：生成的照片描述必须是**全年龄、安全**的。可以是风景、美食、宠物、穿戴整齐的自拍、局部特写（如手、锁骨，但不能色情）、或者抽象的氛围图。
+
+【【【基础信息填充铁律 (必须严格遵守)】】】
+1.  **地点 (Location)**: 
+    - 如果人设是虚拟/架空的，**严禁**填写真实城市（如上海）。
+    - **请填模糊地点**：如“未知区域”、“深山”、“M78星云”、“霍格沃茨”、“流浪中”。
+2.  **生日/星座**:
+    - 如果人设里没提，**必须留空字符串 ""**。绝对不要随机编造日期。
+3.  **年龄**: 根据人设推断，若是妖精/神仙可写“???岁”。
+
+【【【个性签名特训 (Signature Style)】】】
+QQ签名**不是**自我介绍，而是一种**状态**或**情绪宣泄**。
+请根据人设，从以下风格中选择一种：
+- **emo伤感风**：“人山人海，边走边爱。” / “快乐是他们的，我什么也没有。”
+- **高冷极简风**：“无。” / “别烦。” / “...”
+- **歌词/文艺风**：“爱是天时地利的迷信。” / “听风说。”
+- **可爱/搞怪风**：“幼儿园老大。” / “在线贩卖可爱。”
+- **恋爱脑(含蓄版)**：“遇/见。” / “心动至上。” (不要直接写名字，要含蓄)
+**禁止**：禁止写成“我叫xxx，今年18岁”这种流水账。
+
+【填写要求】:
+1.  **QQ网名**: 符合人设的网名（可以是符号、英文、古风、非主流）。
+2.  **精选照片 (3张) + 空间照片 (3张)**:
+    -   共6张。描述必须**详细**（包含光影、色调、物体），用于生成图片。
+    -   内容建议：咖啡店、街景、书桌、天空、背影、模糊的侧脸、收藏的小物。
+3.  **基础信息**: 推断年龄、星座等。
+
+【输出格式】: 纯净的 JSON 对象。
+{
+  "net_name": "网名",
+  "age": "18岁",
+  "gender": "女",
+  "constellation": "天蝎座",
+  "birthday": "11月4日",
+  "location": "上海",
+  "signature": "签名内容...",
+  "bg_desc": "详细的背景图描述 (氛围感强)",
+  "tags": ["标签1", "标签2", "标签3"],
+  "qzone_photos": [
+     "详细描述1...",
+     "详细描述2...",
+     "详细描述3..."
+  ],
+  "featured_photos": [
+     "详细描述4...",
+     "详细描述5...",
+     "详细描述6..."
+  ]
+}
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                model: settings.modelName, 
+                messages: [{ role: 'user', content: prompt }], 
+                temperature: customTemp
+            })
+        });
+
+        if (!response.ok) throw new Error("API 请求失败");
+
+        const data = await response.json();
+        const jsonMatch = data.choices[0].message.content.match(/\{[\s\S]*\}/);
+        
+        if (jsonMatch) {
+            const profileData = JSON.parse(jsonMatch[0]);
+
+            // --- JS端生成随机数值 (ID, 等级, 点赞) ---
+            const randomQQ = Math.floor(Math.random() * 900000000) + 100000000;
+            profileData.qq_id = randomQQ.toString();
+
+            const randomLevel = Math.floor(Math.random() * 99) + 1;
+            profileData.level = `LV.${randomLevel}`;
+
+            const randomLikes = Math.floor(Math.random() * 49500) + 500;
+            profileData.likes = randomLikes.toString();
+
+            // 保存数据
+            friend.qqProfileData = profileData; 
+            await saveData(); 
+            
+            // 渲染界面
+            renderQQProfileDetails(profileData); 
+        } else {
+            throw new Error("AI 返回格式错误");
+        }
+    } catch (e) {
+        console.error("生成失败", e);
+        document.getElementById('qqSignature').innerHTML = 
+            `<span style="color:red; font-size:13px;">生成失败: ${e.message}。请点击左上角返回重试。</span>`;
+    }
+}
+
+/**
+ * [辅助函数 V3] 生成绝对居中的 SVG 占位图
+ * 修复：解决文字跑偏问题，支持长文本自动换行居中
+ */
+function createPlaceholderSvg(text, width = 200, height = 200, bgColor = '#f7f7f7', textColor = '#555') {
+    // 处理文本：太长就截断，防止撑爆图片
+    const displayText = text.length > 20 ? text.substring(0, 18) + '..' : text;
+
+    const svgString = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+        <rect width="100%" height="100%" fill="${bgColor}"/>
+        <foreignObject x="0" y="0" width="100%" height="100%">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-family: sans-serif;
+                font-size: 14px;
+                color: ${textColor};
+                padding: 10px;
+                box-sizing: border-box;
+                word-break: break-word;
+                line-height: 1.4;
+                overflow: hidden;
+            ">
+                ${displayText}
+            </div>
+        </foreignObject>
+    </svg>`;
+    
+    // 使用 encodeURIComponent 编码 SVG 字符串
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString.trim())}`;
+}
+
+/**
+ * [V4 智能显示版] 渲染详细信息
+ * 修改：智能隐藏空的生日、星座，支持模糊地点显示
+ */
+function renderQQProfileDetails(data) {
+    if (!data) return;
+
+    // 1. 定义固定的三张占位图 (保持不变)
+    const qqPlaceholders = [
+        "https://img.heliar.top/file/1770224551558_IMG_2438.jpeg",
+        "https://img.heliar.top/file/1770224550435_IMG_2437.jpeg",
+        "https://img.heliar.top/file/1770224549504_IMG_2435.jpeg"
+    ];
+
+    // 2. 顶部背景
+    const headerBg = document.getElementById('qqHeaderBg');
+    
+    // 优先使用全局背景
+    if (typeof globalQQProfileBg !== 'undefined' && globalQQProfileBg) {
+        headerBg.style.backgroundImage = `url('${globalQQProfileBg}')`;
+    } else if (data.bg_desc) {
+        headerBg.style.backgroundImage = `url('https://image.pollinations.ai/prompt/${encodeURIComponent(data.bg_desc)}')`;
+    }
+    
+    if (data.likes) {
+        document.getElementById('qqLikeCount').textContent = data.likes;
+    }
+
+    // 3. 更新头部右侧信息 (网名 + QQ号 + 等级)
+    const headerRightDiv = document.querySelector('.qq-header-right');
+    if (headerRightDiv) {
+        const netName = data.net_name || '无网名';
+        const qqId = data.qq_id || '88888888';
+        const level = data.level || 'LV.1';
+
+        headerRightDiv.innerHTML = `
+            <div class="qq-name-row">
+                <span id="qqNickname" class="qq-nickname-v2" style="font-size: 22px; font-weight: 900;">${document.getElementById('qqNickname').textContent}</span>
+                <span class="qq-level-icon">${level}</span>
+            </div>
+            <div style="font-size: 12px; color: #999; margin-bottom: 2px; margin-top: 2px;">
+                昵称: ${netName}
+            </div>
+            <div class="qq-id-row">
+                <span id="qqIdDisplay">QQ号: ${qqId}</span>
+                <span class="qq-id-badge">ID</span>
+            </div>
+        `;
+    }
+
+    // 4. 【核心修改】基础信息行 (智能拼接)
+    const genderIcon = data.gender === '男' ? '♂' : (data.gender === '女' ? '♀' : '');
+    const genderColor = data.gender === '男' ? '#58a6ff' : (data.gender === '女' ? '#ff69b4' : '#999');
+    
+    // 开始构建 HTML 字符串
+    let infoHtml = '';
+    
+    // 性别 (如果有)
+    if (data.gender) {
+        infoHtml += `<span style="color:${genderColor}; font-weight:bold; margin-right:5px;">${genderIcon}</span> ${data.gender}`;
+    }
+    
+    // 年龄 (如果有)
+    if (data.age && data.age !== "未知") {
+        infoHtml += `<span style="color:#ddd; margin:0 5px;">|</span> ${data.age}`;
+    }
+    
+    // 生日和星座 (如果有才显示)
+    // 只有当 birthday 或 constellation 至少有一个不为空时，才加竖线
+    if (data.birthday || data.constellation) {
+        infoHtml += `<span style="color:#ddd; margin:0 5px;">|</span> ${data.birthday || ''} ${data.constellation || ''}`;
+    }
+    
+    // 地点 (如果有且不为空)
+    if (data.location && data.location !== "未知" && data.location !== "") {
+        infoHtml += `<span style="color:#ddd; margin:0 5px;">|</span> ${data.location}`;
+    }
+
+    // 如果第一个元素就是竖线（比如没性别），去掉它
+    if (infoHtml.startsWith('<span style="color:#ddd; margin:0 5px;">|</span>')) {
+        infoHtml = infoHtml.replace('<span style="color:#ddd; margin:0 5px;">|</span>', '');
+    }
+
+    document.getElementById('qqBasicInfoText').innerHTML = infoHtml;
+
+    // 5. 个性签名
+    document.getElementById('qqSignature').textContent = data.signature || "这个人很懒，什么都没写。";
+
+    // 6. 标签
+    const tagsContainer = document.getElementById('qqPersonalityTags');
+    tagsContainer.innerHTML = (data.tags || []).map(tag => `<span class="qq-tag-pill">${tag}</span>`).join('');
+
+    // 7. QQ空间照片
+    const scrollContainer = document.getElementById('qqPhotoScroll');
+    if (data.qzone_photos && data.qzone_photos.length > 0) {
+        const photosToShow = data.qzone_photos.slice(0, 3);
+        scrollContainer.innerHTML = photosToShow.map((desc, index) => {
+            const imgUrl = qqPlaceholders[index % qqPlaceholders.length];
+            const safeDesc = desc.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n');
+            return `<div class="qq-scroll-img" 
+                         style="background-image: url('${imgUrl}'); cursor: pointer;"
+                         onclick="showImageDescription('${safeDesc}')">
+                    </div>`;
+        }).join('');
+    } else {
+        scrollContainer.innerHTML = '<div style="padding:10px; color:#ccc; font-size:12px;">暂无照片</div>';
+    }
+
+    // 8. 精选照片
+    const featuredContainer = document.getElementById('qqFeaturedPhotos');
+    if (data.featured_photos && data.featured_photos.length > 0) {
+        const featToShow = data.featured_photos.slice(0, 3);
+        featuredContainer.innerHTML = featToShow.map((desc, index) => {
+            const imgUrl = qqPlaceholders[index % qqPlaceholders.length];
+            let textContent = desc;
+            if (typeof desc === 'object') {
+                textContent = desc.desc || desc.text || JSON.stringify(desc);
+            }
+            const safeDesc = textContent.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n');
+            return `<div class="qq-feat-img" 
+                         style="background-image: url('${imgUrl}'); cursor: pointer;"
+                         onclick="showImageDescription('${safeDesc}')">
+                    </div>`;
+        }).join('');
+    } else {
+        featuredContainer.innerHTML = '';
+    }
+    let qaEntry = document.getElementById('qqQAEntryRow');
+    if (!qaEntry) {
+        qaEntry = document.createElement('div');
+        qaEntry.id = 'qqQAEntryRow';
+        // 插入到精选照片容器的后面
+        featuredContainer.parentNode.insertBefore(qaEntry, featuredContainer.nextSibling);
+    }
+    
+    // 渲染入口 HTML
+    qaEntry.innerHTML = `
+        <div class="qq-menu-row" style="margin-top: 0;">
+            <div class="qq-menu-left" style="font-weight: 500;">
+                <i class="ri-question-answer-line" style="font-size: 18px; margin-right: 10px;"></i>
+                <span>匿名提问</span>
+            </div>
+             <div class="qq-menu-right" onclick="openAnonymousQAScreen()">
+                查看全部 <i class="ri-arrow-right-s-line"></i>
+            </div>
+        </div>
+        <!-- 这里可以放一个最新的提问预览 -->
+        <div onclick="openAnonymousQAScreen()" style="background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom:20px; cursor:pointer;">
+             <div style="font-size:13px; font-weight:bold; color:#000; margin-bottom:4px;">向好友匿名提问</div>
+             <div style="font-size:12px; color:#999;">点击进入查看大家的提问和回答...</div>
+        </div>
+    `;
+    // ▲▲▲▲▲▲ 修改结束 ▲▲▲▲▲▲
+
+    // 底部留白
+    const spacer = document.createElement('div');
+    spacer.style.height = '100px';
+    // 确保不重复添加 spacer
+    if (!qaEntry.nextElementSibling || qaEntry.nextElementSibling.style.height !== '100px') {
+        qaEntry.parentNode.appendChild(spacer);
+    }
+}
+
+/**
+ * [新增] 点击右上角三个点，重新生成QQ资料
+ */
+async function triggerQQProfileRegeneration() {
+    // 获取当前正在查看的角色 (通常是从聊天点进来的)
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (!friend) return;
+
+    if (confirm(`确定要为 "${friend.name}" 重新生成资料卡吗？\n当前的内容将被覆盖。`)) {
+        // 1. 先显示加载状态，让用户知道在动
+        showQQProfileLoadingState();
+        
+        // 2. 强制清空旧数据，防止缓存干扰
+        friend.qqProfileData = null; 
+        
+        // 3. 调用生成函数
+        await generateQQProfileData(friend);
+        
+        showToast("资料卡已重新生成！");
+    }
+}
+
+/**
+ * [新增] 处理QQ资料页全局背景上传
+ */
+async function handleQQProfileBgUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // 1. 压缩图片 (优化性能)
+    try {
+        const compressedDataUrl = await compressImage(file, { quality: 0.8, maxWidth: 1080 });
+        
+        // 2. 更新全局变量
+        globalQQProfileBg = compressedDataUrl;
+        
+        // 3. 立即更新界面显示
+        const headerBg = document.getElementById('qqHeaderBg');
+        if (headerBg) {
+            headerBg.style.backgroundImage = `url('${compressedDataUrl}')`;
+        }
+        
+        // 4. 保存到数据库
+        await saveData();
+        
+        showToast('资料卡背景已更新（全局通用）');
+
+    } catch (e) {
+        console.error("背景上传失败:", e);
+        showAlert("图片处理失败，请重试。");
+    }
+    
+    // 清空 input，允许重复上传同一张
+    event.target.value = '';
+}
+
+// =========================================
+// START: 匿名提问功能 (Anonymous Q&A)
+// =========================================
+
+/**
+ * 打开匿名提问页面
+ */
+function openAnonymousQAScreen() {
+    const friend = friends.find(f => f.id === currentChatFriendId || f.id === currentForumProfileId || f.id === currentLoversFriendId);
+    if (!friend) return;
+    
+    setActivePage('qqAnonymousQAScreen');
+    
+    // 初始化数据结构
+    if (!friend.anonymousQAs) {
+        friend.anonymousQAs = [];
+    }
+    
+    renderQAList(friend);
+}
+
+/**
+ * 返回资料页
+ */
+function backToQQProfile() {
+    // 简单的返回逻辑，假设我们是从QQ资料页进来的
+    setActivePage('qqProfileScreen');
+}
+
+/**
+ * 渲染问答列表
+ */
+function renderQAList(friend) {
+    const container = document.getElementById('qqQAList');
+    container.innerHTML = '';
+    
+    const list = friend.anonymousQAs || [];
+    
+    if (list.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:60px 0; color:#999;">暂无提问<br>点击右上角生成或提问</div>';
+        return;
+    }
+    
+    // 按时间倒序
+    list.sort((a, b) => b.timestamp - a.timestamp);
+    
+    list.forEach(qa => {
+        const item = document.createElement('div');
+        item.className = 'qa-card';
+        
+        // 提问者名字 (如果是用户提的，依然显示“匿名用户”以保持沉浸感，但为了区分，可以给个不同头像)
+        const askerName = qa.isUser ? "匿名朋友" : "匿名网友";
+        
+        // 角色头像
+        const charAvatarUrl = friend.avatarImage 
+            ? `background-image: url('${friend.avatarImage}')` 
+            : `background-color: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;`;
+        const charAvatarContent = friend.avatarImage ? '' : friend.name[0];
+
+        item.innerHTML = `
+            <div class="qa-question-section">
+                <div class="qa-question-header">
+                    <div class="qa-asker-avatar">?</div>
+                    <div class="qa-asker-name">${askerName}</div>
+                </div>
+                <div class="qa-question-text">${qa.question}</div>
+            </div>
+            
+            <div class="qa-answer-section">
+                <div class="qa-answer-header">
+                    <div class="qa-answer-avatar" style="${charAvatarUrl}">${charAvatarContent}</div>
+                    <div style="font-weight:bold; font-size:13px;">${friend.name}</div>
+                </div>
+                <div class="qa-answer-text">${qa.answer}</div>
+            </div>
+            
+            <div class="qa-meta">${new Date(qa.timestamp).toLocaleString()}</div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+/**
+ * 打开提问输入框
+ */
+function openAnonymousAskModal() {
+    document.getElementById('qqAnonymousQuestionInput').value = '';
+    document.getElementById('qqAnonymousAskModal').classList.add('show');
+}
+
+/**
+ * 用户提交问题 (触发 AI 回答)
+ */
+async function submitUserAnonymousQuestion() {
+    const input = document.getElementById('qqAnonymousQuestionInput');
+    const question = input.value.trim();
+    if (!question) return alert("请输入问题");
+    
+    const friend = friends.find(f => f.id === currentChatFriendId || f.id === currentForumProfileId || f.id === currentLoversFriendId);
+    if (!friend) return;
+    
+    document.getElementById('qqAnonymousAskModal').classList.remove('show');
+    showToast("发送成功，等待回答...");
+    
+    await generateQAResponse(friend, question, true); // true 表示是用户提问
+}
+
+/**
+ * 随机生成 5 条问答
+ */
+async function generateRandomQAs() {
+    const friend = friends.find(f => f.id === currentChatFriendId || f.id === currentForumProfileId || f.id === currentLoversFriendId);
+    if (!friend) return;
+    
+    const btn = document.getElementById('btnGenQA');
+    if(btn) {
+        btn.innerText = "生成中...";
+        btn.disabled = true;
+    }
+    
+    await generateQAResponse(friend, null, false); // null 表示随机生成
+    
+    if(btn) {
+        btn.innerText = "生成";
+        btn.disabled = false;
+    }
+}
+
+/**
+ * 核心 AI 生成逻辑
+ * @param {object} friend 角色对象
+ * @param {string|null} userQuestion 具体问题文本，如果是随机生成则为null
+ * @param {boolean} isUserAsk 是否为用户提问
+ */
+async function generateQAResponse(friend, userQuestion, isUserAsk) {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiKey) return alert("请先配置API");
+
+    // 1. 准备上下文
+    const personaId = friend.activeUserPersonaId || 'default_user';
+    const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+    // 获取最近聊天记录 (最近50条)
+    const history = (chatHistories[friend.id] || []).slice(-50).map(m => 
+        `${m.type === 'sent' ? persona.name : friend.name}: ${summarizeMessageContentForAI(m)}`
+    ).join('\n');
+
+    // 获取记忆总结 (最近10条)
+    const memories = (characterMemories[friend.id] || [])
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        .slice(0, 10)
+        .map(m => `[记忆]: ${m.content}`)
+        .join('\n');
+
+    let prompt = "";
+
+    if (isUserAsk) {
+        // --- 场景 A: 用户提问 ---
+        prompt = `
+【场景】: 社交软件的“匿名提问箱”。
+【角色】: 你是 "${friend.name}"，人设是 "${friend.role}"。
+【提问者】: 实际上是你的好友/恋人 "${persona.name}" 问的，**但你在回答时不知道是谁，只把它当做一条匿名消息。** (当然，如果问题内容非常明显暴露了身份，你可以根据人设表现出“猜到是谁了”的语气，或者装作不知道继续调侃)。
+
+【参考记忆 (仅供参考你们的关系状态)】:
+${memories}
+${history}
+
+【收到的匿名问题】: "${userQuestion}"
+
+【任务】: 请以 "${friend.name}" 的身份，对这个问题进行回复。
+【要求】:
+1. 语气符合人设。
+2. 简短有力，像在社交媒体上回复一样。
+3. 必须只返回回复内容纯文本，不要引号。
+`;
+    } else {
+        // --- 场景 B: 随机生成 ---
+        prompt = `
+【场景】: 社交软件的“匿名提问箱”。
+【角色】: 你是 "${friend.name}"，人设是 "${friend.role}"。
+
+【参考记忆 (用于确保回答不OOC)】:
+${memories}
+${history}
+
+【任务】: 请模拟 **5条** 来自不同路人/网友的匿名提问，并分别给出你的回答。
+【要求】:
+1.  **问题多样性**: 问题可以是关于你的生活、爱好、感情观、或者无厘头的恶搞。
+2.  **回答风格**: 符合你的人设（或高冷、或温柔、或逗比）。
+3.  **格式**: 必须返回一个纯净的 JSON 数组，包含5个对象。
+    格式: [{"q": "问题内容", "a": "回答内容"}, ...]
+`;
+    }
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 1.0 
+            })
+        });
+
+        const data = await response.json();
+        const contentStr = data.choices[0].message.content.trim();
+
+        if (isUserAsk) {
+            // 单条回复处理
+            const answer = contentStr.replace(/^["“”]|["“”]$/g, '');
+            
+            if (!friend.anonymousQAs) friend.anonymousQAs = [];
+            friend.anonymousQAs.unshift({
+                question: userQuestion,
+                answer: answer,
+                timestamp: Date.now(),
+                isUser: true
+            });
+            await saveData();
+            renderQAList(friend);
+            
+        } else {
+            // 批量生成处理
+            const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+            if (jsonMatch) {
+                const qaList = JSON.parse(jsonMatch[0]);
+                if (!friend.anonymousQAs) friend.anonymousQAs = [];
+                
+                qaList.forEach(item => {
+                    friend.anonymousQAs.unshift({
+                        question: item.q,
+                        answer: item.a,
+                        timestamp: Date.now(),
+                        isUser: false
+                    });
+                });
+                await saveData();
+                renderQAList(friend);
+            }
+        }
+
+    } catch (e) {
+        console.error("Q&A生成失败", e);
+        showToast("生成失败，请重试");
+    }
+}
+// =========================================
+// END: 匿名提问功能
+// =========================================
+
+
+
+// [新增] 处理图片上传与压缩
+async function handleNewPostImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        try {
+            // 复用你已有的压缩函数
+            const compressedUrl = await compressImage(file, { quality: 0.8, maxWidth: 1080 });
+            tempForumPostImage = compressedUrl;
+            
+            // 显示预览
+            const previewBox = document.getElementById('newPostImagePreviewBox');
+            const previewImg = document.getElementById('newPostImagePreview');
+            previewImg.src = compressedUrl;
+            previewBox.style.display = 'block';
+        } catch (e) {
+            showAlert("图片处理失败");
+        }
+    }
+    event.target.value = ''; // 清空input防止重复选择不触发
+}
+
+// [新增] 清除图片
+function clearNewPostImage() {
+    tempForumPostImage = '';
+    document.getElementById('newPostImagePreviewBox').style.display = 'none';
+    document.getElementById('newPostImagePreview').src = '';
+}
+
+// 打开设置弹窗时，更新显示文字
+function updateCurrentOfflineContentPresetDisplay() {
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (!friend) return;
+    const display = document.getElementById('currentOfflineContentPreset');
+    if (friend.offlineSettings.contentPresetId) {
+        const selected = offlineContentPresets.find(i => i.id === friend.offlineSettings.contentPresetId);
+        display.textContent = selected ? selected.title : '未选择预设';
+    } else {
+        display.textContent = '未选择预设';
+    }
+}
+
+// 记得修改 openOfflineSettings 函数，在里面调用 updateCurrentOfflineContentPresetDisplay();
+
+// 打开列表
+function openOfflineContentPresetList() {
+    const container = document.getElementById('offlineContentPresetList');
+    container.innerHTML = '';
+    
+    // "不使用"选项
+    const noItem = document.createElement('div');
+    noItem.className = 'opening-statement-item';
+    noItem.innerHTML = '<span>不使用预设</span>';
+    noItem.onclick = () => selectOfflineContentPreset(null);
+    container.appendChild(noItem);
+
+    offlineContentPresets.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'opening-statement-item';
+        div.innerHTML = `
+            <span onclick="selectOfflineContentPreset('${item.id}')" style="flex-grow: 1;">${item.title}</span>
+            <div class="item-actions">
+                <span class="edit-btn" onclick="openEditOfflineContentPresetModal('${item.id}'); event.stopPropagation();">✎</span>
+                <span class="delete-btn" onclick="deleteOfflineContentPreset(event, '${item.id}')">✕</span>
+            </div>`;
+        container.appendChild(div);
+    });
+    document.getElementById('offlineContentPresetListModal').classList.add('show');
+}
+
+// 选中预设
+async function selectOfflineContentPreset(id) {
+    const friend = friends.find(f => f.id === currentChatFriendId);
+    if (friend) {
+        friend.offlineSettings.contentPresetId = id;
+        await saveData();
+    }
+    updateCurrentOfflineContentPresetDisplay();
+    document.getElementById('offlineContentPresetListModal').classList.remove('show');
+}
+
+// 打开编辑
+function openEditOfflineContentPresetModal(id) {
+    currentEditingContentPresetId = id;
+    const titleInput = document.getElementById('offlineContentPresetTitleInput');
+    const contentInput = document.getElementById('offlineContentPresetContentInput');
+    const modalTitle = document.getElementById('editOfflineContentPresetTitle');
+
+    if (id) {
+        const item = offlineContentPresets.find(i => i.id === id);
+        modalTitle.textContent = '编辑预设';
+        titleInput.value = item.title;
+        contentInput.value = item.content;
+    } else {
+        modalTitle.textContent = '新建预设';
+        titleInput.value = '';
+        contentInput.value = '';
+    }
+    document.getElementById('editOfflineContentPresetModal').classList.add('show');
+}
+
+// 保存预设
+async function saveOfflineContentPreset() {
+    const title = document.getElementById('offlineContentPresetTitleInput').value.trim();
+    const content = document.getElementById('offlineContentPresetContentInput').value.trim();
+    if (!title) return showAlert('请输入标题');
+
+    if (currentEditingContentPresetId) {
+        const index = offlineContentPresets.findIndex(i => i.id === currentEditingContentPresetId);
+        if (index > -1) {
+            offlineContentPresets[index].title = title;
+            offlineContentPresets[index].content = content;
+            await dbManager.set('offlineContentPresets', offlineContentPresets[index]);
+        }
+    } else {
+        const newItem = { id: `preset_${Date.now()}`, title, content };
+        offlineContentPresets.push(newItem);
+        await dbManager.set('offlineContentPresets', newItem);
+    }
+    openOfflineContentPresetList(); // 刷新列表
+    updateCurrentOfflineContentPresetDisplay(); // 刷新设置页显示
+    document.getElementById('editOfflineContentPresetModal').classList.remove('show');
+}
+
+// 删除预设
+async function deleteOfflineContentPreset(e, id) {
+    e.stopPropagation();
+    if(!confirm("确定删除？")) return;
+    await dbManager.delete('offlineContentPresets', id);
+    offlineContentPresets = offlineContentPresets.filter(i => i.id !== id);
+    openOfflineContentPresetList();
 }
 
     </script>
