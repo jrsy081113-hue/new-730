@@ -678,11 +678,11 @@ html {
             fill: currentColor;
         }
 
-        /* --- 步骤 2.5: 替换 .wechat-content 样式，适配新的导航栏高度 --- */
+       
 .wechat-content {
     flex: 1;
     overflow-y: auto;
-    /* 【决定性修复】使用和导航栏同样的方式动态计算底部间距 */
+    
     padding-bottom: calc(49px + env(safe-area-inset-bottom, 0px));
     
     background: var(--theme-bg, #f7f7f7);
@@ -762,22 +762,22 @@ html {
         /* --- [BUG FIX] White Module Fix START --- */
         #chatScreen .wechat-content {
             padding-top: 0px;
-            padding-bottom: 0; /* Remove padding from container */
-            background: transparent; /* Make container transparent */
+            padding-bottom: 0; 
+            background: transparent; 
             height: 100%;
-            overflow: hidden; /* Prevent double scrollbars */
+            overflow: hidden; 
         }
         
         .chat-messages {
     height: 100%;
-    /* 【核心修改】在这里加上 74px 的顶部内边距 */
+    
     padding: 74px 15px 65px 15px; 
     overflow-y: auto;
     background-size: cover;
     background-position: center;
     position: relative;
     transition: padding-bottom 0.3s ease;
-    /* 【关键新增】确保内边距不会把盒子撑开 */
+    
     box-sizing: border-box; 
 }
         /* --- [BUG FIX] White Module Fix END --- */
@@ -785,7 +785,7 @@ html {
         .message {
             margin-bottom: 15px;
             display: flex;
-            align-items: flex-start; /* MODIFIED: Set to flex-start for downward growth */
+            align-items: flex-start; 
             max-width: 100%;
             position: relative;
         }
@@ -804,10 +804,10 @@ html {
         .message .message-body {
             display: flex;
             flex-direction: column;
-            min-width: 0; /* 修复Flexbox压缩问题 */
-            flex: 1; /* 新增：确保消息主体占据可用空间 */
-            position: relative; /* For blocked icon */
-            max-width: calc(100% - 55px); /* [FIX] Prevent content from overlapping avatar */
+            min-width: 0; 
+            flex: 1; 
+            position: relative; 
+            max-width: calc(100% - 55px); 
         }
 
         .message.received .message-body {
@@ -837,7 +837,7 @@ html {
     -ms-user-select: none;
     user-select: none;
 
-    /* 【新增】禁止 iOS 长按弹出系统菜单 */
+    
     -webkit-touch-callout: none;
         }
         
@@ -858,7 +858,7 @@ html {
             padding: 0;
             background-color: transparent;
             box-shadow: none;
-            max-width: 250px; /* [FIX] Give location card a max-width */
+            max-width: 250px; 
         }
         
         /* MODIFIED: Emoji size adjustment */
@@ -932,18 +932,18 @@ html {
             flex-direction: column; /* FIX */
         }
         
-        /* 这是修改后的代码 */
+        
 .chat-input {
     background: var(--nav-bg, #f7f7f7);
     border-top: 1px solid var(--border-color, #e0e0e0);
     display: flex;
     align-items: flex-end; 
-    padding: 15px 8px;      /* 修改了这里：增加了上下留白 */
+    padding: 15px 8px;      
     gap: 8px;
     position: relative;
     z-index: 100;
     transition: min-height 0.2s ease;
-    min-height: 65px;       /* 修改了这里：增加了整体最小高度 */
+    min-height: 65px;       
 }
 
         .chat-input textarea {
@@ -981,20 +981,20 @@ html {
             transition: transform 0.2s ease, width 0.2s ease, opacity 0.2s ease;
         }
         
-       /* ↓↓↓ 请用这个【最终版】的代码块，完整替换你旧的 .send-btn 样式 ↓↓↓ */
+       
 .send-btn {
     background: transparent;
     border-radius: var(--input-radius, 17px);
-    transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease, width 0.2s ease, opacity 0.2s ease, padding 0.2s ease, max-width 0.2s ease; /* 新增了max-width的过渡 */
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease, width 0.2s ease, opacity 0.2s ease, padding 0.2s ease, max-width 0.2s ease; 
     transform: scale(0.9);
     opacity: 0;
     
-    /* --- 核心修复在这里 --- */
+    
     width: 0;
     padding: 0;
-    max-width: 0; /* 【【【新增】】】 强制规定最大宽度也为0 */
-    overflow: hidden; /* 【【【新增】】】 作为一个保险，隐藏任何可能溢出的部分 */
-    border: none; /* 【【【新增】】】 确保没有边框占据空间 */
+    max-width: 0; 
+    overflow: hidden; 
+    border: none; 
 }
         
         #voiceBtn {
@@ -1002,15 +1002,15 @@ html {
         }
 
 
-      /* ↓↓↓ 请用这个【最终修复版】的代码块，完整替换你旧的 .send-btn.active 样式 ↓↓↓ */
+      
 .send-btn.active {
     transform: scale(1);
     opacity: 1;
     width: 35px;
     
-    /* --- 核心修复在这里 --- */
-    max-width: 40px; /* 【【【新增】】】 恢复最大宽度，让按钮能“撑开” */
-    overflow: visible; /* 【【【新增】】】 恢复内容可见 */
+    
+    max-width: 40px; 
+    overflow: visible; 
     
     padding: 0;
     background-color: #007aff;
@@ -1019,7 +1019,7 @@ html {
 
      .chat-btn i {
     font-size: 24px;
-    line-height: 1; /* 确保图标垂直居中 */
+    line-height: 1; 
 }
         .send-btn svg {
             width: 20px;
@@ -1030,20 +1030,20 @@ html {
              fill: white;
         }
 
-        /* ↓↓↓ 用这段代码替换旧的 .chat-avatar 样式 ↓↓↓ */
+        
 .chat-avatar {
-    /* 核心改变：让头像本身成为一个定位的“锚点” */
+    
     position: relative; 
 
-    /* 这些依然由滑块控制，保持不变 */
+    
     width: var(--chat-avatar-size, 45px);
     height: var(--chat-avatar-size, 45px);
     border-radius: var(--chat-avatar-radius, 8px);
 
-    /* 移除所有边框相关的属性，因为我们将用“伪元素”来做边框 */
+    
     border: none; 
 
-    /* 以下是原有的样式，保持不变 */
+    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1057,16 +1057,16 @@ html {
     background-color: var(--bg-primary, white);
     transition: all 0.3s ease;
 }
-/* ↑↑↑ 替换到这里结束 ↑↑↑ */
 
-/* ↓↓↓ 用这段新代码，完整替换旧的 .chat-avatar::after 规则 ↓↓↓ */
 
-/* “我方”头像框的专属样式 */
+
+
+
 .message.sent .chat-avatar::after {
     content: ''; 
     position: absolute; 
     
-    /* 使用“我方”的专属CSS变量 */
+    
     top: var(--sent-chat-avatar-frame-offset, -3px);
     left: var(--sent-chat-avatar-frame-offset, -3px);
     right: var(--sent-chat-avatar-frame-offset, -3px);
@@ -1074,19 +1074,19 @@ html {
     background-image: var(--sent-chat-avatar-frame-url, none);
     transform: translate(var(--sent-chat-avatar-frame-offset-x, 0px), var(--sent-chat-avatar-frame-offset-y, 0px));
 
-    /* 以下是通用属性 */
+    
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border-radius: 0px; 
     pointer-events: none;
 }
 
-/* “对方”头像框的专属样式 */
+
 .message.received .chat-avatar::after {
     content: ''; 
     position: absolute; 
     
-    /* 使用“对方”的专属CSS变量 */
+   
     top: var(--received-chat-avatar-frame-offset, -3px);
     left: var(--received-chat-avatar-frame-offset, -3px);
     right: var(--received-chat-avatar-frame-offset, -3px);
@@ -1094,20 +1094,20 @@ html {
     background-image: var(--received-chat-avatar-frame-url, none);
     transform: translate(var(--received-chat-avatar-frame-offset-x, 0px), var(--received-chat-avatar-frame-offset-y, 0px));
     
-    /* 以下是通用属性 */
+    
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border-radius: 0px; 
     pointer-events: none;
 }
-/* ↑↑↑ 替换到这里结束 ↑↑↑ */
+
 
         .message.sent .chat-avatar {
             margin: 0 0 0 8px;
-            order: 2; /* [FIX] Ensure avatar is always on the outside */
+            order: 2; 
         }
         .message.sent .message-body {
-            order: 1; /* [FIX] Ensure message body is before avatar */
+            order: 1; 
         }
         
         .chat-functions, .emoji-picker {
@@ -1250,7 +1250,7 @@ html {
     transform: scale(0.9);
     transform-origin: top left;
 
-    /* --- 核心修复：让隐身的菜单无法被点击 --- */
+   
     pointer-events: none; 
 }
        .message-menu.show {
@@ -1258,7 +1258,7 @@ html {
     opacity: 1;
     transform: scale(1);
 
-    /* --- 核心修复：让显示的菜单恢复可点击状态 --- */
+   
     pointer-events: auto; 
 }
 
@@ -1532,10 +1532,10 @@ html {
             font-size: var(--font-size, 16px);
         }
 
-        /* --- 步骤 4: 修正 .add-menu 菜单位置 --- */
+       
 .add-menu {
     position: absolute;
-    /* 【关键修改】使用动态计算，确保它永远在导航栏下方 */
+    
     top: 74px !important;
     right: 15px;
     background: var(--bg-primary, white);
@@ -1582,8 +1582,8 @@ html {
         #playlistModal { z-index: 1001; }
         #addMusicModal { z-index: 1002; }
         #alertModal, #confirmModal, #worldBookBindingModal, #heartsVoiceModal { z-index: 10000; }
-        /* ▼▼▼ 在它下方，添加这一行新代码 ▼▼▼ */
-#exportDataModal { z-index: 10001; } /* 为新弹窗设置一个最高的 z-index */
+       
+#exportDataModal { z-index: 10001; } 
 
         .modal.show {
             display: flex;
@@ -1659,7 +1659,7 @@ html {
             align-items: center;
         }
 
-  /* --- 【最终黑白风格】主题 App 图标样式 --- */
+  
 .discover-menu-icon {
     width: 32px;
     height: 32px;
@@ -1673,10 +1673,10 @@ html {
 
 .discover-menu-icon i {
     font-size: 20px;
-    /* 【核心修改】设置统一的、与系统风格一致的深灰色图标颜色 */
+   
     color: var(--text-secondary, #555); 
 }
-/* 暗色模式下会自动适配，但为了保险起见，我们显式覆盖一下 */
+
 .wechat-dark-mode .discover-menu-icon {
     background-color: #3a3a3c;
 }
@@ -2193,8 +2193,8 @@ html {
     font-size: var(--font-size, 16px);
     line-height: 1.5;
     color: var(--text-color, #333);
-    margin-top: 5px;   /* 新增：向下推一点 */
-    margin-bottom: 5px; /* 修改：减小底部间距 */
+    margin-top: 5px;   
+    margin-bottom: 5px; 
     font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
     white-space: pre-wrap;
 }
@@ -4047,46 +4047,46 @@ html {
             font-style: italic;
         }
 
-        /* --- 这是【修正后】的代码 --- */
+       
 #diaryViewScreen .wechat-content {
-    padding: 74px 20px 20px 20px; /* 核心修改在这里 */
+    padding: 74px 20px 20px 20px; 
     font-size: 16px;
     line-height: 1.8;
     white-space: pre-wrap; 
 }
 
-        /* --- 新增：日记好友选择界面的网格样式 --- */
+       
         .diary-friend-grid {
-            display: grid; /* 使用网格布局 */
-            grid-template-columns: repeat(2, 1fr); /* 创建两列，每列宽度平分 */
-            gap: 20px; /* 设置网格项之间的间距 */
-            padding: 20px; /* 设置整个网格容器的内边距 */
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; 
+            padding: 20px; 
         }
 
         .diary-book-item {
-            display: flex; /* 使用Flex布局来轻松实现居中 */
-            flex-direction: column; /* 让头像和名字垂直排列 */
-            align-items: center; /* 水平居中 */
-            justify-content: center; /* 垂直居中 */
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
             padding: 20px;
             background: var(--bg-primary, white);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: all 0.2s ease;
-            aspect-ratio: 1 / 1; /* 关键！让每个格子都是正方形 */
+            aspect-ratio: 1 / 1; 
         }
         
         .diary-book-item:hover {
-             transform: translateY(-3px); /* 鼠标悬停时轻微上浮 */
+             transform: translateY(-3px); 
              box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
 
         .diary-book-avatar {
             width: 60px;
             height: 60px;
-            border-radius: 50%; /* 圆形头像 */
-            margin-bottom: 10px; /* 头像和名字之间的距离 */
+            border-radius: 50%; 
+            margin-bottom: 10px; 
             background-size: cover;
             background-position: center;
             background-color: #eee;
@@ -4104,11 +4104,11 @@ html {
             text-align: center;
         }
         
-                /* --- 新增：手动生成日记按钮的样式 --- */
+               
         .generate-diary-btn {
             width: 30px;
             height: 30px;
-            border-radius: 50%; /* 确保是圆形 */
+            border-radius: 50%; 
             background-color: var(--bg-hover, #f0f0f0);
             border: none;
             cursor: pointer;
@@ -4128,7 +4128,7 @@ html {
             fill: var(--text-color, #333);
         }
 
-        /* 按钮在加载时的旋转动画 */
+        
         .generate-diary-btn.loading svg {
             animation: spin 1s linear infinite;
         }
@@ -4137,8 +4137,7 @@ html {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
-/* --- 新增：记忆页面样式 (V2版) --- */
+        
 #memoryList {
     padding: 15px;
     box-sizing: border-box;
@@ -4150,7 +4149,7 @@ html {
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    position: relative; /* 为了日期定位 */
+    position: relative; 
 }
 
 .memory-date {
@@ -4165,11 +4164,11 @@ html {
     font-size: 15px;
     line-height: 1.7;
     color: var(--text-color, #333);
-    white-space: pre-wrap; /* 保留换行 */
-    padding-top: 30px; /* 给日期留出空间 */
+    white-space: pre-wrap; 
+    padding-top: 30px; 
 }
 
-/* --- [新增] 记忆生成设置输入框样式 --- */
+
 .settings-input-number {
     width: 80px;
     padding: 5px 8px;
@@ -4181,9 +4180,8 @@ html {
     font-size: 14px;
 }
 
-/* ↓↓↓ 第2步：从这里开始复制 ↓↓↓ */
 
-/* 红包卡片在聊天界面的样式 */
+
 .message-content.has-red-envelope {
     padding: 0;
     background-color: transparent;
@@ -4191,9 +4189,9 @@ html {
     max-width: 250px; 
 }
 
-/* ↓↓↓ 第1步：用这个替换你原来的 .red-envelope-card 样式 ↓↓↓ */
+
 .red-envelope-card {
-    width: 200px; /* --- 核心修改：宽度从240px改为200px，与转账卡片一致 --- */
+    width: 200px; 
     background-color: #F9953F;
     color: white;
     border-radius: 10px;
@@ -4246,7 +4244,7 @@ html {
     border-top: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 红包系统提示消息的样式 */
+
 .system-message-tip {
     text-align: center;
     margin: 10px 0;
@@ -4254,7 +4252,7 @@ html {
     color: #999;
 }
 
-/* 红包领取详情列表的样式 */
+
 .claim-list-item {
     display: flex;
     align-items: center;
@@ -4303,31 +4301,30 @@ html {
     margin-left: 8px;
 }
 
-/* ↑↑↑ 第2步：在这里结束复制 ↑↑↑ */
 
-/* --- 新增：优化红包详情列表中“手气最佳”的显示 --- */
+
 .claim-list-item .claim-name {
     display: flex;
     align-items: center;
-    gap: 8px; /* 名字和“手气最佳”标签之间的间距 */
+    gap: 8px; 
 }
 
 #redEnvelopeOpenCard {
-    /* 这就是红包卡片本身 */
-    width: 280px; /* 红包宽度 */
-    height: 380px; /* 红包高度 */
-    background-color: #D85847; /* 微信红包的经典红色 */
-    border-radius: 12px; /* 让卡片有圆角，更好看 */
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2); /* 添加一点立体阴影 */
-    position: relative; /* 使得内部的按钮可以相对于它定位 */
+   
+    width: 280px; 
+    height: 380px; 
+    background-color: #D85847; 
+    border-radius: 12px; 
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+    position: relative; 
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* 隐藏超出边界的装饰 */
+    overflow: hidden; 
 }
 
 #redEnvelopeOpenCard::before {
-    /* 用伪元素给红包顶部加一个好看的金色装饰 */
+    
     content: '';
     position: absolute;
     top: 0;
@@ -4338,35 +4335,33 @@ html {
 }
 
 #openRedEnvelopeButton {
-    /* 这才是那个“开”字按钮 */
+   
     width: 90px;
     height: 90px;
-    background-color: #FAD04E; /* 经典的金色 */
+    background-color: #FAD04E; 
     border-radius: 50%;
-    color: #A36B28; /* 暗金色字体 */
+    color: #A36B28; 
     font-size: 48px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 更有弹性的动画效果 */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 1; /* 确保按钮在金色装饰之上 */
+    z-index: 1; 
 }
 
-/* ↓↓↓ 第二步：将这些CSS代码粘贴到 <style> 标签的末尾 ↓↓↓ */
 
-/* 聊天界面中的投票卡片样式 */
 .message-content.has-poll {
     padding: 0;
     background-color: transparent;
     box-shadow: none;
-    max-width: 280px; /* 卡片最大宽度 */
+    max-width: 280px; 
 }
 
 .poll-card {
-    width: 250px; /* 卡片固定宽度 */
+    width: 250px; 
     background-color: var(--bg-primary, white);
     border-radius: 12px;
     border: 1px solid var(--border-light, #f0f0f0);
@@ -4383,7 +4378,7 @@ html {
 .poll-card-title {
     font-size: 16px;
     font-weight: 600;
-    white-space: pre-wrap; /* 允许标题换行 */
+    white-space: pre-wrap; 
     word-break: break-word;
 }
 
@@ -4407,15 +4402,15 @@ html {
 .poll-option-text {
     font-size: 14px;
     margin-bottom: 8px;
-    display: block; /* 让文字单独占一行 */
+    display: block; 
 }
 
 .poll-voters-line {
     display: flex;
     align-items: center;
-    gap: 4px; /* 头像之间的间距 */
-    min-height: 24px; /* 即使没人投票也保持高度 */
-    border-left: 3px solid var(--bg-hover, #f0f0f0); /* 左侧的指示条 */
+    gap: 4px; 
+    min-height: 24px; 
+    border-left: 3px solid var(--bg-hover, #f0f0f0); 
     padding-left: 8px;
 }
 
@@ -4432,12 +4427,12 @@ html {
     font-size: 12px;
     color: white;
     font-weight: bold;
-    flex-shrink: 0; /* 防止头像被压缩 */
+    flex-shrink: 0; 
 }
 
-/* 投票创建弹窗的选项输入框样式 */
+
 .poll-option-input {
-    flex-grow: 1; /* 让输入框占据大部分空间 */
+    flex-grow: 1; 
 }
 
 .remove-option-btn {
@@ -4453,20 +4448,12 @@ html {
     flex-shrink: 0;
 }
 
-/* ↑↑↑ 第二步：代码粘贴到此结束 ↑↑↑ */
-
-/* ↓↓↓ 第3步：从这里开始复制所有新增的CSS代码 ↓↓↓ */
-
-/* 人设列表项的激活状态（被选中时） */
 .friend-item.persona-active {
-    background-color: #e3f2fd; /* 淡蓝色背景 */
-    border-left: 4px solid #007aff; /* 左侧蓝色高亮条 */
-    padding-left: 11px; /* 调整内边距以适应边框 */
+    background-color: #e3f2fd; 
+    border-left: 4px solid #007aff; 
+    padding-left: 11px; 
 }
 
-/* ↑↑↑ CSS代码复制到这里结束 ↑↑↑ */
-
-/* --- 新增：群聊选择弹窗的样式优化 (修正版) --- */
 #groupChatFriendList .multi-select-item {
     padding: 8px 0;
     display: flex;
@@ -4477,11 +4464,11 @@ html {
     width: 40px;
     height: 40px;
     border-radius: 6px;
-    margin-left: 12px;  /* 这是选择框和头像之间的距离 */
-    margin-right: 12px; /* 这是头像和名字之间的距离 */
+    margin-left: 12px; 
+    margin-right: 12px; 
     flex-shrink: 0;
     font-size: 16px;
-    /* 新增：确保图片头像能正确显示 */
+   
     background-size: cover;
     background-position: center;
     display: flex;
@@ -4496,12 +4483,10 @@ html {
 }
 
 #groupChatFriendList input[type="checkbox"] {
-    /* 我们不再需要给选择框设置右边距了 */
+    
 }
 
-/* --- 【【【第二步：将这段CSS粘贴到 <style> 的末尾】】】 --- */
 
-/* 美化设置列表的样式 */
 #beautificationSettingsList {
     display: flex;
     flex-direction: column;
@@ -4571,35 +4556,30 @@ html {
     color: #ff3b30;
 }
 
-/* --- [最终修正版] 微信App全局背景样式 --- */
 
-/* 1. 这是背景图层本身，确保它在最底层 */
 #wechatAppBackground {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* 让它永远在最底层 */
+    z-index: -1; 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* 2. 【【【核心修复】】】当有背景图时，我们把整个 #wechatApp 画板变透明 */
+
 #wechatApp.has-global-bg {
     background: transparent !important;
 }
 
-/* 3. 同时，也确保里面的内容区域（画纸）也变透明 */
+
 #wechatApp.has-global-bg .wechat-content,
 #wechatApp.has-global-bg .friend-list {
     background: transparent !important;
 }
 
-/* --- 【【【最终纯净透明版】】】针对全局背景的好友列表项透明化 (修正后) --- */
-
-/* 当微信App有全局背景时，修改每一个好友“卡片”的样式 */
 #wechatApp.has-global-bg .friend-item {
     background-color: transparent !important;
     backdrop-filter: none !important;
@@ -4607,26 +4587,16 @@ html {
     border-bottom-color: rgba(0, 0, 0, 0.1) !important; 
 }
 
-/* 
-   之前强制设定文字颜色为白色和添加阴影的规则已被完全删除。
-   现在，好友列表的文字颜色将默认继承您在“字体设置”中的选择。
-*/
 
-/* 针对暗色模式下的优化，同样改为完全透明 */
 .wechat-dark-mode#wechatApp.has-global-bg .friend-item {
     background-color: transparent !important;
     border-bottom-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* --- 【【【最终修复版 - 确保所有页面彻底透明】】】 --- */
-/* 请用这段代码，完整替换掉之前所有关于全局背景透明的CSS代码 */
-
-/* 核心修复：当微信App有全局背景时，让它内部的所有.page“页面容器”本身变得完全透明 */
 #wechatApp.has-global-bg .page {
     background-color: transparent !important;
 }
 
-/* 并且，确保页面内的主要内容区也是透明的，以防万一 */
 #wechatApp.has-global-bg .wechat-content,
 #wechatApp.has-global-bg .discover-content,
 #wechatApp.has-global-bg .profile-content,
@@ -4634,7 +4604,7 @@ html {
     background-color: transparent !important;
 }
 
-/* 接下来，处理页面上那些原本有自己白色背景的“卡片”和“列表项” */
+
 #wechatApp.has-global-bg .profile-section,
 #wechatApp.has-global-bg .profile-header,
 #wechatApp.has-global-bg .discover-menu-item,
@@ -4647,7 +4617,7 @@ html {
 }
 
 
-/* 移除所有文字阴影，让字体样式完全由您控制 */
+
 #wechatApp.has-global-bg,
 #wechatApp.has-global-bg .friend-name,
 #wechatApp.has-global-bg .friend-message,
@@ -4659,7 +4629,7 @@ html {
     text-shadow: none !important;
 }
 
-/* 调整列表项之间的分割线，使其在透明背景下依然可见但不过于突兀 */
+
 #wechatApp.has-global-bg .friend-item,
 #wechatApp.has-global-bg .profile-menu-item,
 #wechatApp.has-global-bg #walletScreen .balance-display,
@@ -4667,7 +4637,7 @@ html {
     border-bottom-color: rgba(0, 0, 0, 0.1) !important;
 }
 
-/* 暗色模式下的分割线适配 */
+
 .wechat-dark-mode#wechatApp.has-global-bg .friend-item,
 .wechat-dark-mode#wechatApp.has-global-bg .profile-menu-item,
 .wechat-dark-mode#wechatApp.has-global-bg #walletScreen .balance-display,
@@ -4675,7 +4645,7 @@ html {
     border-bottom-color: rgba(255, 255, 255, 0.15) !important;
 }
 
-/* --- [新增] 记忆编辑按钮样式 --- */
+
 .memory-edit-btn {
     position: absolute;
     top: 10px;
@@ -4701,7 +4671,6 @@ html {
     fill: var(--text-secondary, #888);
 }
 
-/* --- [新增] 总结加载提示样式 --- */
 #summaryLoadingIndicator {
     position: absolute;
     top: 50%;
@@ -4711,13 +4680,12 @@ html {
     color: white;
     padding: 15px 25px;
     border-radius: 10px;
-    z-index: 100; /* 确保它在列表上方 */
+    z-index: 100; 
     font-size: 15px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* --- [新增] 记忆删除按钮样式 --- */
 .memory-delete-btn {
     position: absolute;
     top: 10px;
@@ -4731,22 +4699,20 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.3; /* 默认半透明，不抢眼 */
+    opacity: 0.3; 
     transition: all 0.2s ease;
 }
 .memory-item:hover .memory-delete-btn {
-    opacity: 1; /* 鼠标悬停时完全显示 */
-    background-color: rgba(255, 0, 0, 0.1); /* 悬停时带一点红色背景 */
+    opacity: 1; 
+    background-color: rgba(255, 0, 0, 0.1); 
 }
 .memory-delete-btn svg {
     width: 18px;
     height: 18px;
-    fill: #ff3b30; /* 垃圾桶图标为红色 */
+    fill: #ff3b30; 
 }
 
-/* ↓↓↓ 第2步：将以下所有新增的CSS代码粘贴到 <style> 标签的末尾 ↓↓↓ */
 
-/* [新增] 线下模式悬浮窗样式 */
 #offlineModeFloat {
     position: fixed;
     bottom: 150px;
@@ -20463,6 +20429,695 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     opacity: 0.6;
 }
 
+/* --- 直播 App 样式 (更新版) --- */
+
+/* 激活直播App时隐藏系统状态栏 */
+.phone.live-app-active .status-bar {
+    display: none !important;
+}
+
+/* 顶部标签栏：改为纯色背景，位于最顶层 */
+.live-top-tabs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    background-color: #121212; /* 改为纯黑背景，不再透明悬浮 */
+    border-bottom: 1px solid #222;
+}
+
+.live-tab-item {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.live-tab-item.active {
+    color: #fff;
+    font-size: 17px;
+}
+
+.live-tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 5px; /* 下划线位置微调 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 3px;
+    background: #ff4d4d;
+    border-radius: 2px;
+}
+
+/* 直播列表网格 */
+.live-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 4px; /* 给网格一点外边距 */
+    align-items: start; 
+}
+
+/* 单个直播卡片 */
+.live-card {
+    position: relative;
+    background-color: #1a1a1a;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 3/4;
+}
+
+/* 直播中标签 */
+.live-tag-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(2px);
+    z-index: 2;
+}
+
+.live-pulse-dot {
+    width: 5px;
+    height: 5px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    animation: livePulse 1.5s infinite;
+}
+
+/* 底部信息区 */
+.live-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    color: #fff;
+}
+
+.live-title {
+    font-size: 13px;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.live-author-row {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #ccc;
+}
+
+.live-author-avatar {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 5px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* 观看人数统计 */
+.live-viewer-count {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* 底部导航栏：修复文字超出问题 */
+.live-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* 增加高度，确保文字垂直居中不被切 */
+    height: 55px; 
+    background: #0d0d0d;
+    border-top: 1px solid #222;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center;
+    z-index: 100;
+    /* 适配底部安全区 */
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: content-box; /* 确保 padding 不吃掉 height */
+}
+
+.live-nav-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.live-nav-item.active {
+    opacity: 1;
+}
+
+.live-nav-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    /* 确保文字垂直对齐 */
+    line-height: 1; 
+    display: block;
+}
+
+/* --- 直播顶部导航栏样式修正 --- */
+
+/* 1. 顶部栏容器 */
+.live-top-tabs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center; /* 让中间的“关注/推荐”居中 */
+    align-items: center;
+    z-index: 100;
+    background-color: #121212;
+    border-bottom: 1px solid #222;
+}
+
+/* 2. 左侧按钮 (设置) */
+.live-header-btn-left {
+    position: absolute;
+    left: 15px;
+    font-size: 22px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 101;
+    padding: 5px; /* 增加点击区域 */
+}
+
+/* 3. 【核心修改】右侧按钮组容器 (刷新 + 返回) */
+.live-header-right-group {
+    position: absolute;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 两个按钮之间的间距 */
+    z-index: 101;
+}
+
+/* 4. 右侧单个按钮的通用样式 */
+.live-header-btn {
+    font-size: 22px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px; /* 增加点击区域 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 5. 刷新旋转动画 (保持不变) */
+.rotate-anim {
+    animation: spin 1s linear infinite;
+}
+
+/* =========================================
+   直播间完整样式 (V4 - 切页描述 + 紧凑顶部版)
+   ========================================= */
+
+#liveRoomScreen {
+    background-color: #000;
+    color: #fff;
+    z-index: 3000; /* 确保层级最高，覆盖在所有页面之上 */
+}
+
+/* 1. 背景层 (全屏模糊) */
+.live-room-bg {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    /* 强模糊 + 压暗，确保文字清晰 */
+    filter: blur(25px) brightness(0.5); 
+    z-index: 1;
+}
+
+/* 2. 顶部信息栏 (主播 + 观众) */
+.live-room-header {
+    position: absolute;
+    /* 适配刘海屏，距离顶部有一点距离 */
+    top: calc(8px + env(safe-area-inset-top)); 
+    left: 10px;
+    right: 10px;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 左侧：主播胶囊 */
+.live-host-pill {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 30px;
+    padding: 3px;
+    padding-right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(5px);
+    flex-shrink: 0; /* 防止被挤压 */
+}
+
+.live-room-avatar {
+    width: 34px; 
+    height: 34px; 
+    border-radius: 50%;
+    background-size: cover; 
+    background-position: center;
+    border: 1px solid rgba(255,255,255,0.8);
+}
+
+.live-host-text { 
+    display: flex; 
+    flex-direction: column; 
+}
+.live-host-name { 
+    font-size: 13px; 
+    font-weight: bold; 
+    max-width: 90px; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+}
+.live-host-sub { 
+    font-size: 10px; 
+    color: #eee; 
+}
+
+.live-follow-btn { 
+    background: #ff4d4d; 
+    color: white; 
+    border: none; 
+    border-radius: 20px; 
+    padding: 4px 10px; 
+    font-size: 12px; 
+    font-weight: bold; 
+    margin-left: 5px; 
+}
+
+/* 右侧：观众列表 + 关闭按钮容器 */
+.live-header-right-part {
+    display: flex;
+    align-items: center;
+    /* 【修改】极小的间距，让头像和人数靠得更近 */
+    gap: 0px; 
+}
+
+/* 观众头像组 */
+.live-viewer-avatars {
+    display: flex;
+    align-items: center;
+    margin-right: 0; 
+}
+.viewer-avatar {
+    width: 28px; 
+    height: 28px; 
+    border-radius: 50%; 
+    border: 1px solid rgba(255,255,255,0.6);
+    background-size: cover; 
+    background-position: center; 
+    background-color: #555;
+    /* 负边距实现头像重叠效果 */
+    margin-left: -10px; 
+}
+.viewer-avatar:first-child { 
+    margin-left: 0; 
+}
+
+.live-viewer-count {
+    font-size: 12px;
+    background: rgba(0,0,0,0.4);
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: #eee;
+    backdrop-filter: blur(5px);
+    /* 【修改】微调左边距 */
+    margin-left: 2px; 
+}
+
+.live-close-btn {
+    background: transparent; 
+    border: none; 
+    color: #fff;
+    font-size: 26px; 
+    opacity: 0.9; 
+    padding: 5px;
+    margin-left: 5px;
+}
+
+.live-visual-scroll-area {
+    position: absolute;
+    top: 180px; 
+    left: 15px;
+    right: 15px;
+    height: 180px; /* 区域高度 */
+    z-index: 5;
+    
+    /* 滚动设置 */
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    
+    /* 隐藏滚动条 */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    
+    /* 布局 */
+    display: flex;
+    flex-direction: column;
+    /* 【修改】内容水平居中 */
+    align-items: center; 
+    
+    /* 【修改】巨大的间距，确保一次只显示一条 */
+    gap: 180px; 
+    
+    /* 【核心修改】给容器上下增加填充，让第一条和最后一条也能滚到正中间 */
+    padding: 80px 0;
+    
+   
+}
+.live-visual-scroll-area::-webkit-scrollbar { display: none; }
+
+/* 单条画面描述气泡 */
+.live-visual-bubble {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #fff;
+    
+    /* 【修改】完全透明背景 */
+    background: transparent;
+    padding: 0 10px;
+    
+    /* 【修改】文字水平居中 */
+    text-align: center;
+    
+    /* 加强阴影，保证在任何背景下可见 */
+    text-shadow: 0 1px 4px rgba(0,0,0,1);
+    
+    white-space: pre-wrap;
+    
+    /* 【核心修改】吸附对齐方式改为：居中 */
+    scroll-snap-align: center; 
+    
+    flex-shrink: 0; 
+    width: 100%;
+    
+    /* 动画 */
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* 4. 底部区域 (弹幕 + 操作栏) */
+.live-room-footer {
+    position: absolute;
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    z-index: 20;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    /* 背景渐变加深，保证弹幕清晰 */
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+}
+
+/* 弹幕滚动区 */
+.live-danmu-area {
+    height: 220px;
+    overflow-y: auto;
+    padding: 0 15px;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    mask-image: linear-gradient(to bottom, transparent, black 15%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%);
+}
+.live-danmu-area::-webkit-scrollbar { display: none; }
+
+/* 单条弹幕 */
+.live-danmu-item {
+    margin-bottom: 6px;
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.25); /* 稍微加深一点背景 */
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    clear: both;
+    float: left;
+    max-width: 90%;
+    word-wrap: break-word;
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.danmu-user { 
+    color: #aaddff; /* 浅蓝名 */
+    font-weight: 500; 
+    /* 冒号会在JS中添加，这里只需要管样式 */
+    margin-right: 4px; 
+}
+.danmu-content { 
+    color: #fff; 
+}
+
+/* 5. 底部操作栏 */
+.live-action-bar { 
+    display: flex; 
+    align-items: center; 
+    padding: 5px 15px; 
+    gap: 15px; 
+}
+
+.live-chat-input-box { 
+    flex: 1; 
+    background: rgba(0,0,0,0.4); 
+    border-radius: 20px; 
+    padding: 8px 15px; 
+    color: rgba(255,255,255,0.7); 
+    font-size: 14px; 
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.live-icon-btn { 
+    width: 38px; 
+    height: 38px; 
+    background: rgba(255,255,255,0.1); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 22px; 
+    transition: transform 0.2s; 
+}
+.live-icon-btn:active { 
+    transform: scale(0.9); 
+    background: rgba(255,255,255,0.2);
+}
+
+/* 动画定义 */
+@keyframes fadeInUp { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes slideInLeft { 
+    from { opacity: 0; transform: translateX(-20px); } 
+    to { opacity: 1; transform: translateX(0); } 
+}
+
+/* --- 直播设置弹窗专属样式 --- */
+
+/* 1. 让弹窗更宽 */
+#liveSettingsModal .modal-content {
+    width: 92% !important;        /* 占据屏幕宽度的 92% */
+    max-width: 450px !important;  /* 最大宽度增加到 450px (原来通常是 300-320px) */
+    padding: 30px 25px !important; /* 增加内边距，让布局更舒展 */
+    border-radius: 20px !important;
+}
+
+/* 2. 黑白风格滑动条 (覆盖默认样式) */
+#liveDurationSlider {
+    -webkit-appearance: none;  /* 清除默认样式 */
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;       /* 轨道颜色：浅灰 */
+    border-radius: 2px;
+    outline: none;
+    margin-top: 10px;
+}
+
+/* 滑块头 (拖动的小圆球) */
+#liveDurationSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;               /* 圆球变大一点，更好拖动 */
+    height: 24px;
+    background: #000000;       /* 圆球颜色：纯黑 */
+    border: 3px solid #ffffff; /* 加一个白色边框，更有质感 */
+    border-radius: 50%;        /* 圆形 */
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* 加一点阴影 */
+    margin-top: -10px;         /* 垂直居中对齐轨道 */
+}
+
+/* --- 直播间底部更多菜单 --- */
+.live-menu-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 150;
+    display: none; /* 默认隐藏 */
+}
+.live-menu-overlay.show { display: block; }
+
+.live-action-menu {
+    position: absolute;
+    bottom: 70px; /* 在底部操作栏上方 */
+    left: 10px;   /* 靠左对齐或者居中，这里选靠左对应按钮位置 */
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    animation: slideUpFade 0.2s ease-out;
+}
+
+.live-menu-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    min-width: 50px;
+    background: none;
+    border: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.live-menu-btn:active { opacity: 1; transform: scale(0.95); }
+
+.live-menu-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.live-menu-desc {
+    font-size: 10px;
+    color: #888;
+    transform: scale(0.9);
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 直播倍速弹窗专属修复 --- */
+
+/* 1. 修复层级问题：必须高于直播间的 3000 */
+#liveVisualSettingsModal {
+    z-index: 3005 !important;
+}
+
+/* 2. 滑动条轨道：浅灰色 */
+#liveSpeedSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0 !important;
+    border-radius: 2px;
+    outline: none;
+}
+
+/* 3. 滑动条滑块：纯黑 + 白边 (黑白极简风) */
+#liveSpeedSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #000000 !important; /* 黑色圆球 */
+    border: 3px solid #ffffff;      /* 白色边框增加层次感 */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* 淡淡的阴影 */
+    margin-top: -10px; /* 垂直居中对齐轨道 */
+}
+
+/* 4. 数字显示颜色：由蓝变黑 */
+#liveSpeedDisplay {
+    color: #000000 !important;
+}
+
+/* 5. 确认按钮：黑底白字 */
+#liveVisualSettingsModal .modal-btn-confirm {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+}
+
+/* 6. 取消按钮：浅灰底 */
+#liveVisualSettingsModal .modal-btn-cancel {
+    background-color: #f5f5f5 !important;
+    color: #666666 !important;
+}
+
+/* 直播App 个人中心头像样式 */
+.live-me-avatar {
+    width: 80px; 
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px; /* 居中并与下方留出间距 */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* 淡淡的边框 */
+    overflow: hidden; /* 裁剪超出部分 */
+    background-color: #333; /* 默认深色背景 */
+    background-repeat: no-repeat;
+    /* 关键：确保这几行存在，图片才能正常显示 */
+    background-size: cover;
+    background-position: center;
+}
+
     </style>
 </head>
 <body>
@@ -20836,12 +21491,14 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
         </div>
         <div class="app-label">论坛</div>
     </div>
-    <div class="app"> <!-- 【注意】这里为您补充了 onclick 事件 -->
-        <div class="app-icon-container" id="icon-shopping">
-            <i class="ri-shopping-bag-3-fill"></i>
-        </div>
-        <div class="app-label">占位</div>
+    <!-- 替换原来的直播入口代码 -->
+<div class="app" onclick="openApp('live')">
+    <!-- 删除 style 属性，让它回归统一的白色背景和黑色图标样式 -->
+    <div class="app-icon-container" id="icon-live">
+        <i class="ri-live-fill"></i>
     </div>
+    <div class="app-label">直播</div>
+</div>
 </div>
 
                 </div>
@@ -23447,13 +24104,23 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
         </div>
     </div>
 
-<!-- 【【【新增的“手动总结”弹窗】】】 -->
+<!-- 找到 id="manualSummaryModal" 的部分，替换其中间内容 -->
 <div id="manualSummaryModal" class="modal">
     <div class="modal-content">
         <div class="modal-title">手动生成总结</div>
         <p style="text-align: center; margin-bottom: 15px; color: #666; font-size: 14px;">请输入需要总结的最新对话轮数：</p>
         <input type="number" class="modal-input" id="manualSummaryTurnsInput" placeholder="例如：20">
-        <div class="modal-buttons">
+        
+        <!-- ▼▼▼ 新增的选择区域 ▼▼▼ -->
+        <div class="form-group" style="margin-top: 15px; margin-bottom: 0;">
+            <label class="form-label" style="font-size:14px;">总结提示词 (风格)</label>
+            <div id="currentSummaryPromptDisplay" class="form-input" style="line-height: 2.5; cursor: pointer; text-align: center; background: #f7f7f7; border: none; font-size: 14px;" onclick="openSummaryPromptList()">
+                无 (默认)
+            </div>
+        </div>
+        <!-- ▲▲▲ 新增结束 ▲▲▲ -->
+
+        <div class="modal-buttons" style="margin-top: 20px;">
             <button class="modal-btn modal-btn-cancel" onclick="closeManualSummaryModal()">取消</button>
             <button class="modal-btn modal-btn-confirm" onclick="confirmManualSummary()">开始总结</button>
         </div>
@@ -27748,6 +28415,420 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- 直播App主页面 -->
+
+<div id="liveApp" class="page">
+    
+    <!-- ▼▼▼ 修改后的顶部导航 ▼▼▼ -->
+    <div class="live-top-tabs">
+        <!-- 左侧：设置菜单 -->
+        <i class="ri-menu-line live-header-btn-left" onclick="openLiveSettingsModal()"></i>
+
+        <!-- 中间：标签页 -->
+        <div class="live-tab-item" onclick="switchLiveSubTab('following', this)">关注</div>
+        <div class="live-tab-item active" onclick="switchLiveSubTab('recommend', this)">推荐</div>
+        
+        <!-- 右侧：按钮组 (刷新 + 返回) -->
+        <div class="live-header-right-group">
+            <i class="ri-refresh-line live-header-btn" id="liveRefreshBtn" onclick="refreshLiveContent()"></i>
+            
+            <!-- 【新增】返回桌面按钮 -->
+            <i class="ri-close-line live-header-btn" onclick="goHome()"></i>
+        </div>
+    </div>
+    <!-- ▲▲▲ 修改结束 ▲▲▲ -->
+
+    <!-- 中间内容区域 -->
+    <div class="wechat-content" style="padding-top: 50px; background: #121212; padding-bottom: calc(70px + env(safe-area-inset-bottom)); overflow-y: auto;">
+        
+        <!-- 首页视图 -->
+        <div id="liveHomeView">
+            <div id="liveListContainer" class="live-grid">
+                <!-- JS 动态生成直播卡片 -->
+            </div>
+        </div>
+
+        <!-- “我的”视图 -->
+<div id="liveMeView" style="display: none; padding-top: 60px; color: white; text-align: center;">
+    
+    <!-- 隐藏的文件上传控件 -->
+    <input type="file" id="liveAvatarInput" accept="image/*" style="display: none;" onchange="handleLiveAvatarUpload(event)">
+
+    <div class="live-me-header">
+        <!-- 头像：点击触发上传 -->
+        <div class="live-me-avatar" id="liveMeAvatar" onclick="document.getElementById('liveAvatarInput').click()" style="cursor: pointer; position: relative;">
+            <!-- 可以加一个小相机图标提示可修改 -->
+            <i class="ri-camera-line" style="position: absolute; bottom: 0; right: 0; background: rgba(0,0,0,0.6); border-radius: 50%; padding: 4px; font-size: 12px;"></i>
+        </div>
+        
+        <!-- 名字：点击修改 -->
+        <h2 id="liveMeName" style="margin-top: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;" onclick="editLiveName()">
+            <span>用户名</span> <i class="ri-edit-2-line" style="font-size: 14px; opacity: 0.7;"></i>
+        </h2>
+        
+        <!-- ID：点击修改 -->
+        <p id="liveMeId" style="color: #888; font-size: 12px; margin-top: 5px; cursor: pointer;" onclick="editLiveId()">
+            ID: 9527888 <i class="ri-edit-box-line"></i>
+        </p>
+    </div>
+
+    <div style="display: flex; justify-content: space-around; margin-top: 30px; padding: 0 20px;">
+        <div><strong style="display:block; font-size:18px;" id="liveMeFollowing">0</strong><span style="font-size:12px; color:#888;">关注</span></div>
+        <div><strong style="display:block; font-size:18px;" id="liveMeFans">0</strong><span style="font-size:12px; color:#888;">粉丝</span></div>
+        <div><strong style="display:block; font-size:18px;" id="liveMeLikes">0</strong><span style="font-size:12px; color:#888;">获赞</span></div>
+    </div>
+    
+    <button style="margin-top: 50px; background: #ff4d4d; color: white; border: none; padding: 10px 40px; border-radius: 25px; font-size: 16px;">开启直播</button>
+</div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="live-bottom-bar">
+        <div class="live-nav-item active" onclick="switchLiveMainTab('home', this)">
+            <span class="live-nav-text">首页</span>
+        </div>
+        <div class="live-nav-item" style="opacity: 0.5;" onclick="switchLiveMainTab('me', this)">
+            <span class="live-nav-text">我的</span>
+        </div>
+    </div>
+</div>
+
+<!-- 直播间预览/入口弹窗 -->
+<div id="livePreviewModal" class="modal" style="z-index: 10000;">
+    <div class="modal-content" style="background-color: #1f1f1f; color: #fff; border: 1px solid #333; text-align: left; max-height: 80vh; overflow-y: auto;">
+        <div class="modal-title" style="color: #fff; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 15px;">
+            直播间预览
+        </div>
+        
+        <!-- 主播信息 -->
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div id="previewLiveAvatar" style="width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; margin-right: 10px; border: 1px solid #555;"></div>
+            <div>
+                <div id="previewLiveName" style="font-weight: bold; font-size: 16px;">主播名</div>
+                <div style="font-size: 12px; color: #888;">
+                    <i class="ri-user-3-line"></i> <span id="previewLiveViewers">0</span> 在线
+                </div>
+            </div>
+        </div>
+
+        <!-- 【新增】直播完整标题/简介 -->
+        <div style="margin-bottom: 20px;">
+            <div style="font-size: 12px; color: #888; margin-bottom: 5px;">直播主题</div>
+            <div id="previewLiveTitleFull" style="font-size: 16px; font-weight: bold; line-height: 1.5; color: #fff;">
+                <!-- 这里显示完整的标题 -->
+            </div>
+        </div>
+
+        <!-- 画面描述 -->
+        <div style="background: #2c2c2c; padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #ccc; margin-bottom: 20px; max-height: 200px; overflow-y: auto;">
+            <strong style="color: #ff4d4d; display: block; margin-bottom: 5px;">[当前画面]</strong>
+            <span id="previewLiveDescription">...</span>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="modal-btn" onclick="closeLivePreviewModal()" style="background: #333; color: #ccc;">取消</button>
+            <button class="modal-btn" onclick="enterLiveRoom(currentPreviewLiveId)" style="background: #ff4d4d; color: #fff;">进入直播间</button>
+        </div>
+    </div>
+</div>
+
+<!-- 直播设置弹窗 (升级版 - 宽屏黑白风) -->
+<div id="liveSettingsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" style="font-size: 18px; font-weight: 800; margin-bottom: 20px;">直播内容设置</div>
+        
+        <!-- 分割线：推荐板块 -->
+        <div style="font-size: 12px; color: #999; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 5px;">推荐板块 (路人主播)</div>
+
+        <div class="form-group">
+            <label class="form-label" style="font-weight: 600;">推荐世界观</label>
+            <div id="currentLiveRecommendWorldview" class="form-input" style="line-height: 2.5; cursor: pointer; background: #f9f9f9; border: none;" onclick="openLiveWorldviewList('recommend')">
+                默认 (现代日常)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" style="font-weight: 600;">全局提示词</label>
+            <div id="currentLivePrompt" class="form-input" style="line-height: 2.5; cursor: pointer; background: #f9f9f9; border: none;" onclick="openLivePromptList()">
+                无
+            </div>
+        </div>
+
+        <!-- 分割线：关注板块 -->
+        <div style="font-size: 12px; color: #999; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 5px;">关注板块 (好友主播)</div>
+
+        <div class="form-group">
+            <label class="form-label" style="font-weight: 600;">关注世界观</label>
+            <div id="currentLiveFollowingWorldview" class="form-input" style="line-height: 2.5; cursor: pointer; background: #f9f9f9; border: none;" onclick="openLiveWorldviewList('following')">
+                默认 (现代日常)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" style="font-weight: 600;">选择关注的角色</label>
+            <div id="currentLiveCharacters" class="form-input" style="line-height: 2.5; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: #f9f9f9; border: none;" onclick="openLiveCharacterSelect()">
+                点击选择角色...
+            </div>
+        </div>
+
+        <!-- 时长滑块 (黑白风) -->
+        <div class="form-group" style="margin-top: 25px;">
+            <label class="form-label" style="display:flex; justify-content:space-between; font-weight: 600;">
+                <span>生成直播时长</span>
+                <!-- 数字显示为黑色 -->
+                <span style="color:#000; font-weight:bold;"><span id="liveDurationDisplay">60</span>秒</span>
+            </label>
+            <!-- 注意：去掉了 class="doujin-slider"，完全由 CSS id 控制样式 -->
+            <input type="range" id="liveDurationSlider" min="30" max="1000" step="10" value="60" oninput="document.getElementById('liveDurationDisplay').textContent = this.value">
+            <div class="form-hint" style="margin-top: 8px;">时长越长，生成时间越久，消耗Token越多。</div>
+        </div>
+
+        <!-- 弹幕密度 -->
+        <div class="form-group">
+            <label class="form-label" style="font-weight: 600;">弹幕生成密度</label>
+            <select id="liveDanmuDensitySelect" class="form-select arrow-select" style="background:#f9f9f9; border:none;">
+                <option value="low">稀疏 (0-1条/秒)</option>
+                <option value="normal">正常 (1-3条/秒)</option>
+                <option value="high">火爆 (3-8条/秒)</option>
+            </select>
+        </div>
+
+        <div class="modal-buttons" style="margin-top: 30px; gap: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="closeLiveSettingsModal()" style="background: #f5f5f5; color: #666;">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveLiveSettings()" style="background: #000; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新增：直播角色选择弹窗 -->
+<div id="liveCharacterSelectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">选择关注的主播</div>
+        <div id="liveCharacterSelectList" class="multi-select-list" style="max-height: 50vh; overflow-y: auto;">
+            <!-- JS 生成 -->
+        </div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('liveCharacterSelectModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveLiveCharacterSelect()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 直播世界观选择列表 -->
+<div id="liveWorldviewListModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>选择世界观</span>
+            <button class="nav-btn" style="padding: 4px 8px;" onclick="openEditLiveWorldviewModal(null)">+</button>
+        </div>
+        <div id="liveWorldviewList" class="friend-list" style="max-height: 50vh; overflow-y: auto;"></div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('liveWorldviewListModal').classList.remove('show')">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 直播提示词选择列表 -->
+<div id="livePromptListModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>选择提示词</span>
+            <button class="nav-btn" style="padding: 4px 8px;" onclick="openEditLivePromptModal(null)">+</button>
+        </div>
+        <div id="livePromptList" class="friend-list" style="max-height: 50vh; overflow-y: auto;"></div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('livePromptListModal').classList.remove('show')">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑/新建世界观 -->
+<div id="editLiveWorldviewModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" id="editLiveWorldviewTitle">新建世界观</div>
+        <input type="text" class="modal-input" id="liveWorldviewNameInput" placeholder="名称 (如: 赛博朋克)">
+        <textarea class="modal-textarea" id="liveWorldviewContentInput" placeholder="描述这个直播世界的背景、科技水平、热门话题等..." style="min-height: 200px;"></textarea>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('editLiveWorldviewModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveLiveWorldview()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑/新建提示词 -->
+<div id="editLivePromptModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" id="editLivePromptTitle">新建提示词</div>
+        <input type="text" class="modal-input" id="livePromptNameInput" placeholder="名称 (如: 搞怪风格)">
+        <textarea class="modal-textarea" id="livePromptContentInput" placeholder="输入具体的AI指令，例如：直播标题要夸张，主播风格要搞笑..." style="min-height: 200px;"></textarea>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('editLivePromptModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveLivePrompt()">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- 全屏直播间页面 (V3) -->
+<div id="liveRoomScreen" class="page">
+    <!-- 1. 直播间背景 -->
+    <div id="liveRoomBg" class="live-room-bg"></div>
+
+    <!-- 2. 画面描述滚动区 (中间偏上，不再有小标签) -->
+    <div id="liveVisualList" class="live-visual-scroll-area">
+        <!-- 动态生成的描述气泡会放在这里 -->
+    </div>
+
+    <!-- 3. 顶部信息栏 -->
+    <div class="live-room-header">
+        <!-- 左侧：主播 -->
+        <div class="live-host-pill">
+            <div id="liveRoomAvatar" class="live-room-avatar"></div>
+            <div class="live-host-text">
+                <div id="liveRoomName" class="live-host-name">主播名</div>
+                <div class="live-host-sub">6.8w 本场点赞</div>
+            </div>
+            <button class="live-follow-btn">关注</button>
+        </div>
+        
+        <!-- 右侧：观众 + 关闭 -->
+        <div class="live-header-right-part">
+            <!-- 观众头像组 -->
+            <div class="live-viewer-avatars" id="liveViewerAvatars">
+                <!-- JS 填充 -->
+                <div class="viewer-avatar"></div>
+                <div class="viewer-avatar"></div>
+                <div class="viewer-avatar"></div>
+            </div>
+            <div class="live-viewer-count" id="liveRoomViewerCount">1.2w</div>
+            
+            <!-- 关闭按钮 -->
+            <button class="live-close-btn" onclick="quitLiveRoom()">
+                <i class="ri-close-line"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 4. 底部弹幕与操作 -->
+    <div class="live-room-footer">
+        <div id="liveDanmuContainer" class="live-danmu-area"></div>
+
+        <!-- 新增：功能菜单弹出层 (纯白图标版) -->
+<div id="liveMoreMenu" class="live-menu-overlay" onclick="toggleLiveMoreMenu()">
+    <div class="live-action-menu" onclick="event.stopPropagation()">
+        
+        <!-- 按钮1：重播 -->
+        <button class="live-menu-btn" onclick="replayLiveStream()">
+            <!-- 删除了 style="color:..."，图标会自动变白 -->
+            <i class="ri-replay-10-line live-menu-icon"></i>
+            <span>重播</span>
+            <span class="live-menu-desc">从头播放</span>
+        </button>
+
+        <!-- 按钮2：续写 -->
+        <button class="live-menu-btn" onclick="continueLiveStream()">
+            <i class="ri-play-list-add-line live-menu-icon"></i>
+            <span>续写</span>
+            <span class="live-menu-desc">生成后续</span>
+        </button>
+
+        <!-- 按钮3：重新生成 -->
+        <button class="live-menu-btn" onclick="regenerateLiveStream()">
+            <i class="ri-refresh-line live-menu-icon"></i>
+            <span>重随</span>
+            <span class="live-menu-desc">重做上一段</span>
+        </button>
+
+        <!-- 按钮4：倍速 (刚才添加的功能) -->
+        <button class="live-menu-btn" onclick="openLiveVisualSettings()">
+            <i class="ri-speed-line live-menu-icon"></i>
+            <span>倍速</span>
+            <span class="live-menu-desc">调节速度</span>
+        </button>
+
+    </div>
+</div>
+
+        <div class="live-action-bar">
+        <div class="live-chat-input-box" style="padding: 0 10px; background: rgba(0,0,0,0.6);">
+            <!-- 真实的输入框 -->
+            <input type="text" id="liveUserDanmuInput" placeholder="说点什么..." 
+                   style="flex: 1; background: transparent; border: none; color: white; font-size: 14px; outline: none; height: 36px;"
+                   onkeydown="if(event.key === 'Enter') sendLiveDanmu()">
+        </div>
+        
+        <!-- 发送按钮 -->
+        <div class="live-icon-btn" onclick="sendLiveDanmu()" style="background: #ff4d4d; color: white;">
+            <i class="ri-send-plane-fill" style="font-size: 18px;"></i>
+        </div>
+        
+        <div class="live-icon-btn" onclick="toggleLiveMoreMenu()"><i class="ri-more-fill"></i></div>
+        <div class="live-icon-btn"><i class="ri-gift-2-fill" style="color: #ff4d4d;"></i></div>
+    </div>
+    
+</div>
+</div>
+
+<!-- 直播画面设置弹窗 -->
+<div id="liveVisualSettingsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">直播播放设置</div>
+        
+        <div class="form-group" style="margin-bottom: 25px;">
+            <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>播放速度</span>
+                <span id="liveSpeedDisplay" style="font-weight:bold;">1.0x</span>
+            </label>
+            <div style="font-size:12px; color:#999; margin-bottom:15px;">影响画面气泡和弹幕的滚动快慢</div>
+            
+            <!-- 使用 range 滑块，从 0.5x 到 3.0x -->
+            <input type="range" id="liveSpeedSlider" class="font-size-slider" 
+                   min="0.5" max="3.0" step="0.25" value="1.0" 
+                   oninput="updateLiveSpeedPreview(this.value)">
+                   
+            <div style="display:flex; justify-content:space-between; margin-top:5px; font-size:10px; color:#ccc;">
+                <span>0.5x(慢)</span>
+                <span>1.0x(正常)</span>
+                <span>2.0x(快)</span>
+                <span>3.0x(极速)</span>
+            </div>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeLiveVisualSettings()">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveLiveVisualSettings()">确认生效</button>
+        </div>
+    </div>
+</div>
+
+<!-- [新增] 总结提示词选择弹窗 -->
+<div id="summaryPromptSelectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>选择总结风格</span>
+            <button class="nav-btn" style="padding: 4px 8px;" onclick="openEditSummaryPromptModal(null)">+</button>
+        </div>
+        <div id="summaryPromptList" class="friend-list" style="max-height: 50vh; overflow-y: auto;">
+            <!-- 列表由 JS 动态生成 -->
+        </div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-confirm" onclick="document.getElementById('summaryPromptSelectModal').classList.remove('show')">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- [新增] 新建/编辑总结提示词弹窗 -->
+<div id="summaryPromptEditModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title" id="summaryPromptEditTitle">新建提示词</div>
+        <input type="text" class="modal-input" id="summaryPromptTitleInput" placeholder="提示词标题 (如: 极简风格)">
+        <textarea class="modal-textarea" id="summaryPromptContentInput" placeholder="输入对总结的控制指令...&#10;例如：请使用极其简练的语言，只列出最重要的3个事件，忽略心理描写。" style="min-height: 200px;"></textarea>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('summaryPromptEditModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="saveSummaryPrompt()">保存</button>
+        </div>
+    </div>
+</div>
+
     <script>
     
     // 打字机效果
@@ -27795,12 +28876,12 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
         const dbManager = {
             db: null,
             dbName: 'JRSY_DB_V2',
-            dbVersion: 21,
+            dbVersion: 22,
             stores: [
                 'friends', 'chatHistories', 'diaries', 'worldBooks', 'worldBookFolders', 
                 'favorites', 'moments', 'playlist', 'appSettings', 'apiSettings', 'customEmojis',
                 'memories', 'openingStatements' , 'writingStyles', 'skits', 'forumPosts' , 'forumRules', 'forumLikes' , 'bubbleCssPresets', 'stickerGroups','interfaceCssPresets', 'apiPresets', 'cloneApiSettings', 'offlineContentPresets',
-        'voiceAudioCache' , 'fontPresets', 'offlineCssPresets' , 'gameApiSettings' 
+        'voiceAudioCache' , 'fontPresets', 'offlineCssPresets' , 'gameApiSettings' , 'summaryPrompts' 
             ],
 
             // 核心修改：初始化函数现在负责检查和重新连接
@@ -28133,6 +29214,11 @@ let currentForumSubTab = 'recommended'; // 用于记录当前激活的论坛子�
 // --- 粘贴到其他全局变量旁边 ---
 let worldviews = []; // 存储所有世界观
 
+// --- 新增：总结提示词相关变量 ---
+let summaryPrompts = []; // 存储用户自定义的总结提示词列表
+let summaryGlobalSettings = { selectedPromptId: null }; // 存储当前选中的提示词ID
+let currentEditingSummaryPromptId = null; // 暂存正在编辑的提示词ID
+
 // --- ↓↓↓ 用这行新代码替换旧的 forumSettings 定义 ↓↓↓ ---
 let forumSettings = {
     recommendedWorldviewId: 'default_modern_city', // 推荐版块的世界观
@@ -28176,7 +29262,41 @@ let isVideoCallActive = false;
 let videoTimerInterval = null;
 let incomingVideoData = null;
 
-// 1. 数据定义
+let currentLiveSubTab = 'recommend'; // 'recommend' 或 'following'
+let currentLiveMainTab = 'home';     // 'home' 或 'me'
+
+let currentLiveRecommendations = []; // 用于存储直播推荐数据
+let currentPreviewLiveId = null; // 当前正在预览的直播ID
+
+let currentLiveFollowingList = []; 
+// --- 直播App 专用全局变量 ---
+let liveWorldviews = []; // 存储直播世界观
+let livePrompts = [];    // 存储直播全局提示词
+let liveSettings = {
+    worldviewId: null,   // 当前选中的世界观ID
+    promptId: null       // 当前选中的提示词ID
+};
+
+// 全局变量：直播播放速度 (默认为 1.0)
+let currentLiveSpeed = 1.0;
+
+let currentEditingLiveItemId = null; // 临时存储正在编辑的ID
+
+let currentEditingLiveWorldviewTarget = 'recommend'; 
+
+let liveRoomInterval = null;
+let currentLiveScript = null;
+let livePlaybackIndex = 0; // 当前播放到剧本的第几秒
+
+// --- 直播App 独立个人资料 ---
+let liveUserProfile = {
+    name: "直播萌新",
+    avatarImage: "", // 独立头像
+    id: "9527888",   // 独立ID
+    following: 0,
+    fans: 0,
+    likes: 0
+};
 
 // 1. 数据定义 (清空模拟数据，等待读取存档)
 let loversTransactions = [];
@@ -30432,15 +31552,28 @@ storePendingShipmentItems: storePendingShipmentItems,
 
 isBackgroundKeepAliveEnabled: isBackgroundKeepAliveEnabled,
 
+currentLiveRecommendations: currentLiveRecommendations, // <--- 添加这一行
+
+currentLiveFollowingList: currentLiveFollowingList, 
+
+liveWorldviews: liveWorldviews, // 新增
+    livePrompts: livePrompts,       // 新增
+    liveSettings: liveSettings,     // 新增
+
+liveUserProfile: liveUserProfile, 
+
 diaryGlobalSettings: diaryGlobalSettings, // <--- 新增这一行
     diaryStylesLibrary: diaryStylesLibrary,  
+
+summaryGlobalSettings: summaryGlobalSettings,
 
 globalLoversBackground, 
 
 };
                 savePromises.push(dbManager.set('appSettings', appSettings));
                 
-               
+      
+(summaryPrompts || []).forEach(item => savePromises.push(dbManager.set('summaryPrompts', item)));       
                 
                 (openingStatements || []).forEach(item => savePromises.push(dbManager.set('openingStatements', item)));
                 
@@ -30500,7 +31633,7 @@ globalLoversBackground,
                 const [
                     loadedFriends, loadedChatHistories, loadedDiaries, loadedWorldBooks, 
                     loadedWorldBookFolders, loadedFavorites, loadedMoments, loadedPlaylist, 
-                    loadedAppSettings, loadedApiSettings, loadedCustomEmojis, loadedMemories, loadedOpeningStatements, loadedWritingStyles, loadedSkits, loadedForumPosts, loadedForumRules, loadedForumLikes, loadedBubblePresets, loadedInterfacePresets, loadedApiPresets, loadedCloneApiSettings, loadedFontPresets , loadedOfflinePresets, loadedGameApiSettings, loadedStickerGroups, loadedOfflineContentPresets
+                    loadedAppSettings, loadedApiSettings, loadedCustomEmojis, loadedMemories, loadedOpeningStatements, loadedWritingStyles, loadedSkits, loadedForumPosts, loadedForumRules, loadedForumLikes, loadedBubblePresets, loadedInterfacePresets, loadedApiPresets, loadedCloneApiSettings, loadedFontPresets , loadedOfflinePresets, loadedGameApiSettings, loadedStickerGroups, loadedOfflineContentPresets, loadedSummaryPrompts
                 ] = await Promise.all([
                     dbManager.getAll('friends'), dbManager.getAll('chatHistories'), dbManager.getAll('diaries'),
                     dbManager.getAll('worldBooks'), dbManager.getAll('worldBookFolders'), dbManager.getAll('favorites'),
@@ -30535,7 +31668,9 @@ dbManager.get('gameApiSettings', 'settings'),
 
 dbManager.getAll('stickerGroups'),
 
-dbManager.getAll('offlineContentPresets')
+dbManager.getAll('offlineContentPresets'),
+
+dbManager.getAll('summaryPrompts')
 
                 ]);
                 
@@ -30659,6 +31794,9 @@ customEmojis = (loadedCustomEmojis || []).reverse();
 // 恢复应用设置
 const settings = loadedAppSettings;
 
+summaryPrompts = loadedSummaryPrompts || [];
+summaryGlobalSettings = settings.summaryGlobalSettings || { selectedPromptId: null };
+
 // (在 const settings = loadedAppSettings; 的下一行)
 
 // ...紧跟在 const settings = loadedAppSettings; 之后
@@ -30728,6 +31866,18 @@ if (settings) {
     if (bgToggle) bgToggle.checked = isBackgroundKeepAliveEnabled;
 }
 
+if (settings && settings.liveUserProfile) {
+    liveUserProfile = settings.liveUserProfile;
+} else {
+    // 如果是旧数据没有这个字段，初始化默认值
+    liveUserProfile = {
+        name: "直播萌新",
+        avatarImage: "",
+        id: Math.floor(Math.random() * 90000000 + 10000000).toString(),
+        following: 0, fans: 0, likes: 0
+    };
+}
+
 // --- ↓↓↓ 在 loadData 函数中，用这段代码替换 forumSettings 的加载逻辑 ↓↓↓ ---
 
 // 在 loadData 函数内，找到 forumSettings 初始化的地方，修改为：
@@ -30752,6 +31902,10 @@ currentForumPosts = settings.currentForumPosts || [];
 currentGossipPosts = settings.currentGossipPosts || []; 
 
 currentFollowingPosts = settings.currentFollowingPosts || []; 
+
+currentLiveRecommendations = settings.currentLiveRecommendations || []; // <--- 添加这一行
+
+currentLiveFollowingList = settings.currentLiveFollowingList || []; 
 
 currentForumTrends = settings.currentForumTrends || []; // <--- 新增这一行
 
@@ -30862,6 +32016,34 @@ autoSummaryEnabled = settings.autoSummaryEnabled || false; // <-- 【【【新�
                 wechatAppGlobalBgImage = settings.wechatAppGlobalBgImage || '';
                 simPhoneContentCache = settings.simPhoneContentCache || {};
 memoryGenerationTurns = settings.memoryGenerationTurns || 20; // <-- 新增：加载记忆轮数设置
+
+// 在恢复应用设置的部分添加：
+
+liveWorldviews = settings.liveWorldviews || [];
+livePrompts = settings.livePrompts || [];
+
+// --- ▼▼▼ 替换开始 ▼▼▼ ---
+
+liveSettings = settings.liveSettings || { 
+    recommendWorldviewId: null, 
+    followingWorldviewId: null, 
+    promptId: null,             
+    activeAiIds: [],
+    // --- 新增配置 ---
+    duration: 60,           // 默认60秒
+    danmuDensity: 'normal'  // 默认密度 normal (low, normal, high)
+};
+
+// 2. 数据迁移（兼容旧版本）：如果旧数据有 worldviewId，把它赋给 recommendWorldviewId
+if (settings.liveSettings && settings.liveSettings.worldviewId && !liveSettings.recommendWorldviewId) {
+    liveSettings.recommendWorldviewId = settings.liveSettings.worldviewId;
+}
+
+// 3. 确保数组存在
+if (!liveSettings.activeAiIds) {
+    liveSettings.activeAiIds = [];
+}
+// --- ▲▲▲ 替换结束 ▲▲▲ ---
 
 // 在 loadData 函数恢复 appSettings 后添加：
 diaryGlobalSettings = settings.diaryGlobalSettings || { autoWrite: false, selectedStyleId: null };
@@ -31251,6 +32433,7 @@ userPersonas = [userProfile];
       'loversMoodScreen',         // <--- 新增
         'loversMoodSummaryScreen',
      'loversWhisperScreen',           // 悄悄话
+     'live-app-active'
         
     ];
 
@@ -31268,7 +32451,8 @@ userPersonas = [userProfile];
         'chat-screen-active', 
         'reading-mode-active', 
         'store-app-active',
-        'lovers-immersive-active' // <--- 【关键】新增：移除沉浸模式状态
+        'lovers-immersive-active',
+        'live-app-active'
     );
 
     // 2. 根据页面ID添加对应的状态类
@@ -31297,6 +32481,10 @@ userPersonas = [userProfile];
     }
     else if (pageId === 'storeApp') {
          phoneDiv.classList.add('store-app-active');
+    }
+
+else if (pageId === 'liveApp') {
+        phoneDiv.classList.add('live-app-active');
     }
 
     // 3. 处理微信内部页面的标记
@@ -31336,6 +32524,7 @@ userPersonas = [userProfile];
         'games': 'gamesApp',
         'store': 'storeApp',
         'lovers': 'loversSpaceScreen', 
+        'live': 'liveApp',
     };
 
 const phoneDiv = document.querySelector('.phone');
@@ -31406,6 +32595,10 @@ if (appName === 'store') {
 if (appName === 'lovers') {
         renderLoversList();
     }
+    if (appName === 'live') {
+        phoneDiv.classList.remove('shopping-app-active'); // 确保不冲突
+        initLiveApp(); // 初始化直播App
+    }
 
 }
 
@@ -31416,6 +32609,7 @@ function goHome() {
     // 确保返回主屏幕时，移除购物App的激活状态，让状态栏恢复显示
     const phoneDiv = document.querySelector('.phone');
     phoneDiv.classList.remove('shopping-app-active');
+    phoneDiv.classList.remove('live-app-active');
     // ▲▲▲ 新增的核心逻辑结束 ▲▲▲
 
     setActivePage('homeScreen');
@@ -36245,6 +37439,8 @@ function selectFont(fontType) {
         {id: 'games', name: '游戏'}, 
         {id: 'store', name: '商店'}, 
 {id: 'lovers', name: '情侣空间'},
+        {id: 'live', name: '直播'},
+
     ];
 
     apps.forEach(app => {
@@ -36307,6 +37503,7 @@ function getDefaultIconHtml(appId) {
         games: '<i class="ri-gamepad-line"></i>',
         store: '<i class="ri-shopping-bag-line"></i>',
         lovers: '<i class="ri-hearts-line"></i>',
+        live: '<i class="ri-live-fill"></i>',
     };
     // 如果找不到对应的图标，就返回一个问号图标
     return icons[appId] || '<i class="ri-question-mark"></i>';
@@ -36372,7 +37569,7 @@ function applyCustomIcons() {
     }
 
     // 包含主屏幕第一页和第二页的所有图标ID
-    const allIconIds = ['wechat', 'settings', 'worldbook', 'theme', 'phone', 'forum', 'shopping', 'doujin', 'games', 'store', 'idle3'];
+    const allIconIds = ['wechat', 'settings', 'worldbook', 'theme', 'phone', 'forum', 'shopping', 'doujin', 'games', 'store', 'live'];
 
     // 检查并恢复那些没有自定义图标的默认样式
     allIconIds.forEach(id => {
@@ -40884,6 +42081,12 @@ function renderBeautificationSettings() {
                 { key: 'plusMenuPhoto', label: '照片' },
                 { key: 'plusMenuCamera', label: '拍摄' },
                 { key: 'plusMenuVoiceCall', label: '语音通话' },
+                  { key: 'plusMenuVideoCall', label: '视频通话' },
+                { key: 'plusMenuPatPat', label: '拍一拍' },
+                { key: 'plusMenuMars', label: '火星模式' },
+                { key: 'plusMenuRead', label: '一起看书' },
+                { key: 'plusMenuProfile', label: '主页' },
+                { key: 'plusMenuGift', label: '礼物' },
                 { key: 'plusMenuTransfer', label: '转账' },
                 { key: 'plusMenuListen', label: '一起听' },
                 { key: 'plusMenuLocation', label: '位置' },
@@ -41042,7 +42245,10 @@ function applyBeautificationSettings() {
         'plusMenuVoiceCall', 'plusMenuTransfer', 'plusMenuGroupRedEnvelope','plusMenuListen', 'plusMenuLocation',
         'plusMenuMemory', 'plusMenuPoll', 
         'bottomNavIconMessages', 'bottomNavIconDiscover', 'bottomNavIconMe', 'plusMenuOfflineMode', // 加上这一行
-'offlineModeFloatIcon' // 再加上这一行
+'offlineModeFloatIcon' ,
+        'plusMenuVideoCall', 'plusMenuPatPat', 'plusMenuMars', 
+        'plusMenuRead', 'plusMenuProfile', 'plusMenuGift'
+       
     ];
 
     for (const key in beautificationSettings) {
@@ -41218,6 +42424,12 @@ function getSelectorForKey(key) {
         'plusMenuPhoto': '.function-item[onclick="selectPhoto()"] .function-icon',
         'plusMenuCamera': '.function-item[onclick="openCameraModal()"] .function-icon',
         'plusMenuVoiceCall': '.function-item[onclick="startVoiceCall()"] .function-icon',
+        'plusMenuVideoCall': '.function-item[onclick="startVideoCallWrapper()"] .function-icon',
+        'plusMenuPatPat': '.function-item[onclick="triggerMenuPatPat()"] .function-icon',
+        'plusMenuMars': '.function-item[onclick="openMarsMode()"] .function-icon',
+        'plusMenuRead': '.function-item[onclick="openReadTogetherBookshelf()"] .function-icon',
+        'plusMenuProfile': '.function-item[id="btn-chat-profile"] .function-icon', // 这是一个特例，使用ID选择
+        'plusMenuGift': '.function-item[onclick="openGiftInputModal()"] .function-icon',
         'plusMenuTransfer': '.function-item[onclick="openTransferModal()"] .function-icon',
         'plusMenuListen': '.function-item[onclick="openListenTogether()"] .function-icon',
         'plusMenuLocation': '.function-item[onclick="openLocationModal()"] .function-icon',
@@ -41496,7 +42708,21 @@ const sender = msg.type === 'sent' ? activePersona.name : friend.name;
 
         return `${sender}: ${cleanContent}`;
     }).join('\n');
-    
+    // --- 【新增】获取自定义总结提示词 ---
+    let customInstruction = "";
+    // 检查是否有选中的提示词ID
+    if (summaryGlobalSettings.selectedPromptId) {
+        // 在列表里找到对应的提示词对象
+        const selectedPrompt = summaryPrompts.find(p => p.id === summaryGlobalSettings.selectedPromptId);
+        if (selectedPrompt) {
+            // 组装成一段明确的指令
+            customInstruction = `
+    【【【用户特别指令 (最高优先级)】】】
+    用户指定了本次总结的风格或要求，请**严格遵守**以下指令进行总结：
+    ${selectedPrompt.content}
+    ------------------------------`;
+        }
+    }
     // --- 6. 构建 Prompt ---
     const prompt = `
     【你的身份】: 你是一个高度智能的对话概括专家。
@@ -41505,6 +42731,7 @@ const sender = msg.type === 'sent' ? activePersona.name : friend.name;
     仔细阅读并总结以下对话记录。这段记录可能包含“线上聊天”和“线下互动描写”。
     请将它们视为一个连贯的故事，提取其中的**关键事件、情感变化和重要互动**。
 
+${customInstruction} 
     【总结标准 (你必须严格遵守)】:
     1.  **【二合一原则】**: 请生成 **${summaryPointCount}条** 总结点。
     2.  **【全景视角】**: 必须同时包含线上聊天的内容和线下模式（如果有）发生的剧情。
@@ -42757,14 +43984,11 @@ async function saveSummaryFromModal() {
 
 // --- [新增] 手动总结与编辑功能 ---
 
-/**
- * [V2 修正版] 打开“手动输入轮数”的弹窗 (显示实时计算的积压轮数)
- */
+// [修改版] 打开“手动输入轮数”的弹窗
 function openManualSummaryModal() {
     const friend = friends.find(f => f.id === currentChatFriendId);
     if (!friend) return;
 
-    // 【核心修改】调用新函数，获取真实的未总结轮数
     const pendingCount = getRealPendingTurnCount(friend.id);
 
     const modal = document.getElementById('manualSummaryModal');
@@ -42774,13 +43998,15 @@ function openManualSummaryModal() {
 
     title.textContent = "手动生成总结";
     
+    // 【核心新增】更新当前选中的提示词显示
+    updateCurrentSummaryPromptDisplay();
+
     if (pendingCount === 0) {
         p.innerHTML = `当前暂无新对话需要总结。<br>(所有对话都已包含在记忆中)`;
         input.value = 0;
         input.disabled = true;
     } else {
-        p.innerHTML = `当前检测到 <b style="color:#07c160; font-size:18px;">${pendingCount}</b> 轮新对话未总结。<br>请输入本次要处理的轮数（将从最早的未处理消息开始）：`;
-        // 默认填入全部积压数，方便一次性总结完
+        p.innerHTML = `当前检测到 <b style="color:#07c160; font-size:18px;">${pendingCount}</b> 轮新对话未总结。<br>请输入本次要处理的轮数：`;
         input.value = pendingCount;
         input.disabled = false;
         input.max = pendingCount;
@@ -73551,6 +74777,2236 @@ async function deleteOfflineContentPreset(e, id) {
     await dbManager.delete('offlineContentPresets', id);
     offlineContentPresets = offlineContentPresets.filter(i => i.id !== id);
     openOfflineContentPresetList();
+}
+
+// --- 直播 App 逻辑 ---
+
+// 1. 初始化直播App
+function initLiveApp() {
+    // 强制设置页面状态，隐藏系统状态栏
+    const phoneDiv = document.querySelector('.phone');
+    phoneDiv.classList.add('live-app-active');
+    
+    // 初始化时加载推荐列表
+    switchLiveSubTab('recommend', document.querySelector('.live-tab-item.active'));
+    
+    // 初始化“我的”页面数据
+    updateLiveProfile();
+}
+
+// 2. 切换底部主Tab (首页/我的)
+function switchLiveMainTab(tab, element) {
+    currentLiveMainTab = tab;
+    
+    // 更新底部样式
+    document.querySelectorAll('.live-nav-item').forEach(el => {
+        el.style.opacity = '0.5';
+        el.classList.remove('active');
+    });
+    if (element) {
+        element.style.opacity = '1';
+        element.classList.add('active');
+    }
+
+    // 切换视图
+    if (tab === 'home') {
+        document.getElementById('liveHomeView').style.display = 'block';
+        document.getElementById('liveMeView').style.display = 'none';
+        document.querySelector('.live-top-tabs').style.display = 'flex'; // 显示顶部标签
+    } else {
+        document.getElementById('liveHomeView').style.display = 'none';
+        document.getElementById('liveMeView').style.display = 'block';
+        document.querySelector('.live-top-tabs').style.display = 'none'; // 隐藏顶部标签
+        updateLiveProfile();
+    }
+}
+
+// 3. 切换顶部子Tab (推荐/关注)
+function switchLiveSubTab(tab, element) {
+    currentLiveSubTab = tab;
+    
+    // 更新顶部样式
+    if (element) {
+        document.querySelectorAll('.live-top-tabs .live-tab-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+    }
+    
+    // 生成数据并渲染
+    const list = generateLiveList(tab);
+    renderLiveGrid(list);
+}
+
+// [修改] 生成/获取直播数据
+function generateLiveList(type) {
+    if (type === 'following') {
+        // 如果有缓存的关注列表数据，直接返回
+        if (currentLiveFollowingList && currentLiveFollowingList.length > 0) {
+            return currentLiveFollowingList;
+        }
+        
+       
+        return [];
+    } else {
+        // 推荐板块
+        return currentLiveRecommendations || [];
+    }
+}
+
+/**
+ * [修改版] 渲染直播网格列表
+ * 修复：支持 Base64 头像显示
+ */
+function renderLiveGrid(data) {
+    const container = document.getElementById('liveListContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    // --- 1. 处理空数据状态 ---
+    if (!data || data.length === 0) {
+        if (currentLiveSubTab === 'following') {
+             // 情况A: 关注列表为空
+             if (!liveSettings.activeAiIds || liveSettings.activeAiIds.length === 0) {
+                 container.innerHTML = `
+                 <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
+                    <i class="ri-user-add-line" style="font-size: 40px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                    <p>还没有关注的主播</p>
+                    <span onclick="openLiveSettingsModal()" style="color:#ff4d4d; text-decoration:underline; cursor:pointer; font-size:14px; margin-top:5px; display:inline-block;">去左上角设置添加</span>
+                 </div>`;
+             } else {
+                 container.innerHTML = `
+                 <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
+                    <i class="ri-signal-tower-line" style="font-size: 40px; margin-bottom: 10px; display: block; opacity: 0.5;"></i>
+                    <p>正在连接好友信号...</p>
+                    <p style="font-size:12px; margin-top:5px;">(请点击右上角刷新按钮)</p>
+                 </div>`;
+             }
+        } else {
+             // 情况B: 推荐列表为空
+             container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">暂无推荐内容，请刷新</div>`;
+        }
+        return;
+    }
+    
+    // --- 2. 遍历渲染卡片 ---
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'live-card';
+        
+        // 绑定点击事件：打开预览
+        card.onclick = () => {
+            openLivePreviewModal(item.id);
+        };
+        
+        // --- 【核心修复】头像样式处理 (兼容 Base64 和 HTTP) ---
+        let avatarStyle = "";
+        let avatarContent = "";
+        
+        // 只要有 avatar 且不为空字符串，就认为是图片
+        if (item.avatar && item.avatar.length > 5) {
+            avatarStyle = `background-image: url('${item.avatar}');`;
+            avatarContent = "";
+        } else {
+            // 是文字 (例如好友的名字首字)
+            avatarStyle = `background-color: #333; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;`;
+            avatarContent = item.name ? item.name[0] : "?";
+        }
+        
+        const viewerStr = formatViewerCount(item.viewers);
+
+        card.innerHTML = `
+            <!-- 背景 (深色渐变) -->
+            <div style="width:100%; height:100%; background: linear-gradient(45deg, #1a1a1a, #2c2c2c);"></div>
+
+            <!-- 直播中标签 -->
+            <div class="live-tag-badge">
+                <div class="live-pulse-dot"></div>
+                <span>直播中</span>
+            </div>
+            
+            <!-- 底部信息浮层 -->
+            <div class="live-info-overlay">
+                <div class="live-title">${item.title}</div>
+                <div class="live-author-row">
+                    <div class="live-author-avatar" style="${avatarStyle}">${avatarContent}</div>
+                    <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width: 80px;">${item.name}</span>
+                    
+                    <span class="live-viewer-count">
+                        <i class="ri-user-3-line" style="font-size: 12px;"></i> ${viewerStr}
+                    </span>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// [修改版] 更新直播App“我的”页面信息 (带默认占位图)
+function updateLiveProfile() {
+    const avatarEl = document.getElementById('liveMeAvatar');
+    const nameEl = document.getElementById('liveMeName').querySelector('span');
+    const idEl = document.getElementById('liveMeId');
+    const followEl = document.getElementById('liveMeFollowing');
+    const fansEl = document.getElementById('liveMeFans');
+    const likesEl = document.getElementById('liveMeLikes');
+
+    // 1. 定义一个默认占位图 (你可以换成任何你喜欢的图片链接)
+    // 这里使用一个通用的灰色用户头像
+    const defaultPlaceholder = "https://img.icons8.com/ios-filled/200/cccccc/user.png";
+
+    // 2. 设置头像逻辑
+    // 无论是有自定义头像，还是没有，我们都统一用 backgroundImage 来显示
+    const imgToShow = liveUserProfile.avatarImage || defaultPlaceholder;
+
+    avatarEl.style.backgroundImage = `url('${imgToShow}')`;
+    avatarEl.style.backgroundSize = 'cover';
+    avatarEl.style.backgroundPosition = 'center';
+    avatarEl.style.backgroundColor = '#f0f0f0'; // 给一个浅灰底色，防止透明图看不清
+    avatarEl.innerText = ''; // 清空文字，确保不显示名字首字母
+
+    // 3. 设置其他文本
+    nameEl.textContent = liveUserProfile.name || "点击修改昵称";
+    idEl.innerHTML = `ID: ${liveUserProfile.id} <i class="ri-edit-box-line"></i>`;
+    
+    // 4. 设置数据
+    followEl.textContent = liveUserProfile.following || 0;
+    fansEl.textContent = liveUserProfile.fans || 0;
+    likesEl.textContent = liveUserProfile.likes || 0;
+}
+
+/**
+ * [核心] 初始化直播App
+ * 修改逻辑：如果是第一次进入（列表为空），则自动触发生成
+ */
+function initLiveApp() {
+    // 1. 设置状态栏
+    const phoneDiv = document.querySelector('.phone');
+    phoneDiv.classList.add('live-app-active');
+    
+    // 2. 检查是否有数据
+    if (!currentLiveRecommendations || currentLiveRecommendations.length === 0) {
+        // 如果没有数据，切换到推荐页并生成
+        switchLiveSubTab('recommend', document.querySelector('.live-tab-item.active'));
+        generateLiveRecommendations(); // <--- 触发生成
+    } else {
+        // 如果有数据，直接渲染
+        switchLiveSubTab('recommend', document.querySelector('.live-tab-item.active'));
+    }
+    
+    updateLiveProfile();
+}
+
+/**
+ * [修改版] 调用 API 生成 20 个直播间数据
+ * 支持自定义世界观和全局提示词 (isForceRefresh参数用于按钮强制刷新)
+ */
+async function generateLiveRecommendations(isForceRefresh = false) {
+    const container = document.getElementById('liveListContainer');
+    const refreshBtn = document.getElementById('liveRefreshBtn');
+
+    // 1. 检查 API
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:red;">请先配置API</div>';
+        return;
+    }
+
+    // 2. UI 状态
+    if (isForceRefresh) {
+        if (refreshBtn) refreshBtn.classList.add('rotate-anim');
+        showToast("正在搜索直播信号...");
+    }
+    
+    if (container.innerHTML.trim() === '' || isForceRefresh) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #888;">
+            <div class="loading-spinner" style="width:30px;height:30px;border-width:3px;margin:0 auto 10px;"></div>
+            正在搜索直播信号...
+        </div>`;
+    }
+
+    // 3. 【核心】构建上下文
+    let contextPrompt = "";
+    
+    // --- 【核心修复开始】 ---
+    // 之前写的是 liveSettings.worldviewId，这会导致读不到数据。
+    // 必须改为 liveSettings.recommendWorldviewId
+    if (liveSettings.recommendWorldviewId) {
+        const wv = liveWorldviews.find(i => i.id === liveSettings.recommendWorldviewId);
+        if (wv) {
+            contextPrompt += `\n【当前直播世界观】: ${wv.content}\n请确保生成的直播内容（标题、描述、主播风格）完全符合这个世界观的设定。\n`;
+        }
+    } else {
+        contextPrompt += `\n【当前直播世界观】: 默认现代互联网直播环境（抖音/TikTok风格）。\n`;
+    }
+    // --- 【核心修复结束】 ---
+
+    // 注入全局提示词
+    if (liveSettings.promptId) {
+        const pmt = livePrompts.find(i => i.id === liveSettings.promptId);
+        if (pmt) {
+            contextPrompt += `\n【额外全局指令】: ${pmt.content}\n`;
+        }
+    }
+
+    const temp = parseFloat(settings.apiTemperature) || 1.0;
+
+    const prompt = `
+【任务】: 请生成 **20个** 不同类型的直播间数据。
+
+${contextPrompt}
+
+【要求】:
+1.  **多样性**: 涵盖 该世界观下的各种可能性。例如如果是修仙世界，可以是“直播炼丹”、“御剑飞行教学”；如果是现代，可以是“颜值”、“游戏”、“带货”等。
+2.  **网感**: 标题要吸引眼球，符合直播平台的调性。
+3.  **画面描述**: \`description\` 字段是对直播间当前画面的**详细文字描述**（30-60字）。包含主播动作、背景、氛围。
+4.  **观看人数**: \`viewers\` 是一个纯数字，随机分布。
+
+【输出格式】:
+必须返回一个纯净的 JSON 数组 \`[]\`，包含 20 个对象。格式如下：
+{
+  "name": "主播网名",
+  "title": "直播间标题",
+  "viewers": 12345,
+  "description": "详细的画面描述..."
+}
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: parseFloat(settings.apiTemperature) || 1.0 // <--- 修改这一行
+            })
+        });
+
+        if (!response.ok) throw new Error("API请求失败");
+
+        const data = await response.json();
+        const contentStr = data.choices[0].message.content;
+        const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+        
+        if (!jsonMatch) throw new Error("JSON解析失败");
+        
+        const generatedList = JSON.parse(jsonMatch[0]);
+
+        // 数据后处理：添加头像和ID
+        currentLiveRecommendations = generatedList.map((item, index) => {
+            return {
+                id: `live_rec_${Date.now()}_${index}`,
+                name: item.name,
+                title: item.title,
+                viewers: item.viewers,
+                description: item.description,
+                // 随机分配一个头像
+                avatar: passerbyAvatarUrls[Math.floor(Math.random() * passerbyAvatarUrls.length)],
+                isFriend: false
+            };
+        });
+
+        await saveData(); // 保存
+        
+        // 渲染
+        renderLiveGrid(currentLiveRecommendations);
+        if (isForceRefresh) showToast("直播列表已更新");
+
+    } catch (e) {
+        console.error("生成直播失败", e);
+        container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">
+            加载失败: ${e.message}<br><span onclick="generateLiveRecommendations(true)" style="color:#ff4d4d;cursor:pointer;">点击重试</span>
+        </div>`;
+    } finally {
+        if (refreshBtn) refreshBtn.classList.remove('rotate-anim');
+    }
+}
+
+/**
+ * [修改] 打开直播预览弹窗
+ */
+function openLivePreviewModal(liveId) {
+    // 1. 先在推荐里找
+    let liveData = (currentLiveRecommendations || []).find(l => l.id === liveId);
+    
+    // 2. 没找到，去关注列表里找
+    if (!liveData) {
+        liveData = (currentLiveFollowingList || []).find(l => l.id === liveId);
+    }
+    
+    if (!liveData) {
+        console.warn("未找到直播数据，ID:", liveId);
+        return; 
+    }
+
+    currentPreviewLiveId = liveId;
+
+    // 2. 填充弹窗数据
+    document.getElementById('previewLiveAvatar').style.backgroundImage = `url('${liveData.avatar}')`;
+    document.getElementById('previewLiveName').textContent = liveData.name;
+    document.getElementById('previewLiveViewers').textContent = formatViewerCount(liveData.viewers);
+    
+    // 【新增】填充完整的标题/简介
+    document.getElementById('previewLiveTitleFull').textContent = liveData.title || "无标题";
+
+    // 填充画面描述
+    document.getElementById('previewLiveDescription').textContent = liveData.description || "主播正在激情直播中，快进去看看吧！";
+
+    // 3. 显示弹窗
+    document.getElementById('livePreviewModal').classList.add('show');
+}
+
+/**
+ * 关闭预览弹窗
+ */
+function closeLivePreviewModal() {
+    document.getElementById('livePreviewModal').classList.remove('show');
+}
+
+// [修改版 V7] 进入直播间 - 支持分流生成
+async function enterLiveRoom(liveId) {
+    closeLivePreviewModal();
+
+    // 1. 查找数据
+    let liveData = currentLiveRecommendations.find(l => l.id === liveId);
+    let isFriendRoom = false;
+
+    // 如果推荐列表里没有，去关注列表里找
+    if (!liveData) {
+        liveData = (currentLiveFollowingList || []).find(l => l.id === liveId);
+        if (liveData) {
+            isFriendRoom = true; // 标记为好友房间
+        }
+    }
+    
+    if (!liveData) return showAlert("无法加载直播数据。");
+
+    // --- UI 初始化 (背景/头像) ---
+    const bgEl = document.getElementById('liveRoomBg');
+    const avatarEl = document.getElementById('liveRoomAvatar');
+    const visualList = document.getElementById('liveVisualList'); 
+    const danmuContainer = document.getElementById('liveDanmuContainer');
+    const viewerAvatarsContainer = document.getElementById('liveViewerAvatars');
+
+    // 设置背景和头像
+    if (liveData.avatar && liveData.avatar.length > 5) {
+        bgEl.style.backgroundImage = `url('${liveData.avatar}')`;
+        avatarEl.style.backgroundImage = `url('${liveData.avatar}')`;
+        avatarEl.innerText = '';
+    } else {
+        bgEl.style.backgroundColor = '#333';
+        bgEl.style.backgroundImage = 'none';
+        avatarEl.style.backgroundColor = '#555';
+        avatarEl.style.backgroundImage = 'none';
+        avatarEl.innerText = liveData.name[0];
+    }
+
+    document.getElementById('liveRoomName').textContent = liveData.name;
+    document.getElementById('liveRoomViewerCount').textContent = formatViewerCount(liveData.viewers);
+    
+    // 清空旧内容
+    visualList.innerHTML = '';
+    danmuContainer.innerHTML = '';
+    viewerAvatarsContainer.innerHTML = ''; 
+    
+    // 模拟观众头像
+    for (let i = 0; i < 3; i++) {
+        const div = document.createElement('div');
+        div.className = 'viewer-avatar';
+        const randomUrl = passerbyAvatarUrls[Math.floor(Math.random() * passerbyAvatarUrls.length)];
+        div.style.backgroundImage = `url('${randomUrl}')`;
+        viewerAvatarsContainer.appendChild(div);
+    }
+    
+    document.getElementById('liveMoreMenu').classList.remove('show');
+    setActivePage('liveRoomScreen');
+    document.querySelector('.phone').classList.add('status-bar-hidden');
+
+    if (liveRoomInterval) {
+        clearInterval(liveRoomInterval);
+        liveRoomInterval = null;
+    }
+
+    // --- 【核心分流逻辑】 ---
+    if (liveData.savedScript && liveData.savedScript.length > 0) {
+        console.log("加载存档，瞬间渲染...");
+        currentLiveScript = liveData.savedScript;
+        renderFullLiveScript(currentLiveScript);
+        const maxTime = Math.max(...currentLiveScript.map(e => e.time));
+        livePlaybackIndex = maxTime + 1;
+    } else {
+        // 无存档，生成新脚本
+        const loadingBubble = document.createElement('div');
+        loadingBubble.className = 'live-visual-bubble';
+        loadingBubble.id = 'liveLoadingBubble';
+        loadingBubble.textContent = isFriendRoom 
+            ? `正在连接 ${liveData.name} 的直播间...\n(好友直播生成中)` 
+            : "正在连接直播信号...\n(AI 正在生成实时画面)";
+        visualList.appendChild(loadingBubble);
+
+        try {
+            if (isFriendRoom) {
+                // 如果是好友/关注板块 -> 调用新函数
+                await generateFriendLiveScript(liveData);
+            } else {
+                // 如果是路人/推荐板块 -> 调用旧函数
+                await generateLiveStreamScript(liveData);
+            }
+        } catch (e) {
+            if(loadingBubble) loadingBubble.textContent = "信号中断，请退出重试。";
+            console.error(e);
+        }
+    }
+}
+
+/**
+ * 辅助：格式化人数
+ */
+function formatViewerCount(num) {
+    return num > 10000 ? (num / 10000).toFixed(1) + 'w' : num;
+}
+
+// =========================================
+// START: 直播设置逻辑
+// =========================================
+
+// 打开设置主弹窗
+function openLiveSettingsModal() {
+    updateLiveSettingsDisplay();
+    
+    // --- 新增：回显时长设置 ---
+    const duration = liveSettings.duration || 60;
+    const durSlider = document.getElementById('liveDurationSlider');
+    const durDisplay = document.getElementById('liveDurationDisplay');
+    if (durSlider) {
+        durSlider.value = duration;
+        durDisplay.textContent = duration;
+    }
+
+    // --- 新增：回显密度设置 ---
+    const densitySelect = document.getElementById('liveDanmuDensitySelect');
+    if (densitySelect) {
+        densitySelect.value = liveSettings.danmuDensity || 'normal';
+    }
+
+    document.getElementById('liveSettingsModal').classList.add('show');
+}
+
+// 更新设置弹窗显示
+function updateLiveSettingsDisplay() {
+    // 1. 推荐世界观
+    const recWvDisplay = document.getElementById('currentLiveRecommendWorldview');
+    if (liveSettings.recommendWorldviewId) {
+        const wv = liveWorldviews.find(i => i.id === liveSettings.recommendWorldviewId);
+        recWvDisplay.textContent = wv ? wv.name : '默认 (现代日常)';
+    } else {
+        recWvDisplay.textContent = '默认 (现代日常)';
+    }
+
+    // 2. 关注世界观
+    const folWvDisplay = document.getElementById('currentLiveFollowingWorldview');
+    if (liveSettings.followingWorldviewId) {
+        const wv = liveWorldviews.find(i => i.id === liveSettings.followingWorldviewId);
+        folWvDisplay.textContent = wv ? wv.name : '默认 (现代日常)';
+    } else {
+        folWvDisplay.textContent = '默认 (现代日常)';
+    }
+
+    // 3. 全局提示词
+    const pDisplay = document.getElementById('currentLivePrompt');
+    if (liveSettings.promptId) {
+        const p = livePrompts.find(i => i.id === liveSettings.promptId);
+        pDisplay.textContent = p ? p.name : '无';
+    } else {
+        pDisplay.textContent = '无';
+    }
+    
+    // 4. 关注的角色
+    const charDisplay = document.getElementById('currentLiveCharacters');
+    const selectedCount = liveSettings.activeAiIds ? liveSettings.activeAiIds.length : 0;
+    if (selectedCount > 0) {
+        const names = liveSettings.activeAiIds.map(id => {
+            const f = friends.find(friend => friend.id === id);
+            return f ? (f.remark || f.name) : '';
+        }).filter(Boolean).slice(0, 3).join('、');
+        charDisplay.textContent = `已选 ${selectedCount} 人: ${names}${selectedCount > 3 ? '...' : ''}`;
+    } else {
+        charDisplay.textContent = "点击选择角色...";
+    }
+}
+
+// 打开世界观列表 (带参数)
+function openLiveWorldviewList(target) {
+    currentEditingLiveWorldviewTarget = target;
+    renderLiveItemList('worldview'); // 复用原本的渲染逻辑，它会读取 currentEditingLiveWorldviewTarget 来高亮
+    document.getElementById('liveWorldviewListModal').classList.add('show');
+}
+
+function openEditLiveWorldviewModal(id) {
+    currentEditingLiveItemId = id;
+    const title = document.getElementById('editLiveWorldviewTitle');
+    const nameInput = document.getElementById('liveWorldviewNameInput');
+    const contentInput = document.getElementById('liveWorldviewContentInput');
+
+    if (id) {
+        const item = liveWorldviews.find(i => i.id === id);
+        title.textContent = '编辑世界观';
+        nameInput.value = item.name;
+        contentInput.value = item.content;
+    } else {
+        title.textContent = '新建世界观';
+        nameInput.value = '';
+        contentInput.value = '';
+    }
+    document.getElementById('editLiveWorldviewModal').classList.add('show');
+}
+
+async function saveLiveWorldview() {
+    const name = document.getElementById('liveWorldviewNameInput').value.trim();
+    const content = document.getElementById('liveWorldviewContentInput').value.trim();
+    if (!name || !content) return showAlert("名称和内容不能为空");
+
+    if (currentEditingLiveItemId) {
+        const index = liveWorldviews.findIndex(i => i.id === currentEditingLiveItemId);
+        if (index > -1) {
+            liveWorldviews[index].name = name;
+            liveWorldviews[index].content = content;
+        }
+    } else {
+        liveWorldviews.push({
+            id: `live_wv_${Date.now()}`,
+            name: name,
+            content: content
+        });
+    }
+    await saveData();
+    document.getElementById('editLiveWorldviewModal').classList.remove('show');
+    renderLiveItemList('worldview');
+    updateLiveSettingsDisplay();
+}
+
+// [修改] 选择世界观
+function selectLiveWorldview(id) {
+    if (currentEditingLiveWorldviewTarget === 'following') {
+        liveSettings.followingWorldviewId = id;
+    } else {
+        liveSettings.recommendWorldviewId = id;
+    }
+    saveData();
+    updateLiveSettingsDisplay();
+    document.getElementById('liveWorldviewListModal').classList.remove('show');
+}
+
+// --- 全局提示词管理 ---
+
+function openLivePromptList() {
+    renderLiveItemList('prompt');
+    document.getElementById('livePromptListModal').classList.add('show');
+}
+
+function openEditLivePromptModal(id) {
+    currentEditingLiveItemId = id;
+    const title = document.getElementById('editLivePromptTitle');
+    const nameInput = document.getElementById('livePromptNameInput');
+    const contentInput = document.getElementById('livePromptContentInput');
+
+    if (id) {
+        const item = livePrompts.find(i => i.id === id);
+        title.textContent = '编辑提示词';
+        nameInput.value = item.name;
+        contentInput.value = item.content;
+    } else {
+        title.textContent = '新建提示词';
+        nameInput.value = '';
+        contentInput.value = '';
+    }
+    document.getElementById('editLivePromptModal').classList.add('show');
+}
+
+async function saveLivePrompt() {
+    const name = document.getElementById('livePromptNameInput').value.trim();
+    const content = document.getElementById('livePromptContentInput').value.trim();
+    if (!name || !content) return showAlert("名称和内容不能为空");
+
+    if (currentEditingLiveItemId) {
+        const index = livePrompts.findIndex(i => i.id === currentEditingLiveItemId);
+        if (index > -1) {
+            livePrompts[index].name = name;
+            livePrompts[index].content = content;
+        }
+    } else {
+        livePrompts.push({
+            id: `live_pmt_${Date.now()}`,
+            name: name,
+            content: content
+        });
+    }
+    await saveData();
+    document.getElementById('editLivePromptModal').classList.remove('show');
+    renderLiveItemList('prompt');
+    updateLiveSettingsDisplay();
+}
+
+function selectLivePrompt(id) {
+    liveSettings.promptId = id;
+    saveData();
+    updateLiveSettingsDisplay();
+    document.getElementById('livePromptListModal').classList.remove('show');
+}
+
+// --- 通用渲染列表函数 ---
+function renderLiveItemList(type) {
+    const containerId = type === 'worldview' ? 'liveWorldviewList' : 'livePromptList';
+    const list = type === 'worldview' ? liveWorldviews : livePrompts;
+    const selectedId = type === 'worldview' ? liveSettings.worldviewId : liveSettings.promptId;
+    const selectFn = type === 'worldview' ? 'selectLiveWorldview' : 'selectLivePrompt';
+    const editFn = type === 'worldview' ? 'openEditLiveWorldviewModal' : 'openEditLivePromptModal';
+    const deleteFn = 'deleteLiveItem'; // 通用删除
+
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+
+    // "不使用/默认" 选项
+    const defaultItem = document.createElement('div');
+    defaultItem.className = 'opening-statement-item'; // 复用现有样式
+    defaultItem.innerHTML = `<span style="flex-grow:1;">${type === 'worldview' ? '默认 (现代日常)' : '不使用'}</span>`;
+    defaultItem.onclick = () => window[selectFn](null);
+    if (!selectedId) defaultItem.style.background = '#f0f0f0';
+    container.appendChild(defaultItem);
+
+    list.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'opening-statement-item';
+        if (item.id === selectedId) div.style.background = '#f0f0f0'; // 高亮选中
+        
+        div.innerHTML = `
+            <span onclick="${selectFn}('${item.id}')" style="flex-grow: 1;">${item.name}</span>
+            <div class="item-actions">
+                <span class="edit-btn" onclick="${editFn}('${item.id}'); event.stopPropagation();">✎</span>
+                <span class="delete-btn" onclick="${deleteFn}(event, '${type}', '${item.id}')">✕</span>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+async function deleteLiveItem(event, type, id) {
+    event.stopPropagation();
+    if (!confirm("确定删除吗？")) return;
+
+    if (type === 'worldview') {
+        liveWorldviews = liveWorldviews.filter(i => i.id !== id);
+        if (liveSettings.worldviewId === id) liveSettings.worldviewId = null;
+    } else {
+        livePrompts = livePrompts.filter(i => i.id !== id);
+        if (liveSettings.promptId === id) liveSettings.promptId = null;
+    }
+    
+    await saveData();
+    renderLiveItemList(type);
+    updateLiveSettingsDisplay();
+}
+
+// =========================================
+// END: 直播设置逻辑
+// =========================================
+
+// [新增] 打开角色选择
+function openLiveCharacterSelect() {
+    const container = document.getElementById('liveCharacterSelectList');
+    container.innerHTML = '';
+    
+    friends.filter(f => !f.isGroup).forEach(friend => {
+        const isChecked = (liveSettings.activeAiIds || []).includes(friend.id);
+        const item = document.createElement('div');
+        item.className = 'multi-select-item';
+        item.innerHTML = `
+            <input type="checkbox" id="live-char-${friend.id}" value="${friend.id}" ${isChecked ? 'checked' : ''}>
+            <label for="live-char-${friend.id}">${friend.remark || friend.name}</label>
+        `;
+        container.appendChild(item);
+    });
+    
+    document.getElementById('liveCharacterSelectModal').classList.add('show');
+}
+
+// [新增] 保存角色选择
+function saveLiveCharacterSelect() {
+    const selectedIds = [];
+    document.querySelectorAll('#liveCharacterSelectList input:checked').forEach(cb => {
+        selectedIds.push(cb.value);
+    });
+    liveSettings.activeAiIds = selectedIds;
+    
+    saveData();
+    updateLiveSettingsDisplay();
+    document.getElementById('liveCharacterSelectModal').classList.remove('show');
+}
+
+/**
+ * [新增] 直播页面的统一刷新入口
+ * 点击右上角刷新按钮时触发，根据当前所在的标签页（推荐/关注）执行不同的生成逻辑
+ */
+async function refreshLiveContent() {
+    const btn = document.getElementById('liveRefreshBtn');
+    
+    // 防止重复点击（如果已经在旋转，就直接返回）
+    if (btn && btn.classList.contains('rotate-anim')) return;
+
+    if (currentLiveSubTab === 'recommend') {
+        // 如果当前在“推荐”页，调用原来的生成函数
+        await generateLiveRecommendations(true);
+    } else {
+        // 如果当前在“关注”页，调用新的关注生成函数
+        // (generateLiveFollowing 函数在之前的回答中已经提供，也需要粘贴到脚本里)
+        await generateLiveFollowing(true);
+    }
+}
+
+/**
+ * [全新] 生成关注列表的直播 (一次性生成所有选中角色)
+ */
+async function generateLiveFollowing(isForceRefresh = false) {
+    const container = document.getElementById('liveListContainer');
+    const refreshBtn = document.getElementById('liveRefreshBtn');
+
+    // 1. 检查 API
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        return showAlert("请先配置API");
+    }
+    
+    // 2. 检查是否有选中的角色
+    if (!liveSettings.activeAiIds || liveSettings.activeAiIds.length === 0) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">还没有关注的主播<br>请点击左上角设置 -> 选择关注的角色</div>';
+        return;
+    }
+
+    // 3. UI 反馈
+    if (isForceRefresh) {
+        if (refreshBtn) refreshBtn.classList.add('rotate-anim');
+        showToast("正在连接好友直播间...");
+    }
+    
+    // 4. 准备角色情报
+    const selectedFriends = friends.filter(f => liveSettings.activeAiIds.includes(f.id));
+    
+    // 获取世界观信息
+    let worldviewContext = "默认世界观：现代日常网络直播环境。";
+    let isDefaultWorld = true;
+    if (liveSettings.followingWorldviewId) {
+        const wv = liveWorldviews.find(i => i.id === liveSettings.followingWorldviewId);
+        if (wv) {
+            worldviewContext = `【当前直播世界观】: ${wv.content}`;
+            isDefaultWorld = false;
+        }
+    }
+
+    // 构建每个角色的档案
+    const characterProfiles = selectedFriends.map(friend => {
+        const personaId = friend.activeUserPersonaId || 'default_user';
+        const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+        
+        let memoryInfo = "";
+        
+        // 只有在默认世界观下，才大量读取聊天记录和总结，以保证“贴合现实”
+        // 在架空世界观下，主要依靠人设和世界观设定，避免OOC
+        if (isDefaultWorld) {
+            // 读取聊天记录
+            const history = (chatHistories[friend.id] || []).slice(-10).map(m => 
+                `${m.type === 'sent' ? persona.name : friend.name}: ${summarizeMessageContentForAI(m)}`
+            ).join(' | ');
+            
+            // 读取最新的一条总结
+            const memories = characterMemories[friend.id] || [];
+            const lastMemory = memories.length > 0 ? memories[memories.length-1].content.substring(0, 100) : "";
+            
+            memoryInfo = `
+            - 最近聊天氛围: ${history || '无'}
+            - 你们的关系记忆: ${lastMemory || '无'}
+            `;
+        }
+
+        return `
+        --- 角色ID: "${friend.id}" ---
+        - 姓名: "${friend.name}"
+        - 人设: "${friend.role}"
+        - 观看者(用户)人设: "${persona.name}" (${persona.personality || '普通人'})
+        ${memoryInfo}
+        ---------------------------
+        `;
+    }).join('\n');
+
+    // 5. 构建 Prompt (修复版：公共直播风格)
+    const prompt = `
+【任务】: 你是一个直播内容生成器。你需要为列表中的 **${selectedFriends.length} 位角色** 分别生成一个正在进行的直播间状态。
+
+${worldviewContext}
+
+【【【创作铁律 (最高优先级)】】】
+1.  **【公共直播场景】**: 
+    - 角色正在面向**所有观众**直播，**并不**知道特定用户（${userProfile.name}）正在刷列表看TA。
+    - **严禁**出现“看到你来了”、“欢迎你”等针对特定用户的语句。
+    - **应该**描写：正在做的事、正在回应路人弹幕、正在感谢礼物、或者专注才艺/游戏。
+
+2.  **【人设贴合】**: 
+    - 必须根据角色的**性格**和**职业/兴趣**来设计直播内容。
+    - 例如：学霸直播自习、吃货直播探店、傲娇直播打游戏喷队友、温柔角色直播聊天哄睡。
+    - 如果是架空世界观，请让角色从事符合该世界的活动（如修仙者直播炼丹）。
+
+3.  **【标题风格】**: 标题要有吸引力，符合抖音/B站/直播平台的调性（可使用震惊体、疑问句或唯美风）。
+
+4.  **【画面描述 (description)】**: 
+    - 30-60字。
+    - 描写主播当前的**动作、神态**以及**直播间的氛围**。
+    - 示例："手里拿着奶茶，正在笑着读弹幕评论。" / "全神贯注地盯着屏幕打游戏，眉头微皱。"
+
+【角色列表】:
+${characterProfiles}
+
+【输出格式】:
+必须返回一个纯净的 JSON 数组 \`[]\`，包含 ${selectedFriends.length} 个对象。
+每个对象格式如下：
+{
+  "friendId": "角色ID (原样返回)",
+  "title": "直播标题",
+  "viewers": 1234,
+  "description": "详细的画面描述..."
+}
+`;
+
+    try {
+        // 6. 发送请求
+        // 获取自定义温度
+        const temp = parseFloat(settings.apiTemperature) || 1.0;
+        
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: parseFloat(settings.apiTemperature) || 1.0 
+            })
+        });
+
+        if (!response.ok) throw new Error("API请求失败");
+
+        const data = await response.json();
+        const contentStr = data.choices[0].message.content;
+        const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+        
+        if (!jsonMatch) throw new Error("JSON解析失败");
+        
+        const generatedList = JSON.parse(jsonMatch[0]);
+
+        // 7. 处理数据并转换格式
+        // 注意：关注列表的数据我们不存入 currentLiveRecommendations（那是推荐列表的），
+        // 而是直接渲染，或者存入一个新的全局变量 currentLiveFollowingList
+        currentLiveFollowingList = generatedList.map(item => {
+            const friend = friends.find(f => f.id === item.friendId);
+            if (!friend) return null;
+            
+            return {
+                id: `live_friend_${friend.id}`, // 特殊ID前缀
+                name: friend.remark || friend.name,
+                avatar: friend.avatarImage || '', // 使用好友真实头像
+                title: item.title,
+                viewers: item.viewers,
+                description: item.description,
+                isFriend: true,
+                friendId: friend.id // 记录原始ID
+            };
+        }).filter(Boolean);
+
+        // --- ▼▼▼ 【核心修复】添加了这行保存代码 ▼▼▼ ---
+        await saveData();
+        // --- ▲▲▲ 修复结束 ▲▲▲ ---
+
+        // 8. 渲染
+        renderLiveGrid(currentLiveFollowingList);
+        
+        if (isForceRefresh) showToast("关注列表已更新");
+
+    } catch (e) {
+        console.error("生成关注直播失败", e);
+        container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">
+            生成失败: ${e.message}<br><span onclick="refreshLiveContent()" style="color:#ff4d4d;cursor:pointer;">点击重试</span>
+        </div>`;
+    } finally {
+        if (refreshBtn) refreshBtn.classList.remove('rotate-anim');
+    }
+}
+
+// 2. AI 生成直播剧本 (V5 - 持久化 + 全局规则 + 自定义时长)
+async function generateLiveStreamScript(liveData) {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl) return showAlert("API未配置");
+
+    // 1. 获取配置参数
+    const duration = liveSettings.duration || 60;
+    const density = liveSettings.danmuDensity || 'normal';
+    
+    // 2. 准备密度指令
+    let danmuInstruction = "";
+    if (density === 'low') {
+        danmuInstruction = "弹幕较少，每秒生成 0-1 条，偶尔有空隙。";
+    } else if (density === 'high') {
+        danmuInstruction = "弹幕刷屏，每秒生成 3-8 条，营造极度火爆的氛围。";
+    } else {
+        danmuInstruction = "弹幕正常，每秒生成 1-3 条。";
+    }
+
+    // 3. 获取世界观 (优先用推荐世界观，或者根据直播间类型判断)
+    // 这里我们统一使用当前推荐板块的世界观，或者如果这个直播间是关注列表里的，也可以逻辑判断
+    const worldviewId = liveSettings.recommendWorldviewId;
+    const worldview = liveWorldviews.find(w => w.id === worldviewId) || { content: "现代日常直播" };
+
+    // 4. 获取全局提示词 (Global Prompt)
+    let globalPromptContent = "";
+    if (liveSettings.promptId) {
+        const gp = livePrompts.find(p => p.id === liveSettings.promptId);
+        if (gp) globalPromptContent = `\n【全局额外指令】: ${gp.content}`;
+    }
+
+    // 5. 获取全局规则 (Forum Rules) - 确保人设贴合
+    let rulesContent = "";
+    if (typeof forumRules !== 'undefined' && forumRules.length > 0) {
+        rulesContent = `\n【必须遵守的世界/平台规则】:\n${forumRules.map(r => `- ${r.name}: ${r.description}`).join('\n')}`;
+    }
+
+    // 6. 获取主播人设 (如果是好友)
+    let hostPersona = "普通主播";
+    if (liveData.friendId) { // 如果是关注的好友
+        const friend = friends.find(f => f.id === liveData.friendId);
+        if (friend) hostPersona = `核心人设: ${friend.role}`;
+    }
+
+    const prompt = `
+【任务】: 你是一个直播间全景模拟器。请为以下直播间生成 **${duration}秒** 的详细直播脚本。
+
+【直播间信息】:
+- 主播: ${liveData.name}
+- 标题: ${liveData.title}
+- 初始画面: ${liveData.description}
+- ${hostPersona}
+
+【【【最高优先级情报库】】】
+1. **世界观背景**: ${worldview.content}
+2. ${rulesContent}
+${globalPromptContent}
+
+【生成要求】:
+1.  **画面描述 (visual)**: 以**第三人称**详细描写主播的动作、神态、正在做的事情、环境的变化。文字要优美、有画面感，严格符合主播人设和世界观。每隔 5-10 秒必须更新一次画面。
+2.  **弹幕 (danmu)**: 模拟观众的实时反应。要有梗、有互动、有情绪。${danmuInstruction}
+3.  **时间轴**: 覆盖 0 到 ${duration} 秒。
+
+【【【直播状态铁律 (必须死板遵守)】】】
+1. **永远在进行中**：这只是几小时直播中的**中间一小段**。**绝对禁止**出现任何“今天的直播就到这里”、“下了”、“拜拜”、“感谢观看”等结束语。
+2. **切片感**：脚本的最后一条必须是**动作正在进行中**的状态（例如：“拿起水杯喝了一口”、“正在调整设备”），不能是总结性的陈词。
+3. **拒绝谢幕**：不要写总结今天的直播内容，不要预告明天播什么，就专注当下的每一秒。
+
+【输出格式铁律】:
+必须返回一个纯净的 JSON 数组。数组中每个对象代表一个“事件”。
+格式: 
+[
+  { "time": 0, "type": "visual", "content": "主播微笑着调整了一下摄像头，拿起手边的吉他..." },
+  { "time": 1, "type": "danmu", "user": "路人甲", "content": "前排！" },
+  { "time": 2, "type": "danmu", "user": "爱吃鱼", "content": "终于开播啦！" },
+  ...
+]
+`;
+
+    const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            model: settings.modelName,
+            messages: [{ role: 'user', content: prompt }],
+            temperature: parseFloat(settings.apiTemperature) || 0.8
+        })
+    });
+
+    const data = await response.json();
+    const jsonMatch = data.choices[0].message.content.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) throw new Error("JSON解析失败");
+    
+    // 解析脚本
+    const script = JSON.parse(jsonMatch[0]);
+    currentLiveScript = script;
+    
+    // 按时间排序
+    currentLiveScript.sort((a, b) => a.time - b.time);
+
+    // 【核心修改】：将生成的脚本保存到直播间对象中，实现持久化
+    liveData.savedScript = currentLiveScript; // 存入内存
+    await saveData(); // 存入数据库
+
+    // 开始播放
+    startLivePlayback(duration);
+}
+
+/**
+ * [V5 稳健版] 播放引擎：修复速度异常
+ * @param {number} endTime - 播放结束的时间点
+ * @param {number} startTime - 播放开始的时间点
+ */
+function startLivePlayback(endTime, startTime = 0) {
+    if (!currentLiveScript) return;
+    
+    // 1. 再次强制清理旧定时器 (双重保险)
+    if (liveRoomInterval) clearInterval(liveRoomInterval);
+
+    livePlaybackIndex = startTime;
+    
+    const visualList = document.getElementById('liveVisualList');
+    const danmuContainer = document.getElementById('liveDanmuContainer');
+    const loadingBubble = document.getElementById('liveLoadingBubble');
+    if (loadingBubble) loadingBubble.remove();
+
+    // 2. 【核心】确保速度变量有效，如果未定义则强制为 1.0
+    // 防止因为变量丢失导致 setInterval(..., NaN) 变成极速
+    let speed = (typeof currentLiveSpeed !== 'undefined' && currentLiveSpeed > 0) ? currentLiveSpeed : 1.0;
+    
+    // 计算间隔 (1.0倍速 = 1000ms)
+    const intervalMs = 1000 / speed;
+
+    console.log(`[直播] 启动播放: ${startTime}s -> ${endTime}s | 速度: ${speed}x | 间隔: ${intervalMs}ms`);
+
+    liveRoomInterval = setInterval(() => {
+        // 筛选当前秒的事件
+        const events = currentLiveScript.filter(e => Math.floor(e.time) === livePlaybackIndex);
+
+        events.forEach(e => {
+            if (e.type === 'visual') {
+                const visualItem = document.createElement('div');
+                visualItem.className = 'live-visual-bubble';
+                visualItem.textContent = e.content;
+                visualList.appendChild(visualItem);
+                
+                // 优化滚动体验：只在有新画面时平滑滚动
+                visualItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                if (visualList.children.length > 20) visualList.removeChild(visualList.firstChild);
+
+            } else if (e.type === 'danmu') {
+                const danmuItem = document.createElement('div');
+                danmuItem.className = 'live-danmu-item';
+                const nameColor = ['#aaddff', '#ffccdd', '#fff3cd', '#ccffcc', '#e0e0e0'][Math.floor(Math.random()*5)];
+                danmuItem.innerHTML = `<span class="danmu-user" style="color:${nameColor}">${e.user}：</span><span class="danmu-content">${e.content}</span>`;
+                
+                danmuContainer.appendChild(danmuItem);
+                // 弹幕直接跳到底部，避免平滑滚动造成的“视觉加速”残影
+                danmuContainer.scrollTop = danmuContainer.scrollHeight;
+                
+                if (danmuContainer.children.length > 50) danmuContainer.removeChild(danmuContainer.firstChild);
+            }
+        });
+
+        livePlaybackIndex++;
+        
+        if (livePlaybackIndex > endTime) {
+            clearInterval(liveRoomInterval);
+            console.log("[直播] 播放结束");
+        }
+
+    }, intervalMs);
+}
+
+// 4. 退出直播间
+function quitLiveRoom() {
+    // 停止播放
+    if (liveRoomInterval) {
+        clearInterval(liveRoomInterval);
+        liveRoomInterval = null;
+    }
+    currentLiveScript = null;
+
+    // 返回直播列表页
+    setActivePage('liveApp');
+    // 恢复状态栏 (如果全局设置是开启的)
+    applyStatusBarVisibility(); 
+}
+
+async function saveLiveSettings() {
+    // --- 新增：保存时长和密度 ---
+    const durationInput = document.getElementById('liveDurationSlider');
+    const densityInput = document.getElementById('liveDanmuDensitySelect');
+    
+    if (durationInput) {
+        liveSettings.duration = parseInt(durationInput.value, 10);
+    }
+    if (densityInput) {
+        liveSettings.danmuDensity = densityInput.value;
+    }
+
+    // 保存选中的AI (保持不变)
+    // 注意：这里不需要再处理 activeAiIds，因为它是在 saveLiveCharacterSelect 里处理的
+    // 但为了保险，保持现有逻辑结构
+    
+    await saveData(); // 保存数据
+    closeLiveSettingsModal(); // 关闭弹窗
+    showAlert('直播设置已保存！\n下一次进入直播间时生效。');
+}
+
+/**
+ * 关闭直播设置弹窗
+ */
+function closeLiveSettingsModal() {
+    document.getElementById('liveSettingsModal').classList.remove('show');
+}
+
+/**
+ * [新增] 直接渲染整个直播脚本到界面（不播放动画，直接看结果）
+ */
+function renderFullLiveScript(script) {
+    const visualList = document.getElementById('liveVisualList');
+    const danmuContainer = document.getElementById('liveDanmuContainer');
+    
+    visualList.innerHTML = '';
+    danmuContainer.innerHTML = '';
+
+    script.forEach(e => {
+        if (e.type === 'visual') {
+            const visualItem = document.createElement('div');
+            visualItem.className = 'live-visual-bubble';
+            visualItem.textContent = e.content;
+            visualList.appendChild(visualItem);
+        } else if (e.type === 'danmu') {
+            const danmuItem = document.createElement('div');
+            danmuItem.className = 'live-danmu-item';
+            const nameColor = ['#aaddff', '#ffccdd', '#fff3cd', '#ccffcc', '#e0e0e0'][Math.floor(Math.random()*5)];
+            danmuItem.innerHTML = `<span class="danmu-user" style="color:${nameColor}">${e.user}：</span><span class="danmu-content">${e.content}</span>`;
+            danmuContainer.appendChild(danmuItem);
+        }
+    });
+
+    // 滚动到底部
+    setTimeout(() => {
+        visualList.scrollTop = visualList.scrollHeight;
+        danmuContainer.scrollTop = danmuContainer.scrollHeight;
+        // 更新播放索引为最大时间，以便后续续写
+        livePlaybackIndex = Math.max(...script.map(i => i.time)) + 1;
+    }, 100);
+}
+
+// 切换菜单显示
+function toggleLiveMoreMenu() {
+    const menu = document.getElementById('liveMoreMenu');
+    menu.classList.toggle('show');
+}
+
+/**
+ * [功能1] 重播：清空界面，从头开始播放
+ */
+function replayLiveStream() {
+    toggleLiveMoreMenu(); // 关菜单
+    if (!currentLiveScript || currentLiveScript.length === 0) return;
+
+    // 清空界面
+    document.getElementById('liveVisualList').innerHTML = '';
+    document.getElementById('liveDanmuContainer').innerHTML = '';
+    
+    // 获取最大时长
+    const maxTime = Math.max(...currentLiveScript.map(e => e.time));
+    
+    // 调用原有的播放逻辑
+    startLivePlayback(maxTime + 1);
+    showToast("开始重播");
+}
+
+/**
+ * [V5 完整记忆版 + Toast加载] 续写直播
+ * 特性：好友模式下，完整读取聊天记录、人设、用户画像，确保续写内容与生成时一样贴合。
+ * 修改：使用底部 Toast 提示加载，报错弹窗显示详情。
+ */
+async function continueLiveStream() {
+    toggleLiveMoreMenu(); // 关闭菜单
+    
+    // 停止当前的播放定时器
+    if (liveRoomInterval) {
+        clearInterval(liveRoomInterval);
+        liveRoomInterval = null;
+    }
+    
+    // 1. 基础数据校验
+    const liveId = currentPreviewLiveId; 
+    let liveData = currentLiveRecommendations.find(l => l.id === liveId);
+    let isFriendRoom = false;
+
+    // 尝试在关注列表找
+    if (!liveData) {
+        liveData = (currentLiveFollowingList || []).find(l => l.id === liveId);
+        if (liveData) isFriendRoom = true;
+    }
+    
+    if (!liveData) return showAlert("数据丢失，无法续写");
+
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiKey) return showAlert("API未配置");
+
+    // --- 【修改点】使用 Toast 提示加载，设置 60秒时长确保它一直显示 ---
+    showToast("正在接收后续直播信号，请稍候...", 999999);
+    try {
+        // ============================================
+        // 2. 智能构建上下文 (分流逻辑)
+        // ============================================
+
+        let worldviewContent = "";
+        let characterContext = ""; // 存放角色、用户、聊天记录等核心情报
+
+        if (isFriendRoom) {
+            // --- A. 好友模式：全量读取记忆 ---
+            const friend = friends.find(f => f.id === liveData.friendId);
+            if (friend) {
+                // A1. 获取用户人设
+                const personaId = friend.activeUserPersonaId || 'default_user';
+                const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+                // A2. 获取关注世界观
+                const wvId = liveSettings.followingWorldviewId;
+                const wv = liveWorldviews.find(w => w.id === wvId) || { content: "现代日常直播" };
+                worldviewContent = wv.content;
+
+                // A3. 判断是否读取聊天记录 (默认世界观才读)
+                const isDefaultWorld = (!wvId || wvId === 'default' || wv.name.includes("默认") || wv.name.includes("日常"));
+                
+                let chatHistoryContext = "";
+                if (isDefaultWorld) {
+                    // 读取最近 50 条聊天记录
+                    const history = (chatHistories[friend.id] || []).slice(-50).map(m => 
+                        `${m.type === 'sent' ? persona.name : friend.name}: ${summarizeMessageContentForAI(m)}`
+                    ).join('\n');
+
+                    chatHistoryContext = `
+                    【【【人际关系与记忆 (最高优先级)】】】
+                    - **场景定义**: 这是现实生活的延伸。你和观众里的特定用户 "${persona.name}" 是熟人/好友/恋人关系。
+                    - **最近聊天记忆**:
+                    ${history || "（近期无私聊，关系正常）"}
+                    - **指令**: 在直播中，你的某些话语或状态可以隐晦地映射最近的聊天内容，让用户感到亲切。`;
+                } else {
+                    chatHistoryContext = `
+                    【【【架空世界观隔离铁律 (最高优先级)】】】
+                    - **严禁**提及任何现代现实世界的聊天记录或设定。
+                    - 你必须全身心投入角色在这个架空世界里的身份。`;
+                }
+
+                // A4. 组装好友专属情报
+                characterContext = `
+    【【【主播深度档案】】】
+    - 真实身份: "${friend.name}"
+    - 核心人设: "${friend.role}"
+    - 关键观众(用户): "${persona.name}" (人设: ${persona.personality})
+    ${chatHistoryContext}
+
+    【【【续写人设铁律 (CRITICAL)】】】
+    接下来的表演必须继续保持这个人设的说话语气、口癖和行为逻辑。严禁OOC。
+    `;
+            }
+        } else {
+            // --- B. 路人模式：简单设定 ---
+            const wvId = liveSettings.recommendWorldviewId;
+            const wv = liveWorldviews.find(w => w.id === wvId) || { content: "现代日常直播" };
+            worldviewContent = wv.content;
+            
+            characterContext = `【主播设定】: 普通路人主播 "${liveData.name}"，保持当前风格即可。`;
+        }
+
+        // ============================================
+        // 3. 通用参数与历史记录
+        // ============================================
+
+        // 全局提示词 & 规则
+        let globalExtras = "";
+        if (liveSettings.promptId) {
+            const gp = livePrompts.find(p => p.id === liveSettings.promptId);
+            if (gp) globalExtras += `\n【全局额外指令】: ${gp.content}`;
+        }
+        if (typeof forumRules !== 'undefined' && forumRules.length > 0) {
+            globalExtras += `\n【平台规则】:\n${forumRules.map(r => `- ${r.name}: ${r.description}`).join('\n')}`;
+        }
+
+        const durationToGen = liveSettings.duration || 60;
+        const density = liveSettings.danmuDensity || 'normal';
+        
+        let danmuInstruction = "弹幕正常，每秒生成 1-3 条。";
+        if (density === 'low') danmuInstruction = "弹幕较少，每秒生成 0-1 条。";
+        else if (density === 'high') danmuInstruction = "弹幕刷屏，每秒生成 3-8 条。";
+
+        // 提取直播历史记录 (最近300条，作为上下文)
+        const lastTime = Math.max(...currentLiveScript.map(e => e.time));
+        const contextText = currentLiveScript.slice(-300).map(e => {
+            if (e.type === 'visual') return `[${e.time}秒] [画面]: ${e.content}`;
+            return `[${e.time}秒] [弹幕] ${e.user}: ${e.content}`;
+        }).join('\n');
+
+        // ============================================
+        // 4. 构建 Prompt
+        // ============================================
+
+        const prompt = `
+    【任务】: 继续生成直播间脚本。
+
+    【直播间信息】
+    - 标题: "${liveData.title}"
+    - 初始画面: "${liveData.description}"
+
+    【当前世界观】: ${worldviewContent}
+    ${globalExtras}
+
+    ${characterContext}
+
+    【完整直播历史 (上下文参考)】
+    ${contextText}
+
+    【本次生成要求】
+    1.  **时间轴接续**: 上一段内容结束于第 **${lastTime}** 秒。请从第 **${lastTime + 1}** 秒开始，生成接下来的 **${durationToGen}** 秒内容。
+    2.  **剧情连贯**: 必须紧接上一条[画面]的动作继续发展。如果上一条还在说话，这一条就继续说完。
+    3.  **弹幕氛围**: ${danmuInstruction}
+    4.  **【核心】**: 保持人设一致性，如果是好友，请继续保持那种熟络/亲密的微妙氛围。
+
+    【【【禁止虚构用户互动 (最高优先级)】】】
+    1.  **基于事实**：请仔细检查【完整直播历史】。如果历史记录的最后几秒里，用户（${isFriendRoom ? '用户' : '用户'}）**没有**发送弹幕，你就**绝对禁止**让主播对用户做出反应。
+    2.  **严禁脑补**：不要描写“主播好像看到了你”、“对着你笑”。如果用户没说话，主播就当用户不存在，继续播自己的，或者回应NPC路人。
+
+    【【【身份隔离铁律】】】
+    **严禁**生成 "用户"、"我" 或 "你" 发送的弹幕。只生成其他 NPC 观众的弹幕。
+
+    【【【真实网感 ID 指令】】】
+    **严禁使用** “路人甲”、“观众A”。请根据上下文生成不重复的、有趣的真实风格网名。
+
+    【输出格式铁律】
+    返回纯净的 JSON 数组。\`time\` 字段必须基于 ${lastTime} 继续递增。
+
+    【JSON示例】
+    [
+      { "time": ${lastTime + 1}, "type": "visual", "content": "..." },
+      { "time": ${lastTime + 2}, "type": "danmu", "user": "路人A", "content": "..." }
+    ]
+    `;
+
+        // ============================================
+        // 5. 发送请求
+        // ============================================
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: parseFloat(settings.apiTemperature) || 1.0
+            })
+        });
+
+        if (!response.ok) {
+             const errText = await response.text();
+             throw new Error(`API请求失败 (Status ${response.status}): ${errText}`);
+        }
+        
+        const data = await response.json();
+        const contentStr = data.choices[0].message.content;
+        const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+        
+        if (jsonMatch) {
+            const newScript = JSON.parse(jsonMatch[0]);
+            
+            // 合并数据
+            currentLiveScript = [...currentLiveScript, ...newScript];
+            liveData.savedScript = currentLiveScript;
+            await saveData();
+
+            // 播放新片段
+            const newEndTime = Math.max(...newScript.map(e => e.time));
+            startLivePlayback(newEndTime, lastTime + 1);
+            
+            // 这里的 Toast 会覆盖掉前面的“正在接收...”
+            showToast(`成功续写 ${newScript.length} 条事件！`);
+        } else {
+            throw new Error("AI未返回有效的JSON格式，请重试。");
+        }
+
+    } catch (e) {
+        console.error("重新生成失败:", e);
+        
+        // ★★★ 确保这里有移除提示的代码 ★★★
+        const toast = document.getElementById('toast-notification');
+        if(toast) {
+            toast.classList.remove('show'); // 立即隐藏加载提示
+            toast.style.opacity = '0';      // 确保视觉上也消失
+        }
+        
+        // 然后再弹报错窗
+        showAlert(`重试失败！\n\n【错误详情】:\n${e.message}`);
+    } 
+    // ★★★ 建议加上 finally 块作为双重保险 ★★★
+    finally {
+        // 如果成功了，上面的逻辑会弹出"成功续写"的新Toast覆盖掉旧的，所以这里只需确保没卡住
+        const btn = document.getElementById('liveMoreMenu'); // 或者是你的操作按钮
+        // 清理其他状态...
+    }
+}
+
+/**
+ * [V4 修改版] 重新生成：回滚 -> 续写播放 (Toast提示 + 报错弹窗)
+ */
+async function regenerateLiveStream() {
+    toggleLiveMoreMenu();
+
+    if (liveRoomInterval) {
+        clearInterval(liveRoomInterval);
+        liveRoomInterval = null;
+    }
+
+    if (!confirm("确定要删除上一段生成的内容并重试吗？")) return;
+
+    const friendId = currentPreviewLiveId;
+    let liveData = currentLiveRecommendations.find(l => l.id === friendId);
+    if (!liveData) liveData = (currentLiveFollowingList || []).find(l => l.id === friendId);
+    
+    if (!liveData || !currentLiveScript) return;
+
+    let isFriendRoom = false;
+    if (liveData.isFriend || (liveData.friendId && friends.some(f => f.id === liveData.friendId))) {
+        isFriendRoom = true;
+    }
+
+    // 1. 计算回滚点
+    const durationPerBatch = liveSettings.duration || 60;
+    const maxTime = Math.max(...currentLiveScript.map(e => e.time));
+    const cutOffTime = maxTime - durationPerBatch;
+
+    // --- 【修改点】使用 Toast 提示加载 ---
+    showToast("正在重新生成，请稍候...", 60000);
+
+    try {
+        // 如果数据太少，就全部清空重来
+        if (cutOffTime <= 0) {
+            currentLiveScript = [];
+            document.getElementById('liveVisualList').innerHTML = '';
+            document.getElementById('liveDanmuContainer').innerHTML = '';
+            
+            // 分流调用完全重新生成
+            if (isFriendRoom) {
+                // 注意：这些生成函数内部一般不处理 loading 的显隐，
+                // 如果它们报错，会抛出异常被下面的 catch 捕获
+                await generateFriendLiveScript(liveData); 
+            } else {
+                await generateLiveStreamScript(liveData); 
+            }
+            
+            // 如果成功执行到这里，说明生成完成。
+            // 此时之前的 "正在重新生成..." Toast 可能还在显示。
+            // 我们可以手动移除它，或者让 generate... 函数内部的 success toast 覆盖它。
+            // 为了保险，这里可以移除：
+            const t = document.getElementById('toast-notification');
+            if(t) t.classList.remove('show');
+            return;
+        }
+
+        // 2. 截断数据 (回滚模式)
+        currentLiveScript = currentLiveScript.filter(e => e.time <= cutOffTime);
+        liveData.savedScript = currentLiveScript;
+        await saveData();
+
+        // 3. 瞬间渲染剩下的旧数据
+        renderFullLiveScript(currentLiveScript);
+
+        // 4. 调用续写
+        // continueLiveStream 内部会重新设置自己的 loading toast 和 error handling
+        // 这里的 await 是为了保证顺序
+        await continueLiveStream();
+
+    } catch (e) {
+        console.error("重新生成失败:", e);
+        // --- 失败处理 ---
+        const toast = document.getElementById('toast-notification');
+        if(toast) toast.classList.remove('show');
+        
+        showAlert(`重试失败！\n\n【错误详情】:\n${e.message}`);
+    }
+}
+
+// --- 直播画面设置相关函数 ---
+
+function openLiveVisualSettings() {
+    toggleLiveMoreMenu(); // 关闭底部菜单
+    
+    // 回显当前速度
+    const slider = document.getElementById('liveSpeedSlider');
+    const display = document.getElementById('liveSpeedDisplay');
+    
+    slider.value = currentLiveSpeed;
+    display.textContent = currentLiveSpeed + 'x';
+    
+    document.getElementById('liveVisualSettingsModal').classList.add('show');
+}
+
+function closeLiveVisualSettings() {
+    document.getElementById('liveVisualSettingsModal').classList.remove('show');
+}
+
+function updateLiveSpeedPreview(val) {
+    document.getElementById('liveSpeedDisplay').textContent = val + 'x';
+}
+
+function saveLiveVisualSettings() {
+    const newSpeed = parseFloat(document.getElementById('liveSpeedSlider').value);
+    
+    if (newSpeed !== currentLiveSpeed) {
+        currentLiveSpeed = newSpeed;
+        
+        // 如果当前正在播放，需要重启定时器以应用新速度
+        if (liveRoomInterval && currentLiveScript) {
+            // 获取当前脚本的最大时间作为结束时间
+            const maxTime = Math.max(...currentLiveScript.map(e => e.time));
+            
+            // 重新调用播放函数，它会清除旧定时器并用新速度启动
+            // 注意：从当前的 livePlaybackIndex 继续播放
+            startLivePlayback(maxTime + 1, livePlaybackIndex);
+        }
+        
+        showToast(`倍速已调整为 ${currentLiveSpeed}x`);
+    }
+    
+    closeLiveVisualSettings();
+}
+
+/**
+ * [全新] 关注板块专用：好友角色直播生成函数
+ * 特性：完美贴合人设、读取用户人设、智能判断是否读取聊天记录
+ */
+async function generateFriendLiveScript(liveData) {
+    const friend = friends.find(f => f.id === liveData.friendId);
+    if (!friend) return showAlert("好友数据丢失，无法生成。");
+
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl) return showAlert("API未配置");
+
+    // ================= 1. 读取基础配置 =================
+    const duration = liveSettings.duration || 60;
+    const density = liveSettings.danmuDensity || 'normal';
+    
+    // 弹幕密度指令
+    let danmuInstruction = "弹幕正常，每秒生成 1-3 条。";
+    if (density === 'low') danmuInstruction = "弹幕较少，每秒生成 0-1 条。";
+    else if (density === 'high') danmuInstruction = "弹幕刷屏，每秒生成 3-8 条，氛围火爆。";
+
+    // 全局提示词与规则
+    let globalExtras = "";
+    if (liveSettings.promptId) {
+        const gp = livePrompts.find(p => p.id === liveSettings.promptId);
+        if (gp) globalExtras += `\n【全局额外指令】: ${gp.content}`;
+    }
+    if (typeof forumRules !== 'undefined' && forumRules.length > 0) {
+        globalExtras += `\n【平台规则】:\n${forumRules.map(r => `- ${r.name}: ${r.description}`).join('\n')}`;
+    }
+
+    // ================= 2. 准备人设与关系 =================
+    const personaId = friend.activeUserPersonaId || 'default_user';
+    const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+    // ================= 3. 世界观与记忆逻辑 (核心需求) =================
+    
+    // 获取关注板块选定的世界观
+    const worldviewId = liveSettings.followingWorldviewId;
+    // 如果没选，或者选的是默认ID，则视为默认世界观
+    const worldview = liveWorldviews.find(w => w.id === worldviewId) || { id: 'default', name: '默认 (现代日常)', content: "现代日常直播环境" };
+    
+    // 判断逻辑
+    const isDefaultWorld = (!worldviewId || worldviewId === 'default' || worldview.name.includes("默认") || worldview.name.includes("日常"));
+
+    let memoryContext = "";
+    let worldInstruction = "";
+
+    if (isDefaultWorld) {
+        // --- 情况 A: 默认世界观 ---
+        // 读取最近 50 条聊天记录
+        const history = (chatHistories[friend.id] || []).slice(-50).map(m => 
+            `${m.type === 'sent' ? persona.name : friend.name}: ${summarizeMessageContentForAI(m)}`
+        ).join('\n');
+
+        worldInstruction = `【当前世界观】: ${worldview.content} (贴近现实)`;
+        memoryContext = `
+【【【人际关系与记忆 (最高优先级)】】】
+- **场景定义**: 这是现实生活的延伸。你和观众里的特定用户 "${persona.name}" 是熟人/好友/恋人关系。
+- **最近聊天记忆**:
+${history || "（近期无私聊，关系正常）"}
+- **指令**: 在直播中，你的某些话语或状态可以隐晦地映射最近的聊天内容（例如私聊说饿了，直播就在吃东西），这会让用户感到亲切。
+`;
+    } else {
+        // --- 情况 B: 架空世界观 ---
+        // 不读取聊天记录，防止OOC
+        worldInstruction = `【当前世界观】: **${worldview.name}**\n设定描述: ${worldview.content}`;
+        memoryContext = `
+【【【架空世界观隔离铁律 (最高优先级)】】】
+- **严禁**提及任何现代现实世界的聊天记录或设定。
+- 你必须全身心投入角色在这个特殊世界观里的身份（例如：如果是修仙世界，你就是修仙者，不认识什么手机微信）。
+- 你与用户 "${persona.name}" 的关系应基于这个架空世界的设定重新构建（例如：师徒、盟友、敌对）。
+`;
+    }
+
+    // ================= 4. 构建 Prompt =================
+    const prompt = `
+【任务】: 你是角色 "${friend.name}"。请生成一段 **${duration}秒** 的直播脚本。
+
+【主播档案】
+- 姓名: ${friend.name}
+- **核心人设**: ${friend.role}
+- 正在观看的关键用户: "${persona.name}" (人设: ${persona.personality})
+
+${worldInstruction}
+${memoryContext}
+${globalExtras}
+
+【生成要求】
+1.  **完全贴合人设**: 直播风格、说话语气、做的事情必须严格符合 "${friend.role}"。
+2.  **画面描述 (visual)**: 以**第三人称**描写主播的动作神态语言。要细腻、有代入感。每隔 5-10 秒更新一次画面。
+3.  **弹幕 (danmu)**: 
+    - ${danmuInstruction}
+    
+
+【【【禁止虚构用户互动 (Anti-Hallucination)】】】
+1.  **严禁虚空互动**：用户当前**没有**发送任何弹幕！
+2.  **绝对禁止**描写针对用户的反应，除非你生成了NPC弹幕并让主播回应那个NPC。
+3.  **专注直播内容**：主播应该专注在自己正在做的事情上，或者回应**你自己生成的NPC路人弹幕**。
+
+【【【直播分寸感 (Live Etiquette)】】】
+1.  **公开场合**：这是面向全网的直播，不是私密视频通话！
+2.  **拒绝私密话题**：严禁说出只有你们两个人知道的秘密、过于露骨的情话或不适合公开说的隐私。
+3.  **言行得体**：保持主播的职业素养（或人设素养），不要像发疯一样什么都说。
+
+【【【身份隔离铁律 (绝对禁止)】】】
+你**严禁生成**发送者为 "${persona.name}"、"我"、"用户" 或 "你" 的弹幕。用户的发言权在用户自己手里，AI不得代劳。
+
+【【【真实网感 ID 指令】】】
+**严禁使用** “路人甲”、“观众A”、“网友1” 这种虚假代号！
+**必须生成** 具有真实网感的ID，例如：
+- 风格多样：momo、AAA建材王哥、纯爱战士、xx不吃香菜、一只大居居、用户738291、小狗骑士、每天都在发疯。
+- 必须符合当前世界观背景。
+
+【【【直播状态铁律】】】
+1. **进行时态**: 这是直播的中间片段，不要写开场白或结束语。
+2. **切片感**: 脚本最后一条必须是动作正在进行中。
+
+【输出格式铁律】:
+必须返回一个纯净的 JSON 数组。
+格式: 
+[
+  { "time": 0, "type": "visual", "content": "..." },
+  { "time": 1, "type": "danmu", "user": "路人A", "content": "..." },
+  { "time": 3, "type": "danmu", "user": "${persona.name}", "content": "..." },
+  ...
+]
+`;
+
+    // ================= 5. API 请求 =================
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: parseFloat(settings.apiTemperature) || 0.9
+            })
+        });
+
+        const data = await response.json();
+        const jsonMatch = data.choices[0].message.content.match(/\[[\s\S]*\]/);
+        
+        if (!jsonMatch) throw new Error("JSON解析失败");
+        
+        const script = JSON.parse(jsonMatch[0]);
+        currentLiveScript = script;
+        currentLiveScript.sort((a, b) => a.time - b.time);
+
+        // 持久化
+        liveData.savedScript = currentLiveScript; 
+        await saveData(); 
+
+        // 开始播放
+        startLivePlayback(duration);
+
+    } catch (e) {
+        console.error("好友直播生成失败", e);
+        const visualList = document.getElementById('liveVisualList');
+        if(visualList) visualList.innerHTML = `<div class="live-visual-bubble">连接断开... ${e.message}</div>`;
+    }
+}
+
+// --- 直播App 个人资料编辑功能 ---
+
+// 1. 处理头像上传 (优化版：立即刷新)
+async function handleLiveAvatarUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+        // 压缩图片
+        const compressedDataUrl = await compressImage(file, { quality: 0.8, maxWidth: 300 });
+        
+        // 1. 先更新内存中的变量
+        liveUserProfile.avatarImage = compressedDataUrl;
+        
+        // 2. 【核心修改】立即刷新界面！不要等保存！
+        // 这样用户就能马上看到头像变了
+        updateLiveProfile();
+        
+        // 3. 提示用户
+        showToast('直播头像已更新');
+        
+        // 4. 最后在后台默默保存到数据库 (不阻塞界面)
+        await saveData();
+        
+    } catch (error) {
+        console.error("头像处理失败:", error);
+        showAlert("头像上传失败，请重试。");
+    }
+    
+    // 清空 input 允许重复上传同一张
+    event.target.value = '';
+}
+
+// 2. 编辑昵称
+function editLiveName() {
+    // 使用现有的通用输入弹窗
+    openNameInputModal("修改直播昵称", async (newName) => {
+        if (!newName || !newName.trim()) return;
+        
+        liveUserProfile.name = newName.trim();
+        await saveData();
+        updateLiveProfile();
+        showToast("昵称已更新");
+    });
+}
+
+// 3. 编辑ID
+function editLiveId() {
+    openNameInputModal("修改直播ID (数字/字母)", async (newId) => {
+        if (!newId || !newId.trim()) return;
+        
+        liveUserProfile.id = newId.trim();
+        await saveData();
+        updateLiveProfile();
+        showToast("ID已更新");
+    });
+}
+
+/**
+ * [新增] 用户发送直播弹幕
+ */
+async function sendLiveDanmu() {
+    const input = document.getElementById('liveUserDanmuInput');
+    const content = input.value.trim();
+    if (!content) return;
+
+    // 1. 获取当前直播间信息
+    const liveId = currentPreviewLiveId; // 当前直播ID
+    // 尝试从推荐或关注列表找到数据
+    let liveData = currentLiveRecommendations.find(l => l.id === liveId);
+    if (!liveData) liveData = (currentLiveFollowingList || []).find(l => l.id === liveId);
+    
+    if (!liveData) return showToast("直播间数据异常");
+
+    // 2. 立即上屏 (用户体验优化)
+    const danmuContainer = document.getElementById('liveDanmuContainer');
+    const danmuItem = document.createElement('div');
+    danmuItem.className = 'live-danmu-item';
+    // 用户弹幕显示为金色/特殊颜色，名字使用直播APP里的网名
+    const userName = liveUserProfile.name || "我";
+    
+    danmuItem.innerHTML = `<span class="danmu-user" style="color:#FFD700; font-weight:bold;">${userName}：</span><span class="danmu-content" style="color:#fff;">${content}</span>`;
+    
+    danmuContainer.appendChild(danmuItem);
+    danmuContainer.scrollTop = danmuContainer.scrollHeight;
+    
+    // 清空输入框
+    input.value = '';
+
+    // 3. 将用户发言记录到当前脚本历史中 (供后续AI参考)
+    // 使用当前播放时间
+    const currentTime = Math.floor(livePlaybackIndex) || 0;
+    if (currentLiveScript) {
+        currentLiveScript.push({
+            time: currentTime,
+            type: 'danmu',
+            user: userName,
+            content: content,
+            isUser: true // 标记这是用户发的
+        });
+    }
+
+    // 4. 触发 AI 反应 (核心逻辑)
+    await triggerLiveInteraction(liveData, content, currentTime);
+}
+
+/**
+ * [V7 - 终极修复版] 触发直播间互动
+ * 修复：强制重排时间轴，解决AI生成的时间戳堆积导致播放过快的问题
+ */
+async function triggerLiveInteraction(liveData, userContent, currentTime) {
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        return showAlert("请先配置API信息");
+    }
+
+    // 防止重复点击的锁
+    if (document.getElementById('interaction-loading-toast')) return;
+
+    // --- 1. 获取参数 ---
+    const customTemp = parseFloat(settings.apiTemperature) || 0.9;
+    // 随机时长 (40-90秒)
+    const randomDuration = Math.floor(Math.random() * (90 - 40 + 1)) + 40;
+
+    // --- 2. 停止当前播放 ---
+    if (liveRoomInterval) {
+        clearInterval(liveRoomInterval);
+        liveRoomInterval = null;
+    }
+    
+    // --- 3. UI 反馈 (底部Toast) ---
+    const loadingToast = document.createElement('div');
+    loadingToast.id = 'interaction-loading-toast';
+    loadingToast.style.cssText = 'position:fixed; bottom:120px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:12px 24px; border-radius:30px; z-index:9999; display:flex; align-items:center; gap:10px; font-size:14px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); pointer-events: none; backdrop-filter: blur(5px);';
+    loadingToast.innerHTML = '<i class="ri-loader-4-line fa-spin" style="font-size: 18px;"></i> <span>主播正在反应中...</span>';
+    document.body.appendChild(loadingToast);
+
+    try {
+        // ==========================================
+        // 4. 上下文构建
+        // ==========================================
+        
+        const isFriendRoom = !!liveData.friendId;
+        const worldviewId = isFriendRoom 
+            ? (liveSettings.followingWorldviewId || 'default')
+            : (liveSettings.recommendWorldviewId || 'default');
+
+        const worldview = liveWorldviews.find(w => w.id === worldviewId) || { content: "现代日常直播环境" };
+        const worldviewContext = `【当前直播世界观】: ${worldview.content}`;
+
+        let globalPromptContent = "";
+        if (liveSettings.promptId) {
+            const gp = livePrompts.find(p => p.id === liveSettings.promptId);
+            if (gp) globalPromptContent = `【全局额外指令】: ${gp.content}`;
+        }
+        
+        let rulesContext = ""; 
+        if (typeof forumRules !== 'undefined' && forumRules.length > 0) {
+            rulesContext = `【平台规则】:\n${forumRules.map(r => `- ${r.name}: ${r.description}`).join('\n')}`;
+        }
+
+        // ==========================================
+        // 5. 人际关系与记忆
+        // ==========================================
+        
+        let relationContext = "";
+        let chatHistoryContext = "";
+        let reactionProbability = 20; 
+
+        if (isFriendRoom) {
+            const friend = friends.find(f => f.id === liveData.friendId);
+            if (friend) {
+                const personaId = friend.activeUserPersonaId || 'default_user';
+                const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+                
+                reactionProbability = 90;
+                const isDefaultWorld = (!worldviewId || worldviewId === 'default' || worldview.name.includes("默认") || worldview.name.includes("日常"));
+
+                if (isDefaultWorld) {
+                    const history = (chatHistories[friend.id] || []).slice(-30).map(m => 
+                        `${m.type === 'sent' ? persona.name : friend.name}: ${summarizeMessageContentForAI(m)}`
+                    ).join(' | ');
+
+                    chatHistoryContext = `
+                    【【【私聊记忆植入 (最高优先级)】】】
+                    - **关系**: 你们是熟人/好友/恋人。
+                    - **最近私聊话题**: ${history || "暂无近期私聊"}
+                    - **指令**: 主播的反应必须结合这些私聊记忆。如果用户弹幕提到了私聊梗，主播必须秒懂并回应。
+                    `;
+                } else {
+                    chatHistoryContext = `
+                    【【【架空世界观隔离】】】
+                    虽然发送弹幕的是你的朋友，但由于当前处于【${worldview.name}】架空世界，请不要提及现实世界的私聊内容。
+                    `;
+                }
+
+                relationContext = `
+                【主播身份】: "${friend.name}" (人设: ${friend.role})
+                【弹幕发送者】: "${liveUserProfile.name}" (真实身份: 你的好友 "${persona.name}")
+                ${chatHistoryContext}
+                `;
+            }
+        } else {
+            relationContext = `
+            【主播身份】: 路人主播 "${liveData.name}"。
+            【弹幕发送者】: "${liveUserProfile.name}" (一名普通观众)。
+            `;
+        }
+
+        // ==========================================
+        // 6. 读取直播历史
+        // ==========================================
+        const historyScript = (currentLiveScript || []).filter(e => e.time <= currentTime).slice(-100);
+        const liveStreamContext = historyScript.map(e => {
+            if (e.type === 'visual') return `[画面]: ${e.content}`;
+            return `[弹幕] ${e.user}: ${e.content}`;
+        }).join('\n');
+        
+        // ==========================================
+        // 7. 构建 Prompt
+        // ==========================================
+        const prompt = `
+【任务】: 你正在进行一场直播。刚刚有一位观众发送了一条**关键弹幕**，你需要基于【世界观】、【记忆】和【之前的直播流】，生成接下来的 **${randomDuration}秒** 直播脚本。
+
+${worldviewContext}
+${globalPromptContent}
+${rulesContext}
+
+${relationContext}
+
+【【【直播间前情提要 (上下文)】】】
+${liveStreamContext || "(直播刚开始)"}
+
+【【【触发事件】】】
+**观众 "${liveUserProfile.name}" 发送弹幕说**: "${userContent}"
+
+【生成要求】
+1.  **主播反应 (Visual)**: 
+    -   概率：${reactionProbability}% 回应。
+    -   如果回应：请描写主播看到弹幕后的神态、动作和说的话。
+    -   如果不回应：描写主播继续做自己的事，或者被其他海量弹幕淹没。
+    -   **必须紧接**【直播间前情提要】里的最后一个动作继续发展。
+
+2.  **弹幕氛围 (Danmu)**: 
+    -   **必须火爆**: 你的直播间人气很高！生成大量路人弹幕。
+    -   **路人反应**: 路人观众应该对 "${userContent}" 做出反应（复读、嘲笑、询问等）。
+
+3.  **时间轴**: 本次生成内容对应的时间长度为 **${randomDuration}秒**。请确保事件丰富，不要只生成几秒钟的内容。
+
+【输出格式铁律】
+返回纯净的 JSON 数组 \`[]\`。**请只提供事件对象，不要关心具体的 time 字段数值，只需保证事件发生的先后顺序即可，我会为你自动分配时间。**
+示例: 
+[
+  { "type": "visual", "content": "主播看到弹幕愣了一下，笑着说..." },
+  { "type": "danmu", "user": "路人A", "content": "哈哈哈" },
+  { "type": "visual", "content": "主播拿起水杯喝了一口..." },
+  ...
+]
+`;
+
+        // ==========================================
+        // 8. 调用 API
+        // ==========================================
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: customTemp
+            })
+        });
+
+        if (!response.ok) throw new Error(`API请求失败: ${response.status}`);
+
+        const data = await response.json();
+        const contentStr = data.choices[0].message.content;
+        const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+        
+        if (!jsonMatch) throw new Error("JSON解析失败，AI未返回有效的数组格式。");
+        
+        let newEvents = JSON.parse(jsonMatch[0]);
+
+        // ==========================================
+        // 9. 【核心修复】时间轴重排算法 (Time Redistribution)
+        // ==========================================
+        // 无论AI返回的 time 是多少（或者没有time），我们都强制重写
+        // 将所有事件均匀分布在 randomDuration (例如60秒) 内
+        
+        const startTime = currentTime + 1;
+        const totalEvents = newEvents.length;
+        
+        if (totalEvents > 0) {
+            newEvents = newEvents.map((event, index) => {
+                // 计算该事件应该在第几秒
+                // 算法：起始时间 + (当前索引 / 总数) * 总时长
+                // 这样事件就会从 startTime 均匀铺满到 startTime + duration
+                const offset = Math.floor((index / totalEvents) * randomDuration);
+                return {
+                    ...event,
+                    time: startTime + offset
+                };
+            });
+        }
+
+        // ==========================================
+        // 10. 合并数据并播放
+        // ==========================================
+
+        // 保留旧脚本中 current time 之前的部分
+        const prevScript = (currentLiveScript || []).filter(e => e.time <= currentTime);
+        // 拼接新生成的脚本
+        currentLiveScript = [...prevScript, ...newEvents];
+        
+        // 更新缓存
+        liveData.savedScript = currentLiveScript;
+        await saveData();
+
+        // 重新开始播放 (从下一秒开始)
+        // 使用新脚本的最大时间作为结束时间，确保播放完整
+        const newEndTime = Math.max(...newEvents.map(e => e.time), currentTime + randomDuration);
+        
+        // 再次确保停止旧的（双重保险）
+        if (liveRoomInterval) clearInterval(liveRoomInterval);
+        
+        // 立即开始播放
+        startLivePlayback(newEndTime, currentTime + 1);
+
+    } catch (e) {
+        console.error("互动生成失败", e);
+        showAlert(`互动生成失败！\n\n原因: ${e.message}\n\n我们将尝试继续播放旧内容。`);
+        
+        // 恢复播放旧脚本 (防止画面卡死)
+        if (currentLiveScript) {
+             const maxTime = Math.max(...currentLiveScript.map(e => e.time));
+             if (maxTime > currentTime) {
+                 startLivePlayback(maxTime, currentTime + 1);
+             }
+        }
+    } finally {
+        // ==========================================
+        // 11. 清理加载 UI
+        // ==========================================
+        if (loadingToast && loadingToast.parentNode) {
+            loadingToast.parentNode.removeChild(loadingToast);
+        }
+    }
+}
+
+// --- 总结提示词管理功能 ---
+
+// 1. 打开选择列表
+function openSummaryPromptList() {
+    renderSummaryPromptList();
+    document.getElementById('summaryPromptSelectModal').classList.add('show');
+}
+
+// 2. 渲染列表
+function renderSummaryPromptList() {
+    const container = document.getElementById('summaryPromptList');
+    container.innerHTML = '';
+
+    // "无 (默认)" 选项
+    const noItem = document.createElement('div');
+    noItem.className = 'opening-statement-item';
+    noItem.innerHTML = '<span style="flex-grow:1;">无 (默认)</span>';
+    // 如果当前选中的是 null，显示高亮（可选）
+    if (!summaryGlobalSettings.selectedPromptId) noItem.style.background = '#f0f0f0';
+    
+    noItem.onclick = () => selectSummaryPrompt(null);
+    container.appendChild(noItem);
+
+    // 用户自定义选项
+    summaryPrompts.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'opening-statement-item';
+        // 如果被选中，高亮
+        if (item.id === summaryGlobalSettings.selectedPromptId) div.style.background = '#f0f0f0';
+        
+        div.innerHTML = `
+            <span onclick="selectSummaryPrompt('${item.id}')" style="flex-grow: 1;">${item.title}</span>
+            <div class="item-actions">
+                <span class="edit-btn" onclick="openEditSummaryPromptModal('${item.id}'); event.stopPropagation();">✎</span>
+                <span class="delete-btn" onclick="deleteSummaryPrompt(event, '${item.id}')">✕</span>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// 3. 选中提示词
+async function selectSummaryPrompt(id) {
+    summaryGlobalSettings.selectedPromptId = id;
+    await saveData(); // 保存全局设置
+    updateCurrentSummaryPromptDisplay(); // 更新UI显示
+    document.getElementById('summaryPromptSelectModal').classList.remove('show');
+}
+
+// 4. 更新手动总结弹窗里的显示文字
+function updateCurrentSummaryPromptDisplay() {
+    const display = document.getElementById('currentSummaryPromptDisplay');
+    if (!display) return; // 防止报错
+
+    if (summaryGlobalSettings.selectedPromptId) {
+        const selected = summaryPrompts.find(item => item.id === summaryGlobalSettings.selectedPromptId);
+        display.textContent = selected ? selected.title : '无 (默认)';
+    } else {
+        display.textContent = '无 (默认)';
+    }
+}
+
+// 5. 打开编辑/新建弹窗
+function openEditSummaryPromptModal(id) {
+    currentEditingSummaryPromptId = id;
+    const title = document.getElementById('summaryPromptEditTitle');
+    const titleInput = document.getElementById('summaryPromptTitleInput');
+    const contentInput = document.getElementById('summaryPromptContentInput');
+
+    if (id) {
+        const item = summaryPrompts.find(i => i.id === id);
+        title.textContent = '编辑提示词';
+        titleInput.value = item.title;
+        contentInput.value = item.content;
+    } else {
+        title.textContent = '新建提示词';
+        titleInput.value = '';
+        contentInput.value = '';
+    }
+    document.getElementById('summaryPromptEditModal').classList.add('show');
+}
+
+// 6. 保存提示词
+async function saveSummaryPrompt() {
+    const title = document.getElementById('summaryPromptTitleInput').value.trim();
+    const content = document.getElementById('summaryPromptContentInput').value.trim();
+    if (!title || !content) return showAlert('标题和内容不能为空');
+
+    if (currentEditingSummaryPromptId) {
+        const index = summaryPrompts.findIndex(i => i.id === currentEditingSummaryPromptId);
+        if (index > -1) {
+            summaryPrompts[index].title = title;
+            summaryPrompts[index].content = content;
+            await dbManager.set('summaryPrompts', summaryPrompts[index]);
+        }
+    } else {
+        const newItem = { id: `sum_pmt_${Date.now()}`, title, content };
+        summaryPrompts.push(newItem);
+        // 自动选中新建的
+        summaryGlobalSettings.selectedPromptId = newItem.id;
+        await dbManager.set('summaryPrompts', newItem);
+    }
+    
+    await saveData();
+    renderSummaryPromptList();
+    updateCurrentSummaryPromptDisplay();
+    document.getElementById('summaryPromptEditModal').classList.remove('show');
+}
+
+// 7. 删除提示词
+async function deleteSummaryPrompt(e, id) {
+    e.stopPropagation();
+    if(!confirm("确定删除？")) return;
+    
+    await dbManager.delete('summaryPrompts', id);
+    summaryPrompts = summaryPrompts.filter(i => i.id !== id);
+    
+    if (summaryGlobalSettings.selectedPromptId === id) {
+        summaryGlobalSettings.selectedPromptId = null;
+    }
+    
+    await saveData();
+    renderSummaryPromptList();
+    updateCurrentSummaryPromptDisplay();
 }
 
     </script>
