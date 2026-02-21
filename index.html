@@ -4735,41 +4735,35 @@ html {
     fill: var(--text-color, #333);
 }
 
-/* [新增] 线下模式中，被“”包裹的特殊对话框样式 */
 
-/* ↓↓↓ 第1步：用这个新代码块替换旧的 .offline-quote-box，并新增 .offline-psychology ↓↓↓ */
-
-/* [V2 修正版] 线下模式对话框样式 */
 .offline-quote-box {
-    display: inline; /* 【核心修复】改为 inline，让它像普通文字一样自然流动，不再强制换行 */
+    display: inline;
     background-color: rgba(0,0,0,0.05);
-    padding: 2px 8px; /* 【核心修复】大幅减少上下留白，左右微调 */
+    padding: 2px 8px;
     border-radius: 8px;
-    margin: 0 2px; /* 添加微小的左右边距，避免和文字贴太紧 */
+    margin: 0 2px;
 }
 .message.received .offline-quote-box {
-    /* 这部分保持不变 */
+    
     border-left-color: var(--message-received-bg);
 }
 .wechat-dark-mode .offline-quote-box {
-    /* 这部分保持不变 */
+    
     background-color: rgba(255,255,255,0.08);
 }
 
-/* [新增] AI心理描写样式 */
+
 .offline-psychology {
-    color: var(--text-secondary, #888); /* 字体颜色变浅 */
-    border-bottom: 1px solid rgba(0,0,0,0.1); /* 添加颜色稍深的下划线 */
-    padding-bottom: 1px; /* 让下划线和文字稍微分开一点 */
+    color: var(--text-secondary, #888); 
+    border-bottom: 1px solid rgba(0,0,0,0.1); 
+    padding-bottom: 1px; 
 }
 .wechat-dark-mode .offline-psychology {
-    color: #a0a0a0; /* 暗色模式下更柔和的浅色 */
-    border-bottom-color: rgba(255,255,255,0.15); /* 暗色模式下的下划线 */
+    color: #a0a0a0; 
+    border-bottom-color: rgba(255,255,255,0.15); 
 }
 
-/* ↑↑↑ 替换和新增到此结束 ↑↑↑ */
 
-/* [新增] 开场白列表项样式 */
 .opening-statement-item {
     padding: 15px;
     border-bottom: 1px solid var(--border-light, #f0f0f0);
@@ -4787,52 +4781,40 @@ html {
     padding: 5px;
 }
 
-/* ↑↑↑ CSS代码到此结束 ↑↑↑ */
 
-/* ↓↓↓ 请将这段新CSS代码粘贴到 <style> 标签的末尾 ↓↓↓ */
-
-/* [新增] 优化线下模式字符数滑块的长度 */
 #offlineCharCountSlider {
-    width: 100%; /* 让滑块占据父容器的全部宽度 */
+    width: 100%; 
 }
 
-/* ↑↑↑ CSS代码到此结束 ↑↑↑ */
-
-/* --- [新增] 开场白/文风列表的编辑与删除按钮样式 --- */
-
-/* 按钮的容器，使用flex布局让它们并排显示 */
 .opening-statement-item .item-actions {
     display: flex;
     align-items: center;
-    gap: 8px; /* 控制编辑和删除按钮之间的间距 */
+    gap: 8px; 
 }
 
-/* 编辑按钮的样式 */
+
 .opening-statement-item .edit-btn {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6px;
-    border-radius: 50%; /* 让悬停效果是圆形的 */
+    border-radius: 50%; 
     transition: background-color 0.2s ease;
 }
 
-/* 编辑按钮的悬停效果 */
+
 .opening-statement-item .edit-btn:hover {
     background-color: var(--bg-hover, #f0f0f0);
 }
 
-/* 编辑按钮里的SVG铅笔图标样式 */
 .opening-statement-item .edit-btn svg {
     width: 16px;
     height: 16px;
-    fill: var(--text-secondary, #888); /* 使用柔和的灰色，适配深色模式 */
+    fill: var(--text-secondary, #888); 
 }
 
-/* 【【【第二步：请将这段CSS代码粘贴到 <style> 区域的末尾】】】 */
 
-/* 加载动画的样式 */
 .loading-spinner {
     width: 40px;
     height: 40px;
@@ -4848,41 +4830,39 @@ html {
     }
 }
 
-/* 日记卡片需要相对定位，作为删除按钮的“锚点” */
+
 .diary-cover-item {
     position: relative;
 }
 
-/* 删除按钮本身的样式 */
+
 .diary-delete-icon {
-    position: absolute; /* 绝对定位，相对于父元素 */
-    top: 10px;          /* 距离顶部10像素 */
-    right: 10px;         /* 距离右侧10像素 */
+    position: absolute; 
+    top: 10px;          
+    right: 10px;         
     width: 24px;
     height: 24px;
     cursor: pointer;
-    fill: #bbb;         /* 默认灰色 */
-    transition: fill 0.2s ease; /* 添加颜色过渡效果 */
-    z-index: 2;         /* 确保在其他内容之上 */
+    fill: #bbb;         
+    transition: fill 0.2s ease; 
+    z-index: 2;         
 }
 
 .diary-delete-icon:hover {
-    fill: #ff3b30;     /* 鼠标悬停时变为红色 */
+    fill: #ff3b30;     
 }
 
-/* 【【【第二步：请将这两段CSS代码粘贴到 <style> 区域】】】 */
 
-/* 用于隐藏和显示主动发消息的时间间隔设置 */
 .proactive-interval-setting {
-    display: none; /* 默认隐藏 */
+    display: none; 
 }
 .proactive-interval-setting.show {
-    display: flex; /* 当有 .show 类时显示 */
+    display: flex; 
 }
 
-/* 未读消息红点的样式 */
+
 .friend-item {
-    position: relative; /* 让红点可以相对于它定位 */
+    position: relative; 
 }
 .unread-badge {
     position: absolute;
@@ -4900,16 +4880,14 @@ html {
     font-weight: bold;
 }
 
-/* --- 新增：论坛 App (模仿 X) 样式 --- */
 
-/* 1. 帖子时间线容器 */
 #forumTimeline {
-    /* 模仿 X 的深色背景 */
+    
     background-color: var(--theme-bg, #f7f7f7); 
     padding: 0;
 }
 
-/* 2. 单个帖子项目 */
+
 .post-item {
     display: flex;
     padding: 12px 15px;
@@ -4918,12 +4896,12 @@ html {
     transition: background-color 0.1s ease;
 }
 
-/* 3. 暗色模式下的帖子边框 */
+
 .wechat-dark-mode .post-item {
     border-bottom: 1px solid var(--border-light, #3a3a3c);
 }
 
-/* 4. 帖子头像 */
+
 .post-avatar {
     width: 40px;
     height: 40px;
@@ -4941,13 +4919,13 @@ html {
     color: #fff;
 }
 
-/* 5. 帖子内容区 */
+
 .post-content-area {
     flex-grow: 1;
     min-width: 0;
 }
 
-/* 6. 帖子作者信息 */
+
 .post-header {
     display: flex;
     align-items: center;
@@ -4968,7 +4946,6 @@ width: 100%;
     margin-left: 6px;
 }
 
-/* 7. 帖子正文 */
 .post-text {
     font-size: 15px;
     line-height: 1.4;
@@ -4977,17 +4954,15 @@ width: 100%;
     word-break: break-word;
 }
 
-/* 8. 帖子底部互动图标 */
 
-/* 这是您需要修改成的代码 */
 .post-actions {
     display: flex;
-    /* 1. 使用这个属性来让所有图标组自动平均分布在整行 */
+    
     justify-content: space-between; 
-    align-items: center; /* 确保垂直居中 */
+    align-items: center; 
     margin-top: 8px;
     color: #657786;
-    width: 100%; /* 2. 必须确保容器宽度为100% */
+    width: 100%; 
 }
 
 .post-action-btn {
@@ -5000,7 +4975,7 @@ width: 100%;
     
 }
 
-/* 9. 发布新帖的浮动按钮 (FAB) */
+
 #newPostFab {
     position: fixed;
     bottom: 85px; 
@@ -5026,56 +5001,40 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background: #1da1f2;
 }
 
-/* 10. 论坛设置标题字体加粗 */
+
 .forum-nav-bar .nav-title {
     font-weight: 800 !important;
 }
 
 
-/* --- FIX: 确保论坛内容区域有足够的顶部内边距来避开导航栏 --- */
+
 #forumTimeline {
-    /* 74px 是状态栏(30px) + 导航栏(44px)的总高度 */
+   
     padding-top: 74px !important; 
 }
 
-/* --- 步骤二：新增底部导航和内容区域修正 --- */
 
-/* --- 步骤二：新增底部导航和内容区域修正 --- */
-
-/* --- 步骤二：新增底部导航和内容区域修正 --- */
-
-/* --- 请用这个新版本完整替换旧的 .forum-content-view 规则 --- */
 
 .forum-content-view {
     position: absolute;
-    /* top, left, right 保持不变，由JS控制 */
+    
     top: 74px; 
     left: 0;
     right: 0;
     
-    /* ▼▼▼ 核心修改在这里 ▼▼▼ */
-    /* 
-     * 不再使用 bottom: 0; 
-     * 而是告诉它，它的底部边缘应该距离屏幕底部有一个导航栏的高度。
-     * 这样，内容区域就自然地结束在了导航栏的上方。
-     */
+    
     bottom: calc(49px + env(safe-area-inset-bottom, 0px));
     
-    /* ▲▲▲ 修改结束 ▲▲▲ */
     
-    overflow-y: auto; /* 保持可滚动 */
+    
+    overflow-y: auto; 
 
-    /* 
-     * 因为容器本身已经缩短了，我们不再需要用内边距来制造空间，
-     * 所以可以把之前的 padding-bottom 和 box-sizing 删掉。
-     */
-    
-    /* ... 其他原有的 display, transition, background 等属性保持不变 ... */
+   
     background: var(--theme-bg, #f7f7f7);
     display: none;
     transition: opacity 0.3s ease;
-    padding-left: 0; /* 确保没有左右内边距干扰 */
-    padding-right: 0; /* 确保没有左右内边距干扰 */
+    padding-left: 0; 
+    padding-right: 0; 
 }
 
 .forum-content-view.active {
@@ -5083,28 +5042,23 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 
 .forum-content-view.active {
-    display: block;     /* 只有激活的才显示 */
+    display: block;     
 }
 
-/* 2. 帖子列表容器（现在是 Home 视图的内容） */
-/* 我们把它移动到新的视图容器内，所以不再需要顶部内边距 */
 
-/* --- FIX: 确保 Home 页面可以正确滚动 --- */
-
-/* --- FIX: 确保 Home 页面可以正确滚动 --- */
 
 #forumHomeView {
-    /* 核心修改：移除这两个导致嵌套滚动冲突的属性 */
+    
     /* height: 100%; */
     /* overflow-y: auto; */ 
     
-    /* 其他样式保持不变 */
+   
     padding-top: 0 !important;
 }
 
-/* 3. 论坛底部导航栏样式 */
+
 .forum-bottom-nav {
-    /* 模仿微信底部导航栏的尺寸和定位 */
+    
     height: calc(49px + env(safe-area-inset-bottom, 0px));
     background: var(--nav-bg, #f7f7f7);
     border-top: 1px solid var(--border-color, #e0e0e0);
@@ -5127,12 +5081,12 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: var(--text-secondary, #999);
 }
 
-/* 修复：底部导航栏选中时使用主题文本色（黑色或白色） */
+
 .forum-tab.active {
-    color: var(--text-color, #000); /* 选中时使用主题文本色 */
+    color: var(--text-color, #000); 
 }
 
-/* 修复：在暗色模式下，底部导航栏选中时依然使用主题文本色 */
+
 .wechat-dark-mode .forum-tab.active {
     color: var(--text-color, #fff); 
 }
@@ -5143,41 +5097,39 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     fill: currentColor;
 }
 
-/* --- 步骤一：新增“我”界面（个人资料）样式 --- */
+
 
 .forum-profile-container {
-    padding-bottom: 40px; /* 为 Tab 预留空间 */
+    padding-bottom: 40px; 
 }
 
-/* --- 这是修改和新增后的代码，请用它完整替换旧代码 --- */
 
-/* 1. 将封面图高度从180px缩短为120px */
 .forum-profile-header {
     position: relative;
-    height: 150px; /* <-- 核心修改 */
+    height: 150px; 
     background-color: #1da1f2; 
     background-size: cover;
     background-position: center;
 }
 
-/* 2. 新增：这是一个新的容器，用于放置头像和“编辑个人资料”按钮 */
+
 .forum-profile-top-actions {
     display: flex;
-    justify-content: space-between; /* 让头像和按钮分别靠在两侧 */
-    align-items: flex-end;          /* 让按钮和头像的底部对齐 */
-    padding: 0 15px 10px 15px;      /* 为容器添加内边距，并给按钮下方留出10px空间 */
-    position: relative;             /* 使用相对定位，让它能浮动在普通内容之上 */
-    margin-top: -64px;              /* 向上移动，让头像能覆盖在背景图上 */
+    justify-content: space-between; 
+    align-items: flex-end;          
+    padding: 0 15px 10px 15px;      
+    position: relative;             
+    margin-top: -64px;              
 }
 
-/* 3. 修改：头像容器不再需要自己处理边距和定位 */
+
 .forum-profile-avatar-container {
     position: relative;
     transform: translateY(15px); 
-    /* 之前的 margin 和 margin-top 已被移除，由父容器 .forum-profile-top-actions 控制 */
+    
 }
 
-/* 4. 修改：头像本身的样式（保持不变）*/
+
 .forum-profile-avatar {
     width: 100px;
     height: 100px;
@@ -5188,7 +5140,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     cursor: pointer;
 }
 
-/* 5. 新增：“编辑个人资料”按钮的全新样式 */
+
 .forum-edit-profile-btn {
     padding: 8px 16px;
     font-size: 14px;
@@ -5196,7 +5148,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: var(--text-color, #000);
     background-color: transparent;
     border: 1px solid var(--border-color, #ccc);
-    border-radius: 9999px; /* 使用一个很大的值来确保按钮是圆角矩形（胶囊形状） */
+    border-radius: 9999px; 
     cursor: pointer;
     transition: background-color 0.2s ease;
     transform: translateY(15px);
@@ -5207,10 +5159,9 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 
 .forum-profile-info {
-    padding: 0 15px 15px 15px; /* <--- 修改这里 */
+    padding: 0 15px 15px 15px; 
 }
 
-/* 7. 下面的样式保持不变，但要确保它们在替换范围内 */
 .forum-profile-info h3 {
     font-size: 24px;
     font-weight: 800;
@@ -5285,9 +5236,6 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     border-color: var(--theme-bg, #1c1c1e);
 }
 
-/* --- 替换到此结束 --- */
-
-/* --- 新增：帖子右上角“三点菜单”样式 --- */
 .post-more-options {
    
 }
@@ -5338,29 +5286,27 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-weight: 600;
 }
 
-/* 新增：用于控制作者信息区域内部的布局 */
+
 .post-author-info {
-    display: flex;       /* 让名字、@账号、时间在同一行显示 */
-    align-items: center; /* 确保它们垂直居中对齐 */
-    gap: -2px;            /* 在它们之间增加一个0像素的间距，可以自己调整 */
+    display: flex;       
+    align-items: center; 
+    gap: -2px;            
 }
 
-/* --- 新增：推特热搜界面专属样式 --- */
 
-/* 整体容器，确保可以滚动 */
 #forumSearchView {
     padding: 0;
     overflow-y: auto;
-    background-color: var(--theme-bg, #fff); /* 确保有背景色 */
+    background-color: var(--theme-bg, #fff); 
 }
 
-/* 1. 顶部搜索栏样式 */
+
 .trends-header {
     display: flex;
     align-items: center;
     padding: 8px 12px;
     gap: 12px;
-    position: sticky; /* 吸顶效果 */
+    position: sticky; 
     top: 0;
     background-color: var(--theme-bg, #fff);
     z-index: 10;
@@ -5417,12 +5363,12 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     fill: var(--text-color, #000);
 }
 
-/* 2. 分类标签样式 */
+
 .trends-tabs {
     display: flex;
     border-bottom: 1px solid var(--border-color, #eee);
     position: sticky;
-    top: 57px; /* 搜索栏的高度 */
+    top: 57px; 
     background-color: var(--theme-bg, #fff);
     z-index: 9;
 }
@@ -5451,11 +5397,11 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     transform: translateX(-50%);
     width: 56px;
     height: 4px;
-    background-color: #1d9bf0; /* 推特蓝 */
+    background-color: #1d9bf0; 
     border-radius: 9999px;
 }
 
-/* 3. 热搜列表样式 */
+
 .trends-list-container {
     padding: 0;
 }
@@ -5523,7 +5469,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-size: 20px;
 }
 
-/* 暗色模式适配 */
+
 .wechat-dark-mode .trends-search-bar {
     background-color: #202327;
 }
@@ -5538,70 +5484,65 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* 让导航栏右侧的按钮靠在一起 */
+
 .nav-right-actions {
     display: flex;
     align-items: center;
 }
 
-/* 美化世界观列表的选中状态 */
+
 .friend-item.worldview-active {
-    background-color: #e3f2fd; /* 淡蓝色背景 */
-    border-left: 4px solid #007aff; /* 左侧蓝色高亮条 */
+    background-color: #e3f2fd; 
+    border-left: 4px solid #007aff; 
     padding-left: 11px;
 }
 
-/* --- 新增：推特详情页复刻样式 V3 --- */
-
-/* 1. 让内容滚动区域占据导航栏和底部栏之间的所有空间 */
-
-/* --- 请用这个新版本完整替换 --- */
 #forumDetailContent {
     position: absolute;
     top: 74px; 
-    bottom: 0; /* 核心修改1：让内容区域延伸到底部 */
+    bottom: 0; 
     left: 0;
     right: 0;
     overflow-y: auto;
     padding: 0;
-    /* 核心修改2：增加一个足够高的底部内边距，把内容“顶”上来 */
+    
     padding-bottom: calc(125px + env(safe-area-inset-bottom, 0px));
-    box-sizing: border-box; /* 确保内边距计算正确 */
+    box-sizing: border-box; 
 }
 
-/* 2. 【核心修复】让底部回复栏固定在页面最底部 */
+
 .bottom-reply-bar {
-    position: fixed; /* 固定定位，相对于整个屏幕 */
+    position: fixed; 
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
     background-color: var(--theme-bg, #fff);
     padding: 8px 15px;
-    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); /* 适配iPhone底部安全区 */
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); 
     border-top: 1px solid var(--border-color, #eee);
     display: flex;
     align-items: center;
     gap: 10px;
-    z-index: 10; /* 确保在滚动内容之上 */
+    z-index: 10; 
 }
 
-/* 3. 其他所有样式（主贴、评论、图标等）保持不变 */
+
 
 .forum-detail-main-post { padding: 12px 15px 0; }
 .post-header .post-more-btn { color: var(--text-secondary, #666); cursor: pointer; }
 .post-stats-bar { display: flex; gap: 12px; padding: 10px 0; font-size: 14px; color: var(--text-secondary, #666); }
 .post-stats-bar strong { font-weight: bold; color: var(--text-color, #000); }
 
-/* 这是您需要修改成的代码 */
+
 .post-actions {
     display: flex;
-    /* 1. 使用这个属性来让所有图标组自动平均分布在整行 */
+    
     justify-content: space-between; 
-    align-items: center; /* 确保垂直居中 */
+    align-items: center; 
     margin-top: 10px;
     color: #657786;
-    width: 100%; /* 2. 必须确保容器宽度为100% */
+    width: 100%; 
 }
 
 .post-actions .post-action-btn { display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer; }
@@ -5613,11 +5554,11 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 .reply-bar-avatar { width: 32px; height: 32px; border-radius: 50%; background-size: cover; background-position: center; background-color: #ccc; flex-shrink: 0; }
 .reply-bar-input { flex-grow: 1; border: 1px solid var(--border-color, #eee); background-color: var(--bg-hover, #f0f0f0); border-radius: 9999px; padding: 8px 16px; font-size: 15px; color: var(--text-color); outline: none; }
 
-/* 暗色模式适配 */
+
 .wechat-dark-mode .forum-detail-main-post, .wechat-dark-mode .post-stats-bar, .wechat-dark-mode .comment-thread-item, .wechat-dark-mode .bottom-reply-bar, .wechat-dark-mode .thread-line { border-color: var(--border-light, #3a3a3c); }
 .wechat-dark-mode .reply-bar-input { background-color: #202327; border-color: #3a3a3c; }
 
-/* 侧滑菜单的样式 */
+
 .forum-side-menu {
     position: fixed;
     top: 0;
@@ -5629,19 +5570,18 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     z-index: 1002;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
-    /* --- 核心修改在这里 --- */
-    /* 我们把原来的内边距调整为一个固定的、更大的值，为状态栏留出空间 */
+   
     padding-top: 50px; 
-    box-sizing: border-box; /* 确保内边距计算正确 */
-    /* --- 修改结束 --- */
+    box-sizing: border-box;
+    
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
 .forum-side-menu.show {
-    transform: translateX(0); /* 显示时滑入 */
+    transform: translateX(0); 
 }
 
-/* 菜单项的样式 */
+
 .forum-menu-item {
     padding: 15px 20px;
     font-size: 16px;
@@ -5651,7 +5591,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background-color: var(--bg-hover, #f0f0f0);
 }
 
-/* 背景遮罩的样式 */
+
 .forum-menu-overlay {
     position: fixed;
     top: 0;
@@ -5661,111 +5601,107 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background: rgba(0,0,0,0.4);
     z-index: 1001;
     opacity: 0;
-    pointer-events: none; /* 默认不可点击 */
+    pointer-events: none; 
     transition: opacity 0.3s ease-in-out;
 }
 .forum-menu-overlay.show {
     opacity: 1;
-    pointer-events: auto; /* 显示时可点击 */
+    pointer-events: auto; 
 }
 
-/* --- 最终修复版：统一管理论坛相关弹窗层级 --- */
 
-/* 基础弹窗（如“论坛设置”）保持默认或 z-index: 1000 */
-
-/* 侧滑菜单的灰色遮罩层 */
 .forum-menu-overlay {
     z-index: 1001; 
 }
 
-/* 侧滑菜单本身 */
+
 .forum-side-menu {
     z-index: 1002;
 }
 
-/* 从侧滑菜单里打开的第一层弹窗（如角色选择列表）*/
+
 #forumSettingsModal,
 #forumCharacterSelectModal,
 #worldviewModal,
-#forumRulesModal{ /* <-- 新增这一行 */
-    z-index: 1003; /* <-- 核心修改：比侧滑菜单的1002更高 */
+#forumRulesModal{ 
+    z-index: 1003;
 }
 
-/* 从列表弹窗里再打开的第二层弹窗（如规则编辑器）*/
+
 #worldviewEditorModal,
 #forumRuleEditorModal {
-    z-index: 1004; /* <-- 比第一层弹窗更高 */
+    z-index: 1004; 
 }
 
-/* 找到这段已有的CSS */
+
 .generate-diary-btn.loading svg {
     animation: spin 1s linear infinite;
 }
 
-/* 在它下面，添加这一行新的CSS规则 */
+
 .nav-btn.loading svg {
     animation: spin 1s linear infinite;
 }
 
-/* @keyframes spin 规则保持不变 */
+
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-/* --- 新增：论坛 App 颜色优化 (深色模式已修复) --- */
 
-/* 1. 论坛底部导航栏 */
+
+
 .forum-bottom-nav {
     background-color: #ffffff !important;
     border-top-color: #f0f0f0 !important;
 }
-/* 【修复】深色模式下，使用主题背景色 */
+
 .wechat-dark-mode .forum-bottom-nav {
     background-color: var(--nav-bg, #2c2c2e) !important;
     border-top-color: var(--border-color, #3a3a3c) !important;
 }
 
-/* 2. 论坛主页和“我”页面的背景 */
+
 #forumHomeView,
 #forumMeView {
     background-color: #ffffff !important;
 }
-/* 【修复】深色模式下，使用主题背景色 */
+
 .wechat-dark-mode #forumHomeView,
 .wechat-dark-mode #forumMeView {
     background-color: var(--theme-bg, #1c1c1e) !important;
 }
 
-/* 3. “我”页面头像周围的边框，使其与背景融为一体 */
+
 .forum-profile-avatar {
     border-color: #ffffff !important;
 }
-/* 【修复】深色模式下，使用主题背景色 */
+
 .wechat-dark-mode .forum-profile-avatar {
     border-color: var(--theme-bg, #1c1c1e) !important;
 }
 
-/* 4. 论坛顶部的导航栏背景 */
+
 #forumTopNavBar {
     background-color: #ffffff !important;
     border-bottom-color: #f0f0f0 !important;
 }
-/* 【修复】深色模式下，使用主题背景色和边框色 */
+
 .wechat-dark-mode #forumTopNavBar {
     background-color: var(--nav-bg, #2c2c2e) !important;
     border-bottom-color: var(--border-color, #3a3a3c) !important;
 }
 
-/* --- 新增：帖子详情页颜色优化 --- */
 
-/* 1. 将详情页的顶部导航栏和底部回复栏背景设为纯白色 */
+
+
 #forumDetailView .nav-bar,
 #forumDetailView .bottom-reply-bar {
     background-color: #ffffff !important;
 }
 
-/* 2. 统一详情页所有区域的分割线颜色，让它们更柔和 */
+
 #forumDetailView .nav-bar,
 #forumDetailView .forum-detail-main-post,
 #forumDetailView .comment-thread-item {
@@ -5775,7 +5711,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     border-top-color: #f0f0f0 !important;
 }
 
-/* 3. 确保主内容滚动区域也是纯白色背景 */
+
 #forumDetailContent {
     background-color: #ffffff !important;
 }
@@ -5787,83 +5723,81 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-weight: 500;
     font-size: 14px;
     color: var(--text-secondary, #666);
-    /* --- ↓↓↓ 新增的样式 ↓↓↓ --- */
-    display: flex;         /* 使用flex布局 */
-    align-items: center;   /* 让文字和箭头垂直居中 */
-    gap: -1px;              /* 在文字和箭头之间增加一点间距 */
-    cursor: pointer;       /* 让它看起来可以点击 */
+   
+    display: flex;         
+    align-items: center;   
+    gap: -1px;              
+    cursor: pointer;       
 }
 
-/* 新增：修复帖子详情页中@账号的对齐问题 */
 .forum-detail-main-post .post-handle {
     margin-left: 0;
 }
 
-/* 新增：论坛详情页的关注按钮样式 */
+
 .forum-follow-btn {
-    background-color: #0F1419; /* 接近黑色的深灰色 */
+    background-color: #0F1419; 
     color: white;
     padding: 4px 12px;
-    border-radius: 9999px; /* 实现胶囊形状 */
+    border-radius: 9999px; 
     border: none;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
 }
 
-/* --- 新增：论坛子版块样式 --- */
 
-/* 版块内容容器的通用样式 */
+
 .forum-timeline-container {
-    display: none; /* 默认隐藏所有版块 */
+    display: none; 
 }
 
-/* 被选中的版块才显示 */
+
 .forum-timeline-container.active {
     display: block;
 }
 
-/* 【修正】确保在白色背景下，热搜/版块导航栏的分割线可见 */
+
 .trends-tabs {
     background-color: #ffffff !important;
     border-bottom-color: #f0f0f0 !important;
 }
 
-/* --- [新增] 列表项的编辑与删除按钮样式 --- */
 
-/* 按钮的容器，使用flex布局让它们并排显示 */
+
+
 .friend-item .item-actions {
     display: flex;
     align-items: center;
-    gap: 8px; /* 控制编辑和删除按钮之间的间距 */
+    gap: 8px; 
 }
 
-/* 编辑按钮的样式 */
+
 .friend-item .edit-btn {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 6px;
-    border-radius: 50%; /* 让悬停效果是圆形的 */
+    border-radius: 50%; 
     transition: background-color 0.2s ease;
 }
 
-/* 编辑按钮的悬停效果 */
+
 .friend-item .edit-btn:hover {
     background-color: var(--bg-hover, #f0f0f0);
 }
 
-/* 编辑按钮里的SVG铅笔图标样式 */
+
 .friend-item .edit-btn svg {
     width: 16px;
     height: 16px;
-    fill: var(--text-secondary, #888); /* 使用柔和的灰色 */
+    fill: var(--text-secondary, #888); 
 }
 
-/* 删除按钮的样式 */
+
 .friend-item .delete-btn {
-    color: #ff3b30; /* 红色 */
+    color: #ff3b30; 
     font-weight: bold;
     font-size: 20px;
     padding: 5px 10px;
@@ -5872,21 +5806,21 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     transition: background-color 0.2s ease;
 }
 
-/* 删除按钮的悬停效果 */
+
 .friend-item .delete-btn:hover {
     background-color: rgba(255, 59, 48, 0.1);
 }
 
-/* --- 新增：论坛App激活时的专属样式 --- */
 
-/* 1. 当论坛App激活时，强制将状态栏背景设为纯白色 */
+
+
 .phone.forum-app-active .status-bar {
     background-color: #ffffff !important;
-    /* 同时，将状态栏上的文字和图标颜色强制设为黑色，以确保可见 */
+    
     color: #000000 !important;
 }
 
-/* 2. 详细设置状态栏上各个图标元素的颜色为黑色 */
+
 .phone.forum-app-active .status-bar .signal-bar,
 .phone.forum-app-active .status-bar .battery-level,
 .phone.forum-app-active .status-bar .battery-tip {
@@ -5899,9 +5833,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     border-color: #000000 !important;
 }
 
-/* --- 新增：论坛回复功能样式 --- */
 
-/* 1. 底部回复栏的发送按钮样式 */
 #forumReplySendBtn {
     padding: 8px 16px;
     border: none;
@@ -5918,7 +5850,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     cursor: not-allowed;
 }
 
-/* 2. 评论区的加载中提示样式 */
+
 .comments-loading-indicator {
     text-align: center;
     padding: 20px;
@@ -5926,12 +5858,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-style: italic;
 }
 
-/* --- ▼▼▼【隔离版】查手机APP专属样式 (V3) - 由 Gemini 修改 ▼▼▼ --- */
-/* 
- * 核心修改：所有选择器前都增加了 #phoneApp 前缀，
- * 确保这些样式只在“手机App”页面内生效，不会影响其他界面。
- * 同时，移除了对 html, body, .phone, .screen 的全局样式，避免破坏主项目布局。
-*/
+
 
 #phoneApp * { 
     margin: 0; 
@@ -5939,30 +5866,30 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     box-sizing: border-box; 
 }
 
-/* --- “查手机”功能专属样式 --- */
+
 #phoneApp .phone-app-container {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: #F3F1ED; /* 将背景色应用到容器上 */
+    background: #F3F1ED; 
 }
 
-/* 角色选择列表 (参考图1) */
+
 #phoneApp .friend-list { 
     padding: 30px 20px; 
     background: #F3F1ED; 
     height: 100%; 
     overflow-y: auto; 
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 两列布局 */
+    grid-template-columns: 1fr 1fr; 
     gap: 20px;
-    align-content: start; /* 从顶部开始排列 */
+    align-content: start; 
 }
 #phoneApp .friend-item { 
     background: white; 
     border: 1px solid #EAEAEA;
-    border-radius: 4px; /* 轻微圆角 */
+    border-radius: 4px; 
     cursor: pointer; 
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
@@ -5977,11 +5904,11 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 #phoneApp .friend-avatar { 
     width: 80px; height: 80px; 
-    border-radius: 50%; /* 圆形头像 */
+    border-radius: 50%; 
     background: #eee; 
     display: flex; align-items: center; justify-content: center; 
     font-weight: bold; 
-    margin-bottom: 15px; /* 头像与文字的间距 */
+    margin-bottom: 15px; 
     background-size: cover; background-position: center; 
     flex-shrink: 0; 
     font-family: 'Noto Serif SC', serif;
@@ -5997,15 +5924,15 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 #phoneApp .friend-message { font-size: 12px; color: #999; }
 
-/* 模拟手机屏幕 (新UI) */
+
 #phoneApp #simulatedPhoneScreen { 
     flex-grow: 1; display: flex; align-items: center; justify-content: center; 
-    padding: 20px; /* 调整内边距以适应jrsy项目 */
+    padding: 20px; 
     background-color: #F3F1ED; 
 }
 #phoneApp .sim-phone-frame { 
     width: 100%; height: 100%; 
-    background-color: #1A1A1A; /* 深黑色外壳 */
+    background-color: #1A1A1A; 
     border-radius: 40px; 
     padding: 10px; 
     box-shadow: 0 20px 50px rgba(0,0,0,0.3); 
@@ -6027,13 +5954,13 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background-position: center; 
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* 核心修改：让内容从底部开始排列 */
+    justify-content: flex-end; 
     padding: 20px;
-    cursor: pointer; /* 新增：让桌面看起来可以点击 */
-    transition: background-image 0.3s ease-in-out; /* 新增：壁纸切换动画 */
+    cursor: pointer; 
+    transition: background-image 0.3s ease-in-out; 
 }
 
-/* 模拟App网格 (毛玻璃效果) */
+
 
 #phoneApp .sim-app-grid { 
     width: 100%;
@@ -6042,12 +5969,12 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     gap: 20px; 
     padding: 20px;
     
-    /* ▼▼▼ 修改部分开始 ▼▼▼ */
-    background: transparent;       /* 背景改为完全透明 */
-    backdrop-filter: none;         /* 去掉毛玻璃模糊效果 */
-    -webkit-backdrop-filter: none; /* 兼容性去模糊 */
-    border: none;                  /* 去掉半透明边框 */
-    /* ▲▲▲ 修改部分结束 ▲▲▲ */
+    
+    background: transparent;       
+    backdrop-filter: none;         
+    -webkit-backdrop-filter: none; 
+    border: none;                  
+    
 
     border-radius: 30px;
     cursor: default; 
@@ -6056,16 +5983,16 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #phoneApp .sim-app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; text-decoration: none; }
 #phoneApp .sim-app-icon-img { 
     width: 50px; height: 50px; 
-    background: transparent; /* 图标背景完全透明 */
+    background: transparent; 
     border-radius: 12px; 
     margin-bottom: 8px; 
     display: flex; align-items: center; justify-content: center; 
-    font-size: 28px; /* 增大图标尺寸 */
-    color: #1A1A1A; /* 图标颜色 */
+    font-size: 28px; 
+    color: #1A1A1A; 
 }
 #phoneApp .sim-app-icon-label { font-size: 11px; color: #1A1A1A; font-weight: 500;}
 
-/* --- 子页面UI重构的核心样式 --- */
+
 #phoneApp .sim-app-view { display: none; flex-direction: column; width: 100%; height: 100%; background-color: #fff; position: absolute; top: 0; left: 0; z-index: 5; }
 #phoneApp .sim-app-view.active { display: flex; }
 #phoneApp .sim-app-header { height: 50px; background: white; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; flex-shrink: 0; border-bottom: 1px solid #EAEAEA; }
@@ -6074,19 +6001,19 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #phoneApp .sim-app-content { flex-grow: 1; overflow-y: auto; }
 #phoneApp .sim-loading-overlay { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 15px; text-align: center; height: 100%; }
 
-/* 列表页通用样式 (备忘录, 浏览器, 购物, 论坛) */
+
 #phoneApp .sim-list-item { padding: 20px; border-bottom: 1px solid #EAEAEA; cursor: pointer; transition: background-color 0.2s ease; }
 #phoneApp .sim-list-item:hover { background-color: #fafafa; }
 #phoneApp .sim-list-title { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 16px; margin-bottom: 8px; color: #1A1A1A; }
 #phoneApp .sim-list-subtitle { font-size: 14px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #phoneApp .sim-list-meta { font-size: 12px; color: #ccc; margin-top: 10px; }
 
-/* 详情页通用样式 */
+
 #phoneApp .sim-detail-content { padding: 25px; line-height: 1.8; font-size: 15px; color: #333; }
 #phoneApp .sim-detail-content h3 { font-family: 'Noto Serif SC', serif; font-size: 24px; margin-bottom: 15px; border-bottom: 1px solid #EAEAEA; padding-bottom: 15px; }
 #phoneApp .sim-detail-content hr { border: 0; border-top: 1px solid #EAEAEA; margin: 20px 0; }
 
-/* 微信App模拟样式 */
+
 #phoneApp .sim-wechat-list .friend-item { border-radius: 0; box-shadow: none; padding: 12px 15px; }
 #phoneApp .sim-wechat-list .friend-item:hover { transform: none; }
 #phoneApp .sim-wechat-list .friend-avatar { width: 45px; height: 45px; margin-bottom: 0; }
@@ -6099,17 +6026,17 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #phoneApp .chat-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; margin: 0 10px 0 0; flex-shrink: 0; background-size: cover; background-position: center; background-color: #ccc; }
 #phoneApp .message.sent .chat-avatar { margin: 0 0 0 10px; }
 
-/* 论坛评论区样式 */
+
 #phoneApp .sim-detail-content h4 { font-family: 'Noto Serif SC', serif; font-size: 18px; margin-top: 30px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
 #phoneApp .comment-floor { border-bottom: 1px solid #f5f5f5; padding: 20px 0; }
 #phoneApp .comment-user-info { font-size: 13px; color: #999; margin-bottom: 8px; font-weight: 700; }
 #phoneApp .comment-text { margin-top: 0; line-height: 1.7; font-size: 14px; }
 
-/* 加载动画 */
+
 #phoneApp .loading-spinner { width: 40px; height: 40px; border: 4px solid rgba(0,0,0,0.1); border-top-color: #1A1A1A; border-radius: 50%; animation: phone-app-spin 1s linear infinite; }
 @keyframes phone-app-spin { to { transform: rotate(360deg); } }
 
-/* --- 桌面艺术素材分层样式 --- */
+
 #phoneApp #desktop-art-container {
     position: absolute;
     top: 50px;
@@ -6146,24 +6073,20 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #phoneApp #user-photo-placeholder:hover {
     background-color: rgba(0,0,0,0.1);
 }
-/* --- ▲▲▲【隔离版】样式结束 ▲▲▲ --- */
 
-/* --- ▼▼▼ 请将这段新增的代码粘贴到 <style> 区域内 ▼▼▼ --- */
 
-/* [新增] 优化“查手机”App顶部导航栏的边距 */
+
 #phoneApp .nav-bar {
-    /* 核心修改：将左右内边距从原来的 8px 增加到 15px */
+    
     padding: 0 15px;
     
-    /* 确保内边距不会把导航栏撑宽，维持布局稳定 */
+    
     box-sizing: border-box; 
 }
 
-/* --- ▲▲▲ 粘贴到此结束 ▲▲▲ --- */
 
-/* --- [新增] 表情包添加弹窗的样式 --- */
 
-/* Tab 按钮容器的样式 */
+
 .emoji-modal-tabs {
     display: flex;
     margin-bottom: 20px;
@@ -6172,9 +6095,9 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     padding: 4px;
 }
 
-/* Tab 按钮的样式 */
+
 .emoji-modal-tab {
-    flex: 1; /* 让两个按钮平分宽度 */
+    flex: 1; 
     padding: 8px 12px;
     border: none;
     background-color: transparent;
@@ -6182,30 +6105,30 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    border-radius: 6px; /* 为按钮本身也添加圆角 */
+    border-radius: 6px; 
     transition: all 0.2s ease-in-out;
 }
 
-/* Tab 按钮激活时的样式 */
+
 .emoji-modal-tab.active {
     background-color: var(--bg-primary, white);
     color: var(--text-color, #000);
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* 内容视图的样式 (核心功能) */
+
 .emoji-modal-content-view {
-    display: none; /* 默认隐藏所有内容视图 */
+    display: none; 
     flex-direction: column;
     gap: 15px;
 }
 
-/* 激活的内容视图的样式 (核心功能) */
+
 .emoji-modal-content-view.active {
-    display: flex; /* 只显示带有 .active 类的视图 */
+    display: flex; 
 }
 
-/* 上传按钮的样式 */
+
 .emoji-modal-upload-btn {
     display: block;
     width: 100%;
@@ -6218,37 +6141,33 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-weight: 500;
 }
 
-/* --- 新增：修复论坛搜索/热搜页的深色模式样式 --- */
 
-/* 1. 为热搜页的顶部搜索栏添加深色背景 */
 .wechat-dark-mode .trends-header {
     background-color: var(--nav-bg, #2c2c2e) !important;
     border-bottom-color: var(--border-color, #3a3a3c) !important;
 }
 
-/* 2. 为热搜页下方的标签栏添加深色背景 */
+
 .wechat-dark-mode .trends-tabs {
     background-color: var(--nav-bg, #2c2c2e) !important;
     border-bottom-color: var(--border-color, #3a3a3c) !important;
 }
 
-/* --- [新增] 论坛帖子详情页的夜间模式适配 --- */
 
-/* 1. 先把所有主要的“墙面”（背景）都“涂黑” */
 .wechat-dark-mode #forumDetailView .nav-bar,
 .wechat-dark-mode #forumDetailView .bottom-reply-bar,
 .wechat-dark-mode #forumDetailContent {
     background-color: var(--nav-bg, #2c2c2e) !important;
 }
 
-/* 2. 然后把所有主要的“家具”（文字）都“染白” */
+
 .wechat-dark-mode #forumDetailView .post-author-name,
 .wechat-dark-mode #forumDetailView .post-text,
 .wechat-dark-mode #forumDetailView .post-stats-bar strong {
     color: var(--text-color, #fff);
 }
 
-/* 3. 把一些次要的“装饰品”（辅助文字）变成柔和的灰色 */
+
 .wechat-dark-mode #forumDetailView .post-handle,
 .wechat-dark-mode #forumDetailView .post-stats-bar,
 .wechat-dark-mode #forumDetailView .replies-header,
@@ -6256,7 +6175,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: var(--text-secondary, #8e8e93);
 }
 
-/* 4. 把“门框”和“窗框”（分割线）也换成深色系的 */
+
 .wechat-dark-mode #forumDetailView .nav-bar,
 .wechat-dark-mode #forumDetailView .forum-detail-main-post,
 .wechat-dark-mode #forumDetailView .comment-thread-item {
@@ -6269,44 +6188,31 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background-color: var(--border-color, #eee);
 }
 
-/* 5. 最后，单独美化几个特殊的小零件 */
 
-/* 5.1 底部的回复输入框 */
 .wechat-dark-mode #forumDetailView .reply-bar-input {
-    background-color: #202327; /* 参考搜索栏的颜色 */
+    background-color: #202327; 
     border-color: #3a3a3c;
-    color: var(--text-color, #fff); /* 输入的文字是白色 */
+    color: var(--text-color, #fff); 
 }
 .wechat-dark-mode #forumDetailView .reply-bar-input::placeholder {
-    color: var(--text-secondary, #8e8e93); /* 提示文字是灰色 */
+    color: var(--text-secondary, #8e8e93); 
 }
 
-/* 5.2 关注按钮 (黑底白字 -> 白底黑字) */
+
 .wechat-dark-mode #forumDetailView .forum-follow-btn {
     background-color: #ffffff;
     color: #0F1419;
 }
 
-       
-/* ▼▼▼ 步骤三：【安全隔离版】火星模式完整CSS样式 ▼▼▼ */
-
-/* 
- * 核心改造说明：
- * 1. 原有的 :root 变量被移动到了 #marsModeScreen 选择器下，使其作用域被限定。
- * 2. 原有的 html, body 选择器被替换为 #marsModeScreen，确保样式只应用于这个页面。
- * 3. 所有的CSS规则都以 #marsModeScreen 作为前缀，实现了样式的完全隔离。
- * 4. @keyframes blink 被重命名为 @keyframes mars-blink，避免与其他动画命名冲突。
-*/
-
 #marsModeScreen {
-    /* 从 :root 移动过来的变量 */
+   
     --panel-gap: 15px; 
     --panel-padding: 25px; 
     --border-radius: 24px;
     --transition-speed: 0.35s; 
     --controls-height: 60px;
     
-    /* 从 html, body 移动过来的样式 */
+   
     height: 100%; 
     overflow: hidden; 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -6314,7 +6220,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     margin: 0;
 }
 
-/* 【【【核心修复 1：导航栏布局彻底重构】】】 */
+
 #marsModeScreen .nav-bar {
     position: fixed; top: 0; left: 0; width: 100%; z-index: 10;
     background: #fff; border-bottom: 1px solid #EAEAEA;
@@ -6324,20 +6230,20 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     box-sizing: border-box;
 }
 #marsModeScreen .nav-left, #marsModeScreen .nav-right {
-    flex: 1; /* 左右各占一份空间 */
+    flex: 1; 
 }
 #marsModeScreen .nav-right {
-    display: flex; justify-content: flex-end; /* 头像靠右 */
+    display: flex; justify-content: flex-end; 
 }
 #marsModeScreen .nav-title {
-    flex: 2; /* 标题占两份空间，确保居中 */
+    flex: 2; 
     text-align: center;
     color: #1A1A1A; font-weight: 600; font-size: 17px;
 }
 #marsModeScreen .nav-avatar { width: 36px; height: 36px; border-radius: 50%; background-color: #eee; background-size: cover; background-position: center; }
 #marsModeScreen .nav-back-btn { font-size: 24px; color: #333; cursor: pointer; }
 
-/* 核心布局 */
+
 #marsModeScreen #container { width: 100%; height: 100%; display: flex; flex-direction: column; transition: padding-bottom 0.2s ease-out; }
 #marsModeScreen .panels-wrapper { flex-grow: 1; display: flex; flex-direction: column; gap: 15px; padding: 15px; padding-top: calc(50px + env(safe-area-inset-top) + 15px); overflow: hidden; }
 #marsModeScreen .mars-panel { flex-shrink: 0; background-color: #000000; border-radius: 24px; padding: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; position: relative; background-size: cover; background-position: center; transition: flex 0.35s ease-in-out, background-image 0.5s ease; }
@@ -6361,8 +6267,8 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #marsModeScreen #container.user-panel-focused #toggle-panel-btn i { transform: rotate(180deg); }
 #marsModeScreen .hidden-file-input { display: none; }
 
-@keyframes mars-blink { 50% { opacity: 0; } } /* 动画重命名 */
-#marsModeScreen .typing-cursor { display: inline-block; width: 2px; height: 28px; background: white; animation: mars-blink 1s step-end infinite; margin-left: 2px; vertical-align: text-bottom; } /* 使用重命名后的动画 */
+@keyframes mars-blink { 50% { opacity: 0; } } 
+#marsModeScreen .typing-cursor { display: inline-block; width: 2px; height: 28px; background: white; animation: mars-blink 1s step-end infinite; margin-left: 2px; vertical-align: text-bottom; } 
 #marsModeScreen .system-erase-notice { color: rgba(255, 255, 255, 0.5); font-size: 18px; text-align: center; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
 #marsModeScreen .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: flex; align-items: flex-end; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -6384,34 +6290,16 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 #marsModeScreen #send-drawing-btn { background: #007AFF; color: white; }
 #marsModeScreen #clear-canvas-btn { background: #e5e5ea; color: #333; }
 
-/* ▲▲▲ 步骤三代码结束 ▲▲▲ */
 
-/* ▼▼▼ 步骤一：添加这段CSS以在火星模式下隐藏状态栏 ▼▼▼ */
-
-/* 
- * 核心逻辑：
- * 1. 当手机主容器 <div class="phone"> 被添加了 .mars-mode-active 类时...
- * 2. ...它内部的 .status-bar 元素就会被彻底隐藏 (display: none)。
-*/
 .phone.mars-mode-active .status-bar {
     display: none !important;
 }
 
-/* 
- * 辅助修复：
- * 因为JRSY系统默认会给所有.page一个顶部内边距来避开状态栏和导航栏，
- * 所以我们需要为火星模式页面 #marsModeScreen 单独重置这个内边距，
- * 把它设置为0，让它能真正占满整个屏幕。
-*/
 #marsModeScreen {
     padding-top: 0 !important;
 }
 
-/* ▲▲▲ 步骤一代码结束 ▲▲▲ */
 
-/* ▼▼▼ 请将这段新增的代码粘贴到 <style> 的末尾 ▼▼▼ */
-
-/* “火星模式”专属的加载动画样式 */
 #marsModeScreen .loading-dots {
     display: flex;
     align-items: center;
@@ -6435,48 +6323,45 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     40% { transform: scale(1.0); }
 }
 
-/* ▲▲▲ 新增代码到此结束 ▲▲▲ */
 
-/* --- [修改后] 火星模式发送按钮的样式 --- */
 #marsModeScreen #mars-send-btn {
     position: absolute;
     bottom: 15px;
     right: 70px;
     z-index: 5;
-    display: none; /* 默认依然是隐藏的 */
+    display: none; 
     align-items: center;
     justify-content: center;
     width: 38px;
     height: 38px;
-    /* 核心修改：使用和展开按钮一样的半透明黑色背景 */
+    
     background: rgba(0, 0, 0, 0.3);
     border-radius: 50%;
-    font-size: 22px; /* 调整图标大小以匹配展开按钮 */
-    color: white;    /* 核心修改：图标颜色变为白色 */
+    font-size: 22px; 
+    color: white;    
     cursor: pointer;
 }
 
-/* 这部分显示逻辑保持不变 */
+
 #marsModeScreen #container.user-panel-focused #mars-send-btn {
     display: flex;
 }
 
-/* ▼▼▼ 新增代码 ▼▼▼ */
-/* 为新页面设置白色背景 */
+
 #forumNotificationsView,
 #forumCharacterProfileView,
 #forumCharacterProfileView .wechat-content {
     background-color: #ffffff !important;
 }
 
-/* 适配夜间模式 */
+
 .wechat-dark-mode #forumNotificationsView,
 .wechat-dark-mode #forumCharacterProfileView,
 .wechat-dark-mode #forumCharacterProfileView .wechat-content {
     background-color: var(--theme-bg, #1c1c1e) !important;
 }
 
-/* 通知列表项的样式 */
+
 .notification-item {
     display: flex;
     align-items: center;
@@ -6493,7 +6378,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 .wechat-dark-mode .notification-item:hover {
     background-color: #2c2c2e;
 }
-/* ▲▲▲ 新增结束 ▲▲▲ */
+
 
 /* --- 新增：统一论坛所有子页面的导航栏样式 --- */
 
@@ -21118,6 +21003,573 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background-position: center;
 }
 
+/* --- 入梦功能专属样式 --- */
+
+/* 1. 梦境列表卡片 */
+.dream-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.dream-card:active {
+    transform: scale(0.98);
+}
+.dream-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 8px;
+    font-family: "Noto Serif SC", serif; /* 使用衬线体更有梦境感 */
+}
+.dream-card-preview {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.dream-card-meta {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+}
+.dream-tag {
+    background: #f5f5f5;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #333;
+    margin-right: 5px;
+}
+
+/* 2. 沉浸式播放页 */
+.dream-play-area {
+    width: 100%;
+    height: 100%;
+    background-color: #fcfcfc; /* 极淡的灰白，护眼 */
+    background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow-y: auto;
+    padding: 60px 20px 100px 20px; /* 上下留白 */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* 文本段落容器 */
+.dream-content-box {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* 单个文本段落 (动画关键) */
+.dream-text-p {
+    font-family: "Noto Serif SC", serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 20px;
+    opacity: 0; /* 初始隐藏 */
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    text-align: justify;
+}
+.dream-text-p.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 选项容器 */
+.dream-options-box {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 30px;
+    display: none; /* 默认隐藏，最后才显示 */
+    flex-direction: column;
+    gap: 15px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* 选项按钮 */
+.dream-option-btn {
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+}
+.dream-option-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+    background: #f5f5f5;
+}
+
+/* 底部提示 */
+.dream-tap-hint {
+    position: fixed;
+    bottom: 30px;
+    font-size: 12px;
+    color: #ccc;
+    animation: pulse 2s infinite;
+    pointer-events: none;
+}
+
+/* 暗色模式适配 */
+.wechat-dark-mode #dreamListScreen { background: #000 !important; }
+.wechat-dark-mode .dream-card { background: #1c1c1e; border-color: #333; }
+.wechat-dark-mode .dream-card-title { color: #fff; }
+.wechat-dark-mode .dream-card-preview { color: #aaa; }
+.wechat-dark-mode .dream-tag { background: #333; color: #ccc; }
+
+.wechat-dark-mode .dream-play-area { 
+    background-color: #121212; 
+    background-image: radial-gradient(#333 1px, transparent 1px);
+}
+.wechat-dark-mode .dream-text-p { color: #ddd; }
+.wechat-dark-mode .dream-option-btn { 
+    background: #1c1c1e; 
+    border-color: #fff; 
+    color: #fff; 
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* --- 入梦角色选择专属样式 (梦境风格) --- */
+
+/* 1. 容器：网格布局 */
+.dream-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 一行两列 */
+    gap: 15px; /* 卡片间距 */
+    padding: 20px;
+    padding-bottom: 50px;
+}
+
+/* 2. 单个卡片：正方形、玻璃质感 */
+.dream-char-card {
+    aspect-ratio: 1 / 1; /* 强制正方形 */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 248, 255, 0.8));
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    
+    /* 玻璃拟态边框和阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px rgba(100, 149, 237, 0.15);
+    backdrop-filter: blur(10px);
+    
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+    
+    /* 默认浮动动画 */
+    animation: dreamFloat 6s ease-in-out infinite;
+}
+
+/* 让相邻卡片浮动节奏错开，显得更自然 */
+.dream-char-card:nth-child(even) {
+    animation-duration: 7s;
+    animation-delay: 1s;
+}
+.dream-char-card:nth-child(3n) {
+    animation-duration: 8s;
+    animation-delay: 0.5s;
+}
+
+/* 点击时的Q弹效果 */
+.dream-char-card:active {
+    transform: scale(0.92) !important; /* 强制缩小 */
+    box-shadow: 0 2px 10px rgba(100, 149, 237, 0.2);
+}
+
+/* 3. 头像样式：带光晕 */
+.dream-card-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* 4. 文字样式 */
+.dream-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #4a5568;
+    z-index: 2;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+}
+
+.dream-card-hint {
+    font-size: 11px;
+    color: #a0aec0;
+    margin-top: 4px;
+    z-index: 2;
+    opacity: 0.8;
+}
+
+/* 5. 装饰背景：梦幻光斑 */
+.dream-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 60%);
+    opacity: 0.5;
+    z-index: 1;
+    transform: rotate(30deg);
+}
+
+/* --- 浮动动画关键帧 --- */
+@keyframes dreamFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* --- 夜间模式适配 (深邃星空感) --- */
+.wechat-dark-mode .dream-char-card {
+    background: linear-gradient(135deg, rgba(45, 45, 50, 0.9), rgba(30, 30, 35, 0.9));
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.wechat-dark-mode .dream-card-avatar {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.wechat-dark-mode .dream-card-name {
+    color: #e2e8f0;
+    text-shadow: none;
+}
+.wechat-dark-mode .dream-card-hint {
+    color: #718096;
+}
+.wechat-dark-mode .dream-card::before {
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+}
+
+/* --- 入梦设置面板样式 --- */
+.dream-settings-panel {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    width: 240px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    padding: 15px;
+    z-index: 150;
+    display: none; /* 默认隐藏 */
+    animation: fadeIn 0.2s ease-out;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.dream-settings-panel.show {
+    display: block;
+}
+
+.dream-setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+.dream-setting-row.column {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+/* 模式切换按钮 */
+.dream-mode-switch {
+    background: #f0f0f0;
+    border-radius: 20px;
+    display: flex;
+    padding: 3px;
+}
+.mode-btn {
+    width: 36px;
+    height: 28px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #999;
+    transition: all 0.3s;
+}
+.mode-btn.active {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 音频网格 */
+.dream-sound-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4列 */
+    gap: 8px;
+    width: 100%;
+}
+.sound-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 10px 5px;
+    cursor: pointer;
+    color: #666;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+.sound-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+.sound-item span {
+    font-size: 10px;
+}
+.sound-item.active {
+    background: #e6f7ff;
+    color: #007aff;
+    border-color: #007aff;
+}
+
+/* --- 核心修复：字体跟随主题 --- */
+.dream-text-p {
+    /* 使用 var(--font-family) 确保跟随主题设置 */
+    /* 备用字体 Noto Serif SC 增加文学感 */
+    font-family: var(--font-family, "Noto Serif SC", serif); 
+    font-size: 17px; /* 稍微加大一点，阅读更舒服 */
+    line-height: 1.9;
+    color: #333; /* 日间默认颜色 */
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    text-align: justify;
+}
+
+/* --- 夜间模式样式 --- */
+.dream-play-area.dream-night-mode {
+    background-color: #0d0d0d !important; /* 纯黑背景 */
+    background-image: radial-gradient(#333 1px, transparent 1px);
+}
+.dream-night-mode .dream-text-p {
+    color: #a0a0a0 !important; /* 夜间文字变灰 */
+    text-shadow: 0 0 1px rgba(0,0,0,0.5);
+}
+.dream-night-mode .dream-option-btn {
+    background: #1c1c1e;
+    border-color: #333;
+    color: #ccc;
+}
+.dream-night-mode .dream-option-btn:active {
+    background: #333;
+}
+.dream-night-mode .dream-tap-hint {
+    color: #444;
+}
+
+/* 夜间模式下的设置面板 */
+.dream-night-mode-panel {
+    background: rgba(30, 30, 30, 0.95) !important;
+    border: 1px solid #444 !important;
+    color: #fff !important;
+}
+.dream-night-mode-panel .dream-setting-row { color: #fff !important; }
+.dream-night-mode-panel .dream-mode-switch { background: #111 !important; }
+.dream-night-mode-panel .mode-btn.active { background: #444 !important; color: #fff !important; }
+.dream-night-mode-panel .sound-item { background: #222 !important; color: #888 !important; }
+.dream-night-mode-panel .sound-item.active { background: #1f3d5c !important; color: #64b5f6 !important; border-color: #64b5f6 !important; }
+
+/* --- 新增：存档读档专用样式 --- */
+.dream-save-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.save-slot-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.save-slot-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.slot-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.slot-time {
+    font-size: 10px;
+    color: #999;
+    margin-top: 2px;
+}
+
+.slot-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.slot-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.1s;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    color: #666;
+}
+
+.slot-btn:active {
+    transform: scale(0.9);
+}
+
+.slot-btn.save:hover { color: #007aff; }
+.slot-btn.load:hover { color: #ff9800; }
+.slot-btn.disabled { opacity: 0.3; pointer-events: none; }
+
+/* 夜间模式适配 */
+.dream-night-mode-panel .save-slot-item {
+    background: #222;
+    border-color: #333;
+}
+.dream-night-mode-panel .slot-title { color: #ddd; }
+.dream-night-mode-panel .slot-time { color: #666; }
+.dream-night-mode-panel .slot-btn {
+    background: #333;
+    color: #aaa;
+    box-shadow: none;
+    border: 1px solid #444;
+}
+
+/* --- 救赎模式节点样式 --- */
+.redemption-node-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-left: 4px solid #ccc; /* 默认灰色，表示未解锁/过去 */
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.redemption-node-card:active {
+    transform: scale(0.98);
+}
+
+.redemption-node-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.redemption-age-badge {
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.redemption-node-content {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* 装饰线 */
+.redemption-timeline-line {
+    position: absolute;
+    left: 20px; /* 根据页面padding调整 */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e0e0e0;
+    z-index: 0;
+    display: none; /* 暂时隐藏，用卡片堆叠即可 */
+}
+
+/* 暗色模式适配 */
+.wechat-dark-mode .redemption-node-card {
+    background: #1c1c1e;
+    border-color: #444;
+}
+.wechat-dark-mode .redemption-node-content {
+    color: #ddd;
+}
+.wechat-dark-mode .redemption-age-badge {
+    background: #fff;
+    color: #000;
+}
+
     </style>
 </head>
 <body>
@@ -21555,17 +22007,27 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     </div>
 
     <!-- 卡片 3：管理 -->
-    <div class="form-card">
-        <div class="form-group-row clickable" onclick="openMomentGroupManager()">
-            <label class="form-label">
-                <i class="ri-group-line" style="font-size: 22px;"></i> 好友分组
-            </label>
-            <div class="form-value-display"><i class="ri-arrow-right-s-line"></i></div>
-        </div>
-  
- </div>
+            <div class="form-card">
+                <div class="form-group-row clickable" onclick="openMomentGroupManager()">
+                    <label class="form-label">
+                        <i class="ri-group-line" style="font-size: 22px;"></i> 好友分组
+                    </label>
+                    <div class="form-value-display"><i class="ri-arrow-right-s-line"></i></div>
+                </div>
+            </div>
 
+            <!-- 卡片 4：入梦 (单独包裹一层 form-card) -->
+            <div class="form-card">
+                <!-- 注意 onclick 变了 -->
+<div class="form-group-row clickable" onclick="openDreamModeSelectModal()">
+    <label class="form-label">
+        <i class="ri-moon-foggy-line" style="font-size: 22px;"></i> 入梦
+    </label>
+    <div class="form-value-display"><i class="ri-arrow-right-s-line"></i></div>
 </div>
+            </div>
+             </div>
+            
                      <div id="wechatProfile" class="profile-content bw-style" style="display: none;">
     
     <!-- 卡片 1：个人信息 (横向布局) -->
@@ -28829,6 +29291,318 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     </div>
 </div>
 
+<!-- [新增] MissAV 免责声明弹窗 -->
+<div id="missavDisclaimerModal" class="modal" style="z-index: 20000;">
+    <div class="modal-content" style="max-width: 320px; border-radius: 16px;">
+        <div class="modal-title" style="color: #ff3b30; font-weight: 900; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;">
+            ⚠️ 严正声明
+        </div>
+        
+        <div style="font-size: 14px; color: #333; line-height: 1.8; text-align: left; padding: 10px 5px; margin-bottom: 20px;">
+            <p style="margin-bottom: 10px;">您即将进入的板块包含<strong>成人向（R18）</strong>内容。</p>
+            <p style="margin-bottom: 10px;">点击“我已知晓”即代表您承诺：</p>
+            <ul style="padding-left: 20px; color: #666;">
+                <li>您已年满 18 周岁。</li>
+                <li>您所在的地区法律允许浏览此类内容。</li>
+                <li>此内容仅供虚构角色扮演体验，请勿沉迷。</li>
+            </ul>
+            <p style="color: #ff3b30; font-weight: bold; margin-top: 10px; text-align: center;">未成年人请立即离开！</p>
+        </div>
+
+        <div class="modal-buttons" style="flex-direction: column; gap: 10px;">
+            <!-- 倒计时按钮 -->
+            <button id="missavConfirmBtn" class="modal-btn" disabled 
+                style="background: #e0e0e0; color: #999; font-weight: bold; width: 100%; transition: all 0.3s;">
+                我已知晓 (10s)
+            </button>
+            <button class="modal-btn modal-btn-cancel" onclick="closeMissavModal()" style="width: 100%;">
+                取消并返回
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 1. 入梦 - 角色选择页 -->
+<div id="dreamCharacterSelectScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="backToDiscover()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title">选择入梦对象</div>
+        <div></div>
+    </div>
+    <div class="wechat-content" style="background: #fff;">
+        <div id="dreamCharList" class="friend-list">
+            <!-- JS 生成角色列表 -->
+        </div>
+    </div>
+</div>
+
+<!-- 2. 入梦 - 梦境列表页 -->
+<div id="dreamListScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="backToDreamCharSelect()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title" id="dreamListTitle">梦境碎片</div>
+        <!-- 左上角加号改为右上角，符合习惯 -->
+        <button class="nav-btn nav-right-action-btn" onclick="openCreateDreamModal()">
+            <i class="ri-add-line" style="font-size: 24px;"></i>
+        </button>
+    </div>
+    <div class="wechat-content" style="background: #f7f7f7;">
+        <div id="dreamListContainer" style="padding: 15px;">
+            <!-- JS 生成梦境列表 -->
+        </div>
+    </div>
+</div>
+
+<!-- 3. 入梦 - 沉浸播放页 (升级版：带设置与白噪音) -->
+<div id="dreamPlayScreen" class="page">
+    <!-- 顶部透明导航 -->
+    <div class="nav-bar" style="background: transparent; border: none; z-index: 100;">
+        <!-- 左侧：退出按钮 -->
+        <button class="nav-btn" onclick="exitDreamPlay()" style="color: #666; background: rgba(255,255,255,0.5); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+            <i class="ri-close-line"></i>
+        </button>
+        
+        <div class="nav-title"></div>
+        
+        <!-- 右侧：设置按钮 (新增) -->
+        <button class="nav-btn" onclick="toggleDreamSettings()" style="color: #666; background: rgba(255,255,255,0.5); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+            <i class="ri-settings-3-fill"></i>
+        </button>
+    </div>
+
+    <!-- 设置面板 (新增存档功能) -->
+<div id="dreamSettingsPanel" class="dream-settings-panel" style="width: 280px; max-height: 80vh; overflow-y: auto;">
+    <!-- 1. 显示模式 -->
+    <div class="dream-setting-row">
+        <span>显示模式</span>
+        <div class="dream-mode-switch">
+            <div class="mode-btn active" onclick="setDreamTheme('day', this)"><i class="ri-sun-line"></i></div>
+            <div class="mode-btn" onclick="setDreamTheme('night', this)"><i class="ri-moon-line"></i></div>
+        </div>
+    </div>
+
+    <!-- 2. 白噪音 -->
+    <div class="dream-setting-row column">
+        <span>沉浸白噪音</span>
+        <div class="dream-sound-grid">
+            <div class="sound-item active" onclick="setDreamAudio('none', this)">
+                <i class="ri-volume-mute-line"></i><span>静音</span>
+            </div>
+            <div class="sound-item" onclick="setDreamAudio('rain', this)">
+                <i class="ri-showers-line"></i><span>雨声</span>
+            </div>
+            <div class="sound-item" onclick="setDreamAudio('sea', this)">
+                <i class="ri-sailboat-line"></i><span>海浪</span>
+            </div>
+            <div class="sound-item" onclick="setDreamAudio('fire', this)">
+                <i class="ri-fire-line"></i><span>炉火</span>
+            </div>
+            <div class="sound-item" onclick="setDreamAudio('night', this)">
+                <i class="ri-moon-foggy-line"></i><span>夏夜</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 【新增】存档与读档 -->
+    <div class="dream-setting-row column" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee;">
+        <span>进度存档</span>
+        <div id="dreamSaveSlotsContainer" class="dream-save-grid">
+            <!-- JS 动态生成 3 个存档位 -->
+        </div>
+    </div>
+</div>
+    
+
+    <!-- 背景音频播放器 -->
+    <audio id="dreamBgmPlayer" loop></audio>
+
+    <!-- 整个页面是点击区域 -->
+    <div id="dreamPlayArea" class="dream-play-area" onclick="handleDreamTap()">
+        <div id="dreamContentBox" class="dream-content-box">
+            <!-- 文字段落会在这里逐段显示 -->
+        </div>
+        
+        <!-- 选项区域 (默认隐藏) -->
+        <div id="dreamOptionsBox" class="dream-options-box">
+            <!-- 按钮由 JS 生成 -->
+        </div>
+
+<!-- [新增] 救赎模式专用输入区 -->
+<div id="redemptionInputBox" class="dream-options-box" style="display: none; background: transparent; box-shadow: none;">
+    <div id="redemptionRestriction" style="width: 100%; text-align: center; color: #ff3b30; font-size: 12px; font-weight: bold; margin-bottom: 10px; background: rgba(255, 59, 48, 0.1); padding: 5px; border-radius: 4px;">
+        当前限制：不可说话，只能做动作
+    </div>
+    <div style="display: flex; gap: 10px; width: 100%;">
+        <input type="text" id="redemptionActionInput" class="modal-input" style="margin: 0; background: #fff;" placeholder="输入你的行动...">
+        <button class="modal-btn modal-btn-confirm" onclick="submitRedemptionAction()" style="width: 80px; flex-shrink: 0; background: #333;">行动</button>
+    </div>
+</div>
+
+        <!-- 底部提示 -->
+        <div class="dream-tap-hint">点击屏幕继续...</div>
+    </div>
+</div>
+
+<!-- 4. 创建新梦境弹窗 (修改版) -->
+<div id="createDreamModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">编织梦境</div>
+        
+        <div style="margin-bottom: 15px; color: #666; font-size: 13px; text-align: center;">
+            输入关键词引导梦境走向，<br>留空则由潜意识（AI）自由发挥。
+        </div>
+
+        <!-- 【新增】文风选择区域 -->
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label class="form-label" style="font-weight: 600; color: #333; margin-bottom: 5px; display: block;">梦境文风</label>
+            <div id="dreamStyleDisplay" class="form-input" style="line-height: 2.5; cursor: pointer; text-align: center; background: #f7f7f7; border: none; border-radius: 8px; font-size: 14px; color: #333;" onclick="openDreamStyleSelectModal()">
+                无 (默认)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="modal-input" id="dreamKeyword1" placeholder="关键词 1 (如: 温泉)">
+            <input type="text" class="modal-input" id="dreamKeyword2" placeholder="关键词 2 (如: 告白)">
+            <input type="text" class="modal-input" id="dreamKeyword3" placeholder="关键词 3 (如: 意外)">
+        </div>
+
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('createDreamModal').classList.remove('show')">取消</button>
+            <button class="modal-btn modal-btn-confirm" style="background-color: #000; color: #fff;" onclick="startDreamGeneration()">开始入梦</button>
+        </div>
+    </div>
+</div>
+
+<!-- 【新增】梦境文风选择列表弹窗 -->
+<div id="dreamStyleSelectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">选择文风</div>
+        <div id="dreamStyleListContainer" class="friend-list" style="max-height: 50vh; overflow-y: auto;">
+            <!-- JS 动态生成 -->
+        </div>
+        <div class="modal-buttons" style="margin-top: 15px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('dreamStyleSelectModal').classList.remove('show')">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- [新增] 入梦模式选择弹窗 -->
+<div id="dreamModeSelectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">选择入梦方式</div>
+        
+        <div class="form-group" style="display: flex; flex-direction: column; gap: 15px;">
+            <!-- 模式一：原有梦境 -->
+            <div onclick="selectDreamMode('dream')" style="background: #f9f9f9; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid #eee;">
+                <div style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 5px;">
+                    <i class="ri-moon-foggy-line"></i> 普通梦境
+                </div>
+                <div style="font-size: 12px; color: #999; line-height: 1.4;">
+                    进入当下的梦境迷宫。需小心做出选择，选错可能会导致梦境崩塌苏醒。
+                </div>
+            </div>
+
+            <!-- 模式二：救赎模式 -->
+            <div onclick="selectDreamMode('redemption')" style="background: #f9f9f9; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid #eee;">
+                <div style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 5px;">
+                    <i class="ri-time-line"></i> 时空救赎
+                </div>
+                <div style="font-size: 12px; color: #999; line-height: 1.4;">
+                    穿越回TA过去的时间节点。在他/她人生最灰暗的时刻伸出援手，改变命运的轨迹。
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-buttons" style="margin-top: 20px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('dreamModeSelectModal').classList.remove('show')">取消</button>
+        </div>
+    </div>
+</div>
+
+<!-- [新增] 救赎模式 - 角色选择页 -->
+<div id="redemptionCharacterSelectScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="backToDiscover()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title">选择救赎对象</div>
+        <div></div>
+    </div>
+    <div class="wechat-content" style="background: #fff;">
+        <div id="redemptionCharList" class="dream-grid-container">
+            <!-- JS 生成角色列表 -->
+        </div>
+    </div>
+</div>
+
+<!-- [新增] 救赎模式 - 时间轴节点页 -->
+<div id="redemptionTimelineScreen" class="page">
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="backToRedemptionCharSelect()"><i class="ri-arrow-left-s-line"></i></button>
+        <div class="nav-title">命运节点</div>
+        <!-- 右上角刷新按钮 -->
+        <button class="nav-btn nav-right-action-btn" id="refreshRedemptionBtn" onclick="refreshRedemptionNodes()">
+            <i class="ri-refresh-line" style="font-size: 22px;"></i>
+        </button>
+    </div>
+    
+   
+    <div class="wechat-content" style="background: #f7f7f7; padding: 20px; padding-top: 84px;">
+        <div id="redemptionTimelineList" style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- JS 动态生成 10 个节点 -->
+        </div>
+    </div>
+</div>
+
+<!-- [新增] 穿越方式选择弹窗 -->
+<div id="redemptionTypeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">选择穿越形态</div>
+        
+        <!-- ▼▼▼ 新增：读取存档的按钮容器 ▼▼▼ -->
+        <div id="redemptionLoadContainer" style="display: none; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee;">
+            <div onclick="continueLastRedemption()" style="background: #e6f7ff; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid #91d5ff; position: relative;">
+                <div style="font-weight: bold; font-size: 16px; color: #0050b3; margin-bottom: 5px;">
+                    <i class="ri-save-history-line"></i> 读取上一次进度
+                </div>
+                <div id="redemptionLoadInfo" style="font-size: 12px; color: #666; line-height: 1.4;">
+                    上次停留：...
+                </div>
+            </div>
+            <div style="text-align: center; font-size: 12px; color: #999; margin-top: 8px;">或者开启新的时间线 ↓</div>
+        </div>
+        <!-- ▲▲▲ 新增结束 ▲▲▲ -->
+        
+        <div class="form-group" style="display: flex; flex-direction: column; gap: 15px;">
+            <!-- 方式一：实体 (保持不变) -->
+            <div onclick="confirmRedemptionType('physical')" style="background: #f9f9f9; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid #eee; position: relative;">
+                <div style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 5px;">
+                    <i class="ri-user-line"></i> 实体穿越 (新存档)
+                </div>
+                <div style="font-size: 12px; color: #666; line-height: 1.4;">
+                    <span style="color: #ff3b30;">[高风险]</span> 你拥有实体，所有人都能看到你。
+                    <br>优点：可以直接干涉物理世界。
+                    <br>缺点：突然出现会被怀疑，受伤会死亡。
+                </div>
+            </div>
+
+            <!-- 方式二：幽灵 (保持不变) -->
+            <div onclick="confirmRedemptionType('ghost')" style="background: #f9f9f9; padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid #eee; position: relative;">
+                <div style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 5px;">
+                    <i class="ri-ghost-line"></i> 幽灵观测 (新存档)
+                </div>
+                <div style="font-size: 12px; color: #666; line-height: 1.4;">
+                    <span style="color: #007aff;">[特殊]</span> 只有 TA 能看到你。
+                    <br>优点：不会被闲杂人等干扰，自带神秘感。
+                    <br>缺点：无法触碰实体物体，只能通过语言/精神干涉。
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-buttons" style="margin-top: 20px;">
+            <button class="modal-btn modal-btn-cancel" onclick="document.getElementById('redemptionTypeModal').classList.remove('show')">取消</button>
+        </div>
+    </div>
+</div>
+
     <script>
     
     // 打字机效果
@@ -29003,9 +29777,11 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 15, // 版本号升级
+    version: 16, // 版本号升级
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1. 新增总结提示词，可以输入提示词进行总结，控制总结长度和风格 </li><li>2. 美化设置里缺少的几个功能图标都补上了  </li><li>3. 直播app还没有做好，目前只可以看直播，最好不要打开使用，如果实在想玩可以进去摸索一下看看直播。 </li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1. 新增总结提示词，可以输入提示词进行总结，控制总结长度和风格 </li><li>2. 美化设置里缺少的几个功能图标都补上了  </li><li>3. 直播app还没有做好，目前只可以看直播，最好不要打开使用，如果实在想玩可以进去摸索一下看看直播。 </li><li>4. <b>入梦功能大升级</b>：含日夜模式/白噪音/存档读档。<b>①普通梦境</b>：可以进入char的梦境，可以给三个关键词来编织梦境，梦境服务于char，所以在梦境里的行为受到限制，只能通过选择选项来行动，三个选项里有两个是char期望的，还有一个是char潜意识里抗拒的，如果选错就会梦醒被踢出梦境。
+<b>②时空救赎</b>：可以穿越到char和你还没遇到的时间节点，会自动识别十个他人生灰暗的时刻，可以选择实体穿越或者幽灵穿越，回到过去陪伴他，但行动依旧是有限制的，虽然可以自己输入，但每一轮都会生成限制规则，需要遵守限制，如果救赎失败就需要重开了。
+</li></ul></div>`
 };
 
         // 全局变量
@@ -29110,6 +29886,9 @@ let currentDoujinShareId = null;
 
 // 全局变量存储私信数据
 let currentForumDMs = [];
+
+let missavCountdownTimer = null;
+let tempMissavListData = null; // 暂存视频数据
 
 let isBackgroundKeepAliveEnabled = false; // [新增] 后台保活状态
 
@@ -29297,6 +30076,40 @@ let liveUserProfile = {
     fans: 0,
     likes: 0
 };
+
+// --- 入梦功能全局变量 ---
+let currentDreamFriendId = null; // 当前选择的入梦对象ID
+let currentDreamData = null;     // 当前正在进行的梦境数据
+let dreamTextQueue = [];         // 待显示的文本段落队列
+let dreamIsWaitingForOption = false; // 是否正在等待用户选择
+let isGeneratingDream = false;   // 是否正在生成中
+
+let tempDreamStyleId = null; 
+
+// 音频资源链接 (ASMR)
+
+// 音频资源链接 (ASMR) - 已替换为稳定音源
+const DREAM_SOUNDS = {
+    'none': '',
+    // 雨声 (这里是你修改后的链接)
+    'rain': 'https://img.heliar.top/file/1771552021407_舒适的雨声-Noble_Music_Project_jmz5t.mp3', 
+    // 海浪
+    'sea': 'https://img.heliar.top/file/1771552517678_海浪白噪音-贵族音乐ASMR_2yefCk.mp3',  
+    // 炉火 (这里用一个白噪音替代)
+    'fire': 'https://img.heliar.top/file/1771552936045_篝火声_._白噪音-療癒微光音樂_2toIbO.mp3', 
+    // 夏夜 (虫鸣)
+    'night': 'https://img.heliar.top/file/1771553203808_M500001BK3aW2qulhl.mp3' 
+};
+
+let currentDreamAudio = 'none';
+let isDreamNightMode = false;
+
+let currentRedemptionFriendId = null; // 当前救赎对象ID
+
+let isRedemptionMode = false; // 标记当前播放器是否处于救赎模式
+let redemptionTargetNode = null; // 当前选中的时间节点信息
+let redemptionUserType = 'physical'; // 'physical' 或 'ghost'
+let currentRedemptionRestriction = ""; 
 
 // 1. 数据定义 (清空模拟数据，等待读取存档)
 let loversTransactions = [];
@@ -40758,28 +41571,49 @@ case 'sim_videos':
     break;
 
 case 'sim_videos':
-    // 视频 App 首页：三个入口
-    const platforms = [
-        {id: 'bilibili', name: 'Bilibili', icon: 'fa-brands fa-bilibili', desc: '弹幕视频'},
-        {id: 'douyin', name: '抖音', icon: 'fa-brands fa-tiktok', desc: '短视频'},
-        {id: 'missav', name: 'MissAV', icon: 'fa-solid fa-film', desc: '私人收藏'}
-    ];
-    
-    contentHTML = `<div style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
-        ${platforms.map(p => `
-            <div onclick='renderSimAppDetail("sim_videos", {platform: "${p.id}", list: ${JSON.stringify(data[p.id] || [])}})' 
-                 style="background: #fff; border: 2px solid #000; border-radius: 16px; padding: 25px; display: flex; align-items: center; gap: 20px; cursor: pointer; box-shadow: 4px 4px 0 #000;">
-                <i class="${p.icon}" style="font-size: 36px; color: #000;"></i>
-                <div>
-                    <div style="font-size: 20px; font-weight: bold;">${p.name}</div>
-                    <div style="font-size: 12px; color: #666;">${p.desc}</div>
-                </div>
-                <i class="fa-solid fa-arrow-right" style="margin-left: auto; color: #000;"></i>
-            </div>
-        `).join('')}
-    </div>`;
-    headerMap['sim_videos'] = '视频中心';
-    break;
+                    // 视频 App 首页：三个入口
+                    const platforms = [
+                        {id: 'bilibili', name: 'Bilibili', icon: 'fa-brands fa-bilibili', desc: '弹幕视频'},
+                        {id: 'douyin', name: '抖音', icon: 'fa-brands fa-tiktok', desc: '短视频'},
+                        {id: 'missav', name: 'MissAV', icon: 'fa-solid fa-film', desc: '私人收藏'}
+                    ];
+                    
+                    contentHTML = `<div style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+                        ${platforms.map(p => {
+                            // 1. 获取该平台的数据列表
+                            const rawList = data[p.id] || [];
+                            
+                            // 2. 将数据转为字符串，并处理内部单引号
+                            const listStr = JSON.stringify(rawList).replace(/'/g, "\\'");
+                            
+                            // 3. 构建 JS 调用语句
+                            let clickAction = '';
+                            if (p.id === 'missav') {
+                                clickAction = `checkMissavAccess('${listStr}')`;
+                            } else {
+                                clickAction = `renderSimAppDetail("sim_videos", {platform: "${p.id}", list: ${listStr}})`;
+                            }
+
+                            // 【核心修复】：将 JS 语句中的双引号转义为 HTML 实体 &quot;
+                            // 这样它才能安全地放在 onclick="..." 里面
+                            const safeClickAction = clickAction.replace(/"/g, '&quot;');
+
+                            return `
+                            <div onclick="${safeClickAction}" 
+                                 style="background: #fff; border: 2px solid #000; border-radius: 16px; padding: 25px; display: flex; align-items: center; gap: 20px; cursor: pointer; box-shadow: 4px 4px 0 #000;">
+                                <i class="${p.icon}" style="font-size: 36px; color: #000;"></i>
+                                <div>
+                                    <div style="font-size: 20px; font-weight: bold;">${p.name}</div>
+                                    <div style="font-size: 12px; color: #666;">${p.desc}</div>
+                                </div>
+                                <i class="fa-solid fa-arrow-right" style="margin-left: auto; color: #000;"></i>
+                            </div>
+                        `;
+                        }).join('')}
+                    </div>`;
+                    headerMap['sim_videos'] = '视频中心';
+                    break;
+
             }
     }
 
@@ -77007,6 +77841,1726 @@ async function deleteSummaryPrompt(e, id) {
     await saveData();
     renderSummaryPromptList();
     updateCurrentSummaryPromptDisplay();
+}
+
+// --- MissAV 免责声明逻辑 ---
+
+/**
+ * 1. 拦截点击入口
+ * @param {string} listJsonStr - 视频列表的JSON字符串
+ */
+function checkMissavAccess(listJsonStr) {
+    // 检查本地存储，看是否已经同意过
+    if (localStorage.getItem('hasAcceptedMissavTerms') === 'true') {
+        // 如果已经同意过，直接进入
+        openMissavDirectly(listJsonStr);
+    } else {
+        // 如果没同意过，暂存数据，弹出警告框
+        tempMissavListData = listJsonStr;
+        openMissavModal();
+    }
+}
+
+/**
+ * 2. 打开弹窗并开始倒计时
+ */
+function openMissavModal() {
+    const modal = document.getElementById('missavDisclaimerModal');
+    const btn = document.getElementById('missavConfirmBtn');
+    
+    modal.classList.add('show');
+    
+    // 重置按钮状态
+    btn.disabled = true;
+    btn.style.background = '#e0e0e0';
+    btn.style.color = '#999';
+    
+    let timeLeft = 10;
+    btn.textContent = `我已知晓 (${timeLeft}s)`;
+    
+    // 清除可能存在的旧定时器
+    if (missavCountdownTimer) clearInterval(missavCountdownTimer);
+    
+    // 开始倒计时
+    missavCountdownTimer = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+            btn.textContent = `我已知晓 (${timeLeft}s)`;
+        } else {
+            // 倒计时结束，启用按钮
+            clearInterval(missavCountdownTimer);
+            btn.disabled = false;
+            btn.textContent = "我已知晓，进入观看";
+            btn.style.background = "#ff4d4d"; // 变成醒目的红色或黑色
+            btn.style.color = "#fff";
+            // 绑定点击事件
+            btn.onclick = confirmMissavEnter;
+        }
+    }, 1000);
+}
+
+/**
+ * 3. 用户点击确认
+ */
+function confirmMissavEnter() {
+    // 写入本地存储，永久记住
+    localStorage.setItem('hasAcceptedMissavTerms', 'true');
+    
+    // 关闭弹窗
+    closeMissavModal();
+    
+    // 进入详情页
+    if (tempMissavListData) {
+        openMissavDirectly(tempMissavListData);
+    }
+}
+
+/**
+ * 4. 关闭弹窗
+ */
+function closeMissavModal() {
+    const modal = document.getElementById('missavDisclaimerModal');
+    modal.classList.remove('show');
+    if (missavCountdownTimer) clearInterval(missavCountdownTimer);
+}
+
+/**
+ * 5. 执行跳转 (解析JSON并调用原有的 renderSimAppDetail)
+ */
+function openMissavDirectly(listJsonStr) {
+    try {
+        // 这里的 listJsonStr 可能是字符串，也可能已经被解析为对象（取决于调用方式）
+        // 为了安全，我们统一处理
+        let listData = (typeof listJsonStr === 'string') ? JSON.parse(listJsonStr) : listJsonStr;
+        
+        renderSimAppDetail("sim_videos", {
+            platform: "missav", 
+            list: listData
+        });
+    } catch (e) {
+        console.error("进入MissAV失败:", e);
+        showToast("数据解析错误");
+    }
+}
+
+/**
+ * [修改版] 1. 打开角色选择列表 (梦境网格版)
+ */
+function openDreamCharacterSelect() {
+    setActivePage('dreamCharacterSelectScreen');
+    
+    // 获取容器
+    const container = document.getElementById('dreamCharList');
+    container.innerHTML = '';
+    
+    // 【关键修改】切换容器的 CSS 类，应用网格布局
+    container.className = 'dream-grid-container'; // 不再使用 friend-list
+    
+    // 筛选非群聊好友
+    const aiFriends = friends.filter(f => !f.isGroup);
+    
+    if (aiFriends.length === 0) {
+        // 如果没有好友，临时切回普通样式显示提示，或者直接居中显示
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.innerHTML = '<div style="text-align:center; padding:50px; color:#999;">暂无好友<br>请先在微信添加AI好友</div>';
+        return;
+    } else {
+        container.style.display = 'grid'; // 确保恢复网格
+    }
+
+    aiFriends.forEach(friend => {
+        const item = document.createElement('div');
+        item.className = 'dream-char-card'; // 应用梦境卡片样式
+        
+        // 头像处理
+        let avatarHtml = '';
+        if (friend.avatarImage) {
+            avatarHtml = `<div class="dream-card-avatar" style="background-image: url('${friend.avatarImage}')"></div>`;
+        } else {
+            // 文字头像使用随机渐变色背景
+            const bgGradient = getRandomGradient(); 
+            avatarHtml = `<div class="dream-card-avatar" style="background: ${bgGradient};">${friend.avatar || friend.name[0]}</div>`;
+        }
+
+        item.innerHTML = `
+            ${avatarHtml}
+            <div class="dream-card-name">${friend.remark || friend.name}</div>
+            <div class="dream-card-hint">点击进入梦境</div>
+        `;
+        
+        item.onclick = () => openDreamList(friend.id);
+        container.appendChild(item);
+    });
+}
+
+// 辅助函数：生成随机梦幻渐变色 (用于文字头像)
+function getRandomGradient() {
+    const gradients = [
+        'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+        'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
+        'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
+        'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
+        'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+    ];
+    return gradients[Math.floor(Math.random() * gradients.length)];
+}
+
+function backToDreamCharSelect() {
+    setActivePage('dreamCharacterSelectScreen');
+}
+
+/**
+ * 2. 打开特定好友的梦境列表
+ */
+function openDreamList(friendId) {
+    currentDreamFriendId = friendId;
+    const friend = friends.find(f => f.id === friendId);
+    
+    document.getElementById('dreamListTitle').textContent = `${friend.remark || friend.name} 的梦境`;
+    setActivePage('dreamListScreen');
+    
+    renderDreamList(friend);
+}
+
+function renderDreamList(friend) {
+    const container = document.getElementById('dreamListContainer');
+    container.innerHTML = '';
+    
+    // 初始化梦境数组
+    if (!friend.dreams) friend.dreams = [];
+    
+    // 按时间倒序
+    const dreams = friend.dreams.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    if (dreams.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center; padding:80px 20px; color:#999;">
+                <i class="ri-zzz-line" style="font-size:48px; opacity:0.5; margin-bottom:10px;"></i>
+                <p>一片虚无...<br>点击右上角 + 号编织第一个梦境</p>
+            </div>`;
+        return;
+    }
+
+    dreams.forEach(dream => {
+        const card = document.createElement('div');
+        card.className = 'dream-card';
+        card.onclick = () => continueDream(dream.id);
+        
+        // 生成标签HTML
+        const tagsHtml = (dream.keywords || []).map(k => `<span class="dream-tag">#${k}</span>`).join('');
+        const dateStr = new Date(dream.timestamp).toLocaleDateString();
+        
+        // 预览内容：取第一段文本
+        const previewText = dream.contentLog && dream.contentLog.length > 0 
+            ? dream.contentLog[0].content.substring(0, 60) + '...' 
+            : '梦境尚未开始...';
+
+        card.innerHTML = `
+            <div class="dream-card-title">${dream.title || '无名之梦'}</div>
+            <div class="dream-card-preview">${previewText}</div>
+            <div class="dream-card-meta">
+                <div>${tagsHtml}</div>
+                <div>${dateStr}</div>
+            </div>
+        `;
+        
+        // 添加长按删除功能 (复用你已有的长按逻辑或添加删除按钮)
+        // 这里简单添加一个右上角删除
+        const delBtn = document.createElement('div');
+        delBtn.innerHTML = '<i class="ri-close-circle-fill"></i>';
+        delBtn.style.cssText = 'position:absolute; top:10px; right:10px; color:#ddd; font-size:20px; padding:5px; z-index:10;';
+        delBtn.onclick = (e) => {
+            e.stopPropagation();
+            deleteDream(dream.id);
+        };
+        card.appendChild(delBtn);
+
+        container.appendChild(card);
+    });
+}
+
+/**
+ * 3. 创建新梦境
+ */
+function openCreateDreamModal() {
+    document.getElementById('dreamKeyword1').value = '';
+    document.getElementById('dreamKeyword2').value = '';
+    document.getElementById('dreamKeyword3').value = '';
+    document.getElementById('createDreamModal').classList.add('show');
+}
+
+// [修改版] 开始生成普通梦境
+async function startDreamGeneration() {
+    const k1 = document.getElementById('dreamKeyword1').value.trim();
+    const k2 = document.getElementById('dreamKeyword2').value.trim();
+    const k3 = document.getElementById('dreamKeyword3').value.trim();
+    
+    const keywords = [k1, k2, k3].filter(k => k); 
+    
+    document.getElementById('createDreamModal').classList.remove('show');
+    showToast("正在潜入梦境...", 3000);
+    
+    const friend = friends.find(f => f.id === currentDreamFriendId);
+    
+    const newDream = {
+        id: `dream_${Date.now()}`,
+        title: keywords.length > 0 ? keywords.join(' & ') : '迷雾梦境',
+        keywords: keywords,
+        timestamp: new Date().toISOString(),
+        contentLog: [], 
+        isFinished: false,
+        styleId: tempDreamStyleId,
+        readIndex: 0,
+        isRedemption: false // 标记为非救赎模式
+    };
+    
+    if (!friend.dreams) friend.dreams = [];
+    friend.dreams.unshift(newDream);
+    await saveData(); 
+
+    currentDreamData = newDream;
+    
+    // 【核心修复】强制关闭救赎模式标记
+    isRedemptionMode = false; 
+
+    setupDreamPlayScreen(true); 
+    
+    await generateDreamSegment(friend, newDream, keywords, "start");
+}
+
+/**
+ * [修复版] 显示梦境选项
+ * 修复了显示 [object Object] 的问题，兼容对象和字符串格式
+ */
+function showDreamOptions(options) {
+    const box = document.getElementById('dreamOptionsBox');
+    box.innerHTML = '';
+    box.style.display = 'flex';
+    dreamIsWaitingForOption = true;
+    
+    document.querySelector('.dream-tap-hint').style.display = 'none'; // 隐藏点击提示
+
+    options.forEach((opt, index) => {
+        const btn = document.createElement('div');
+        btn.className = 'dream-option-btn';
+        
+        // --- 【核心修复代码】 ---
+        // 判断 opt 是“对象”还是“字符串”
+        // 如果是对象（新版），显示 opt.text
+        // 如果是字符串（旧版或AI抽风），直接显示 opt
+        let displayText = "";
+        let optionData = opt;
+
+        if (typeof opt === 'object' && opt !== null) {
+            displayText = opt.text || "未知选项";
+        } else {
+            displayText = String(opt);
+            // 如果是纯字符串，手动构造成对象格式，防止点击时报错
+            optionData = { text: displayText, is_wake_up: false };
+        }
+
+        btn.textContent = displayText; 
+        // ----------------------
+        
+        btn.onclick = (e) => {
+            e.stopPropagation(); // 防止触发背景点击
+            handleOptionSelect(optionData); // 传入处理好的对象
+        };
+        box.appendChild(btn);
+    });
+    
+    // 再次滚动到底部确保看到选项
+    const area = document.getElementById('dreamPlayArea');
+    setTimeout(() => area.scrollTo({ top: area.scrollHeight, behavior: 'smooth' }), 100);
+}
+
+/**
+ * [V3 - 全量剧情 + 自定义温度 + 隐晦陷阱版] 核心 API 生成逻辑
+ */
+async function generateDreamSegment(friend, dream, inputContext, type) {
+    isGeneratingDream = true;
+    
+    // 1. UI 加载提示
+    const loadingP = document.createElement('div');
+    loadingP.className = 'dream-text-p visible';
+    loadingP.style.color = '#999';
+    loadingP.style.textAlign = 'center';
+    loadingP.style.fontSize = '12px';
+    loadingP.innerHTML = '<i class="ri-loader-4-line fa-spin"></i> 梦境正在深处蔓延...';
+    document.getElementById('dreamContentBox').appendChild(loadingP);
+    
+    const area = document.getElementById('dreamPlayArea');
+    area.scrollTo({ top: area.scrollHeight, behavior: 'smooth' });
+    
+    // 2. 获取配置与温度
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        loadingP.textContent = "请先配置API";
+        isGeneratingDream = false;
+        return;
+    }
+
+    // 【修改点】读取自定义温度，如果没有则默认 1.0 (梦境适合稍高的温度)
+    const customTemp = parseFloat(settings.apiTemperature) || 1.0;
+
+    // 3. 准备基础情报
+    const persona = userPersonas.find(p => p.id === friend.activeUserPersonaId) || userProfile;
+
+    // 聊天记录 (作为性格参考)
+    const history = (chatHistories[friend.id] || []).slice(-50).map(m => 
+        `${m.type === 'sent' ? persona.name : friend.name}: ${summarizeMessageContentForAI(m)}`
+    ).join('\n');
+    
+    // 记忆总结 (作为背景参考)
+    const memories = (characterMemories[friend.id] || []).slice(0, 10).map(m => m.content).join('\n');
+
+    // 【核心修改】读取之前的全部梦境剧情
+    // 将历史段落和用户的选择操作拼接成一个完整的故事流
+    let fullDreamStory = "";
+    if (dream.contentLog && dream.contentLog.length > 0) {
+        fullDreamStory = dream.contentLog.map(log => {
+            if (log.isUserAction) {
+                // 处理一下用户选择的显示格式，去掉多余的符号
+                const actionContent = log.content.replace('> (你选择了：', '').replace(')', '');
+                return `【用户选择】：${actionContent}`;
+            }
+            return log.content;
+        }).join('\n\n');
+    } else {
+        fullDreamStory = "（梦境刚刚开始）";
+    }
+
+    // 文风指令
+    let styleInstruction = "";
+    if (dream.styleId) {
+        const style = writingStyles.find(s => s.id === dream.styleId);
+        if (style && style.content) {
+            styleInstruction = `
+【【【文风渲染指令 (最高优先级)】】】
+本梦境的叙述必须严格遵循以下文风要求：
+${style.content}
+**注意**：请将上述文风与梦境的朦胧感结合，不要生硬堆砌辞藻，而是要营造出该文风特有的氛围。
+`;
+        }
+    }
+
+    // 当前任务指令
+    let instruction = "";
+    if (type === 'start') {
+        instruction = `这是梦境的**开始**。初始关键词：【${inputContext.join('、')}】。请根据关键词构建一个沉浸式的梦境开端。`;
+    } else {
+        instruction = `用户刚刚做出了选择：【${inputContext}】。请根据这个选择继续推进剧情。`;
+    }
+
+    // --- 构建 终极 Prompt ---
+    const prompt = `
+【模式】: 沉浸式梦境生成器 (深度潜意识版)。
+【角色】: 梦主是 "${friend.name}" (人设: ${friend.role})。
+【入梦者】: 你是 "${persona.name}" (人设: ${persona.personality})，在梦中以第二人称 "你" 出现。
+
+【现实记忆参考】:
+${memories}
+${history}
+
+${styleInstruction}
+
+【【【当前梦境完整剧情回顾】】】
+${fullDreamStory}
+
+【当前任务】:
+${instruction}
+
+【创作要求】:
+1.  **视角**: 必须使用**第二人称** ("你") 来描述用户在梦中的体验。
+2.  **连贯性**: 必须紧密承接【当前梦境完整剧情回顾】中的情节和氛围，不要出现断层。
+3.  **篇幅**: 请生成 **6 到 15个** 自然段落。
+4.  **剧情节奏**: 
+    - 不一定每次都要发生惊天动地的大事。
+    - 可以是细腻的日常互动、环境探索、或者是两人之间微妙的情感流动。
+    - 请根据当前的氛围自然推进，不要强行制造冲突。
+
+【【【文风矫正与避雷 (最高优先级)】】】
+1. **禁用词库**：**严禁使用**“手术刀、小石子、深渊、窒息、玻璃渣、支离破碎、灵魂的战栗”等陈词滥调的比喻。
+2. **描写要求**：多写**五感**（看到的颜色光影、听到的细微声音、皮肤触碰的温度），**少写**抽象的“无法言喻的悲伤”。
+3. **基调控制**：除非用户关键词明确指定了“噩梦/死亡”，否则梦境基调请保持**朦胧、奇异、暧昧或日常**，不要强行制造绝望感。
+
+【【【选项生成铁律 (隐晦陷阱机制)】】】:
+在剧情的最后，必须提供 **3个** 选项供用户选择。
+
+**关于“陷阱选项”的特殊要求 (难度升级)**：
+1.  **拒绝显眼**: 陷阱选项（is_wake_up=true）**绝对不能**一眼就看出是坏选项。不要写“杀了他”、“推开他”这种明显的作死行为。
+2.  **心理雷区**: 这个选项应该是一个**看起来很正常**，甚至**看似是关心**的行为，但它恰好触碰到了角色潜意识里的**恐惧、禁忌、自卑点**或**不想被发现的秘密**。
+3.  **混淆性**: 将陷阱选项混在普通选项中，让用户需要揣摩角色的心理才能避开。
+
+**关于“普通选项”的要求**:
+- 提供 2 个能让梦境继续下去的选项。可以是推进剧情，也可以是维持现状的互动。
+
+【输出格式铁律 (JSON)】:
+必须返回纯净的 JSON 对象，不要包含 markdown 代码块标记：
+{
+  "segments": ["第一段长文...", "第二段长文...", ..., "第N段长文..."],
+  "options": [
+    { 
+      "text": "选项A的内容", 
+      "is_wake_up": false 
+    },
+    { 
+      "text": "选项B的内容", 
+      "is_wake_up": true, 
+      "wake_up_reason": "简短描述为什么这个选择触碰了潜意识防御机制，导致梦境崩塌/惊醒。" 
+    },
+    { 
+      "text": "选项C的内容", 
+      "is_wake_up": false 
+    }
+  ]
+}
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: customTemp // 使用自定义温度
+            })
+        });
+
+        const data = await response.json();
+        const responseText = data.choices[0].message.content;
+        
+        // 智能提取 JSON
+        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error("JSON解析失败");
+        
+        const result = JSON.parse(jsonMatch[0]);
+        
+        // 移除加载提示
+        loadingP.remove();
+
+        // 处理返回的数据
+        if (result.segments && result.segments.length > 0) {
+            // 1. 将新生成的段落存入日志
+            result.segments.forEach(seg => {
+                dream.contentLog.push({ content: seg, timestamp: Date.now() });
+                // 加入播放队列
+                dreamTextQueue.push(seg);
+            });
+            
+            // 2. 暂存选项 (包含 is_wake_up 标记)
+            // 打乱选项顺序，防止陷阱总是在同一个位置
+            const shuffledOptions = result.options.sort(() => Math.random() - 0.5);
+            dream.tempOptions = shuffledOptions || [];
+            
+            // 3. 保存数据
+            await saveData();
+            
+            // 4. 自动播放第一段
+            handleDreamTap();
+            document.querySelector('.dream-tap-hint').style.display = 'block';
+        }
+
+    } catch (e) {
+        console.error(e);
+        loadingP.textContent = `梦境信号中断... (${e.message}) 点击重试`;
+        loadingP.onclick = () => { loadingP.remove(); generateDreamSegment(friend, dream, inputContext, type); };
+    } finally {
+        isGeneratingDream = false;
+    }
+}
+
+/**
+ * [V2 - 包含踢出机制] 处理选项选择
+ * @param {object} optionObj - 包含 text 和 is_wake_up 的对象
+ */
+async function handleOptionSelect(optionObj) {
+    // 1. 隐藏选项
+    document.getElementById('dreamOptionsBox').style.display = 'none';
+    dreamIsWaitingForOption = false;
+    
+    const friend = friends.find(f => f.id === currentDreamFriendId);
+    
+    // 2. 将选项作为用户的行动记录下来
+    const userActionText = `> (你选择了：${optionObj.text})`;
+    currentDreamData.contentLog.push({ content: userActionText, isUserAction: true });
+    addParagraphToScreen(userActionText, true);
+    
+    // 清除已保存的选项状态
+    currentDreamData.lastOptions = null;
+
+    // --- 核心分支判断 ---
+    if (optionObj.is_wake_up) {
+        // === 触发苏醒/踢出机制 ===
+        await triggerWakeUpSequence(friend, optionObj.wake_up_reason);
+    } else {
+        // === 正常继续 ===
+        await saveData();
+        await generateDreamSegment(friend, currentDreamData, optionObj.text, "continue");
+    }
+}
+
+async function continueDream(dreamId) {
+    const friend = friends.find(f => f.id === currentDreamFriendId);
+    const dream = friend.dreams.find(d => d.id === dreamId);
+    if (!dream) return;
+    
+    currentDreamData = dream;
+
+    // 【核心修复】根据数据判断模式
+    // 如果数据里没有 isRedemption 字段，或者为 false，则设为 false
+    isRedemptionMode = !!dream.isRedemption;
+
+    setupDreamPlayScreen(false); // false 表示是继续旧梦
+}
+
+async function deleteDream(dreamId) {
+    const friend = friends.find(f => f.id === currentDreamFriendId);
+    if (!confirm("确定要遗忘这个梦境吗？")) return;
+    
+    friend.dreams = friend.dreams.filter(d => d.id !== dreamId);
+    await saveData();
+    renderDreamList(friend);
+}
+
+/**
+ * [新增] 触发梦境破碎/苏醒流程
+ */
+async function triggerWakeUpSequence(friend, reason) {
+    const contentBox = document.getElementById('dreamContentBox');
+    
+    // 1. 标记梦境结束
+    currentDreamData.isFinished = true;
+    
+    // 2. 生成一段“梦境崩塌”的描述
+    // 如果AI没有返回 reason，使用默认文案
+    const endText = reason || "你的选择触动了他潜意识深处的防线，梦境开始剧烈颤抖，世界分崩离析...";
+    const finalLog = `【梦境终结】：${endText}`;
+    
+    currentDreamData.contentLog.push({ content: finalLog, timestamp: Date.now() });
+    await saveData();
+
+    // 3. UI 视觉效果：淡出 + 震动
+    const p = document.createElement('div');
+    p.className = 'dream-text-p visible';
+    p.style.cssText = "color: #ff4d4d; font-style: italic; text-align: center; margin-top: 30px; font-weight: bold;";
+    p.innerHTML = endText;
+    contentBox.appendChild(p);
+
+    // 屏幕震动效果
+    const playArea = document.getElementById('dreamPlayArea');
+    playArea.style.animation = "shake 0.5s cubic-bezier(.36,.07,.19,.97) both";
+
+    // 4. 延迟后踢出
+    setTimeout(() => {
+        // 创建一个全屏遮罩模拟“醒来”
+        const wakeOverlay = document.createElement('div');
+        wakeOverlay.style.cssText = `
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 200; opacity: 0;
+            transition: opacity 1.5s ease; display: flex;
+            align-items: center; justify-content: center;
+            color: #000; font-size: 24px; font-family: "Noto Serif SC", serif;
+        `;
+        wakeOverlay.innerHTML = "<div>梦 醒 了</div>";
+        document.querySelector('.phone').appendChild(wakeOverlay);
+        
+        // 强制重绘触发 transition
+        requestAnimationFrame(() => {
+            wakeOverlay.style.opacity = '1';
+        });
+
+        // 2秒后完全退出到列表页
+        setTimeout(() => {
+            wakeOverlay.remove();
+            playArea.style.animation = ""; // 清除震动动画
+            exitDreamPlay(); // 返回列表
+            showToast("你被踢出了梦境", 3000);
+        }, 2000);
+
+    }, 2500); // 阅读完文字后执行
+}
+
+
+
+/**
+ * [修改版] 打开创建梦境弹窗 (初始化文风)
+ */
+function openCreateDreamModal() {
+    document.getElementById('dreamKeyword1').value = '';
+    document.getElementById('dreamKeyword2').value = '';
+    document.getElementById('dreamKeyword3').value = '';
+    
+    // 重置文风选择
+    tempDreamStyleId = null; 
+    document.getElementById('dreamStyleDisplay').textContent = "无 (默认)";
+    
+    document.getElementById('createDreamModal').classList.add('show');
+}
+
+/**
+ * 打开文风选择列表 (复用全局 writingStyles 数据)
+ */
+function openDreamStyleSelectModal() {
+    const list = document.getElementById('dreamStyleListContainer');
+    list.innerHTML = '';
+
+    // 1. 添加“不使用”选项
+    const defaultItem = document.createElement('div');
+    defaultItem.className = 'opening-statement-item'; // 复用现有样式
+    defaultItem.innerHTML = `<span style="flex-grow:1;">无 (默认)</span>`;
+    if (tempDreamStyleId === null) defaultItem.style.background = '#f0f0f0';
+    defaultItem.onclick = () => selectDreamStyle(null);
+    list.appendChild(defaultItem);
+
+    // 2. 遍历全局文风库
+    if (writingStyles && writingStyles.length > 0) {
+        writingStyles.forEach(style => {
+            const item = document.createElement('div');
+            item.className = 'opening-statement-item';
+            
+            // 高亮选中项
+            if (style.id === tempDreamStyleId) item.style.background = '#f0f0f0';
+
+            item.innerHTML = `<span style="flex-grow: 1;">${style.title}</span>`;
+            
+            // 点击选择
+            item.onclick = () => selectDreamStyle(style.id);
+            
+            list.appendChild(item);
+        });
+    } else {
+        const emptyTip = document.createElement('div');
+        emptyTip.style.cssText = "padding:15px; text-align:center; color:#999; font-size:12px;";
+        emptyTip.textContent = "暂无文风，请去“线下模式设置”中添加";
+        list.appendChild(emptyTip);
+    }
+
+    document.getElementById('dreamStyleSelectModal').classList.add('show');
+}
+
+/**
+ * 选中某个文风
+ */
+function selectDreamStyle(styleId) {
+    tempDreamStyleId = styleId;
+    
+    // 更新显示文字
+    const displayEl = document.getElementById('dreamStyleDisplay');
+    if (styleId) {
+        const style = writingStyles.find(s => s.id === styleId);
+        displayEl.textContent = style ? style.title : "无 (默认)";
+    } else {
+        displayEl.textContent = "无 (默认)";
+    }
+    
+    // 关闭弹窗
+    document.getElementById('dreamStyleSelectModal').classList.remove('show');
+}
+
+// --- 入梦设置与音频管理 ---
+
+/**
+ * [修改版] 切换设置面板显示 (增加刷新存档列表)
+ */
+function toggleDreamSettings() {
+    const panel = document.getElementById('dreamSettingsPanel');
+    panel.classList.toggle('show');
+    
+    // 如果当前是全局夜间模式，或者梦境选择了夜间模式，让面板也变黑
+    const isGlobalDark = document.body.classList.contains('wechat-dark-mode');
+    if (isDreamNightMode || isGlobalDark) {
+        panel.classList.add('dream-night-mode-panel');
+    } else {
+        panel.classList.remove('dream-night-mode-panel');
+    }
+
+    // 【新增】每次打开面板，重新渲染存档槽位状态
+    if (panel.classList.contains('show')) {
+        renderDreamSaveSlots();
+    }
+}
+
+// 切换日间/夜间模式
+function setDreamTheme(mode, btnElement) {
+    isDreamNightMode = (mode === 'night');
+    
+    const playArea = document.getElementById('dreamPlayArea');
+    const panel = document.getElementById('dreamSettingsPanel');
+    
+    // 切换按钮样式
+    const btns = document.querySelectorAll('.dream-mode-switch .mode-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+    
+    // 应用样式
+    if (isDreamNightMode) {
+        playArea.classList.add('dream-night-mode');
+        panel.classList.add('dream-night-mode-panel');
+    } else {
+        playArea.classList.remove('dream-night-mode');
+        panel.classList.remove('dream-night-mode-panel');
+    }
+}
+
+// 切换背景白噪音
+function setDreamAudio(type, btnElement) {
+    currentDreamAudio = type;
+    
+    // 切换按钮样式
+    const btns = document.querySelectorAll('.dream-sound-grid .sound-item');
+    btns.forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+    
+    // 播放/暂停音频
+    const player = document.getElementById('dreamBgmPlayer');
+    const url = DREAM_SOUNDS[type];
+    
+    if (url) {
+        player.src = url;
+        player.volume = 0.6; // 默认音量
+        player.play().catch(e => console.error("音频播放失败", e));
+    } else {
+        player.pause();
+        player.src = "";
+    }
+}
+
+// [修改版] 梦境播放初始化 (修复UI残留问题)
+function setupDreamPlayScreen(isNew) {
+    setActivePage('dreamPlayScreen');
+    document.querySelector('.phone').classList.add('status-bar-hidden');
+    
+    // 1. 初始化设置面板状态
+    const isGlobalDark = document.body.classList.contains('wechat-dark-mode');
+    if (isGlobalDark) {
+        setDreamTheme('night', document.querySelectorAll('.dream-mode-switch .mode-btn')[1]);
+    } else {
+        setDreamTheme('day', document.querySelectorAll('.dream-mode-switch .mode-btn')[0]);
+    }
+
+    setDreamAudio('none', document.querySelectorAll('.dream-sound-grid .sound-item')[0]);
+
+    // 2. 清空界面 & 【核心修复：重置所有交互区域】
+    const contentBox = document.getElementById('dreamContentBox');
+    const optionsBox = document.getElementById('dreamOptionsBox');
+    const redemptionBox = document.getElementById('redemptionInputBox'); // 获取救赎输入框
+    const settingsPanel = document.getElementById('dreamSettingsPanel');
+    
+    contentBox.innerHTML = '';
+    
+    // 隐藏普通选项框
+    optionsBox.innerHTML = '';
+    optionsBox.style.display = 'none';
+
+    // 【关键修复】强制隐藏救赎模式的输入框，并清空提示文字
+    if (redemptionBox) {
+        redemptionBox.style.display = 'none';
+        document.getElementById('redemptionRestriction').textContent = ''; 
+    }
+
+    settingsPanel.classList.remove('show');
+    
+    dreamTextQueue = [];
+    dreamIsWaitingForOption = false;
+
+    // 3. 回放与断点续传逻辑
+    if (!isNew && currentDreamData.contentLog) {
+        if (typeof currentDreamData.readIndex === 'undefined') {
+            currentDreamData.readIndex = currentDreamData.contentLog.length;
+        }
+
+        currentDreamData.contentLog.forEach((log, index) => {
+            if (index < currentDreamData.readIndex) {
+                addParagraphToScreen(log.content, false);
+            } else {
+                dreamTextQueue.push(log.content);
+            }
+        });
+
+        const area = document.getElementById('dreamPlayArea');
+        setTimeout(() => area.scrollTop = area.scrollHeight, 100);
+        
+        // 4. 状态恢复判断
+        if (dreamTextQueue.length > 0) {
+            document.querySelector('.dream-tap-hint').style.display = 'block';
+        } else {
+            document.querySelector('.dream-tap-hint').style.display = 'none';
+            
+            // 检查是否有暂存的选项
+            const opts = currentDreamData.tempOptions || currentDreamData.lastOptions;
+            
+            // 【关键逻辑修复】：根据当前模式决定恢复哪个界面
+            if (!currentDreamData.isFinished) {
+                if (isRedemptionMode) {
+                    // 如果是救赎模式，恢复输入框
+                    if (redemptionBox) {
+                        // 恢复限制条件文本
+                        const restriction = currentDreamData.currentRestriction || "自由行动";
+                        document.getElementById('redemptionRestriction').textContent = `⚠️ 限制：${restriction}`;
+                        redemptionBox.style.display = 'flex';
+                    }
+                } else if (opts && opts.length > 0) {
+                    // 如果是普通梦境，恢复选项
+                    showDreamOptions(opts);
+                }
+            }
+        }
+    }
+}
+
+function exitDreamPlay() {
+    // 1. 停止背景音频 (保持不变)
+    const player = document.getElementById('dreamBgmPlayer');
+    if (player) {
+        player.pause();
+        player.src = "";
+    }
+    currentDreamAudio = 'none';
+
+    // 2. 隐藏设置面板 (保持不变)
+    document.getElementById('dreamSettingsPanel').classList.remove('show');
+
+    // 3. 恢复状态栏 (保持不变)
+    applyStatusBarVisibility();
+    
+    // 4. 【新增逻辑】判断返回哪里
+    if (isRedemptionMode) {
+        // 如果是从救赎模式退出的，返回【命运节点页】
+        // currentRedemptionFriendId 是我们在进入节点页时记录的全局变量
+        openRedemptionTimeline(currentRedemptionFriendId);
+    } else {
+        // 如果是从普通梦境退出的，返回【梦境列表页】(原逻辑)
+        openDreamList(currentDreamFriendId);
+    }
+
+    // 5. 【新增逻辑】重置状态
+    isRedemptionMode = false; // 关掉救赎标记
+    currentDreamData = null;  // 清空当前数据引用
+}
+
+// 还要补充一个点击空白处关闭设置面板的逻辑
+document.getElementById('dreamPlayArea').addEventListener('click', (e) => {
+    // 如果点击的不是设置面板本身，也不是设置按钮
+    const panel = document.getElementById('dreamSettingsPanel');
+    const btn = document.querySelector('.nav-btn[onclick="toggleDreamSettings()"]');
+    
+    if (panel.classList.contains('show') && 
+        !panel.contains(e.target) && 
+        !btn.contains(e.target)) {
+        // 关闭面板
+        panel.classList.remove('show');
+        
+        // 阻止这次点击触发 handleDreamTap (翻页)
+        // 这是一个技巧：我们可以临时设置一个标志位
+        e.stopPropagation(); 
+        return;
+    }
+    
+    // 如果面板没开，或者是点在内容区，正常执行翻页逻辑
+    if (!panel.classList.contains('show')) {
+        handleDreamTap();
+    }
+});
+
+function handleDreamTap() {
+    // 1. 检查是否正在打开设置面板
+    const panel = document.getElementById('dreamSettingsPanel');
+    if (panel && panel.classList.contains('show')) {
+        panel.classList.remove('show');
+        return;
+    }
+
+    // 2. 如果正在生成或等待用户输入，禁止点击翻页
+    // 注意：isRedemptionMode 为 true 时，不需要 dreamIsWaitingForOption 这个锁
+    if (isGeneratingDream) return;
+    
+    // 如果队列为空
+    if (dreamTextQueue.length === 0) {
+        // A. 检查是否结局了
+        if (currentDreamData.isFinished && currentDreamData.endStatus) {
+            triggerRedemptionEnd(currentDreamData.endStatus);
+            return;
+        }
+
+        // B. 检查是否需要显示交互界面
+        if (isRedemptionMode) {
+            // --- 救赎模式：显示输入框 ---
+            // 只有当输入框还没显示时才显示
+            const inputBox = document.getElementById('redemptionInputBox');
+            if (inputBox.style.display === 'none') {
+                document.getElementById('redemptionRestriction').textContent = `⚠️ 限制：${currentRedemptionRestriction}`;
+                inputBox.style.display = 'flex';
+                document.querySelector('.dream-tap-hint').style.display = 'none';
+                
+                // 自动聚焦
+                setTimeout(() => document.getElementById('redemptionActionInput').focus(), 100);
+            }
+        } else {
+            // --- 梦境模式：显示选项 (原逻辑) ---
+            if (dreamIsWaitingForOption) return; // 已经在等选项了
+
+            const opts = currentDreamData.tempOptions || currentDreamData.lastOptions;
+            if (opts && opts.length > 0 && !currentDreamData.isFinished) {
+                showDreamOptions(opts);
+            }
+        }
+        return;
+    }
+
+    // 3. 正常翻页：显示下一段文字
+    const nextPara = dreamTextQueue.shift();
+    addParagraphToScreen(nextPara, true);
+    
+    // 保存阅读进度
+    if (typeof currentDreamData.readIndex === 'undefined') currentDreamData.readIndex = 0;
+    currentDreamData.readIndex++;
+    // (可选：这里可以不频繁saveData，等整段生成完再存，或者保持现状)
+    
+    // 如果队列空了，隐藏点击提示
+    if (dreamTextQueue.length === 0) {
+        document.querySelector('.dream-tap-hint').style.display = 'none';
+        // 自动触发显示交互界面 (递归调用一次)
+        setTimeout(handleDreamTap, 500); 
+    }
+}
+
+// [新增] 处理救赎结局动画
+function triggerRedemptionEnd(status) {
+    const contentBox = document.getElementById('dreamContentBox');
+    
+    // 红色或绿色的大标题
+    const color = status.title.includes("成功") ? "#07c160" : "#ff3b30";
+    
+    const p = document.createElement('div');
+    p.className = 'dream-text-p visible';
+    p.style.cssText = `color: ${color}; text-align: center; margin-top: 40px; font-weight: bold; font-size: 20px;`;
+    p.innerHTML = `${status.title}<br><span style="font-size:14px; color:#666; font-weight:normal;">${status.reason}</span>`;
+    contentBox.appendChild(p);
+    
+    // 震动
+    const playArea = document.getElementById('dreamPlayArea');
+    if (status.title.includes("失败") || status.title.includes("死亡")) {
+        playArea.style.animation = "shake 0.5s cubic-bezier(.36,.07,.19,.97) both";
+    }
+
+    // 3秒后退出
+    setTimeout(() => {
+        exitDreamPlay();
+        showToast("时空连接断开...");
+        // 清除状态
+        isRedemptionMode = false;
+        currentDreamData = null;
+    }, 3000);
+}
+
+/**
+ * [新增] 渲染 3 个存档槽位
+ */
+function renderDreamSaveSlots() {
+    const container = document.getElementById('dreamSaveSlotsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // 确保当前梦境对象有 saves 数组
+    if (!currentDreamData.saves) {
+        currentDreamData.saves = [null, null, null];
+    }
+
+    // 生成 3 个槽位
+    for (let i = 0; i < 3; i++) {
+        const saveData = currentDreamData.saves[i];
+        let timeStr = "空存档";
+        let hasData = false;
+
+        if (saveData) {
+            const d = new Date(saveData.saveTime);
+            timeStr = `${d.getMonth() + 1}/${d.getDate()} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+            hasData = true;
+        }
+
+        const div = document.createElement('div');
+        div.className = 'save-slot-item';
+        div.innerHTML = `
+            <div class="save-slot-info">
+                <div class="slot-title">存档位 ${i + 1}</div>
+                <div class="slot-time">${timeStr}</div>
+            </div>
+            <div class="slot-actions">
+                <div class="slot-btn save" onclick="handleDreamSave(${i})" title="保存当前进度">
+                    <i class="ri-save-3-line"></i>
+                </div>
+                <div class="slot-btn load ${hasData ? '' : 'disabled'}" onclick="handleDreamLoad(${i})" title="读取存档">
+                    <i class="ri-download-cloud-2-line"></i>
+                </div>
+            </div>
+        `;
+        container.appendChild(div);
+    }
+}
+
+/**
+ * [新增] 执行存档操作
+ */
+async function handleDreamSave(slotIndex) {
+    if (!currentDreamData) return;
+
+    // 询问覆盖
+    if (currentDreamData.saves && currentDreamData.saves[slotIndex]) {
+        if (!confirm(`存档位 ${slotIndex + 1} 已有数据，确定要覆盖吗？`)) return;
+    }
+
+    // 构建存档数据快照 (深拷贝关键数据)
+    // 我们只需要保存恢复现场所需的数据
+    const snapshot = {
+        saveTime: new Date().toISOString(),
+        contentLog: JSON.parse(JSON.stringify(currentDreamData.contentLog)), // 完整对话流
+        readIndex: currentDreamData.readIndex, // 当前阅读到的位置
+        isFinished: currentDreamData.isFinished,
+        tempOptions: currentDreamData.tempOptions ? JSON.parse(JSON.stringify(currentDreamData.tempOptions)) : null,
+        lastOptions: currentDreamData.lastOptions ? JSON.parse(JSON.stringify(currentDreamData.lastOptions)) : null
+    };
+
+    if (!currentDreamData.saves) currentDreamData.saves = [null, null, null];
+    currentDreamData.saves[slotIndex] = snapshot;
+
+    await saveData(); // 保存到数据库
+    
+    // 刷新UI显示时间
+    renderDreamSaveSlots();
+    showToast(`进度已保存至存档 ${slotIndex + 1}`);
+}
+
+/**
+ * [新增] 执行读档操作
+ */
+async function handleDreamLoad(slotIndex) {
+    if (!currentDreamData || !currentDreamData.saves || !currentDreamData.saves[slotIndex]) {
+        return;
+    }
+
+    if (!confirm(`确定读取存档 ${slotIndex + 1} 吗？当前未保存的进度将丢失。`)) return;
+
+    const save = currentDreamData.saves[slotIndex];
+
+    // 恢复数据
+    currentDreamData.contentLog = JSON.parse(JSON.stringify(save.contentLog));
+    currentDreamData.readIndex = save.readIndex;
+    currentDreamData.isFinished = save.isFinished;
+    currentDreamData.tempOptions = save.tempOptions ? JSON.parse(JSON.stringify(save.tempOptions)) : null;
+    currentDreamData.lastOptions = save.lastOptions ? JSON.parse(JSON.stringify(save.lastOptions)) : null;
+
+    // 如果读档时，阅读进度已经到了末尾，且没有选项，可能需要重置一下等待状态
+    if (currentDreamData.readIndex >= currentDreamData.contentLog.length) {
+        dreamTextQueue = [];
+    } else {
+        // 如果读档位置在中间，需要重新构建播放队列吗？
+        // setupDreamPlayScreen(false) 会处理这个逻辑：
+        // 它会把 < readIndex 的直接显示， >= readIndex 的放入队列
+    }
+
+    // 关闭设置面板
+    document.getElementById('dreamSettingsPanel').classList.remove('show');
+
+    // 重新渲染整个播放界面
+    setupDreamPlayScreen(false); // false 表示这是旧梦重温/读档
+
+    showToast(`已读取存档 ${slotIndex + 1}`);
+    
+    // 强制保存一次当前状态到数据库，防止刷新后又回到读档前的状态
+    await saveData();
+}
+
+// =========================================
+// START: 入梦模式选择与救赎模式逻辑
+// =========================================
+
+/**
+ * 1. 打开模式选择弹窗
+ */
+function openDreamModeSelectModal() {
+    document.getElementById('dreamModeSelectModal').classList.add('show');
+}
+
+/**
+ * 2. 处理模式选择
+ * @param {string} mode - 'dream' (潜意识) 或 'redemption' (救赎)
+ */
+function selectDreamMode(mode) {
+    // 关闭弹窗
+    document.getElementById('dreamModeSelectModal').classList.remove('show');
+
+    if (mode === 'dream') {
+        // 原有逻辑：进入梦境角色选择
+        openDreamCharacterSelect();
+    } else if (mode === 'redemption') {
+        // 新逻辑：进入救赎角色选择
+        openRedemptionCharacterSelect();
+    }
+}
+
+/**
+ * 3. 打开救赎模式的角色选择列表 (复用样式，逻辑独立)
+ */
+function openRedemptionCharacterSelect() {
+    setActivePage('redemptionCharacterSelectScreen');
+    
+    const container = document.getElementById('redemptionCharList');
+    container.innerHTML = '';
+    
+    const aiFriends = friends.filter(f => !f.isGroup);
+    
+    if (aiFriends.length === 0) {
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.innerHTML = '<div style="text-align:center; padding:50px; color:#999;">暂无好友</div>';
+        return;
+    } else {
+        container.style.display = 'grid';
+    }
+
+    aiFriends.forEach(friend => {
+        const item = document.createElement('div');
+        item.className = 'dream-char-card'; // 复用梦境卡片样式
+        
+        // 头像
+        let avatarHtml = '';
+        if (friend.avatarImage) {
+            avatarHtml = `<div class="dream-card-avatar" style="background-image: url('${friend.avatarImage}')"></div>`;
+        } else {
+            avatarHtml = `<div class="dream-card-avatar" style="background: #333;">${friend.avatar || friend.name[0]}</div>`;
+        }
+
+        item.innerHTML = `
+            ${avatarHtml}
+            <div class="dream-card-name">${friend.remark || friend.name}</div>
+            <div class="dream-card-hint">点击开启救赎</div>
+        `;
+        
+        // 点击进入时间轴
+        item.onclick = () => openRedemptionTimeline(friend.id);
+        container.appendChild(item);
+    });
+}
+
+function backToRedemptionCharSelect() {
+    setActivePage('redemptionCharacterSelectScreen');
+}
+
+/**
+ * 4. 打开时间轴页面
+ */
+function openRedemptionTimeline(friendId) {
+    currentRedemptionFriendId = friendId;
+    const friend = friends.find(f => f.id === friendId);
+    
+    setActivePage('redemptionTimelineScreen');
+    
+    // 如果该角色已经有生成的节点数据，直接显示
+    if (friend.redemptionNodes && friend.redemptionNodes.length > 0) {
+        renderRedemptionNodes(friend.redemptionNodes);
+    } else {
+        // 否则显示空状态提示
+        document.getElementById('redemptionTimelineList').innerHTML = 
+            '<div style="text-align:center; padding:60px 20px; color:#999;">暂无时间节点<br>点击右上角刷新按钮生成</div>';
+    }
+}
+
+/**
+ * 5. 核心：调用AI生成10个过去节点
+ */
+async function refreshRedemptionNodes() {
+    const friend = friends.find(f => f.id === currentRedemptionFriendId);
+    if (!friend) return;
+
+    const btn = document.getElementById('refreshRedemptionBtn');
+    if (btn.classList.contains('rotate-anim')) return;
+
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        return showAlert("请先配置API");
+    }
+
+    btn.classList.add('rotate-anim');
+    showToast(`正在回溯 ${friend.name} 的过往经历...`, 3000);
+    
+    // 显示加载占位
+    document.getElementById('redemptionTimelineList').innerHTML = 
+        '<div style="text-align:center; padding:40px; color:#999;"><div class="loading-spinner" style="margin:0 auto 10px; border-top-color:#333;"></div>正在检索时间线...</div>';
+
+    // 构建 Prompt
+    const prompt = `
+【任务】: 你是角色 "${friend.name}" 的命运观测者。请根据他/她的人设，回溯其过往人生，提取 **10个** 最重要、最灰暗、最令人遗憾的时间节点。
+
+【角色档案】
+- 姓名: ${friend.name}
+- 核心人设: ${friend.role}
+
+【生成要求】
+1.  **【人设贴合】**: 事件必须完美符合角色性格和背景故事。如果人设悲惨，就挖掘苦难；如果人设傲娇/高冷，就挖掘导致其性格形成的童年阴影或挫折。
+2.  **【灰暗/遗憾】**: 这些节点必须是**负面**的、**令人心疼**的时刻。例如：被抛弃的那天、受重伤的那天、被误解的那天、重要之物丢失的那天。正是这些时刻需要“救赎”。
+3.  **【时间跨度】**: 节点应覆盖从小时候到现在的不同阶段（例如童年、少年、青年）。
+4.  **【数量】**: 必须生成 **10个** 节点。
+
+【输出格式铁律 (JSON Array)】
+必须返回一个纯净的 JSON 数组，包含10个对象。每个对象包含：
+- \`age\`: 字符串，当时的岁数 (如 "5岁", "16岁", "半年前")。
+- \`event\`: 字符串，事件的详细概述 (50字左右，描述当时发生了什么，以及角色的感受)。
+
+【JSON示例】
+[
+  { "age": "6岁", "event": "那是除夕夜，他在漫天大雪中被赶出了家门。赤脚踩在雪地上的刺痛感，至今仍是他挥之不去的噩梦。" },
+  { "age": "17岁", "event": "校庆舞台上，精心准备的演出被恶意破坏。他在后台独自清理被剪烂的演出服，第一次学会了不再期待。" }
+]
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 1.0
+            })
+        });
+
+        const data = await response.json();
+        const contentStr = data.choices[0].message.content;
+        const jsonMatch = contentStr.match(/\[[\s\S]*\]/);
+
+        if (!jsonMatch) throw new Error("JSON解析失败");
+
+        const nodes = JSON.parse(jsonMatch[0]);
+
+        // 保存到好友数据中
+        friend.redemptionNodes = nodes;
+        await saveData();
+
+        // 渲染列表
+        renderRedemptionNodes(nodes);
+        showToast("时间节点已生成");
+
+    } catch (e) {
+        console.error("生成节点失败:", e);
+        document.getElementById('redemptionTimelineList').innerHTML = 
+            `<div style="text-align:center; padding:20px; color:red;">生成失败: ${e.message}</div>`;
+    } finally {
+        btn.classList.remove('rotate-anim');
+    }
+}
+
+function renderRedemptionNodes(nodes) {
+    const container = document.getElementById('redemptionTimelineList');
+    container.innerHTML = '';
+    
+    // 按时间/年龄排序（简单字符串比较可能不准，这里假设AI按顺序生成）
+    nodes.forEach((node, index) => {
+        const card = document.createElement('div');
+        card.className = 'redemption-node-card';
+        
+        // 【核心修改】点击弹出模式选择
+        card.onclick = () => openRedemptionTypeSelect(node); 
+
+        card.innerHTML = `
+            <div class="redemption-node-header">
+                <span class="redemption-age-badge">${node.age}</span>
+                <i class="ri-play-circle-line" style="color:#333; font-size: 20px;"></i>
+            </div>
+            <div class="redemption-node-content">
+                ${node.event}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+/**
+ * [修改版] 打开模式选择弹窗 (检查存档)
+ */
+function openRedemptionTypeSelect(nodeData) {
+    redemptionTargetNode = nodeData;
+    
+    // 1. 获取当前好友
+    const friend = friends.find(f => f.id === currentRedemptionFriendId);
+    
+    // 2. 检查是否有针对这个时间节点(age)的存档
+    const loadContainer = document.getElementById('redemptionLoadContainer');
+    const loadInfo = document.getElementById('redemptionLoadInfo');
+    
+    // 假设我们将存档保存在 friend.redemptionHistory 数组中
+    // 我们通过 age 字段来匹配特定的时间节点
+    let hasSave = false;
+    
+    if (friend && friend.redemptionHistory) {
+        // 查找匹配当前节点年龄的存档
+        const savedSession = friend.redemptionHistory.find(s => s.nodeInfo && s.nodeInfo.age === nodeData.age);
+        
+        if (savedSession && !savedSession.isFinished) { // 只有未完结的才能继续
+            hasSave = true;
+            // 格式化时间
+            const date = new Date(savedSession.lastUpdate || Date.now());
+            const timeStr = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2,'0')}`;
+            
+            // 获取最后一段剧情预览
+            const lastLog = savedSession.contentLog[savedSession.contentLog.length - 1];
+            const preview = lastLog ? lastLog.content.substring(0, 20) + "..." : "存档数据";
+            
+            loadInfo.innerHTML = `上次时间：${timeStr}<br>进度：${preview}`;
+            loadContainer.style.display = 'block';
+            
+            // 暂存这个存档对象，方便 continueLastRedemption 使用
+            // (利用 DOM 元素存数据，或者全局变量，这里用全局变量简单点)
+            window.tempRedemptionSave = savedSession;
+        }
+    }
+    
+    if (!hasSave) {
+        loadContainer.style.display = 'none';
+        window.tempRedemptionSave = null;
+    }
+
+    document.getElementById('redemptionTypeModal').classList.add('show');
+}
+
+/**
+ * [修改版] 确认穿越方式并开始新游戏 (保存存档结构)
+ */
+async function confirmRedemptionType(type) {
+    redemptionUserType = type;
+    document.getElementById('redemptionTypeModal').classList.remove('show');
+    
+    const friend = friends.find(f => f.id === currentRedemptionFriendId);
+    
+    // 1. 初始化数据结构
+    const newSession = {
+        id: `redemption_${Date.now()}`,
+        title: `救赎：${redemptionTargetNode.age}`,
+        contentLog: [], 
+        isFinished: false,
+        readIndex: 0,
+        isRedemption: true,
+        nodeInfo: redemptionTargetNode,
+        userType: redemptionUserType,
+        lastUpdate: new Date().toISOString() // 新增：记录最后更新时间
+    };
+    
+    currentDreamData = newSession; 
+    isRedemptionMode = true; 
+
+    // --- 【核心修改】将新会话保存到好友的存档列表中 ---
+    if (!friend.redemptionHistory) friend.redemptionHistory = [];
+    
+    // 策略：每个时间节点(age)只保留一个存档。如果已存在，覆盖旧的。
+    // 如果你想保留多个，就直接 push，但这里为了逻辑简单，采用覆盖策略。
+    const existingIndex = friend.redemptionHistory.findIndex(s => s.nodeInfo.age === redemptionTargetNode.age);
+    if (existingIndex > -1) {
+        friend.redemptionHistory[existingIndex] = newSession;
+    } else {
+        friend.redemptionHistory.push(newSession);
+    }
+    await saveData(); // 立即保存初始状态
+    // ------------------------------------------------
+
+    // 2. 切换到播放页面
+    setupDreamPlayScreen(true);
+    
+    document.getElementById('dreamOptionsBox').style.display = 'none';
+    document.getElementById('redemptionInputBox').style.display = 'none';
+
+    // 3. 调用 AI 生成开场
+    await generateRedemptionSegment(friend, newSession, "start");
+}
+
+/**
+ * [V5 晋江风重构版] 救赎模式核心生成函数
+ * 特性：二/三人称视角、自定义温度、长篇幅、动态限制、去油腻文风
+ */
+async function generateRedemptionSegment(friend, sessionData, actionType, userActionContent = "") {
+    isGeneratingDream = true; // 锁定屏幕点击
+
+    // UI 加载提示
+    const loadingP = document.createElement('div');
+    loadingP.className = 'dream-text-p visible';
+    loadingP.style.cssText = "color: #999; text-align: center; font-size: 13px; margin-top: 20px;";
+    loadingP.innerHTML = '<i class="ri-time-line fa-spin"></i> 命运线变动中...';
+    
+    const contentBox = document.getElementById('dreamContentBox');
+    if (contentBox) contentBox.appendChild(loadingP);
+    
+    // 滚动到底部
+    const area = document.getElementById('dreamPlayArea');
+    if (area) area.scrollTo({ top: area.scrollHeight, behavior: 'smooth' });
+
+    // 1. 获取设置与人设
+    const settings = await dbManager.get('apiSettings', 'settings');
+    if (!settings || !settings.apiUrl || !settings.apiKey) {
+        if(loadingP) loadingP.textContent = "API未配置";
+        isGeneratingDream = false;
+        return;
+    }
+
+    // 【修改点】使用自定义温度，如果没有设置则默认 1.0 (适合文学创作)
+    const customTemp = parseFloat(settings.apiTemperature) || 1.0;
+
+    // 【修改点】确保读取的是当前绑定给该角色的特定人设
+    const personaId = friend.activeUserPersonaId || 'default_user';
+    const persona = userPersonas.find(p => p.id === personaId) || userProfile;
+
+    // 2. 构建上下文
+    let storyContext = "";
+    if (sessionData.contentLog && sessionData.contentLog.length > 0) {
+        // 读取最近 15 条记录，保证连贯性
+        storyContext = sessionData.contentLog.map(log => {
+            if (log.isUserAction) return `【用户("${persona.name}")行动】: ${log.content}`;
+            return log.content;
+        }).join('\n\n');
+    } else {
+        storyContext = "（刚刚穿越，还没有历史记录）";
+    }
+
+    // 3. 穿越形态规则
+    let modeRule = "";
+    if (sessionData.userType === 'physical') {
+        modeRule = "【用户状态：实体穿越】所有人都能看到用户。用户是肉体凡胎，会受伤，体能有限。";
+    } else {
+        modeRule = "【用户状态：幽灵观测】只有目标角色能看到用户（且可能认为是幻觉），其他人看不见。用户无法触碰实体。";
+    }
+
+    // 4. 当前任务指令
+    let taskInstruction = "";
+    if (actionType === 'start') {
+        taskInstruction = `这是穿越的**第一幕**。请详细铺垫用户穿越落地后的场景（基于节点事件：${sessionData.nodeInfo.event}），侧重描写环境氛围和角色此刻凄惨/灰暗的状态，以及角色发现用户出现时的反应。`;
+    } else {
+        taskInstruction = `用户采取了行动：【${userActionContent}】。请根据【用户状态】推进剧情。如果该行动成功安抚了角色或解决了危机，则【救赎成功】；如果导致悲剧发生或用户死亡，则【救赎失败】；否则继续剧情。`;
+    }
+
+    // --- 【核心 Prompt 构建】 ---
+    const prompt = `
+【模式】: 晋江风·时空救赎文。
+【目标角色】: "${friend.name}" (他/她)。
+   - 人设: ${friend.role}
+【救赎者(用户)】: "${persona.name}" (你)。
+   - 人设: ${persona.personality || '普通人'}
+【当前时间点】: ${sessionData.nodeInfo.age}
+${modeRule}
+
+【当前时间节点事件】: ${sessionData.nodeInfo.event}
+
+【剧情回顾】:
+${storyContext}
+
+【本次写作任务】:
+${taskInstruction}
+
+【【【文风与视角铁律 (Style & Perspective)】】】
+1.  **【人称视角】**: 
+    -   描写用户(救赎者)时，必须使用 **第二人称 "你"**。
+    -   描写目标角色("${friend.name}")时，必须使用 **第三人称 "他" 或 "她"**。
+2.  **【晋江文风】**: 
+    -   **拒绝浮夸**: 严禁使用“邪魅一笑”、“如雕刻般”、“深渊般的眼眸”等古早言情或八股文词藻。
+    -   **拒绝AI味**: 句子不要总是主谓宾结构，多用短句。
+    -   **情感细腻**: 侧重描写氛围感、细微的肢体语言、眼神交流以及角色内心压抑的痛苦或渴望。
+    -   **画面感**: 描写要具体（如“雨水顺着他的发梢滴落”），不要抽象（如“他感到很悲伤”）。
+
+【【【篇幅与限制指令】】】
+1.  **【长剧情】**: 为了让剧情更连贯，请一次性生成 **8 到 18 个** 剧情段落 (\`segments\`)。不要写两句就停下。
+2.  **【限制指令 (Next Restriction) - 重要修改】**: 
+    -   在 \`next_restriction\` 字段中，给用户下达一个**简短、官方、游戏规则式**的操作限制。
+    -   **格式要求**：必须像系统提示一样短（10个字以内）。
+    -   **严禁**写成“因为刚才太累了所以无法说话”这种描述句。
+   
+
+【【【输出格式铁律 (JSON)】】】
+必须返回纯净的 JSON 对象：
+{
+  "segments": [
+    "第一段剧情(环境描写)...", 
+    "第二段剧情(你的动作)...", 
+    "第三段剧情(他的反应)...",
+    ... (请确保有 8-18 段)
+  ],
+  "status": "continue", // 状态: "continue"(继续), "success"(救赎成功), "fail"(失败), "dead"(用户死亡)
+  "end_reason": "", // 如果非continue，填写结局原因
+  "next_restriction": "..." // 给用户下一次行动施加的具体、有剧情逻辑的限制
+}
+`;
+
+    try {
+        const response = await fetch(`${settings.apiUrl}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: settings.modelName,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: customTemp // 【修改点】使用设置里的自定义温度
+            })
+        });
+
+        const data = await response.json();
+        const jsonMatch = data.choices[0].message.content.match(/\{[\s\S]*\}/);
+        
+        if (!jsonMatch) throw new Error("JSON解析失败");
+        const result = JSON.parse(jsonMatch[0]);
+
+        // 移除加载提示
+        if (loadingP) loadingP.remove();
+
+        // 数据兜底
+        if (!result.segments || result.segments.length === 0) {
+            const fallbackText = result.content || result.message || "（系统提示：时空连接不稳定，画面传输中断...请尝试输入行动继续。）";
+            result.segments = [fallbackText];
+        }
+
+        // 1. 处理剧情段落
+        result.segments.forEach(seg => {
+            sessionData.contentLog.push({ content: seg, timestamp: Date.now() });
+            dreamTextQueue.push(seg); 
+        });
+
+        // 2. 更新状态和限制
+        currentRedemptionRestriction = result.next_restriction || "自由行动";
+        sessionData.currentRestriction = currentRedemptionRestriction; // 【新增】保存限制条件到存档
+        sessionData.lastUpdate = new Date().toISOString(); // 【新增】更新时间
+        
+        // 3. 处理结局
+        if (result.status !== 'continue') {
+            sessionData.isFinished = true;
+            const endTitle = result.status === 'success' ? "【救赎成功】" : (result.status === 'dead' ? "【死亡结局】" : "【救赎失败】");
+            sessionData.endStatus = { title: endTitle, reason: result.end_reason || "命运的齿轮停止转动。" };
+        }
+        
+        // --- 【核心修改】确保更新后的 sessionData 同步到好友的历史列表中 ---
+        // 因为 sessionData 是引用类型，通常修改它就会修改数组里的对象
+        // 但为了保险起见，我们重新赋值并 saveData
+        if (friend.redemptionHistory) {
+            const idx = friend.redemptionHistory.findIndex(s => s.id === sessionData.id);
+            if (idx > -1) {
+                friend.redemptionHistory[idx] = sessionData;
+            }
+        }
+        await saveData(); // 保存到 IndexedDB
+        // -------------------------------------------------------------
+
+        // 4. 开始播放文字 (保持不变)
+        if (dreamTextQueue.length > 0) {
+            handleDreamTap();
+            const hint = document.querySelector('.dream-tap-hint');
+            if (hint) hint.style.display = 'block';
+        }
+
+    } catch (e) {
+        console.error(e);
+        if (loadingP) {
+            loadingP.textContent = "时空波动... 点击重试";
+            loadingP.style.color = "red";
+            loadingP.onclick = () => { 
+                loadingP.remove(); 
+                generateRedemptionSegment(friend, sessionData, actionType, userActionContent); 
+            };
+        }
+    } finally {
+        isGeneratingDream = false;
+    }
+}
+
+// 用户提交行动
+function submitRedemptionAction() {
+    const input = document.getElementById('redemptionActionInput');
+    const action = input.value.trim();
+    
+    if (!action) return showToast("行动不能为空");
+
+    // 隐藏输入框
+    document.getElementById('redemptionInputBox').style.display = 'none';
+    
+    // 记录用户行动
+    const friend = friends.find(f => f.id === currentRedemptionFriendId);
+    
+    const actionLog = `> (你：${action})`;
+    currentDreamData.contentLog.push({ content: actionLog, isUserAction: true });
+    addParagraphToScreen(actionLog, true);
+    
+    input.value = '';
+
+    // 触发下一轮生成
+    generateRedemptionSegment(friend, currentDreamData, "action", action);
+}
+
+/**
+ * [核心修复] 将一段文字渲染到梦境/救赎屏幕上
+ * @param {string} text - 文字内容
+ * @param {boolean} animate - 是否播放淡入动画 (历史记录回放时设为false)
+ */
+function addParagraphToScreen(text, animate = true) {
+    const contentBox = document.getElementById('dreamContentBox');
+    if (!contentBox) return;
+
+    const p = document.createElement('div');
+    p.className = 'dream-text-p'; // 使用 CSS 中定义的样式类
+    
+    // 处理换行符，确保排版正确
+    p.innerHTML = text.replace(/\n/g, '<br>');
+    
+    contentBox.appendChild(p);
+
+    // 动画逻辑
+    if (animate) {
+        // 强制浏览器重绘，确保 transition 生效
+        void p.offsetWidth;
+        p.classList.add('visible'); // 添加 visible 类触发 CSS opacity/transform 动画
+        
+        // 自动平滑滚动到底部
+        const area = document.getElementById('dreamPlayArea');
+        if (area) {
+            setTimeout(() => {
+                area.scrollTo({ top: area.scrollHeight, behavior: 'smooth' });
+            }, 100);
+        }
+    } else {
+        // 如果不需要动画（如读档时），直接显示
+        p.classList.add('visible');
+    }
+}
+
+/**
+ * [新增] 读取上一次的救赎进度
+ */
+function continueLastRedemption() {
+    const savedSession = window.tempRedemptionSave;
+    if (!savedSession) return;
+    
+    document.getElementById('redemptionTypeModal').classList.remove('show');
+    
+    // 1. 恢复全局状态
+    currentDreamData = savedSession;
+    isRedemptionMode = true;
+    redemptionTargetNode = savedSession.nodeInfo; // 恢复节点信息
+    
+    // 2. 恢复全局限制状态 (从最后一次的 log 或 savedSession 中读取)
+    // 这里我们假设 generateRedemptionSegment 每次生成时会更新一个全局变量
+    // 但在读档时，我们需要从 savedSession 恢复它。
+    // 建议在 session 对象里多存一个字段 next_restriction，这里做一个防御性处理
+    currentRedemptionRestriction = savedSession.currentRestriction || "自由行动";
+
+    // 3. 切换到播放页面 (传入 false 表示不是新游戏，启用断点续传)
+    setupDreamPlayScreen(false);
+    
+    // 4. UI 恢复
+    // 如果是读档，输入框应该根据当前状态显示
+    if (!savedSession.isFinished) {
+         // 恢复输入框显示 (如果内容读完了)
+         if (currentDreamData.readIndex >= currentDreamData.contentLog.length) {
+             const inputBox = document.getElementById('redemptionInputBox');
+             document.getElementById('redemptionRestriction').textContent = `⚠️ 限制：${currentRedemptionRestriction}`;
+             inputBox.style.display = 'flex';
+             document.querySelector('.dream-tap-hint').style.display = 'none';
+         }
+    }
+    
+    showToast("已恢复之前的进度");
 }
 
     </script>
