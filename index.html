@@ -7768,35 +7768,33 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     resize: vertical;
 }
 
-/* --- [新增] 同人App激活时的专属样式 --- */
 
-/* 1. 当同人App激活时，强制隐藏jrsy的状态栏 */
 .phone.doujin-app-active .status-bar {
     display: none !important;
 }
 
-/* 2. 同时，移除同人App页面容器自身的顶部内边距，让它能占满整个屏幕 */
+
 .phone.doujin-app-active #doujinForumApp {
     padding-top: 0 !important;
 }
 
-/* --- [新增] 修复同人App帖子详情页的滚动问题 --- */
+
 #doujinForumApp #post-detail-page {
-    height: 100%; /* 关键1：让页面容器拥有完整的高度 */
-    overflow-y: auto; /* 关键2：当内容超出时，允许垂直滚动 */
-    box-sizing: border-box; /* 确保内边距等计算正确 */
+    height: 100%; 
+    overflow-y: auto; 
+    box-sizing: border-box; 
 }
 
-/* --- [新增] 同人App多版块容器样式 --- */
+
 #doujinForumApp .doujin-timeline-container {
-    display: none; /* 默认隐藏所有版块的内容 */
+    display: none; 
 }
 
 #doujinForumApp .doujin-timeline-container.active {
-    display: block; /* 只显示被激活的那个版块 */
+    display: block; 
 }
 
-/* --- [新增] 同人App弹窗内的设置项样式 --- */
+
 #doujinForumApp .doujin-modal-setting-group {
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -7882,40 +7880,40 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     opacity: 1;
 }
 
-/* --- 新增：同人App评论区刷新按钮样式 --- */
+
 .doujin-comments-refresh-btn {
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px;
-    font-size: 16px; /* 控制图标大小 */
-    color: #aaa; /* 默认灰色，不抢眼 */
+    font-size: 16px; 
+    color: #aaa; 
     transition: color 0.3s, transform 0.3s;
 }
 
 .doujin-comments-refresh-btn:hover {
-    color: #7d9d8f; /* 鼠标悬停时变为主题色 */
+    color: #7d9d8f; 
 }
 
 .doujin-comments-refresh-btn:active {
-    transform: scale(0.9) rotate(90deg); /* 点击时的交互效果 */
+    transform: scale(0.9) rotate(90deg); 
 }
 
-/* 当按钮处于加载状态时，让图标旋转 */
+
 .doujin-comments-refresh-btn.loading i {
     animation: spin 1s linear infinite;
 }
 
-/* --- [新增] 同人App自定义板块的删除按钮样式 --- */
+
 #doujinForumApp .tag-item {
-    position: relative; /* 让删除按钮可以相对于它定位 */
-    padding-right: 28px; /* 给右侧留出空间放叉叉 */
+    position: relative; 
+    padding-right: 28px; 
 }
 
 #doujinForumApp .delete-tag-btn {
     position: absolute;
     top: 50%;
-    right: 8px; /* 控制叉叉离右边框的距离 */
+    right: 8px; 
     transform: translateY(-50%);
     width: 18px;
     height: 18px;
@@ -7928,22 +7926,22 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-size: 12px;
     line-height: 18px;
     cursor: pointer;
-    opacity: 0; /* 默认隐藏 */
+    opacity: 0; 
     transition: opacity 0.2s;
 }
 
-/* 鼠标悬停在板块上时，显示删除按钮 */
+
 #doujinForumApp .tag-item:hover .delete-tag-btn {
     opacity: 1;
 }
 
-/* --- [修改后] 隐藏状态栏内容的核心CSS --- */
+
 .phone.status-bar-hidden .status-bar .status-left,
 .phone.status-bar-hidden .status-bar .status-right {
     display: none !important;
 }
 
-/* 论坛帖子分享卡片的样式 */
+
 .post-share-card {
     background-color: #f7f7f7;
     border: 1px solid #e8e8e8;
@@ -7979,15 +7977,15 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-size: 14px;
     line-height: 1.5;
     color: var(--text-secondary);
-    /* 核心：用于处理超长文本 */
+    
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4; /* 最多显示4行 */
+    -webkit-line-clamp: 4; 
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .post-share-more {
-    color: #586b95; /* 蓝色，模仿链接 */
+    color: #586b95; 
     font-size: 14px;
     font-weight: 500;
     margin-top: 5px;
@@ -7998,65 +7996,61 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: #7d9d8f !important;
 }
 
-/* --- [新增] 同人App催更功能样式 --- */
 
-/* 催更按钮的样式 */
 
-/* --- [新增] 同人App催更功能样式 (修正版) --- */
 
-#doujinForumApp .urge-update-btn { /*  <-- 核心修改在这里！加上了 #doujinForumApp 前缀 */
+
+#doujinForumApp .urge-update-btn { 
     background: #edf2ef;
     color: #7d9d8f;
     border: none;
-    padding: 7px 17px;      /*  <-- 这是你想要的更大背景 */
+    padding: 7px 17px;     
     border-radius: 15px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    margin-left: 100px;      /*  <-- 这是你想要的更远距离 */
+    margin-left: 100px;      
 }
 
 #doujinForumApp .urge-update-btn:hover {
     background: #dce5e1;
 }
 
-/* 催更弹窗内滑动条的样式 */
+
 #doujinUrgeUpdateModal .doujin-slider {
     margin-top: 10px;
 }
 
-/* --- [最终修复版] 同人App催更弹窗专属样式 --- */
 
-/* 1. 弹窗卡片本身 (使用ID选择器覆盖通用样式) */
 #doujinUrgeUpdateModal .modal-content {
-    background: white !important; /* 强制白色背景 */
+    background: white !important; 
     border-radius: 12px !important;
     padding: 24px !important;
     width: 85% !important;
     max-width: 400px !important;
     box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
-    /* 移除所有可能继承的边框和多余样式 */
+    
     border: none !important; 
 }
 
-/* 2. 弹窗标题 */
+
 #doujinUrgeUpdateModal .modal-title {
     font-size: 18px !important;
     font-weight: 600 !important;
-    margin-bottom: 25px !important; /* 增加与下方内容的间距 */
+    margin-bottom: 25px !important;
     color: #333 !important;
-    text-align: center !important; /* 确保标题居中 */
+    text-align: center !important; 
 }
 
-/* 3. 滑动条所在的设置组容器 */
+
 #doujinUrgeUpdateModal .doujin-modal-setting-group {
     margin-bottom: 25px !important;
     padding-bottom: 0 !important;
     border-bottom: none !important;
 }
 
-/* 4. 设置组的标签文字 (例如：“选择催更的章节数”) */
+
 #doujinUrgeUpdateModal .doujin-modal-setting-group label {
     display: flex !important;
     justify-content: space-between !important;
@@ -8064,41 +8058,41 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     font-size: 16px !important;
     font-weight: 500 !important;
     color: #333 !important;
-    margin-bottom: 20px !important; /* 标签和滑动条的间距 */
+    margin-bottom: 20px !important; 
 }
 
-/* 5. 滑动条轨道样式 (参考角色筛选弹窗) */
+
 #doujinUrgeUpdateModal .doujin-slider {
     width: 100% !important;
     -webkit-appearance: none !important;
     appearance: none !important;
-    height: 6px !important; /* 稍微加粗一点轨道 */
-    background: #f0f0f0 !important; /* 轨道颜色 */
+    height: 6px !important; 
+    background: #f0f0f0 !important; 
     border-radius: 3px !important;
     outline: none !important;
 }
 
-/* 6. 滑动条滑块样式 (参考角色筛选弹窗) */
+
 #doujinUrgeUpdateModal .doujin-slider::-webkit-slider-thumb {
     -webkit-appearance: none !important;
     appearance: none !important;
-    width: 22px !important; /* 稍微增大滑块 */
+    width: 22px !important; 
     height: 22px !important;
-    background: #7d9d8f !important; /* 同人App主题色 */
+    background: #7d9d8f !important; 
     cursor: pointer !important;
     border-radius: 50% !important;
-    border: 3px solid white; /* 添加白色边框，更有质感 */
+    border: 3px solid white; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
 }
 
-/* 7. 底部按钮容器 */
+
 #doujinUrgeUpdateModal .modal-buttons {
     display: flex !important;
     gap: 12px !important;
-    margin-top: 10px; /* 调整与上方间距 */
+    margin-top: 10px; 
 }
 
-/* 8. 底部按钮样式 (完全复刻同人App风格) */
+
 #doujinUrgeUpdateModal .modal-btn {
     flex: 1;
     padding: 12px;
@@ -8120,21 +8114,12 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: white !important;
 }
 
-/* =================================================================== */
-/* START: 经过安全隔离处理的开屏动画样式 (来自 1开屏动画.txt) */
-/* =================================================================== */
 
-/* 
-   核心修改：
-   - 将原本用于 <body> 的居中样式，转移到了加载动画的总容器 #loadingOverlay 上。
-   - 为所有选择器添加了 #loadingOverlay 前缀，将其作用域限制在加载动画内部。
-   - 为所有 @keyframes 动画名称添加了 'jrsy_splash_' 前缀，防止命名冲突。
-*/
 
 #loadingOverlay {
     width: 100%;
     height: 100vh;
-    background-color: #ffffff !important; /* 使用 !important 确保背景为白色 */
+    background-color: #ffffff !important; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8154,7 +8139,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     margin-bottom: 100px;
 }
 
-/* Logo区域 */
+
 #loadingOverlay .logo-section {
     margin-bottom: 80px;
 }
@@ -8189,7 +8174,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     }
 }
 
-/* AI标签 */
+
 #loadingOverlay .ai-tag {
     font-size: 13px;
     font-weight: 600;
@@ -8199,7 +8184,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     animation: jrsy_splash_fadeIn 0.6s ease-out 0.8s forwards;
 }
 
-/* 模拟对话气泡 */
+
 #loadingOverlay .chat-bubbles {
     position: absolute;
     top: -100px;
@@ -29822,7 +29807,7 @@ let isAudioUnlocked = false;
 
 // 【重要】在这里修改激活码。
 // 每次你想换码，改这里就行。之前填旧码的人会自动失效，需要重新填新码。
-const GLOBAL_VALID_CODES = ['JRSY2025'];
+const GLOBAL_VALID_CODES = ['QQ777'];
 
 // 1. 新增一个全局变量，用于存储第二页三张图片的数据
 let desktopPage2Data = { image1: '', image2: '', image3: '', avatar1: '', avatar2: '' , widgetText: '', musicText: '', bioText: ''};
@@ -79196,25 +79181,29 @@ function openRedemptionTypeSelect(nodeData) {
     
     if (friend && friend.redemptionHistory) {
         // 查找匹配当前节点年龄的存档
-        const savedSession = friend.redemptionHistory.find(s => s.nodeInfo && s.nodeInfo.age === nodeData.age);
+        // 查找匹配当前节点年龄的存档
+    const savedSession = friend.redemptionHistory.find(s => s.nodeInfo && s.nodeInfo.age === nodeData.age);
+    
+    // 【修改后】只要有存档就显示，去掉了 !savedSession.isFinished 判断
+    if (savedSession) { 
+        hasSave = true;
+        // 格式化时间
+        const date = new Date(savedSession.lastUpdate || Date.now());
+        const timeStr = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2,'0')}`;
         
-        if (savedSession && !savedSession.isFinished) { // 只有未完结的才能继续
-            hasSave = true;
-            // 格式化时间
-            const date = new Date(savedSession.lastUpdate || Date.now());
-            const timeStr = `${date.getMonth()+1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2,'0')}`;
-            
-            // 获取最后一段剧情预览
-            const lastLog = savedSession.contentLog[savedSession.contentLog.length - 1];
-            const preview = lastLog ? lastLog.content.substring(0, 20) + "..." : "存档数据";
-            
-            loadInfo.innerHTML = `上次时间：${timeStr}<br>进度：${preview}`;
-            loadContainer.style.display = 'block';
-            
-            // 暂存这个存档对象，方便 continueLastRedemption 使用
-            // (利用 DOM 元素存数据，或者全局变量，这里用全局变量简单点)
-            window.tempRedemptionSave = savedSession;
-        }
+        // 获取最后一段剧情预览
+        const lastLog = savedSession.contentLog[savedSession.contentLog.length - 1];
+        const preview = lastLog ? lastLog.content.substring(0, 20) + "..." : "存档数据";
+        
+        // 【新增】状态标记，显示是进行中还是已完结
+        const statusTag = savedSession.isFinished ? " <span style='color:#ff4d4d; font-weight:bold;'>[已完结]</span>" : " <span style='color:#07c160;'>[进行中]</span>";
+
+        loadInfo.innerHTML = `上次时间：${timeStr}${statusTag}<br>进度：${preview}`;
+        loadContainer.style.display = 'block';
+        
+        // 暂存这个存档对象，方便 continueLastRedemption 使用
+        window.tempRedemptionSave = savedSession;
+    }
     }
     
     if (!hasSave) {
