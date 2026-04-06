@@ -4505,13 +4505,12 @@ function startMyLiveRoom() {
 
 // 3. 退出直播间
 function quitMyLiveRoom() {
-    showConfirm('确定要下播吗？', (yes) => {
-        if (yes) {
-            myLiveState.isActive = false;
-            setActivePage('liveApp');
-            applyStatusBarVisibility(); // 恢复状态栏
-        }
-    });
+    // 使用浏览器原生的 confirm，无视所有图层遮挡，绝对置顶
+    if (confirm('确定要下播吗？')) {
+        myLiveState.isActive = false;
+        setActivePage('liveApp');
+        applyStatusBarVisibility(); // 恢复状态栏
+    }
 }
 
 // 4. 推进剧情 (调用 AI - V2 深度记忆+角色融合版)
