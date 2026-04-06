@@ -1537,9 +1537,9 @@ function _injectLiveHTML() {
             </div>
             
             <!-- 2. 独立的退出按钮 (变成一个半透明小圆圈) -->
-            <button class="live-close-btn" onclick="event.stopPropagation(); quitMyLiveRoom()" style="background: rgba(0, 0, 0, 0.4); height: 38px; width: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; padding: 0; margin: 0; backdrop-filter: blur(5px);">
-                <i class="ri-close-line" style="color:#fff; font-size:22px; font-weight:bold;"></i>
-            </button>
+<button class="live-close-btn" onclick="quitMyLiveRoom()" style="background: rgba(0, 0, 0, 0.4); height: 38px; width: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; padding: 0; margin: 0; backdrop-filter: blur(5px);">
+    <i class="ri-close-line" style="color:#fff; font-size:22px; font-weight:bold;"></i>
+</button>
         </div>
     </div>
 
