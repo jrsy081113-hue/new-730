@@ -175,6 +175,10 @@ const MultiOfflinePlugin = {
         const group = friends.find(g => g.id === this.currentGroupId);
         const aiMembers = group.members.filter(id => id !== userProfile.id).map(id => getAuthorById(id));
         
+        // 【核心修复：获取当前群聊专属的人设】
+        const activePersonaId = group.activeUserPersonaId || 'default_user';
+        const activePersona = userPersonas.find(p => p.id === activePersonaId) || userProfile;
+        
         let floor = 0;
         history.forEach(msg => {
             if (!msg.isOfflineMessage) return;
@@ -199,8 +203,10 @@ const MultiOfflinePlugin = {
                 </div>`;
 
             if (msg.type === 'sent') {
-                const myAvatar = userProfile.avatarImage ? `style="background-image:url('${userProfile.avatarImage}')"` : '';
-                card.innerHTML = `${metaHtml}<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div class="mo-avatar-item" ${myAvatar}>${userProfile.avatarImage ? '' : '我'}</div><span style="font-size:14px; font-weight:normal;">${userProfile.name} </span></div><div class="mo-text-content">${msg.content}</div>`;
+                // 【核心修复：UI界面显示你选择的人设头像和名字】
+                const myAvatar = activePersona.avatarImage ? `style="background-image:url('${activePersona.avatarImage}')"` : '';
+                const myAvatarText = activePersona.avatarImage ? '' : (activePersona.avatar || activePersona.name[0] || '我');
+                card.innerHTML = `${metaHtml}<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div class="mo-avatar-item" ${myAvatar}>${myAvatarText}</div><span style="font-size:14px; font-weight:normal;">${activePersona.name} </span></div><div class="mo-text-content">${msg.content}</div>`;
             } else {
                 let storyAndHtml = msg.content;
                 let heartsVoiceData = null;
@@ -377,14 +383,20 @@ const MultiOfflinePlugin = {
         
         const ctx = await this.getDeepContext(group);
 
+        // 【核心修复：获取当前群聊专属的人设】
+        const activePersonaId = group.activeUserPersonaId || 'default_user';
+        const activePersona = userPersonas.find(p => p.id === activePersonaId) || userProfile;
+
+        // 【核心修复：Prompt中应用专属名字】
         let personInstruction = `- 描述角色时，使用${ctx.charPerson === 'third' ? '第三人称(他/她)' : (ctx.charPerson === 'second' ? '第二人称(你)' : '第一人称(我)')}\n`;
-        personInstruction += `- 提到用户 "${userProfile.name}" 时，使用${ctx.userPerson === 'second' ? '第二人称(你)' : '第三人称(用户名字)'}`;
+        personInstruction += `- 提到用户 "${activePersona.name}" 时，使用${ctx.userPerson === 'second' ? '第二人称(你)' : '第三人称(用户名字)'}`;
 
         const recentHistory = history.slice(-30); 
         let chatHistoryContext = '';
         if (recentHistory.length > 0) {
             chatHistoryContext = recentHistory.map(m => {
-                const senderName = m.type === 'sent' ? userProfile.name : (getAuthorById(m.senderId)?.name || '群成员');
+                // 【核心修复：聊天记录中应用专属名字】
+                const senderName = m.type === 'sent' ? activePersona.name : (getAuthorById(m.senderId)?.name || '群成员');
                 
                 let cleanContent = m.content || '';
                 
