@@ -21944,6 +21944,34 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: #fff;
 }
 
+/* ===================================================
+   穿进同人文 (Transmigrate System) 沉浸式置顶补丁
+   =================================================== */
+/* 1. 时空管理局列表页：导航栏强制贴顶并适配刘海屏 */
+#tmListScreen .nav-bar {
+    top: 0 !important;
+    height: calc(44px + env(safe-area-inset-top)) !important;
+    padding-top: env(safe-area-inset-top) !important;
+    background-color: #ffffff !important;
+}
+
+/* 抵消导航栏的高度，防止下方的列表被遮挡 */
+#tmListScreen .content {
+    padding-top: calc(54px + env(safe-area-inset-top)) !important;
+}
+
+/* 2. 穿越阅读页：透明悬浮导航栏强制贴顶 */
+#tmPlayScreen .nav-bar {
+    top: 0 !important;
+    height: calc(44px + env(safe-area-inset-top)) !important;
+    padding-top: env(safe-area-inset-top) !important;
+}
+
+/* 调整阅读页右上角的背景设置面板，防止被刘海屏挡住 */
+#tmSettingsPanel {
+    top: calc(55px + env(safe-area-inset-top)) !important;
+}
+
     </style>
 
 </head>
@@ -24294,6 +24322,16 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     </div>
 </div>
             <div class="profile-nav-cards">
+            <div class="nav-card" onclick="tm_openRecordListScreen()">
+                    <div class="nav-card-icon" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);">
+                        <i class="fas fa-meteor"></i>
+                    </div>
+                    <div class="nav-card-info">
+                        <span class="nav-card-title">穿进同人文</span>
+                        <span class="nav-card-meta">打破次元壁，亲历剧情</span>
+                    </div>
+                    <i class="fas fa-chevron-right nav-card-arrow"></i>
+                </div>
                 <div class="nav-card" onclick="doujinNavigateToPage('my-posts-page'); renderMyPostsPage();">
                     <div class="nav-card-icon posts"><i class="fas fa-book-open"></i></div>
                     <div class="nav-card-info">
@@ -26621,6 +26659,16 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     <div class="game-card-title">真心话大冒险</div>
     <div class="game-card-desc">心跳加速，整蛊与秘密</div>
 </div>
+
+
+<div class="game-card" onclick="dg_openSetupModal()">
+    <div class="game-card-icon" style="color: #007aff;">
+        <i class="ri-palette-line"></i>
+    </div>
+    <div class="game-card-title">你画我猜</div>
+    <div class="game-card-desc">灵魂画手上线，AI也能看懂你的画</div>
+</div>
+
 
         <!-- 占位符 (保留或删除均可) -->
         <!-- 
@@ -30419,9 +30467,9 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 19,
+    version: 20,
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1. 新增翻译功能 长按气泡点击翻译</li><li>2. 修复人设无法删除的bug</li><li>3. 修复我的直播间无法退出bug</li><li>4. 新增api悬浮球 可以快捷切换api</li><li>5. 修改了总结提示词 规避一些敏感和400 建议破不开的把之前的总结敏感删了看看</li><li>6. 修复群聊线下只读第一个人设的bug</li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1.新增你画我猜小游戏 可以你画ai猜 也可以ai画你猜</li><li>2.新增同人文穿越功能 在同人app的我的界面 可以穿越进同人文里</li></ul></div>`
 };
 
         // 全局变量
@@ -37071,7 +37119,7 @@ if (friend.isBlocked) {
 
 // ↑↑↑ 复制到这里结束 ↑↑↑
 
-                // --- 优化后的 System Prompt (V7 强力记忆 + 精确JSON模板版) ---
+// --- 优化后的 System Prompt (V7 强力记忆 + 精确JSON模板版) ---
         systemPrompt = `
 # Role-Play Protocol (角色扮演协议)
 
@@ -37135,6 +37183,7 @@ ${worldBookContext || "（当前为默认现实世界背景）"}
   { "type": "send_emoji", "data": { "name": "爆笑", "url": "..." } }
 ]
 `;
+
      
 
             }
@@ -78506,6 +78555,8 @@ async function translateMessage(msgId) {
       <script src="cross-reality-plugin.js"></script> 
       <script src="multi-offline-plugin.js"></script>
       <script src="notebook-plugin.js"></script>
+      <script src="transmigrate-plugin.js"></script>
+      <script src="draw-guess-plugin.js"></script>
 </body>
 </html>
 
