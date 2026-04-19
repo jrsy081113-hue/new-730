@@ -8984,6 +8984,17 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     padding-bottom: 80px !important; /* 底部留出空间，防止被导航栏遮挡 */
 }
 
+/* 5. 修复“我发布的”页面无法滚动，且底部防遮挡 */
+#doujinForumApp #my-posts-page.page-container.active {
+    height: 100% !important;       /* 强制占满屏幕高度 */
+    overflow-y: auto !important;   /* 允许垂直滚动 */
+    -webkit-overflow-scrolling: touch; /* iOS 丝滑滚动支持 */
+    box-sizing: border-box !important;
+    display: block !important;
+    padding-top: 0 !important;
+    padding-bottom: 80px !important; /* 关键：底部留出空间，防止最后一条被底部导航栏挡住 */
+}
+
 /* --- 同人App书架管理模式样式 --- */
 
 /* 默认隐藏底部操作栏 */
@@ -21972,6 +21983,153 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     top: calc(55px + env(safe-area-inset-top)) !important;
 }
 
+/* --- 亲属卡管理模式专属样式 --- */
+/* 卡片在管理模式下的缩进，为复选框留出位置 */
+#familyCardList.managing .family-card-item {
+    padding-left: 45px; 
+    transition: padding-left 0.3s ease;
+}
+
+/* 复用多选框的基础样式，但在亲属卡里定位 */
+.family-card-item .message-checkbox {
+    left: 15px;
+    border-color: #ccc;
+    background-color: #fff;
+    z-index: 10;
+    display: none; /* 默认隐藏 */
+}
+
+/* 显示复选框 */
+#familyCardList.managing .message-checkbox {
+    display: block;
+}
+
+/* 选中状态 */
+.family-card-item.selected .message-checkbox {
+    background-color: #07c160;
+    border-color: #07c160;
+}
+.family-card-item.selected .message-checkbox::after {
+    content: '✓';
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
+/* 选中时卡片边框变绿（可选的视觉增强） */
+.family-card-item.selected {
+    border-color: #07c160;
+}
+
+/* --- 情侣空间：解绑按钮样式 --- */
+.couple-unbind-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+.couple-unbind-btn:active {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+    transform: scale(0.9);
+}
+
+.wechat-dark-mode .couple-unbind-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+/* ===================================================
+   查看撤回消息弹窗 - 黑白极简风改造
+   =================================================== */
+
+.recalled-message-popup {
+    background-color: #ffffff !important;
+    border-radius: 24px !important; /* 大圆角 */
+    padding: 30px 25px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+    border: none !important;
+    max-width: 320px !important;
+    width: 85% !important;
+}
+
+/* 标题 */
+.recalled-message-title {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+    text-align: center !important;
+    margin-bottom: 25px !important;
+    letter-spacing: 0.5px !important;
+    border-bottom: none !important;
+}
+
+/* 内容显示框 */
+.recalled-message-content {
+    background-color: #f7f7f7 !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    font-size: 15px !important;
+    color: #333 !important;
+    margin-bottom: 20px !important;
+    line-height: 1.6 !important;
+    text-align: justify !important;
+}
+
+/* 黑色关闭按钮 */
+.recalled-message-close {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 22px !important;
+    height: 44px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+    border: none !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: transform 0.1s, opacity 0.2s !important;
+}
+
+/* 按钮点击回弹效果 */
+.recalled-message-close:active {
+    transform: scale(0.96) !important;
+}
+
+/* --- 暗色模式适配 --- */
+.wechat-dark-mode .recalled-message-popup {
+    background-color: #1c1c1e !important;
+}
+.wechat-dark-mode .recalled-message-title {
+    color: #fff !important;
+}
+.wechat-dark-mode .recalled-message-content {
+    background-color: #2c2c2e !important;
+    color: #ddd !important;
+}
+.wechat-dark-mode .recalled-message-close {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+}
+
     </style>
 
 </head>
@@ -23476,12 +23634,13 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     <div class="nav-bar" style="background-color: #fff;">
         <button class="nav-btn" onclick="backToWallet()"><i class="ri-arrow-left-s-line"></i></button>
         <div class="nav-title">亲属卡</div>
-        <div class="nav-btn" style="width: 40px;"></div>
+        <!-- ▼▼▼ 核心修改：右上角变成了管理按钮 ▼▼▼ -->
+        <button class="nav-btn nav-right-action-btn" id="manageFamilyCardBtn" onclick="toggleFamilyCardManageMode()">
+            <i class="ri-list-settings-line" style="font-size: 22px;"></i>
+        </button>
     </div>
     
-    <!-- 增加 overflow-y: auto 确保可以滚动 -->
     <div class="wechat-content" style="padding: 15px; padding-top: 74px; background-color: #f7f7f7; height: 100%; overflow-y: auto; box-sizing: border-box;">
-        
         <div style="font-size: 14px; color: #999; margin-bottom: 10px; padding-left: 4px;">我收到的亲属卡</div>
         
         <!-- 亲属卡列表 -->
@@ -23509,6 +23668,15 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
         <div style="text-align: center; margin-top: 30px; padding-bottom: 30px; color: #ccc; font-size: 12px;">
             亲属卡可用于红包、转账及消费代付
+        </div>
+    </div>
+
+    <!-- ▼▼▼ 核心修改：新增底部批量操作栏 ▼▼▼ -->
+    <div id="familyCardBatchBar" class="multi-select-toolbar" style="bottom: 0; padding-bottom: env(safe-area-inset-bottom); height: auto; min-height: 60px; z-index: 100;">
+        <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+            <button class="multi-select-btn" style="background: #fff; color: #333; border: 1px solid #ccc;" onclick="toggleFamilyCardSelectAll()">全选</button>
+            <span class="multi-select-count" id="fcSelectCount" style="font-size: 14px;">已选 0 张</span>
+            <button class="multi-select-btn delete" onclick="deleteSelectedFamilyCards()">删除</button>
         </div>
     </div>
 </div>
@@ -30467,9 +30635,9 @@ async function requestPersistentStorage() {
 requestPersistentStorage();
 
 const CURRENT_ANNOUNCEMENT = {
-    version: 20,
+    version: 21,
     title: "jrsy 系统更新公告",
-    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1.新增你画我猜小游戏 可以你画ai猜 也可以ai画你猜</li><li>2.新增同人文穿越功能 在同人app的我的界面 可以穿越进同人文里</li></ul></div>`
+    content: `<div class="announcement-notice"><b>特别声明</b>：本网址（小手机）售价仅为 <b>12.2元</b>，唯一指路小红书：<b>景入桑榆</b>。凡是以其他价格购买的均为遇到倒卖或骗子！本网站<b>严禁二转及商业倒卖</b>，请尊重创作者的劳动成果。若发现倒卖或二转可以联系创作者小红书进行举报，感谢理解！</div><div class="update-section"><h3 class="update-subtitle">新功能/优化</h3><div style="margin-bottom:10px;font-weight:bold;">【新功能不知道怎么用的看下群相册的教程】</div><ul class="update-list"><li>1.优化查手机功能，现在会读人设，联系人都会根据人设里的关系网来生成。</li><li>2.修复同人app我发布的界面无法滑动的bug</li><li>3.新增删除亲属卡按键</li><li>4.新增解除情侣空间按键</li><li>5.新增磕cp选择界面的删除按键</li><li>6.新增对方撤回的消息可以点击查看</li></ul></div>`
 };
 
         // 全局变量
@@ -30506,6 +30674,9 @@ let soundSettings = {
 };
 
 let selectedGiftOrderIds = []; // 暂存选中的订单ID
+
+let isFcManaging = false;           // 是否处于管理模式
+let selectedFcIds = new Set(); 
 
 const globalAudioPlayer = new Audio();
 let isAudioUnlocked = false;
@@ -31105,7 +31276,7 @@ const doujinGifts = [
     { id: 'gift_heart', name: '小心心', price: 5, img: 'https://file.zhuyitai.com/feedback/202511/24/9ce146ca3dae3c2eba98e2cdf6acc1dc.png' },
     { id: 'gift_kiss', name: '亲吻', price: 10, img: 'https://cdn.jsdelivr.net.cn/gh/xxloli/tc/1t0qhn4o8y.png' },
     { id: 'gift_rose', name: '玫瑰', price: 15, img: 'https://help.hemorn.com/static/upload/2025November/b05009036fe07f002f80bee5b7dcafe2.png' },
-    { id: 'gift_beer', name: '大啤酒', price: 20, img: 'https://chatbotcos.weixin.qq.com/chatbot/30-openaiassets_7da545e4b57ebfe2f43b9c6c970e45bb_469401763972948041.png' },
+    { id: 'gift_beer', name: '大啤酒', price: 20, img: 'https://api.iconify.design/fluent-emoji/beer-mug.svg' },
     { id: 'gift_stick', name: '荧光棒', price: 35, img: 'https://s3plus.meituan.net/opapisdk/op_ticket_1_5673241091_1763972966316_qdqqd_za45lw.png' },
     { id: 'gift_duck', name: '加油鸭', price: 50, img: 'https://www.yn12377.cn/jubao/upload/smjb/2025/11/24/4acd1cb299a34d88a4ea1e5b5083717f.png' },
     { id: 'gift_car', name: '跑车', price: 100, img: 'https://saas.chatbot.cn/download/minio/standard/2025-11-24/b3c3e153231c4d438d00eb695ed38cfa.png' },
@@ -32870,10 +33041,42 @@ function updateAppLabelColorFromInput(color) {
             chatMessages.querySelectorAll('.message.selected').forEach(msg => msg.classList.remove('selected'));
         }
         
+        /**
+         * [全能支持版] 查看撤回的消息内容
+         * 修复：现在不仅仅能看文字，还能正确预览撤回的图片、语音和表情包
+         */
         function showRecalledMessage(messageId) {
             const msg = (chatHistories[currentChatFriendId] || []).find(m => String(m.id) === messageId);
             if (msg && msg.recalledContent) {
-                document.getElementById('recalledMessageContent').textContent = msg.recalledContent;
+                let displayHtml = '';
+                
+                // 根据消息的原始内容类型智能渲染
+                if (msg.contentType === 'image') {
+                    const blobUrl = dataUrlToBlobUrl(msg.recalledContent);
+                    displayHtml = `<img src="${blobUrl}" style="max-width: 100%; border-radius: 8px;">`;
+                    // 如果AI有配图描述，一并显示
+                    if (msg.imageDescription) {
+                        displayHtml += `<div style="margin-top: 12px; font-size: 14px; color: #666; text-align: left; line-height: 1.5;">[图片描述] ${msg.imageDescription}</div>`;
+                    }
+                } else if (msg.contentType === 'emoji') {
+                    const blobUrl = dataUrlToBlobUrl(msg.recalledContent);
+                    displayHtml = `<img src="${blobUrl}" style="max-width: 120px; max-height: 120px;">`;
+                } else if (msg.contentType === 'voice') {
+                    displayHtml = `[语音消息]: ${msg.recalledContent}`;
+                } else if (msg.contentType === 'transfer_request') {
+                    try {
+                        const data = JSON.parse(msg.recalledContent);
+                        displayHtml = `[转账] ¥${parseFloat(data.amount).toFixed(2)} (备注: ${data.remark || '无'})`;
+                    } catch(e) {
+                        displayHtml = `[转账消息]`;
+                    }
+                } else {
+                    // 默认普通文本
+                    displayHtml = msg.recalledContent.replace(/\n/g, '<br>');
+                }
+
+                // 注入弹窗并显示
+                document.getElementById('recalledMessageContent').innerHTML = displayHtml;
                 document.getElementById('recalledMessagePopup').classList.add('show');
             }
         }
@@ -35233,13 +35436,15 @@ if (msg.contentType === 'system_tip') {
     if (msg.recalled) {
         const recallDiv = document.createElement('div');
         recallDiv.className = 'recall-message';
+        
+        // 核心修改：如果是对方撤回，明确显示“点击查看”的蓝色小字提示
         let recallHTML = (msg.type === 'sent')
             ? `<div class="recall-content">你撤回了一条消息</div>`
-            : `<div class="recall-content" onclick="showRecalledMessage('${msg.id}')">对方撤回了一条消息</div>`;
+            : `<div class="recall-content" onclick="showRecalledMessage('${msg.id}')">对方撤回了一条消息 <span style="font-size:11px; color:#007aff; margin-left:4px; font-weight:bold;">点击查看</span></div>`;
+            
         recallDiv.innerHTML = recallHTML;
         
-        // 【新增】找到内部的内容框，绑定长按事件
-        // 注意：我们需要等待 innerHTML 渲染完成后获取子元素
+        // 找到内部的内容框，绑定长按事件
         const contentEl = recallDiv.querySelector('.recall-content');
         if (contentEl) {
             attachSpecialMessageListeners(contentEl, msg.id);
@@ -35248,7 +35453,6 @@ if (msg.contentType === 'system_tip') {
         container.appendChild(recallDiv);
         return recallDiv;
     }
-
     const msgDiv = document.createElement('div');
     msgDiv.className = `message ${msg.type}`;
     msgDiv.setAttribute('data-message-id', msg.id);
@@ -37794,7 +37998,10 @@ case 'request_unblock':
                                     if (messageDiv) {
                                         const recallDiv = document.createElement('div');
                                         recallDiv.className = 'recall-message';
-                                        recallDiv.innerHTML = `<div class="recall-content">对方撤回了一条消息</div>`;
+                                        
+                                        // 核心修改：实时撤回时，同样显示“点击查看”提示
+                                        recallDiv.innerHTML = `<div class="recall-content" onclick="showRecalledMessage('${lastMessageId}')">"${sender.name}"撤回了一条消息 <span style="font-size:11px; color:#007aff; margin-left:4px; font-weight:bold;">点击查看</span></div>`;
+                                        
                                         messageDiv.parentNode.replaceChild(recallDiv, messageDiv);
                                     }
                                 }
@@ -41813,54 +42020,51 @@ function backToSimHomeScreen() {
 
       
     
-            // 【【【这是最终修复版，请用它完整替换】】】
+            // 【【【这是查手机强贴合人设修复版，请用它完整替换旧的 generateSimAppContent 函数】】】
 async function generateSimAppContent(characterId, appName) {
     const character = friends.find(f => f.id === characterId);
     if (!character) return;
-    const roleSummary = await getOrGenerateRoleSummary(character);
+    
+    // ❌ 删除了原来把人设压缩成150字的坑人代码：const roleSummary = await getOrGenerateRoleSummary(character);
+    // ✅ 核心修复 1：直接读取完整的最原始人设！
+    const fullRoleContent = character.role || '一个普通人。';
 
-// --- ▼▼▼ 这是修复后的新代码 ▼▼▼ ---
-// 1. 根据当前角色ID，找到他绑定的用户人设
-const activePersona = userPersonas.find(p => p.id === character.activeUserPersonaId) || userProfile;
+    // 1. 根据当前角色ID，找到他绑定的用户人设
+    const activePersona = userPersonas.find(p => p.id === character.activeUserPersonaId) || userProfile;
 
-// 2. 使用找到的正确人设信息来构建指令
-const userPersonaInfo = `
-【你的互动对象 (用户) 的人设】:
-- 姓名: ${activePersona.name}
-- 人设: ${activePersona.personality || '普通人'}
-`;
-// --- ▲▲▲ 修复结束 ▲▲▲ ---
+    // 2. 使用找到的正确人设信息来构建指令
+    const userPersonaInfo = `
+    【你的互动对象 (用户) 的人设】:
+    - 姓名: ${activePersona.name}
+    - 人设: ${activePersona.personality || '普通人'}
+    `;
 
-// 这是新代码
-const recentChatHistory = (chatHistories[characterId] || [])
-    .slice(-20) // 仍然只取最近20条
-    .map(m => {
-        // 使用 activePersona.name
-const senderName = m.type === 'sent' ? activePersona.name : character.name;
-        
-        // ==> 核心修改在这里 <==
-        // 我们不再直接使用 m.content，而是调用新函数来生成摘要
-        const summarizedContent = summarizeMessageContentForAI(m);
-        
-        return `[${formatTimestampForAI(m.timestamp)}] ${senderName}: ${summarizedContent}`;
-    })
-    .join('\n');
+    // 3. 读取最近的聊天和朋友圈记忆
+    const recentChatHistory = (chatHistories[characterId] || [])
+        .slice(-20) 
+        .map(m => {
+            const senderName = m.type === 'sent' ? activePersona.name : character.name;
+            const summarizedContent = summarizeMessageContentForAI(m);
+            return `[${formatTimestampForAI(m.timestamp)}] ${senderName}: ${summarizedContent}`;
+        }).join('\n');
 
-    // 1. 筛选出只和当前角色及用户相关的朋友圈
-const relevantMoments = moments
-    .filter(m => m.authorId === character.id || m.authorId === userProfile.id)
-    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // 按时间排序
-    .slice(0, 1); // 获取其中最新的一条
+    const relevantMoments = moments
+        .filter(m => m.authorId === character.id || m.authorId === userProfile.id)
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) 
+        .slice(0, 1); 
 
-// 2. 基于筛选后的结果生成情报
-const recentMoments = relevantMoments.map(m => {
-    const author = getAuthorById(m.authorId);
-    return `[${author.name} 在 ${m.timestamp.slice(0,10)} 发布的朋友圈]: ${m.content}`;
-}).join('\n');
+    const recentMoments = relevantMoments.map(m => {
+        const author = getAuthorById(m.authorId);
+        return `[${author.name} 在 ${m.timestamp.slice(0,10)} 发布的朋友圈]: ${m.content}`;
+    }).join('\n');
+    
     const currentDate = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
     
+    // ✅ 核心修复 2：将完整的 fullRoleContent 喂给大模型
     let prompt = `你正在深度模拟角色"${character.name}"的手机，你需要生成手机中某个应用的内容。
-    【角色核心人设】: ${roleSummary} 
+    【【【角色完整人设与背景资料】】】: 
+    ${fullRoleContent} 
+
     ${userPersonaInfo}
     【核心记忆库 (最近20条聊天记录 & 最近1条朋友圈)】:
     --- 聊天记录开始 ---
@@ -41869,140 +42073,111 @@ const recentMoments = relevantMoments.map(m => {
     --- 朋友圈记录开始 ---
     ${recentMoments || '无朋友圈记录。'}
     --- 朋友圈记录结束 ---
-   【【【六大铁律 (必须严格遵守)】】】:
-    1.  **【内容原则：记忆为主，合理虚构】**: 内容必须是**真实记忆与合理虚构的结合**。虚构部分用于丰富角色的日常生活（如虚构朋友、小爱好），但**绝对不能与记忆库中的事实矛盾**。
-    2.  **【虚构边界】**: 虚构仅限于**日常琐事**。**严禁**在人设和记忆中没有提及的情况下，为角色虚构**重要的家庭成员**（父母、兄妹、伴侣）或人生经历。
-    3.  **【创新原则】**: **每次生成的内容都必须是全新的**。严禁重复你之前生成过的任何内容。
-    4.  **【时间原则】**: **所有内容的时间都必须与当前日期 \`${currentDate}\` 及记忆库中的时间戳保持逻辑一致**。严禁出现时间悖论。
-    5.  **【语言原则】**: 所有文字（包括网友昵称）**必须使用简体中文**。
-    6.  **【记忆原则】**: **必须融合所有给定的情报**（人设、世界观、记忆、聊天记录），确保情节连贯、人设不崩。**严禁遗忘**。
-
-【【【信息隔离铁律】】】
-在朋友圈相关的记忆中，你**绝对看不到、也绝对不知道**任何其他AI角色（即用户的好友列表里的其他人）在朋友圈的任何活动，包括他们的评论和点赞。在你的回复中，**严禁提及**任何你本不应该知道的其他AI角色的朋友圈互动。
+    
+   【【【手机模拟六大铁律 (必须严格遵守)】】】:
+    1.  **【人设绝对贴合】**: 生成的所有内容必须100%基于上方的【角色完整人设与背景资料】。角色的性格、职业、秘密、社会关系必须完美映射在手机内容中。
+    2.  **【挖掘关系网】**: 如果人设资料中提到了角色的亲属、朋友、仇人、同事等具体名字，**必须优先让这些人物出现在手机记录里**！
+    3.  **【虚构边界】**: 只有当人设中没有提及足够的关系网时，你才可以根据其职业虚构合理的路人（如外卖员、老板）。严禁捏造与设定冲突的家庭成员。
+    4.  **【创新原则】**: 每次生成的内容都必须是全新的，推动时间线发展。
+    5.  **【时间原则】**: 所有内容的时间必须与当前日期 \`${currentDate}\` 保持逻辑一致。
+    6.  **【语言原则】**: 符合角色的教育背景和口癖。
 
     请为应用“${appName}”生成内容：`;
     
-    // --- App具体指令 (与上次相同) ---
+    // --- App具体指令 ---
     switch(appName) {
         case 'memo':
-            prompt += `\n生成4条备忘录。内容应基于“核心记忆库”中的事件，或符合角色人设的个人想法。
-            **【格式指令】**:
-            - **【换行铁律】**: 必须在内容中使用多个换行符 (\\n) 来分段落，让备忘录看起来有条理。
-            - **内容要详细、生活化。**
-            
+            prompt += `\n生成4条备忘录。内容必须深度结合【角色完整人设】中他不为人知的一面、近期计划或聊天记录中的事件。
+            **【格式指令】**: 必须使用多个换行符 (\\n) 来分段落。
             JSON格式: {"memos": [{"id": "memo_1", "title": "标题", "content": "备忘录内容...", "datetime": "YYYY-MM-DD HH:MM"}, ...]}`;
             break;
 
         case 'wechat':
-            prompt += `\n生成4个与【除了用户'${activePersona.name}'之外的】虚构人物的微信聊天摘要。
-    **【聊天对象铁律】**:
-    1.  这些聊天对象必须是你（角色）的、**用户完全不知道的**、你独立生活圈子里的虚构人物。
-    2.  **绝对禁止**生成与用户的好友列表里的任何其他AI角色的聊天记录。
-    3.  **绝对禁止**生成与'${activePersona.name}'的聊天（因为系统会自动添加）。
+            // ✅ 核心修复 3：重写微信的系统指令，强制提取人设中的名字
+            prompt += `\n生成4个微信聊天摘要（不包含与用户'${activePersona.name}'的聊天）。
+    **【聊天对象选取铁律（极度重要）】**:
+    1. **优先提取人设**：你必须仔细阅读上方的【角色完整人设与背景资料】，找出里面提到的**亲属、死党、青梅竹马、宿敌、同事等任何带名字的角色**！
+    2. **人设还原**：微信列表里**必须优先使用这些已有设定的名字**，聊天内容必须完全符合他们在人设中定义的恩怨情仇或日常关系！
+    3. **合理补充**：只有在人设提供的名字不够4个时，才允许虚构合理的日常联系人。
 
-    **【新增核心指令：用户备注】**:
-    请根据你和用户("${activePersona.name}")当前的关系亲密程度、你的人设性格，为用户起一个**微信备注名**。
-    - 如果是情侣，可能是爱称（如：笨蛋、宝宝、老婆）。
-    - 如果是死对头，可能是黑称（如：讨厌鬼）。
-    - 如果是上下级或普通朋友，可能是全名或尊称。
+    **【用户备注指令】**:
+    请根据你和用户("${activePersona.name}")当前的关系亲密程度，为用户起一个**微信备注名**（如爱称、全名或黑称）。
     
     JSON格式: {
         "user_remark": "给用户的备注名", 
         "chats": [
-            {"id": "chat_1", "name": "聊天对象", "avatar": "单个汉字", "messages": [{"sender": "发送者名字", "content": "消息内容"}, ...]}, 
+            {"id": "chat_1", "name": "聊天对象(优先用人设里的人)", "avatar": "单字", "messages": [{"sender": "发送者", "content": "消息内容"}, ...]}, 
             ...
         ]
     }`;
             break;
             
         case 'browser':
-            prompt += `\ n生成4条浏览器历史记录。内容应与“核心记忆库”中的话题或你的人设兴趣相关。每条记录必须包含id, title, url (一个模拟网址), 和一段模拟的网页正文 "content" (需包含换行\\n, 至少100字)。
-            JSON格式: {"history": [{"id": "history_1", "title": "网页标题", "url": "https://example.com/path", "content": "详细的网页内容...\\n\\n包含分段。"}, ...]}`;
+            prompt += `\n生成4条浏览器历史记录。内容必须与【角色完整人设】中的职业、隐藏癖好、或当前面临的难题直接相关。
+            JSON格式: {"history": [{"id": "history_1", "title": "网页标题", "url": "https://example.com/path", "content": "详细的网页正文内容...\\n\\n包含分段。"}, ...]}`;
             break;
 
         case 'shopping':
-            prompt += `\n生成4条购物订单。商品应符合你的角色人设和消费习惯。每条必须包含id, name, price, 和一段详细的 "description" (商品描述或购买理由)。
-            **【内容要求】**: "description" 字段必须详细，至少40字，模拟真实的商品描述或购买心得。
-            JSON格式: {"orders": [{"id": "order_1", "name": "商品名称", "price": "价格", "description": "详细描述..."}, ...]}`;
+            prompt += `\n生成4条购物订单。买的东西必须符合【角色完整人设】的消费水平、兴趣爱好或近期需求。
+            JSON格式: {"orders": [{"id": "order_1", "name": "商品名称", "price": "价格", "description": "购买理由或心理活动(至少40字)..."}, ...]}`;
             break;
 
         case 'wallet':
-            prompt += `\n你的任务是根据角色的核心人设和记忆，生成一个极其逼真的钱包账单。
-            **【财务人设分析指令 (最重要！)】**:
-            1.  **首先，请根据角色人设 \`${character.role}\` 智能分析并决定其最合理的财务状况**:
-                -   如果角色是**富裕的** (总裁, 明星), 请生成**数万到百万级别**的余额，及**数千到数万**的单笔消费。
-                -   如果角色是**普通人** (学生, 员工), 请生成**数百到数千级别**的余额，消费记录也应是几十到几百的日常水平。
-            2.  **【核心原则】**: 你必须进行**智能推断**，而不是死板匹配。
-            
-            **【格式铁律】**:
-            - **【余额铁律】**: \`balance\` 字段的值**必须**是一个**不带引号的纯数字**。
-            - 生成5条交易记录，每条必须包含 "description", "amount" (+/-金额, 纯数字), 和 "time" (MM-DD HH:mm)。
-            
-            **【JSON格式示例】**: 
-            // 富裕人设示例:
-            {"balance": 854321.68, "transactions": [{"description": "品牌专柜消费", "amount": -18000.00, "time": "09-08 14:30"}]}
-            // 普通人设示例:
-            {"balance": 3250.70, "transactions": [{"description": "超市买菜", "amount": -85.50, "time": "09-06 18:00"}]}
-            `;
+            prompt += `\n生成一个极其逼真的钱包账单。
+            **【财务人设分析】**: 严格根据【角色完整人设】决定他的资产规模。财阀可能是百万余额，穷学生可能只有几百。流水账目必须符合其生活轨迹。
+            JSON格式: {"balance": 纯数字余额, "transactions": [{"description": "消费名目", "amount": -85.50, "time": "09-06 18:00"}]}`;
             break;
 
         case 'photos':
-            prompt += `\n生成4张相册照片的标题和详细文字描述。照片内容应源于“核心记忆库”中的真实事件或符合人设的生活瞬间。每条必须包含id, title, 和 "description"。description必须分为两段，用"\\n\\n"隔开：第一段描述画面；第二段描述照片背后的心情故事。每段至少40字。
+            prompt += `\n生成4张相册照片的文字描述。照片内容必须展现【角色完整人设】的成长轨迹、不为人知的私下生活或最近发生的事件。
+            description必须分为两段，用"\\n\\n"隔开：第一段描述画面细节；第二段描述照片背后的心理活动。
             JSON格式: {"photos": [{"id": "photo_1", "title": "照片标题", "description": "照片画面描述...\\n\\n心情故事..."}, ...]}`;
             break;
 
         case 'phone_call':
-            prompt += `\n生成6条通话记录。通话对象应与“核心记忆库”中提到的人物或事件相关。每条必须包含name, type (incoming/outgoing/missed), 和time。
-            **【通话对象铁律】**:
-    1.  这些通话对象必须是你（角色）的、**用户完全不知道的**、你独立生活圈子里的虚构人物。
-    2.  **绝对禁止**生成与用户的好友列表里的任何其他AI角色的聊天记录。
-    3.  **绝对禁止**生成与'${activePersona.name}'的聊天。
-
-            JSON格式: {"calls": [{"name": "联系人名", "type": "incoming", "time": "时间描述"}, ...]}`;
+            // ✅ 核心修复 4：重写通话记录的系统指令
+            prompt += `\n生成6条通话记录。
+    **【通话对象选取铁律（极度重要）】**:
+    1. **优先使用【角色完整人设】中明确提到的人物名字**（亲属、白月光、死对头等）。
+    2. 只有人设中没提到具体名字时，才根据其社会背景虚构（如推销员、快递）。
+    3. 严禁生成与用户'${activePersona.name}'的通话。
+            JSON格式: {"calls": [{"name": "联系人名(优先用人设)", "type": "incoming/outgoing/missed", "time": "昨天 14:00"}, ...]}`;
             break;
             
         case 'forum':
-            prompt += `\n生成4个论坛帖子。主题应源自“核心记忆库”中的真实困惑或分享。为每个帖子生成**8条**左右的评论。
-            **【评论活人感指令】**: 评论必须模拟真实论坛，要有多样化的用户（杠精、热心人、路人等），风格要口语化、多样化。
+            prompt += `\n生成4个角色在匿名论坛/推特发过的帖子。这必须是他/她最隐秘的树洞，展现【角色完整人设】中不敢对别人说的阴暗面、纠结或小癖好。
             JSON格式: {"posts": [{"id": "post_1", "title": "帖子标题", "content": "帖子正文...", "datetime": "YYYY-MM-DD HH:MM", "comments": [{"floor": "1楼", "user": "网友昵称", "comment": "评论内容"}, ...]}, ...]}`;
             break;
-            // 在 switch 语句中添加以下两个 case：
 
-case 'sim_music':
-    prompt += `\n生成该角色手机音乐App里的“我的喜欢”歌单，包含5首歌曲。
-    **【人设铁律】**: 歌曲风格必须严格符合角色的性格、心情和经历。例如：古风角色听古风/纯音乐，现代潮人听流行/说唱，抑郁角色听丧歌。
-    **【输出格式】**: JSON格式: {"songs": [{"index": 1, "title": "歌曲名", "artist": "歌手", "reason": "符合人设的推荐理由（简短）"}, ...]}`;
-    break;
+        case 'sim_music':
+            prompt += `\n生成该角色手机音乐App里的“我的喜欢”歌单，包含5首歌曲。
+            歌曲风格、流派、甚至歌名，必须深度契合【角色完整人设】的经历和隐藏性格。
+            JSON格式: {"songs": [{"index": 1, "title": "歌曲名", "artist": "歌手", "reason": "符合设定的简短理由"}, ...]}`;
+            break;
 
-case 'sim_settings':
-    prompt += `\n生成该角色的“屏幕使用时间”数据。
-    **【人设铁律】**:
-    1. **总时长**: 根据职业决定。学生/无业可能很长(8-12h)，工作狂可能较短或集中在深夜。
-    2. **常用应用**: 必须符合人设。例如：现充角色多用微信/小红书，宅男多用B站/游戏，工作狂多用邮箱/文档。
-    **【输出格式】**: JSON格式: {
-        "daily_average": "X小时X分钟",
-        "chart_data": [20, 50, 80, 60, 40, 90, 70], // 7个0-100的数字，代表一周柱状图高度
-        "apps": [
-            {"name": "应用名1", "time": "X小时X分钟", "icon_class": "fa-brands fa-weixin"}, 
-            {"name": "应用名2", "time": "X小时X分钟", "icon_class": "fa-brands fa-tiktok"}
-        ]
-    }`;
-    break;
-    case 'sim_recorder':
-    prompt += `\n生成5条录音记录。
-    **【人设铁律】**: 录音通常是角色记录重要信息、灵感、日记或者是为了取证、练习说话。
-    **【输出格式】**: JSON格式: {"recordings": [{"location": "录音地点/标题", "date": "YYYY-MM-DD", "duration": "MM:SS", "content": "录音的具体文字内容", "thought": "角色录音时的内心想法或原因"}, ...]}`;
-    break;
+        case 'sim_settings':
+            prompt += `\n生成该角色的“屏幕使用时间”数据。最常使用的APP必须暴露出该角色的真实生活状态。
+            JSON格式: {
+                "daily_average": "X小时X分钟",
+                "chart_data": [20, 50, 80, 60, 40, 90, 70],
+                "apps": [ {"name": "应用名", "time": "时长", "icon_class": "fa-brands fa-weixin"} ]
+            }`;
+            break;
 
-case 'sim_videos':
-    prompt += `\n生成角色在三个视频平台的观看记录（每个平台4条）。
-    **【人设铁律】**: 视频内容必须完全符合角色的兴趣、癖好和隐藏的一面。
-    **【输出格式】**: JSON格式: {
-        "bilibili": [{"title": "B站视频标题", "duration": "MM:SS", "content": "视频内容简介", "up": "UP主名字"}], // 生成4条
-        "douyin": [{"title": "抖音文案", "likes": "点赞数(如1.2w)", "content": "短视频画面描述", "music": "背景音乐"}], // 生成4条
-       "missav": [{"code": "番-号", "title": "极度露骨的中文AV标题(包含身材/身份/玩法描述)", "duration": "HH:MM:SS", "tags": ["标签1", "标签2"]}]
-    }`;
-    break;
+        case 'sim_recorder':
+            prompt += `\n生成5条录音机记录。内容必须是【角色完整人设】中至关重要的会议记录、罪证、日记、给某人的遗言或灵感碎片。
+            JSON格式: {"recordings": [{"location": "标题", "date": "YYYY-MM-DD", "duration": "MM:SS", "content": "录音转文字内容", "thought": "录音时的内心想法"}, ...]}`;
+            break;
+
+        case 'sim_videos':
+            prompt += `\n生成角色在B站/抖音/MissAV的观看记录（每个平台4条）。
+            观看的视频类型必须彻底暴露出【角色完整人设】的癖好、焦虑或正在秘密学习的技能。
+            JSON格式: {
+                "bilibili": [{"title": "视频标题", "duration": "MM:SS", "content": "简介", "up": "UP主"}],
+                "douyin": [{"title": "文案", "likes": "点赞数", "content": "画面描述", "music": "BGM"}],
+                "missav": [{"code": "番号", "title": "露骨的中文标题", "duration": "HH:MM:SS", "tags": ["标签"]}]
+            }`;
+            break;
     }
 
     const settings = await dbManager.get('apiSettings', 'settings');
@@ -42011,13 +42186,12 @@ case 'sim_videos':
         return;
     }
     
-    // --- 核心修复：在这里引入“AI自我修复”逻辑 ---
     try {
-        // 发起第一次请求
         let response = await fetch(`${settings.apiUrl}/chat/completions`, { 
             method: 'POST', 
             headers: { 'Authorization': `Bearer ${settings.apiKey}`, 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ model: settings.modelName, messages: [{role: 'user', content: prompt}], }) 
+            // 提高一点点 temperature，让它在基于人设的基础上更有创造力，不那么死板
+            body: JSON.stringify({ model: settings.modelName, messages: [{role: 'user', content: prompt}], temperature: 0.85 }) 
         });
         if(!response.ok) throw new Error(`API请求失败: ${response.status}`);
         let data = await response.json();
@@ -42025,41 +42199,19 @@ case 'sim_videos':
 
         let content;
         try {
-            // --- [V3 兼容版] 智能JSON提取开始 ---
             const firstBracketIndex = responseText.indexOf('{');
             const lastBracketIndex = responseText.lastIndexOf('}');
-
-            if (firstBracketIndex === -1 || lastBracketIndex === -1) {
-                throw new Error("响应中未找到有效的JSON对象。");
-            }
-
+            if (firstBracketIndex === -1 || lastBracketIndex === -1) throw new Error("JSON对象提取失败。");
             const jsonString = responseText.substring(firstBracketIndex, lastBracketIndex + 1);
-            
-            // 【【【核心修复！！！】】】
-            // 将解析后的数据，放进后面代码需要的 `content` 变量中
             content = JSON.parse(jsonString);
-            // --- 智能JSON提取结束 ---
-
         } catch (parseError) {
             console.error("初次解析JSON失败，启动AI自我修复:", parseError);
-            console.log("需要修复的文本:", responseText);
-
             const repairedText = data.choices[0].message.content;
-            
-            // --- [V3 兼容版] 智能JSON提取开始 (用于修复后的文本) ---
             const firstBracketIndex = repairedText.indexOf('{');
             const lastBracketIndex = repairedText.lastIndexOf('}');
-
-            if (firstBracketIndex === -1 || lastBracketIndex === -1) {
-                throw new Error("AI修复后的内容中仍未找到有效的JSON对象。");
-            }
-
+            if (firstBracketIndex === -1 || lastBracketIndex === -1) throw new Error("修复后仍失败。");
             const jsonString = repairedText.substring(firstBracketIndex, lastBracketIndex + 1);
-            
-            // 【【【核心修复！！！】】】
-            // 将解析后的数据，放进后面代码需要的 `content` 变量中
             content = JSON.parse(jsonString);
-            // --- 智能JSON提取结束 ---
         }
 
         if (!simPhoneContentCache[characterId]) simPhoneContentCache[characterId] = {};
@@ -42068,11 +42220,10 @@ case 'sim_videos':
         renderSimAppList(appName, content);
 
     } catch(e) {
-        console.error(`生成模拟内容失败，即使在修复后也是如此:`, e);
-        renderSimAppList(appName, { error: "内容生成失败，请重试。" });
+        console.error(`生成模拟内容失败:`, e);
+        renderSimAppList(appName, { error: "内容生成失败，请点击右上角重试。" });
     }
 }
-
         function renderSimAppList(appName, data) {
     const view = document.getElementById(`sim-${appName}-view`);
     if (!view) return;
@@ -54396,7 +54547,7 @@ let doujin_MOCK_CPS = [
     }
 ];
 
-// [修改后] 渲染CP卡片列表
+// [修改后] 渲染CP卡片列表 (新增删除按钮)
 function doujinRenderCpCards() {
     const container = document.getElementById('cp-cards-container');
     if (!container) return;
@@ -54412,8 +54563,15 @@ function doujinRenderCpCards() {
         card.className = 'cp-card';
         card.dataset.cpId = cp.id;
         
-        // 核心修改：增加了显示“左位”和“右位”的小标签，布局更清晰
+        // 关键：给卡片添加相对定位，以便删除按钮绝对定位在右上角
+        card.style.position = 'relative';
+        
         card.innerHTML = `
+            <!-- [新增] 删除按钮 -->
+            <div title="删除CP" onclick="doujinDeleteCp(event, '${cp.id}')" style="position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; background-color: rgba(0, 0, 0, 0.05); color: #999; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; z-index: 10; transition: all 0.2s;" onmousedown="this.style.backgroundColor='rgba(255,59,48,0.1)'; this.style.color='#ff3b30';" onmouseup="this.style.backgroundColor='rgba(0,0,0,0.05)'; this.style.color='#999';">
+                <i class="ri-delete-bin-line"></i>
+            </div>
+            
             <div class="cp-char-display">
                 <span style="font-size:10px; color:#7d9d8f; margin-bottom:4px; font-weight:bold;">左位</span>
                 <img src="${cp.character.avatar}" alt="${cp.character.name}">
@@ -54430,8 +54588,41 @@ function doujinRenderCpCards() {
                 <span class="cp-name">${cp.user.name}</span>
             </div>
         `;
+        // 点击整张卡片进入编辑
         card.onclick = () => doujinOpenCpEditPage(cp.id);
         container.appendChild(card);
+    });
+}
+
+/**
+ * [新增] 核心功能：删除指定的 CP 设定
+ * @param {Event} event - 点击事件对象
+ * @param {string} cpId - 要删除的CP ID
+ */
+async function doujinDeleteCp(event, cpId) {
+    // 阻止事件冒泡，防止点击删除时错误触发“进入编辑页面”
+    event.stopPropagation();
+
+    // 弹出确认框防误删
+    showConfirm('确定要删除这对CP吗？删除后将无法恢复。', async (confirmed) => {
+        if (!confirmed) return;
+
+        // 1. 从内存数组中过滤掉这条数据
+        doujin_MOCK_CPS = doujin_MOCK_CPS.filter(cp => String(cp.id) !== String(cpId));
+
+        // 2. 如果删除的刚好是目前全局设定(产粮用)的那个CP，将其重置置空
+        if (String(doujin_cpRunConfig.cpId) === String(cpId)) {
+            doujin_cpRunConfig.cpId = null;
+        }
+
+        // 3. 永久保存到 IndexedDB 数据库
+        await saveData();
+
+        // 4. 重新渲染列表刷新界面
+        doujinRenderCpCards();
+
+        // 提示用户成功
+        showToast('CP已成功删除');
     });
 }
 
@@ -60997,33 +61188,55 @@ function openFamilyCard() {
 }
 
 function backToWallet() {
+    // 【新增】如果当前处于管理模式，强制退出并清空状态
+    if (isFcManaging) {
+        toggleFamilyCardManageMode();
+    }
+
     setActivePage('walletScreen');
     updateWalletDisplay(); // 刷新余额
     
     // 刷新密码状态显示
     const status = userProfile.paymentPassword ? '已设置' : '未设置';
-    document.getElementById('paymentPasswordStatus').innerHTML = `${status} <i class="ri-arrow-right-s-line"></i>`;
+    const pwdStatusEl = document.getElementById('paymentPasswordStatus');
+    if (pwdStatusEl) {
+        pwdStatusEl.innerHTML = `${status} <i class="ri-arrow-right-s-line"></i>`;
+    }
 }
 
-// 1. 渲染亲属卡列表 (更新点击事件)
+// [修改版] 1. 渲染亲属卡列表 (支持管理模式)
 function renderFamilyCards() {
     const container = document.getElementById('familyCardList');
     container.innerHTML = '';
 
     if (userProfile.enableFcMessages === undefined) userProfile.enableFcMessages = true;
-    document.getElementById('fcMessageToggle').checked = userProfile.enableFcMessages;
+    const fcToggle = document.getElementById('fcMessageToggle');
+    if(fcToggle) fcToggle.checked = userProfile.enableFcMessages;
 
     const cards = userProfile.receivedFamilyCards || [];
 
     if (cards.length === 0) {
         container.innerHTML = '<div style="text-align:center; padding:40px; color:#999;">暂无收到的亲属卡</div>';
+        // 如果没卡了，强制退出管理模式
+        if (isFcManaging) toggleFamilyCardManageMode();
         return;
     }
 
     cards.forEach(card => {
-        const html = `
-        <!-- 点击跳转到详情页 -->
-        <div class="family-card-item" onclick="openFamilyCardDetail('${card.id}')" style="cursor: pointer;">
+        // 检查当前卡片是否被选中
+        const isSelected = typeof selectedFcIds !== 'undefined' && selectedFcIds.has(card.id);
+        const selectedClass = isSelected ? 'selected' : '';
+
+        // 创建 DOM 元素而不是直接拼接字符串，方便绑定事件
+        const cardEl = document.createElement('div');
+        cardEl.className = `family-card-item ${selectedClass}`;
+        cardEl.style.cursor = 'pointer';
+        cardEl.style.position = 'relative'; // 确保复选框定位正确
+        
+        cardEl.innerHTML = `
+            <!-- 隐藏的复选框 -->
+            <div class="message-checkbox"></div>
+            
             <div class="fc-header">
                 <div class="fc-icon"><i class="ri-gift-2-line"></i></div>
                 <span class="fc-giver">来自：${card.from}</span>
@@ -61035,8 +61248,20 @@ function renderFamilyCards() {
                     查看留言 <i class="ri-arrow-right-s-line"></i>
                 </div>
             </div>
-        </div>`;
-        container.insertAdjacentHTML('beforeend', html);
+        `;
+
+        // 【核心点击分流逻辑】
+        cardEl.onclick = () => {
+            if (typeof isFcManaging !== 'undefined' && isFcManaging) {
+                // 管理模式：选中/取消选中
+                toggleFcSelection(card.id);
+            } else {
+                // 普通模式：打开详情
+                openFamilyCardDetail(card.id);
+            }
+        };
+
+        container.appendChild(cardEl);
     });
 }
 
@@ -63496,7 +63721,7 @@ function openLoversSpace() {
     renderLoversList();
 }
 
-// 渲染已结成的情侣列表
+// 渲染已结成的情侣列表 (新增解绑按钮)
 function renderLoversList() {
     const container = document.getElementById('loversListContainer');
     container.innerHTML = '';
@@ -63517,23 +63742,28 @@ function renderLoversList() {
         const friendAvatarUrl = friend.avatarImage || '';
         const friendAvatarStyle = friendAvatarUrl ? `background-image: url('${friendAvatarUrl}')` : 'background-color: #eee;';
 
-        // 修改后的代码
-const card = document.createElement('div');
-card.className = 'couple-status-card';
+        const card = document.createElement('div');
+        card.className = 'couple-status-card';
 
-// 【新增】添加点击事件，跳转到详情页
-card.onclick = () => openCoupleSpaceDetail(friend.id); 
-card.style.cursor = 'pointer'; // 鼠标变手型
+        // 跳转到详情页
+        card.onclick = () => openCoupleSpaceDetail(friend.id); 
+        card.style.cursor = 'pointer'; 
 
-card.innerHTML = `
-    <div class="couple-avatar" style="${myAvatarStyle}"></div>
-    <div class="couple-link-line">
-        <i class="ri-heart-fill couple-heart"></i>
-    </div>
-    <div class="couple-avatar" style="${friendAvatarStyle}"></div>
-    <div style="position:absolute; bottom:10px; font-size:12px; color:#ff6b81;">与 ${friend.remark || friend.name} 恋爱中</div>
-`;
-container.appendChild(card);
+        // 【核心修改】加入了右上角的解绑按钮 (ri-link-unlink-m 或 ri-close-line)
+        card.innerHTML = `
+            <!-- 解绑按钮，onclick 阻止冒泡防止触发进入详情页 -->
+            <div class="couple-unbind-btn" title="解除关系" onclick="unbindLoverRelationship(event, '${friend.id}')">
+                <i class="ri-link-unlink-m"></i>
+            </div>
+            
+            <div class="couple-avatar" style="${myAvatarStyle}"></div>
+            <div class="couple-link-line">
+                <i class="ri-heart-fill couple-heart"></i>
+            </div>
+            <div class="couple-avatar" style="${friendAvatarStyle}"></div>
+            <div style="position:absolute; bottom:10px; font-size:12px; color:#ff6b81;">与 ${friend.remark || friend.name} 恋爱中</div>
+        `;
+        container.appendChild(card);
     });
 }
 
@@ -78544,6 +78774,136 @@ async function translateMessage(msgId) {
             showAlert(`翻译失败: ${e.message}`);
         }
     }
+}
+
+/**
+ * 切换亲属卡管理模式
+ */
+function toggleFamilyCardManageMode() {
+    isFcManaging = !isFcManaging;
+    
+    const listContainer = document.getElementById('familyCardList');
+    const batchBar = document.getElementById('familyCardBatchBar');
+    const manageBtnIcon = document.querySelector('#manageFamilyCardBtn i');
+    
+    if (isFcManaging) {
+        // 进入管理模式
+        listContainer.classList.add('managing');
+        batchBar.classList.add('show');
+        // 图标变成“取消/关闭”或对勾
+        manageBtnIcon.className = 'ri-check-line'; 
+        manageBtnIcon.style.color = '#07c160'; // 变绿提示确认状态
+    } else {
+        // 退出管理模式
+        listContainer.classList.remove('managing');
+        batchBar.classList.remove('show');
+        manageBtnIcon.className = 'ri-list-settings-line'; 
+        manageBtnIcon.style.color = ''; // 恢复默认颜色
+        
+        // 清空选中状态
+        selectedFcIds.clear();
+    }
+    
+    // 更新选中数量显示并重新渲染列表
+    updateFcSelectCount();
+    renderFamilyCards();
+}
+
+/**
+ * 切换单张亲属卡的选中状态
+ */
+function toggleFcSelection(cardId) {
+    if (selectedFcIds.has(cardId)) {
+        selectedFcIds.delete(cardId);
+    } else {
+        selectedFcIds.add(cardId);
+    }
+    updateFcSelectCount();
+    renderFamilyCards(); // 重新渲染以更新高亮框
+}
+
+/**
+ * 更新底部的选中数量
+ */
+function updateFcSelectCount() {
+    const countSpan = document.getElementById('fcSelectCount');
+    if (countSpan) {
+        countSpan.textContent = `已选 ${selectedFcIds.size} 张`;
+    }
+}
+
+/**
+ * 全选/取消全选
+ */
+function toggleFamilyCardSelectAll() {
+    const cards = userProfile.receivedFamilyCards || [];
+    
+    // 如果当前选中的数量等于总卡片数，说明是全选状态，执行取消全选
+    if (selectedFcIds.size === cards.length && cards.length > 0) {
+        selectedFcIds.clear();
+    } else {
+        // 否则执行全选
+        cards.forEach(c => selectedFcIds.add(c.id));
+    }
+    
+    updateFcSelectCount();
+    renderFamilyCards();
+}
+
+/**
+ * 批量删除选中的亲属卡
+ */
+async function deleteSelectedFamilyCards() {
+    if (selectedFcIds.size === 0) {
+        return showToast('请先选择要删除的亲属卡');
+    }
+
+    showConfirm(`确定要删除选中的 ${selectedFcIds.size} 张亲属卡吗？删除后余额将无法使用且无法恢复。`, async (confirmed) => {
+        if (!confirmed) return;
+
+        // 从 userProfile 中过滤掉被选中的卡片
+        userProfile.receivedFamilyCards = userProfile.receivedFamilyCards.filter(card => !selectedFcIds.has(card.id));
+        
+        // 保存数据
+        await saveData();
+        
+        // 退出管理模式
+        toggleFamilyCardManageMode();
+        
+        showToast('亲属卡已删除');
+    });
+}
+
+/**
+ * [新增] 解除情侣关系
+ * @param {Event} event - 点击事件
+ * @param {string} friendId - 要解绑的好友ID
+ */
+async function unbindLoverRelationship(event, friendId) {
+    // 阻止事件冒泡，防止点了解绑还跳转到详情页
+    event.stopPropagation(); 
+
+    const friend = friends.find(f => f.id === friendId);
+    if (!friend) return;
+
+    // 弹出确认框
+    showConfirm(`确定要与 "${friend.remark || friend.name}" 解除情侣关系吗？\n\n解除后，你们将退出情侣空间，但专属数据（情书、日历等）会保存在后台，复合并不会丢失。`, async (confirmed) => {
+        if (!confirmed) return;
+
+        // 1. 取消 isLover 标记
+        friend.isLover = false;
+
+        // 2. 发送一条系统消息通知
+        await saveChatMessage(friend.id, 'system', '你们已解除情侣关系。', '', null, 'system_tip');
+
+        // 3. 保存数据到数据库
+        await saveData();
+
+        // 4. 刷新当前列表
+        renderLoversList();
+
+        showToast("已解除情侣关系");
+    });
 }
 
     </script>

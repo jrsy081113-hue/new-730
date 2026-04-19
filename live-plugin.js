@@ -3702,7 +3702,7 @@ const liveGifts = [
     { id: 'lg_7', name: '浪漫马车', price: 299, img: 'https://cdn-icons-png.flaticon.com/512/784/784131.png' },
     { id: 'lg_8', name: '保时捷', price: 500, img: 'https://saas.chatbot.cn/download/minio/standard/2025-11-24/b3c3e153231c4d438d00eb695ed38cfa.png' },
     { id: 'lg_9', name: '绚烂烟花', price: 999, img: 'https://saas.chatbot.cn/download/minio/standard/2025-11-24/624e810b8c75443c8bc3a7c23571b2c5.png' },
-    { id: 'lg_10', name: '梦幻城堡', price: 2000, img: 'https://cdn-icons-png.flaticon.com/512/1415/1415715.png' },
+    { id: 'lg_10', name: '梦幻城堡', price: 2000, img: 'https://api.iconify.design/fluent-emoji/castle.svg' },
     { id: 'lg_11', name: '抖音一号', price: 5000, img: 'https://cdn-icons-png.flaticon.com/512/860/860368.png' },
     { id: 'lg_12', name: '嘉年华', price: 9999, img: 'https://cdncs.ykt.cbern.com.cn/v0.1/download?path=/zxx_feedback/qdqqd/1763973058417.png' }
 ];
