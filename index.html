@@ -23346,18 +23346,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
             </div>
         </div>
 
-        <!-- 卡片 2：系统显示 -->
-        <div class="form-card">
-            <div class="form-group-row switch-row">
-                <label class="form-label">
-                    <i class="ri-moon-line"></i> 夜间模式
-                </label>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-        </div>
+       
 
     </div>
 </div>
@@ -43179,8 +43168,9 @@ if (isBackgroundKeepAliveEnabled) {
             if (splashContainer) splashContainer.classList.add('fade-out');
 
             // 2. 【修改】获取用户上次填写的激活码，并检查它是否在当前的有效列表里
+            // 2. 【修改】获取用户上次填写的激活码，并检查它是否在当前的有效列表里
             const userStoredCode = localStorage.getItem('jrsy_activation_record');
-            const isActivated = GLOBAL_VALID_CODES.includes(userStoredCode);
+            const isActivated = true; // <--- 只需要把这一行改成 true 即可
 
             setTimeout(() => {
                 // 3. 彻底隐藏加载层
