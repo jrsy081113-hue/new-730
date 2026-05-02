@@ -46360,15 +46360,16 @@ function openOfflineSettings() {
     slider.value = currentSettings.charCount || 1000;
     valueDisplay.textContent = slider.value;
 
-    // 2. 【新增】设置人称下拉框的回显
+    // 2. 设置人称下拉框的回显
     // 默认为：称呼角色用第三人称(他)，称呼用户用第二人称(你)
     document.getElementById('offlineCharPersonSelect').value = currentSettings.charPerson || 'third';
     document.getElementById('offlineUserPersonSelect').value = currentSettings.userPerson || 'second';
 
-    // 3. 更新其他显示 (保持不变)
+    // 3. 【核心修复】完整更新其他选项文本的显示
     updateCurrentOpeningStatementDisplay();
     updateCurrentWritingStyleDisplay();
     updateCurrentSkitDisplay();
+    updateCurrentOfflineContentPresetDisplay(); // <--- 修复了遗漏的这一行，确保预设正确回显
     
     document.getElementById('offlineModeSettingsModal').classList.add('show');
 }
