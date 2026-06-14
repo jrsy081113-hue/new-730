@@ -22512,6 +22512,14 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     </div>
     <div class="app-label">直播</div>
 </div>
+
+<div class="app" onclick="openApp('appstore')">
+    <div class="app-icon-container" style="background-color: #fff; border: 1px solid #eee;">
+        <i class="ri-app-store-line" style="color: #000; font-weight: bold;"></i>
+    </div>
+    <div class="app-label" style="color: #000;">应用商店</div>
+</div>
+
 </div>
 
                 </div>
@@ -23477,7 +23485,13 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
         <div class="form-card">
             <div class="form-group-row" style="justify-content: space-between;">
                 <label class="form-label">气泡 CSS</label>
-                <div style="display: flex; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <!-- ▼▼▼ 新增导入按钮 ▼▼▼ -->
+                    <label class="text-link" style="cursor: pointer; display: flex; align-items: center; gap: 2px; margin: 0; color: #007aff;">
+                        <i class="ri-file-upload-line"></i> 导入
+                        <input type="file" accept=".txt,.docx" style="display: none;" onchange="handleCssFileUpload(event, 'bubbleCustomCSS', applyCustomBubbleCSS)">
+                    </label>
+                    <!-- ▲▲▲ 新增结束 ▲▲▲ -->
                     <span class="text-link" onclick="saveCssPreset('bubble')">保存预设</span>
                     <span class="text-link" onclick="openPresetSelector('bubble')">选择预设</span>
                 </div>
@@ -23490,7 +23504,13 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
         <div class="form-card">
             <div class="form-group-row" style="justify-content: space-between;">
                 <label class="form-label">界面 CSS</label>
-                <div style="display: flex; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <!-- ▼▼▼ 新增导入按钮 ▼▼▼ -->
+                    <label class="text-link" style="cursor: pointer; display: flex; align-items: center; gap: 2px; margin: 0; color: #007aff;">
+                        <i class="ri-file-upload-line"></i> 导入
+                        <input type="file" accept=".txt,.docx" style="display: none;" onchange="handleCssFileUpload(event, 'chatInterfaceCSSInput', applyChatInterfaceCSS)">
+                    </label>
+                    <!-- ▲▲▲ 新增结束 ▲▲▲ -->
                     <span class="text-link" onclick="saveCssPreset('interface')">保存预设</span>
                     <span class="text-link" onclick="openPresetSelector('interface')">选择预设</span>
                 </div>
@@ -24844,14 +24864,87 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 <!-- ▲▲▲ 同人论坛App - 完整HTML结构结束 ▲▲▲ -->
 
     <div id="addGroupChatModal" class="modal"><div class="modal-content"><div class="modal-title">选择联系人</div><div id="groupChatFriendList" class="multi-select-list" style="max-height: 300px;"></div><div class="modal-buttons" style="margin-top: 15px;"><button class="modal-btn modal-btn-cancel" onclick="closeGroupChatModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="createGroupChat()">确定</button></div></div></div>
-    <div id="addFriendModal" class="modal"><div class="modal-content"><div class="modal-title">添加好友</div><div class="avatar-upload" id="friendAvatarUpload"><input type="file" accept="image/*"
-
-onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</span></div><input type="text" class="modal-input" id="friendNameInput" placeholder="好友昵称（必填）"><input type="text" class="modal-input" id="friendRemarkInput" placeholder="备注名称（可选）"><textarea class="modal-textarea" id="friendRoleInput" placeholder="角色设定（可选）...&#10;例如：你是一个可爱的猫娘，性格活泼开朗，喜欢用'喵'结尾说话..."></textarea><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeAddFriendModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="addNewFriend()">添加</button></div></div></div>
+ <div id="addFriendModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-title">添加好友</div>
+        <div class="avatar-upload" id="friendAvatarUpload">
+            <input type="file" accept="image/*" onchange="handleFriendAvatarUpload(event)">
+            <span id="friendAvatarPreview">+</span>
+        </div>
+        <input type="text" class="modal-input" id="friendNameInput" placeholder="好友昵称（必填）">
+        <input type="text" class="modal-input" id="friendRemarkInput" placeholder="备注名称（可选）">
+        
+        <!-- ▼▼▼ 修改开始：加上导入文件按钮和包裹层 ▼▼▼ -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label style="font-size: 14px; color: #333; font-weight: bold; margin: 0;">角色设定</label>
+            <label style="cursor: pointer; font-size: 12px; color: #007aff; display: flex; align-items: center; gap: 4px;">
+                <i class="ri-file-upload-line"></i> 导入文件
+                <input type="file" id="friendRoleFileInput" accept=".txt,.docx" style="display: none;" onchange="handleFriendRoleFileUpload(event)">
+            </label>
+        </div>
+        <textarea class="modal-textarea" id="friendRoleInput" placeholder="角色设定（可选）...&#10;例如：你是一个可爱的猫娘，性格活泼开朗，喜欢用'喵'结尾说话..." style="margin-bottom: 20px;"></textarea>
+        <!-- ▲▲▲ 修改结束 ▲▲▲ -->
+        
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" onclick="closeAddFriendModal()">取消</button>
+            <button class="modal-btn modal-btn-confirm" onclick="addNewFriend()">添加</button>
+        </div>
+    </div>
+</div>
     <div id="nameModal" class="modal"><div class="modal-content"><div class="modal-title">修改昵称</div><input type="text" class="modal-input" id="newNameInput" placeholder="请输入新昵称"><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeNameModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="confirmChangeName()">确定</button></div></div></div>
     <div id="textEditModal" class="modal"><div class="modal-content"><div class="modal-title" id="textEditTitle">编辑文字</div><input type="text" class="modal-input" id="newTextInput" placeholder="请输入新内容"><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeTextEditModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="confirmTextEdit()">确定</button></div></div></div>
     <div id="avatarModal" class="modal"><div class="modal-content"><div class="modal-title">更换头像</div><div class="avatar-upload" id="userAvatarUpload"><input type="file" accept="image/*" onchange="handleUserAvatarUpload(event)"><span id="userAvatarPreview">+</span></div><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeAvatarModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="confirmChangeAvatar()">确定</button></div></div></div>
-    <div id="addWorldBookModal" class="modal"><div class="modal-content"><div class="modal-title">添加世界书</div><input type="text" class="modal-input" id="worldBookNameInput" placeholder="世界书昵称"><div class="form-group"><select class="form-select" id="worldBookFolderSelect"></select></div><textarea class="modal-textarea" id="worldBookContentInput" placeholder="世界书内容..." style="min-height: 120px;"></textarea><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeAddWorldBookModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="addNewWorldBook()">添加</button></div></div></div>
-    <div id="editWorldBookModal" class="modal"><div class="modal-content"><div class="modal-title">编辑世界书</div><input type="text" class="modal-input" id="editWorldBookNameInput" placeholder="世界书昵称"><div class="form-group"><select class="form-select" id="editWorldBookFolderSelect"></select></div><textarea class="modal-textarea" id="editWorldBookContentInput" placeholder="世界书内容..." style="min-height: 120px;"></textarea><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeEditWorldBookModal()">取消</button><button class="modal-btn modal-btn-confirm" id="saveWorldBookEditBtn">保存</button></div></div></div>
+ <!-- 添加世界书弹窗 -->
+    <div id="addWorldBookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">添加世界书</div>
+            <input type="text" class="modal-input" id="worldBookNameInput" placeholder="世界书昵称">
+            <div class="form-group">
+                <select class="form-select" id="worldBookFolderSelect"></select>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label style="font-size: 14px; color: #333; font-weight: bold; margin: 0;">世界书内容</label>
+                <label style="cursor: pointer; font-size: 12px; color: #007aff; display: flex; align-items: center; gap: 4px;">
+                    <i class="ri-file-upload-line"></i> 导入文件
+                    <!-- 注意：这里传入了 'worldBookContentInput' 作为目标ID -->
+                    <input type="file" accept=".txt,.docx" style="display: none;" onchange="handleWorldBookFileUpload(event, 'worldBookContentInput')">
+                </label>
+            </div>
+            <textarea class="modal-textarea" id="worldBookContentInput" placeholder="世界书内容..." style="min-height: 120px; margin-bottom: 20px;"></textarea>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closeAddWorldBookModal()">取消</button>
+                <button class="modal-btn modal-btn-confirm" onclick="addNewWorldBook()">添加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑世界书弹窗 -->
+    <div id="editWorldBookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">编辑世界书</div>
+            <input type="text" class="modal-input" id="editWorldBookNameInput" placeholder="世界书昵称">
+            <div class="form-group">
+                <select class="form-select" id="editWorldBookFolderSelect"></select>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label style="font-size: 14px; color: #333; font-weight: bold; margin: 0;">世界书内容</label>
+                <label style="cursor: pointer; font-size: 12px; color: #007aff; display: flex; align-items: center; gap: 4px;">
+                    <i class="ri-file-upload-line"></i> 导入文件
+                    <!-- 注意：这里传入了 'editWorldBookContentInput' 作为目标ID -->
+                    <input type="file" accept=".txt,.docx" style="display: none;" onchange="handleWorldBookFileUpload(event, 'editWorldBookContentInput')">
+                </label>
+            </div>
+            <textarea class="modal-textarea" id="editWorldBookContentInput" placeholder="世界书内容..." style="min-height: 120px; margin-bottom: 20px;"></textarea>
+
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closeEditWorldBookModal()">取消</button>
+                <button class="modal-btn modal-btn-confirm" id="saveWorldBookEditBtn">保存</button>
+            </div>
+        </div>
+    </div>
     <div id="addWorldBookFolderModal" class="modal"><div class="modal-content"><div class="modal-title">新建文件夹</div><input type="text" class="modal-input" id="worldBookFolderNameInput" placeholder="文件夹名称"><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeAddWorldBookFolderModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="addNewWorldBookFolder()">创建</button></div></div></div>
     <div id="signatureModal" class="modal"><div class="modal-content"><div class="modal-title">修改个性签名</div><input type="text" class="modal-input" id="newSignatureInput" placeholder="请输入新的个性签名"><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeSignatureModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="confirmChangeSignature()">确定</button></div></div></div>
     <div id="locationModal" class="modal"><div class="modal-content"><div class="modal-title">修改地区</div><input type="text" class="modal-input" id="newLocationInput" placeholder="请输入地区"><div class="modal-buttons"><button class="modal-btn modal-btn-cancel" onclick="closeLocationModal()">取消</button><button class="modal-btn modal-btn-confirm" onclick="confirmChangeLocation()">确定</button></div></div></div>
@@ -78991,10 +79084,235 @@ async function unbindLoverRelationship(event, friendId) {
     });
 }
 
+/**
+ * [新增] 处理角色设定文件的上传解析（支持 .txt 和 .docx）
+ */
+async function handleFriendRoleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileName = file.name.toLowerCase();
+    const roleInput = document.getElementById('friendRoleInput');
+    
+    // 显示正在读取的提示
+    const originalPlaceholder = roleInput.placeholder;
+    roleInput.placeholder = '正在读取文件内容，请稍候...';
+    // 若你想在旧内容基础上追加，可以注释掉下面这行。这里默认为覆盖。
+    roleInput.value = ''; 
+
+    try {
+        if (fileName.endsWith('.txt')) {
+            // 1. 读取 TXT 文件
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                roleInput.value = e.target.result;
+                roleInput.placeholder = originalPlaceholder;
+                showToast('导入 TXT 文件成功');
+            };
+            reader.onerror = () => {
+                showAlert('读取 txt 文件失败');
+                roleInput.placeholder = originalPlaceholder;
+            };
+            reader.readAsText(file);
+            
+        } else if (fileName.endsWith('.docx')) {
+            // 2. 读取 DOCX 文件 (使用 mammoth 库解析)
+            if (typeof mammoth === 'undefined') {
+                showAlert('DOCX 解析库未加载完成，请刷新页面或稍后重试');
+                roleInput.placeholder = originalPlaceholder;
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const arrayBuffer = e.target.result;
+                try {
+                    // 提取原始纯文本
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    roleInput.value = result.value;
+                    roleInput.placeholder = originalPlaceholder;
+                    showToast('导入 DOCX 文件成功');
+                } catch (err) {
+                    console.error('Docx 解析失败:', err);
+                    showAlert('解析 DOCX 文件失败，请确保文件不是加密文档或格式未损坏。');
+                    roleInput.placeholder = originalPlaceholder;
+                }
+            };
+            reader.onerror = () => {
+                showAlert('读取 docx 文件失败');
+                roleInput.placeholder = originalPlaceholder;
+            };
+            reader.readAsArrayBuffer(file);
+            
+        } else {
+            showAlert('仅支持导入 .txt 或 .docx 格式的文件');
+            roleInput.placeholder = originalPlaceholder;
+        }
+    } catch (e) {
+        console.error("文件导入异常:", e);
+        showAlert(`导入文件时发生异常: ${e.message}`);
+        roleInput.placeholder = originalPlaceholder;
+    } finally {
+        // 清空 input，允许后续重新选择相同的文件
+        event.target.value = '';
+    }
+}
+
+/**
+ * [新增] 处理世界书内容文件的上传解析（支持 .txt 和 .docx）
+ * @param {Event} event - 文件上传事件
+ * @param {string} targetInputId - 要填入文本的textarea元素的ID
+ */
+async function handleWorldBookFileUpload(event, targetInputId) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileName = file.name.toLowerCase();
+    const contentInput = document.getElementById(targetInputId);
+    
+    // 显示正在读取的提示
+    const originalPlaceholder = contentInput.placeholder;
+    contentInput.placeholder = '正在提取文档内容，请稍候...';
+    contentInput.value = ''; // 覆盖清空当前输入框内容
+
+    try {
+        if (fileName.endsWith('.txt')) {
+            // 1. 读取 TXT 文件
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                contentInput.value = e.target.result;
+                contentInput.placeholder = originalPlaceholder;
+                showToast('导入 TXT 世界书成功');
+            };
+            reader.onerror = () => {
+                showAlert('读取 txt 文件失败');
+                contentInput.placeholder = originalPlaceholder;
+            };
+            reader.readAsText(file);
+            
+        } else if (fileName.endsWith('.docx')) {
+            // 2. 读取 DOCX 文件 (依赖 mammoth.js 库)
+            if (typeof mammoth === 'undefined') {
+                showAlert('DOCX 解析核心未加载，请刷新页面后重试');
+                contentInput.placeholder = originalPlaceholder;
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const arrayBuffer = e.target.result;
+                try {
+                    // 使用 mammoth 提取原始文字
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    contentInput.value = result.value;
+                    contentInput.placeholder = originalPlaceholder;
+                    showToast('导入 DOCX 世界书成功');
+                } catch (err) {
+                    console.error('Docx 解析失败:', err);
+                    showAlert('解析 DOCX 文件失败，请确保文件是合法的 Word 文档。');
+                    contentInput.placeholder = originalPlaceholder;
+                }
+            };
+            reader.onerror = () => {
+                showAlert('读取 docx 文件底层数据失败');
+                contentInput.placeholder = originalPlaceholder;
+            };
+            reader.readAsArrayBuffer(file);
+            
+        } else {
+            showAlert('仅支持导入 .txt 或 .docx 格式的文本文档');
+            contentInput.placeholder = originalPlaceholder;
+        }
+    } catch (e) {
+        console.error("世界书文件导入异常:", e);
+        showAlert(`导入发生异常: ${e.message}`);
+        contentInput.placeholder = originalPlaceholder;
+    } finally {
+        // 清空 input 允许连续多次上传相同文件
+        event.target.value = '';
+    }
+}
+
+/**
+ * [新增] 处理 CSS 样式文件的上传解析（支持 .txt 和 .docx）
+ * @param {Event} event - 文件上传事件
+ * @param {string} targetInputId - 要填入代码的textarea元素的ID
+ * @param {Function} applyCallback - 解析完成后立即让样式生效的回调函数
+ */
+async function handleCssFileUpload(event, targetInputId, applyCallback) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileName = file.name.toLowerCase();
+    const contentInput = document.getElementById(targetInputId);
+    
+    const originalPlaceholder = contentInput.placeholder;
+    contentInput.placeholder = '正在读取样式代码，请稍候...';
+
+    // 处理解析结果并应用样式的辅助函数
+    const applyExtractedCss = (cssText) => {
+        contentInput.value = cssText;
+        contentInput.placeholder = originalPlaceholder;
+        showToast('CSS 代码导入成功，已立即生效！');
+        
+        // 关键一步：立刻调用对应的应用函数，使页面实时刷新效果
+        if (typeof applyCallback === 'function') {
+            applyCallback(cssText);
+        }
+    };
+
+    try {
+        if (fileName.endsWith('.txt')) {
+            const reader = new FileReader();
+            reader.onload = (e) => applyExtractedCss(e.target.result);
+            reader.onerror = () => {
+                showAlert('读取 txt 文件失败');
+                contentInput.placeholder = originalPlaceholder;
+            };
+            reader.readAsText(file);
+            
+        } else if (fileName.endsWith('.docx')) {
+            if (typeof mammoth === 'undefined') {
+                showAlert('DOCX 解析库未加载完成，请刷新页面或稍后重试');
+                contentInput.placeholder = originalPlaceholder;
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const result = await mammoth.extractRawText({ arrayBuffer: e.target.result });
+                    applyExtractedCss(result.value);
+                } catch (err) {
+                    console.error('Docx 解析失败:', err);
+                    showAlert('解析 DOCX 文件失败，请检查文件格式。');
+                    contentInput.placeholder = originalPlaceholder;
+                }
+            };
+            reader.onerror = () => {
+                showAlert('读取 docx 文件底层数据失败');
+                contentInput.placeholder = originalPlaceholder;
+            };
+            reader.readAsArrayBuffer(file);
+            
+        } else {
+            showAlert('仅支持导入 .txt 或 .docx 格式的文件');
+            contentInput.placeholder = originalPlaceholder;
+        }
+    } catch (e) {
+        console.error("CSS导入异常:", e);
+        showAlert(`导入异常: ${e.message}`);
+        contentInput.placeholder = originalPlaceholder;
+    } finally {
+        event.target.value = ''; // 允许重复上传相同文件
+    }
+}
+
     </script>
  <script src="https://unpkg.com/pinyin-pro"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="baby-plugin.js"></script>
     <script src="live-plugin.js"></script>
       <script src="cross-reality-plugin.js"></script> 
@@ -79002,6 +79320,7 @@ async function unbindLoverRelationship(event, friendId) {
       <script src="notebook-plugin.js"></script>
       <script src="transmigrate-plugin.js"></script>
       <script src="draw-guess-plugin.js"></script>
+      <script src="appstore-plugin.js"></script>
 </body>
 </html>
 
