@@ -22514,10 +22514,10 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 </div>
 
 <div class="app" onclick="openApp('appstore')">
-    <div class="app-icon-container" style="background-color: #fff; border: 1px solid #eee;">
-        <i class="ri-app-store-line" style="color: #000; font-weight: bold;"></i>
+    <div class="app-icon-container" id="icon-appstore">
+        <i class="ri-app-store-line"></i>
     </div>
-    <div class="app-label" style="color: #000;">应用商店</div>
+    <div class="app-label">应用商店</div>
 </div>
 
 </div>
@@ -39269,7 +39269,7 @@ function selectFont(fontType) {
         {id: 'theme', name: '主题'}, 
         {id: 'phone', name: '手机'}, 
         {id: 'forum', name: '论坛'}, 
-        {id: 'shopping', name: '占位'}, 
+{id: 'appstore', name: '应用商店'}, 
         {id: 'doujin', name: '同人'}, 
         {id: 'games', name: '游戏'}, 
         {id: 'store', name: '商店'}, 
@@ -39339,6 +39339,7 @@ function getDefaultIconHtml(appId) {
         store: '<i class="ri-shopping-bag-line"></i>',
         lovers: '<i class="ri-hearts-line"></i>',
         live: '<i class="ri-live-fill"></i>',
+        appstore: '<i class="ri-app-store-line"></i>',
     };
     // 如果找不到对应的图标，就返回一个问号图标
     return icons[appId] || '<i class="ri-question-mark"></i>';
@@ -39404,7 +39405,7 @@ function applyCustomIcons() {
     }
 
     // 包含主屏幕第一页和第二页的所有图标ID
-    const allIconIds = ['wechat', 'settings', 'worldbook', 'theme', 'phone', 'forum', 'shopping', 'doujin', 'games', 'store', 'live'];
+    const allIconIds = ['wechat', 'settings', 'worldbook', 'theme', 'phone', 'forum', 'appstore', 'doujin', 'games', 'store', 'live'];
 
     // 检查并恢复那些没有自定义图标的默认样式
     allIconIds.forEach(id => {
